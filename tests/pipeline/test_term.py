@@ -814,4 +814,4 @@ class SubDataSetTestCase(TestCase):
                 "Coercion attempt failed with:"
             ).format(mv=bad_mv, dtype=dtype_)
 
-            self.assertRegexpMatches(str(e.exception), prefix)
+            self.assertRegex(str(e.exception), prefix)

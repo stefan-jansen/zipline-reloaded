@@ -448,7 +448,7 @@ class StatisticalBuiltInsTestCase(
             " .*Asset for argument 'target',"
             " but got str instead."
         )
-        self.assertRegexpMatches(result, expected)
+        self.assertRegex(result, expected)
 
         with self.assertRaises(ValueError) as e:
             SimpleBeta(

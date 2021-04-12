@@ -1,10 +1,6 @@
 from zipline.testing.fixtures import ZiplineTestCase
 from zipline.testing.predicates import (
-    assert_equal,
-    assert_is,
-    assert_is_instance,
     assert_is_subclass,
-    assert_true,
 )
 from zipline.utils.metautils import compose_types, with_metaclasses
 
@@ -33,11 +29,7 @@ class D(object):
 
 class ComposeTypesTestCase(ZiplineTestCase):
     def test_identity(self):
-        assert_is(
-            compose_types(C),
-            C,
-            msg="compose_types of a single class should be identity",
-        )
+        assert compose_types(C) is C, "compose_types of a single class should be identity"
 
     def test_compose(self):
         composed = compose_types(C, D)
@@ -48,10 +40,10 @@ class ComposeTypesTestCase(ZiplineTestCase):
     def test_compose_mro(self):
         composed = compose_types(C, D)
 
-        assert_equal(composed.f(), C.f())
-        assert_equal(composed.g(), D.g())
+        assert composed.f() == C.f()
+        assert composed.g() == D.g()
 
-        assert_equal(composed().delegate(), ("C.delegate", "D.delegate"))
+        assert composed().delegate() == ("C.delegate", "D.delegate")
 
 
 class M(type):
@@ -71,20 +63,20 @@ class WithMetaclassesTestCase(ZiplineTestCase):
         class E(with_metaclasses((M, N))):
             pass
 
-        assert_true(E.M)
-        assert_true(E.N)
+        assert E.M
+        assert E.N
 
-        assert_is_instance(E, M)
-        assert_is_instance(E, N)
+        assert isinstance(E, M)
+        assert isinstance(E, N)
 
     def test_with_metaclasses_with_subclasses(self):
         class E(with_metaclasses((M, N), C, D)):
             pass
 
-        assert_true(E.M)
-        assert_true(E.N)
+        assert E.M
+        assert E.N
 
-        assert_is_instance(E, M)
-        assert_is_instance(E, N)
+        assert isinstance(E, M)
+        assert isinstance(E, N)
         assert_is_subclass(E, C)
         assert_is_subclass(E, D)

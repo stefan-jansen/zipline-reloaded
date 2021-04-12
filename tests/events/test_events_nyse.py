@@ -87,7 +87,7 @@ class TestStatelessRulesNYSE(StatelessRulesTests, TestCase):
             x: rule.should_trigger(self.cal.next_open(T(x))) for x in expected.keys()
         }
 
-        self.assertEquals(expected, results)
+        self.assertEqual(expected, results)
 
         # Ensure that offset from start of week also works around edge cases.
         rule = NthTradingDayOfWeek(1)
@@ -112,7 +112,7 @@ class TestStatelessRulesNYSE(StatelessRulesTests, TestCase):
             x: rule.should_trigger(self.cal.next_open(T(x))) for x in expected.keys()
         }
 
-        self.assertEquals(expected, results)
+        self.assertEqual(expected, results)
 
         # `week_end`
         rule = NDaysBeforeLastTradingDayOfWeek(0)
@@ -136,7 +136,7 @@ class TestStatelessRulesNYSE(StatelessRulesTests, TestCase):
             x: rule.should_trigger(self.cal.next_open(T(x))) for x in expected.keys()
         }
 
-        self.assertEquals(expected, results)
+        self.assertEqual(expected, results)
 
     @parameterized.expand([("week_start",), ("week_end",)])
     def test_week_and_time_composed_rule(self, rule_type):

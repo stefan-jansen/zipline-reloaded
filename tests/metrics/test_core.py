@@ -1,10 +1,6 @@
 from zipline.finance.metrics.core import _make_metrics_set_core
 from zipline.testing.fixtures import ZiplineTestCase
-from zipline.testing.predicates import (
-    assert_equal,
-    assert_is,
-    assert_raises_str,
-)
+from zipline.testing.predicates import assert_raises_str
 from zipline.utils.compat import mappingproxy
 
 
@@ -20,7 +16,7 @@ class MetricsSetCoreTestCase(ZiplineTestCase):
         ) = _make_metrics_set_core()
 
         # make sure this starts empty
-        assert_equal(self.metrics_sets, mappingproxy({}))
+        assert self.metrics_sets == mappingproxy({})
 
     def test_load_not_registered(self):
         msg = "no metrics set registered as 'ayy-lmao', options are: []"
@@ -44,8 +40,8 @@ class MetricsSetCoreTestCase(ZiplineTestCase):
             return ayy_lmao_set
 
         expected_metrics_sets = mappingproxy({"ayy-lmao": ayy_lmao})
-        assert_equal(self.metrics_sets, expected_metrics_sets)
-        assert_is(self.load("ayy-lmao"), ayy_lmao_set)
+        assert self.metrics_sets == expected_metrics_sets
+        assert self.load("ayy-lmao") is ayy_lmao_set
 
         msg = "metrics set 'ayy-lmao' is already registered"
         with assert_raises_str(ValueError, msg):
@@ -56,11 +52,11 @@ class MetricsSetCoreTestCase(ZiplineTestCase):
 
         # ensure that the failed registration didn't break the previously
         # registered set
-        assert_equal(self.metrics_sets, expected_metrics_sets)
-        assert_is(self.load("ayy-lmao"), ayy_lmao_set)
+        assert self.metrics_sets == expected_metrics_sets
+        assert self.load("ayy-lmao") is ayy_lmao_set
 
         self.unregister("ayy-lmao")
-        assert_equal(self.metrics_sets, mappingproxy({}))
+        assert self.metrics_sets == mappingproxy({})
 
         msg = "no metrics set registered as 'ayy-lmao', options are: []"
         with assert_raises_str(ValueError, msg):
@@ -79,8 +75,8 @@ class MetricsSetCoreTestCase(ZiplineTestCase):
         self.register("ayy-lmao", ayy_lmao)
 
         expected_metrics_sets = mappingproxy({"ayy-lmao": ayy_lmao})
-        assert_equal(self.metrics_sets, expected_metrics_sets)
-        assert_is(self.load("ayy-lmao"), ayy_lmao_set)
+        assert self.metrics_sets == expected_metrics_sets
+        assert self.load("ayy-lmao") is ayy_lmao_set
 
         def other():  # pragma: no cover
             raise AssertionError("dead")
@@ -91,11 +87,11 @@ class MetricsSetCoreTestCase(ZiplineTestCase):
 
         # ensure that the failed registration didn't break the previously
         # registered set
-        assert_equal(self.metrics_sets, expected_metrics_sets)
-        assert_is(self.load("ayy-lmao"), ayy_lmao_set)
+        assert self.metrics_sets == expected_metrics_sets
+        assert self.load("ayy-lmao") is ayy_lmao_set
 
         self.unregister("ayy-lmao")
-        assert_equal(self.metrics_sets, mappingproxy({}))
+        assert self.metrics_sets is mappingproxy({})
 
         msg = "no metrics set registered as 'ayy-lmao', options are: []"
         with assert_raises_str(ValueError, msg):

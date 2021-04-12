@@ -1993,19 +1993,19 @@ class OrderedContractsTestCase(zf.WithAssetFinder, zf.ZiplineTestCase):
 
         oc = OrderedContracts("FO", contracts)
 
-        self.assertEquals(
+        self.assertEqual(
             1,
             oc.contract_at_offset(1, 0, start_dates[-1].value),
             "Offset of 0 should return provided sid",
         )
 
-        self.assertEquals(
+        self.assertEqual(
             2,
             oc.contract_at_offset(1, 1, start_dates[-1].value),
             "Offset of 1 should return next sid in chain.",
         )
 
-        self.assertEquals(
+        self.assertEqual(
             None,
             oc.contract_at_offset(4, 1, start_dates[-1].value),
             "Offset at end of chain should not crash.",
@@ -2022,14 +2022,14 @@ class OrderedContractsTestCase(zf.WithAssetFinder, zf.ZiplineTestCase):
         # a contract should be added per day, until all defined contracts
         # are returned.
         chain = oc.active_chain(1, pd.Timestamp("2014-12-31", tz="UTC").value)
-        self.assertEquals(
+        self.assertEqual(
             [],
             list(chain),
             "On session before first start date, no contracts "
             "in chain should be active.",
         )
         chain = oc.active_chain(1, pd.Timestamp("2015-01-01", tz="UTC").value)
-        self.assertEquals(
+        self.assertEqual(
             [1],
             list(chain),
             "[1] should be the active chain on 01-01, since all "
@@ -2037,17 +2037,17 @@ class OrderedContractsTestCase(zf.WithAssetFinder, zf.ZiplineTestCase):
         )
 
         chain = oc.active_chain(1, pd.Timestamp("2015-01-02", tz="UTC").value)
-        self.assertEquals(
+        self.assertEqual(
             [1, 2], list(chain), "[1, 2] should be the active contracts on 01-02."
         )
 
         chain = oc.active_chain(1, pd.Timestamp("2015-01-03", tz="UTC").value)
-        self.assertEquals(
+        self.assertEqual(
             [1, 2, 3], list(chain), "[1, 2, 3] should be the active contracts on 01-03."
         )
 
         chain = oc.active_chain(1, pd.Timestamp("2015-01-04", tz="UTC").value)
-        self.assertEquals(
+        self.assertEqual(
             4,
             len(chain),
             "[1, 2, 3, 4] should be the active contracts on "
@@ -2056,7 +2056,7 @@ class OrderedContractsTestCase(zf.WithAssetFinder, zf.ZiplineTestCase):
         )
 
         chain = oc.active_chain(1, pd.Timestamp("2015-01-05", tz="UTC").value)
-        self.assertEquals(
+        self.assertEqual(
             4,
             len(chain),
             "[1, 2, 3, 4] should be the active contracts on "
@@ -2066,24 +2066,24 @@ class OrderedContractsTestCase(zf.WithAssetFinder, zf.ZiplineTestCase):
 
         # Test querying each sid at a time when all should be alive.
         chain = oc.active_chain(2, pd.Timestamp("2015-01-05", tz="UTC").value)
-        self.assertEquals([2, 3, 4], list(chain))
+        self.assertEqual([2, 3, 4], list(chain))
 
         chain = oc.active_chain(3, pd.Timestamp("2015-01-05", tz="UTC").value)
-        self.assertEquals([3, 4], list(chain))
+        self.assertEqual([3, 4], list(chain))
 
         chain = oc.active_chain(4, pd.Timestamp("2015-01-05", tz="UTC").value)
-        self.assertEquals([4], list(chain))
+        self.assertEqual([4], list(chain))
 
         # Test defined contract to check edge conditions.
         chain = oc.active_chain(4, pd.Timestamp("2015-01-03", tz="UTC").value)
-        self.assertEquals(
+        self.assertEqual(
             [],
             list(chain),
             "No contracts should be active, since 01-03 is " "before 4's start date.",
         )
 
         chain = oc.active_chain(4, pd.Timestamp("2015-01-04", tz="UTC").value)
-        self.assertEquals(
+        self.assertEqual(
             [4], list(chain), "[4] should be active beginning at its start date."
         )
 
@@ -2101,7 +2101,7 @@ class OrderedContractsTestCase(zf.WithAssetFinder, zf.ZiplineTestCase):
         # a contract should be added per day, until all defined contracts
         # are returned.
         chain = oc.active_chain(5, pd.Timestamp("2015-01-05", tz="UTC").value)
-        self.assertEquals(
+        self.assertEqual(
             [5, 7],
             list(chain),
             "Contract BAG16 (sid=6) should be ommitted from chain, since "

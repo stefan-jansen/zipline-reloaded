@@ -81,7 +81,8 @@ from zipline.testing import (
     tmp_assets_db,
     tmp_asset_finder,
 )
-from zipline.testing.predicates import assert_equal, assert_not_equal
+#from zipline.testing.predicates import assert_equal, assert_not_equal
+from zipline.testing.predicates import assert_index_equal, assert_frame_equal
 from zipline.testing.fixtures import (
     WithAssetFinder,
     ZiplineTestCase,
@@ -340,14 +341,14 @@ class AssetTestCase(TestCase):
             exchange_info=ExchangeInfo("bar", "bar", "??"),
         )
 
-        self.assertEquals({5061: "foo"}[the_asset], "foo")
-        self.assertEquals(the_asset, 5061)
-        self.assertEquals(5061, the_asset)
+        self.assertEqual({5061: "foo"}[the_asset], "foo")
+        self.assertEqual(the_asset, 5061)
+        self.assertEqual(5061, the_asset)
 
-        self.assertEquals(the_asset, the_asset)
-        self.assertEquals(int(the_asset), 5061)
+        self.assertEqual(the_asset, the_asset)
+        self.assertEqual(int(the_asset), 5061)
 
-        self.assertEquals(str(the_asset), "Asset(5061)")
+        self.assertEqual(str(the_asset), "Asset(5061)")
 
     def test_to_and_from_dict(self):
         asset_from_dict = Asset.from_dict(self.asset.to_dict())
@@ -470,10 +471,7 @@ class TestFuture(WithAssetFinder, ZiplineTestCase):
         self.assertEqual("Future(2468 [OMH15])", reprd)
 
     def test_reduce(self):
-        assert_equal(
-            pickle.loads(pickle.dumps(self.future)).to_dict(),
-            self.future.to_dict(),
-        )
+        assert pickle.loads(pickle.dumps(self.future)).to_dict() == self.future.to_dict()
 
     def test_to_and_from_dict(self):
         dictd = self.future.to_dict()
@@ -554,7 +552,7 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
         )
         self.write_assets(equities=frame)
         assets = self.asset_finder.retrieve_equities(sids)
-        assert_equal(assets.keys(), set(sids))
+        assert assets.keys() == set(sids)
 
     def test_lookup_symbol_delimited(self):
         as_of = pd.Timestamp("2013-01-01", tz="UTC")
@@ -687,25 +685,17 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
         for asof in pd.date_range("2014-01-01", "2014-01-05", tz="utc"):
             # from 01 through 05 sid 0 held 'A'
             A_result = finder.lookup_symbol("A", asof)
-            assert_equal(
-                A_result,
-                finder.retrieve_asset(0),
-                msg=str(asof),
-            )
+            assert A_result == finder.retrieve_asset(0), str(asof)
             # The symbol and asset_name should always be the last held values
-            assert_equal(A_result.symbol, "B")
-            assert_equal(A_result.asset_name, "Asset B")
+            assert A_result.symbol == "B"
+            assert A_result.asset_name == "Asset B"
 
             # from 01 through 05 sid 1 held 'C'
             C_result = finder.lookup_symbol("C", asof)
-            assert_equal(
-                C_result,
-                finder.retrieve_asset(1),
-                msg=str(asof),
-            )
+            assert C_result == finder.retrieve_asset(1), str(asof)
             # The symbol and asset_name should always be the last held values
-            assert_equal(C_result.symbol, "A")
-            assert_equal(C_result.asset_name, "Asset A")
+            assert C_result.symbol == "A"
+            assert C_result.asset_name == "Asset A"
 
         # no one held 'B' before 06
         with self.assertRaises(SymbolNotFound):
@@ -713,35 +703,24 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
 
         # no one held 'C' after 06, however, no one has claimed it yet
         # so it still maps to sid 1
-        assert_equal(
-            finder.lookup_symbol("C", T("2014-01-07")),
-            finder.retrieve_asset(1),
-        )
+        assert finder.lookup_symbol("C", T("2014-01-07")) == finder.retrieve_asset(1)
 
         for asof in pd.date_range("2014-01-06", "2014-01-11", tz="utc"):
             # from 06 through 10 sid 0 held 'B'
             # we test through the 11th because sid 1 is the last to hold 'B'
             # so it should ffill
             B_result = finder.lookup_symbol("B", asof)
-            assert_equal(
-                B_result,
-                finder.retrieve_asset(0),
-                msg=str(asof),
-            )
-            assert_equal(B_result.symbol, "B")
-            assert_equal(B_result.asset_name, "Asset B")
+            assert B_result == finder.retrieve_asset(0), str(asof)
+            assert B_result.symbol == "B"
+            assert B_result.asset_name == "Asset B"
 
             # from 06 through 10 sid 1 held 'A'
             # we test through the 11th because sid 1 is the last to hold 'A'
             # so it should ffill
             A_result = finder.lookup_symbol("A", asof)
-            assert_equal(
-                A_result,
-                finder.retrieve_asset(1),
-                msg=str(asof),
-            )
-            assert_equal(A_result.symbol, "A")
-            assert_equal(A_result.asset_name, "Asset A")
+            assert A_result == finder.retrieve_asset(1), str(asof)
+            assert A_result.symbol == "A"
+            assert A_result.asset_name == "Asset A"
 
     def test_lookup_symbol(self):
 
@@ -1165,9 +1144,9 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
                     include_start_date=True,
                     country_codes=country_codes,
                 )
-                assert_equal(result.columns, expected_sids)
+                assert_index_equal(result.columns, expected_sids)
                 result = result[permuted_sids]
-                assert_equal(result, expected_with_start)
+                assert_frame_equal(result, expected_with_start)
 
                 expected_no_start = pd.DataFrame(
                     data=np.tile(
@@ -1182,9 +1161,9 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
                     include_start_date=False,
                     country_codes=country_codes,
                 )
-                assert_equal(result.columns, expected_sids)
+                assert_index_equal(result.columns, expected_sids)
                 result = result[permuted_sids]
-                assert_equal(result, expected_no_start)
+                assert_frame_equal(result, expected_no_start)
 
     def test_sids(self):
         # Ensure that the sids property of the AssetFinder is functioning
@@ -1639,11 +1618,8 @@ class AssetFinderMultipleCountries(WithTradingCalendars, ZiplineTestCase):
                         as_of,
                         country_code=self.country_code(n),
                     )
-                    assert_equal(actual_asset, assets[n])
-                    assert_equal(
-                        actual_asset.exchange_info.country_code,
-                        self.country_code(n),
-                    )
+                    assert actual_asset == assets[n]
+                    assert actual_asset.exchange_info.country_code == self.country_code(n)
 
     def test_lookup_symbol_fuzzy(self):
         num_countries = 3
@@ -1801,15 +1777,11 @@ class AssetFinderMultipleCountries(WithTradingCalendars, ZiplineTestCase):
                     as_of_date,
                     country_code=self.country_code(n),
                 )
-                assert_equal(
-                    result,
-                    finder.retrieve_asset(sid_from_country_ix(n)),
-                    msg=str(asof),
-                )
+                assert result == finder.retrieve_asset(sid_from_country_ix(n)), str(asof)
                 # The symbol and asset_name should always be the last held
                 # values
-                assert_equal(result.symbol, expected_symbol)
-                assert_equal(result.asset_name, expected_name)
+                assert result.symbol == expected_symbol
+                assert result.asset_name ==  expected_name
 
         # note: these assertions walk forward in time, starting at assertions
         # about ownership before the start_date and ending with assertions
@@ -2225,7 +2197,7 @@ class TestAssetDBVersioning(ZiplineTestCase):
             )
         )
 
-        assert_equal(expected_data, actual_data)
+        assert expected_data == actual_data
 
     def test_v7_to_v6_only_keeps_US(self):
         T = pd.Timestamp
@@ -2262,7 +2234,7 @@ class TestAssetDBVersioning(ZiplineTestCase):
             )
         )
 
-        assert_equal(expected_sids, actual_sids)
+        assert expected_sids == actual_sids
 
 
 class TestVectorizedSymbolLookup(WithAssetFinder, ZiplineTestCase):
@@ -2315,7 +2287,7 @@ class TestVectorizedSymbolLookup(WithAssetFinder, ZiplineTestCase):
         af = self.asset_finder
         expected = [af.lookup_symbol(symbol, as_of) for symbol in symbols]
         result = af.lookup_symbols(symbols, as_of)
-        assert_equal(result, expected)
+        assert result == expected
 
     def test_fuzzy(self):
         af = self.asset_finder
@@ -2335,11 +2307,8 @@ class TestVectorizedSymbolLookup(WithAssetFinder, ZiplineTestCase):
             )
 
         results = af.lookup_symbols(syms, dt, fuzzy=True)
-        assert_equal(results, af.retrieve_all([1, 3, 7]))
-        assert_equal(
-            results,
-            [af.lookup_symbol(sym, dt, fuzzy=True) for sym in syms],
-        )
+        assert results == af.retrieve_all([1, 3, 7])
+        assert results == [af.lookup_symbol(sym, dt, fuzzy=True) for sym in syms]
 
 
 class TestAssetFinderPreprocessors(WithTmpDir, ZiplineTestCase):
@@ -2361,24 +2330,24 @@ class TestExchangeInfo(ZiplineTestCase):
         a = ExchangeInfo("FULL NAME", "E", "US")
         b = ExchangeInfo("FULL NAME", "E", "US")
 
-        assert_equal(a, b)
+        assert a == b
 
         # same full name but different canonical name
         c = ExchangeInfo("FULL NAME", "NOT E", "US")
-        assert_not_equal(c, a)
+        assert c !=  a
 
         # same canonical name but different full name
         d = ExchangeInfo("DIFFERENT FULL NAME", "E", "US")
-        assert_not_equal(d, a)
+        assert d !=  a
 
         # same names but different country
 
         e = ExchangeInfo("FULL NAME", "E", "JP")
-        assert_not_equal(e, a)
+        assert e !=  a
 
     def test_repr(self):
         e = ExchangeInfo("FULL NAME", "E", "US")
-        assert_equal(repr(e), "ExchangeInfo('FULL NAME', 'E', 'US')")
+        assert repr(e) == "ExchangeInfo('FULL NAME', 'E', 'US')"
 
     def test_read_from_asset_finder(self):
         sids = list(range(8))
@@ -2422,13 +2391,13 @@ class TestExchangeInfo(ZiplineTestCase):
             actual_exchange_info_map = af.exchange_info
             assets = af.retrieve_all(sids)
 
-        assert_equal(actual_exchange_info_map, expected_exchange_info_map)
+        assert actual_exchange_info_map == expected_exchange_info_map
 
         for asset in assets:
             expected_exchange_info = expected_exchange_info_map[
                 exchange_names[asset.sid]
             ]
-            assert_equal(asset.exchange_info, expected_exchange_info)
+            assert asset.exchange_info == expected_exchange_info
 
 
 class TestWrite(WithInstanceTmpDir, ZiplineTestCase):
@@ -2472,7 +2441,7 @@ class TestWrite(WithInstanceTmpDir, ZiplineTestCase):
 
         for eq in equities:
             expected_exchange = "EXCHANGE-%d-%d" % (eq.sid, len(dates) - 1)
-            assert_equal(eq.exchange, expected_exchange)
+            assert eq.exchange == expected_exchange
 
     def test_write_direct(self):
         # don't include anything with a default to test that those work.
@@ -2542,14 +2511,14 @@ class TestWrite(WithInstanceTmpDir, ZiplineTestCase):
                 multiplier=1.0,
             ),
         ]
-        assert_equal(equities, expected_equities)
+        assert equities == expected_equities
 
         exchange_info = reader.exchange_info
         expected_exchange_info = {
             "NYSE": ExchangeInfo("NYSE", "NYSE", "US"),
             "TSE": ExchangeInfo("TSE", "TSE", "JP"),
         }
-        assert_equal(exchange_info, expected_exchange_info)
+        assert exchange_info == expected_exchange_info
 
         supplementary_map = reader.equity_supplementary_map
         expected_supplementary_map = {
@@ -2570,4 +2539,4 @@ class TestWrite(WithInstanceTmpDir, ZiplineTestCase):
                 ),
             ),
         }
-        assert_equal(supplementary_map, expected_supplementary_map)
+        assert supplementary_map == expected_supplementary_map

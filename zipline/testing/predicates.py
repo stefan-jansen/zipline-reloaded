@@ -4,34 +4,7 @@ import datetime
 from functools import partial
 import re
 
-from nose.tools import (  # noqa
-    assert_almost_equal,
-    assert_almost_equals,
-    assert_dict_contains_subset,
-    assert_false,
-    assert_greater,
-    assert_greater_equal,
-    assert_in,
-    assert_is,
-    assert_is_instance,
-    assert_is_none,
-    assert_is_not,
-    assert_is_not_none,
-    assert_less,
-    assert_less_equal,
-    assert_multi_line_equal,
-    assert_not_almost_equal,
-    assert_not_almost_equals,
-    assert_not_equal,
-    assert_not_equals,
-    assert_not_in,
-    assert_not_is_instance,
-    assert_raises,
-    assert_raises_regexp,
-    assert_regexp_matches,
-    assert_true,
-    assert_tuple_equal,
-)
+from nose.tools import assert_raises
 import numpy as np
 import pandas as pd
 from pandas.testing import (

@@ -19,9 +19,7 @@ from zipline.testing.fixtures import (
     ZiplineTestCase,
     WithResponses,
 )
-from zipline.testing.predicates import (
-    assert_equal,
-)
+
 from zipline.utils.functional import apply
 
 TEST_RESOURCE_PATH = join(
@@ -213,7 +211,7 @@ class QuandlBundleTestCase(WithResponses, ZiplineTestCase):
 
         bundle = load("quandl", environ=environ)
         sids = 0, 1, 2, 3
-        assert_equal(set(bundle.asset_finder.sids), set(sids))
+        assert set(bundle.asset_finder.sids) == set(sids)
 
         sessions = self.calendar.all_sessions
         actual = bundle.equity_daily_bar_reader.load_raw_arrays(
@@ -225,7 +223,7 @@ class QuandlBundleTestCase(WithResponses, ZiplineTestCase):
         expected_pricing, expected_adjustments = self._expected_data(
             bundle.asset_finder,
         )
-        assert_equal(actual, expected_pricing, array_decimal=2)
+        np.testing.assert_array_almost_equal(actual, expected_pricing, decimal=2)
 
         adjs_for_cols = bundle.adjustment_reader.load_pricing_adjustments(
             self.columns,
@@ -236,8 +234,4 @@ class QuandlBundleTestCase(WithResponses, ZiplineTestCase):
         for column, adjustments, expected in zip(
                 self.columns, adjs_for_cols, expected_adjustments
         ):
-            assert_equal(
-                adjustments,
-                expected,
-                msg=column,
-            )
+            assert adjustments == expected, column

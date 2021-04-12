@@ -23,7 +23,8 @@ from zipline.testing.fixtures import (
     ZiplineTestCase,
     WithSeededRandomPipelineEngine,
 )
-from zipline.testing.predicates import assert_almost_equal, instance_of
+from zipline.testing.predicates import instance_of
+from numpy.testing import assert_almost_equal
 
 
 class TrivialFactor(CustomFactor):
