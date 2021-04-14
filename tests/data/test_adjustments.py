@@ -174,36 +174,26 @@ class TestSQLiteAdjustmentsWriter(
         dividend_ratios.reset_index(drop=True, inplace=True)
         assert_frame_equal(dividend_ratios, expected_dividend_ratios)
 
-        self.assertTrue(
-            self.log_handler.has_warning(
+        assert self.log_handler.has_warning(
                 "Couldn't compute ratio for dividend sid=2, ex_date=1990-10-18,"
                 " amount=10.000",
             )
-        )
-        self.assertTrue(
-            self.log_handler.has_warning(
+        assert self.log_handler.has_warning(
                 "Couldn't compute ratio for dividend sid=2, ex_date=1990-10-19,"
                 " amount=0.100",
             )
-        )
-        self.assertTrue(
-            self.log_handler.has_warning(
+        assert self.log_handler.has_warning(
                 "Couldn't compute ratio for dividend sid=2, ex_date=1990-11-01,"
                 " amount=0.100",
             )
-        )
-        self.assertTrue(
-            self.log_handler.has_warning(
+        assert self.log_handler.has_warning(
                 "Dividend ratio <= 0 for dividend sid=1, ex_date=1990-10-17,"
                 " amount=0.510",
             )
-        )
-        self.assertTrue(
-            self.log_handler.has_warning(
+        assert self.log_handler.has_warning(
                 "Dividend ratio <= 0 for dividend sid=1, ex_date=1990-10-18,"
                 " amount=0.400",
             )
-        )
 
     def _test_identity(self, name):
         sids = np.arange(5)

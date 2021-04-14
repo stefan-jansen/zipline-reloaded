@@ -288,9 +288,7 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
             called[0] = True
 
         now = pd.Timestamp.utcnow()
-        with self.assertRaisesRegex(
-            ValueError, "ingest .* creates writers .* downgrade"
-        ):
+        with pytest.raises(ValueError, match="ingest .* creates writers .* downgrade"):
             self.ingest(
                 "bundle",
                 self.environ,
@@ -314,10 +312,10 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
             show_progress,
             output_dir,
         ):
-            self.assertIsNotNone(asset_db_writer)
-            self.assertIsNotNone(minute_bar_writer)
-            self.assertIsNotNone(daily_bar_writer)
-            self.assertIsNotNone(adjustment_writer)
+            assert asset_db_writer is not None
+            assert minute_bar_writer is not None
+            assert daily_bar_writer is not None
+            assert adjustment_writer is not None
 
             equities = make_simple_equity_info(
                 tuple(range(3)),

@@ -53,6 +53,7 @@ from zipline.testing.fixtures import (
     WithTradingCalendars,
     ZiplineTestCase,
 )
+import pytest
 
 # Calendar is set to cover several half days, to check a case where half
 # days would be read out of order in cases of windows which spanned over
@@ -94,14 +95,12 @@ class BcolzMinuteBarTestCase(
 
     def test_version(self):
         metadata = self.reader._get_metadata()
-        self.assertEqual(
-            metadata.version,
-            BcolzMinuteBarMetadata.FORMAT_VERSION,
-        )
+        assert metadata.version == \
+            BcolzMinuteBarMetadata.FORMAT_VERSION
 
     def test_no_minute_bars_for_sid(self):
         minute = self.market_opens[self.test_calendar_start]
-        with self.assertRaises(NoDataForSid):
+        with pytest.raises(NoDataForSid):
             self.reader.get_value(1337, minute, "close")
 
     def test_write_one_ohlcv(self):
@@ -121,23 +120,23 @@ class BcolzMinuteBarTestCase(
 
         open_price = self.reader.get_value(sid, minute, "open")
 
-        self.assertEqual(10.0, open_price)
+        assert 10.0 == open_price
 
         high_price = self.reader.get_value(sid, minute, "high")
 
-        self.assertEqual(20.0, high_price)
+        assert 20.0 == high_price
 
         low_price = self.reader.get_value(sid, minute, "low")
 
-        self.assertEqual(30.0, low_price)
+        assert 30.0 == low_price
 
         close_price = self.reader.get_value(sid, minute, "close")
 
-        self.assertEqual(40.0, close_price)
+        assert 40.0 == close_price
 
         volume_price = self.reader.get_value(sid, minute, "volume")
 
-        self.assertEqual(50.0, volume_price)
+        assert 50.0 == volume_price
 
     def test_precision_after_scaling(self):
         """For numbers that don't have an exact float representation,
@@ -158,19 +157,19 @@ class BcolzMinuteBarTestCase(
         self.writer.write_sid(sid, data)
 
         open_price = self.reader.get_value(sid, minute, "open")
-        self.assertEqual(130.23, open_price)
+        assert 130.23 == open_price
 
         high_price = self.reader.get_value(sid, minute, "high")
-        self.assertEqual(130.23, high_price)
+        assert 130.23 == high_price
 
         low_price = self.reader.get_value(sid, minute, "low")
-        self.assertEqual(130.23, low_price)
+        assert 130.23 == low_price
 
         close_price = self.reader.get_value(sid, minute, "close")
-        self.assertEqual(130.23, close_price)
+        assert 130.23 == close_price
 
         volume_price = self.reader.get_value(sid, minute, "volume")
-        self.assertEqual(1000, volume_price)
+        assert 1000 == volume_price
 
     def test_write_one_ohlcv_with_ratios(self):
         minute = self.market_opens[self.test_calendar_start]
@@ -199,19 +198,19 @@ class BcolzMinuteBarTestCase(
         reader = BcolzMinuteBarReader(self.dest)
 
         open_price = reader.get_value(sid, minute, "open")
-        self.assertEqual(10.0, open_price)
+        assert 10.0 == open_price
 
         high_price = reader.get_value(sid, minute, "high")
-        self.assertEqual(20.0, high_price)
+        assert 20.0 == high_price
 
         low_price = reader.get_value(sid, minute, "low")
-        self.assertEqual(30.0, low_price)
+        assert 30.0 == low_price
 
         close_price = reader.get_value(sid, minute, "close")
-        self.assertEqual(40.0, close_price)
+        assert 40.0 == close_price
 
         volume_price = reader.get_value(sid, minute, "volume")
-        self.assertEqual(50.0, volume_price)
+        assert 50.0 == volume_price
 
     def test_write_two_bars(self):
         minute_0 = self.market_opens[self.test_calendar_start]
@@ -231,43 +230,43 @@ class BcolzMinuteBarTestCase(
 
         open_price = self.reader.get_value(sid, minute_0, "open")
 
-        self.assertEqual(10.0, open_price)
+        assert 10.0 == open_price
 
         high_price = self.reader.get_value(sid, minute_0, "high")
 
-        self.assertEqual(20.0, high_price)
+        assert 20.0 == high_price
 
         low_price = self.reader.get_value(sid, minute_0, "low")
 
-        self.assertEqual(30.0, low_price)
+        assert 30.0 == low_price
 
         close_price = self.reader.get_value(sid, minute_0, "close")
 
-        self.assertEqual(40.0, close_price)
+        assert 40.0 == close_price
 
         volume_price = self.reader.get_value(sid, minute_0, "volume")
 
-        self.assertEqual(50.0, volume_price)
+        assert 50.0 == volume_price
 
         open_price = self.reader.get_value(sid, minute_1, "open")
 
-        self.assertEqual(11.0, open_price)
+        assert 11.0 == open_price
 
         high_price = self.reader.get_value(sid, minute_1, "high")
 
-        self.assertEqual(21.0, high_price)
+        assert 21.0 == high_price
 
         low_price = self.reader.get_value(sid, minute_1, "low")
 
-        self.assertEqual(31.0, low_price)
+        assert 31.0 == low_price
 
         close_price = self.reader.get_value(sid, minute_1, "close")
 
-        self.assertEqual(41.0, close_price)
+        assert 41.0 == close_price
 
         volume_price = self.reader.get_value(sid, minute_1, "volume")
 
-        self.assertEqual(51.0, volume_price)
+        assert 51.0 == volume_price
 
     def test_write_on_second_day(self):
         second_day = self.test_calendar_start + timedelta(days=1)
@@ -287,23 +286,23 @@ class BcolzMinuteBarTestCase(
 
         open_price = self.reader.get_value(sid, minute, "open")
 
-        self.assertEqual(10.0, open_price)
+        assert 10.0 == open_price
 
         high_price = self.reader.get_value(sid, minute, "high")
 
-        self.assertEqual(20.0, high_price)
+        assert 20.0 == high_price
 
         low_price = self.reader.get_value(sid, minute, "low")
 
-        self.assertEqual(30.0, low_price)
+        assert 30.0 == low_price
 
         close_price = self.reader.get_value(sid, minute, "close")
 
-        self.assertEqual(40.0, close_price)
+        assert 40.0 == close_price
 
         volume_price = self.reader.get_value(sid, minute, "volume")
 
-        self.assertEqual(50.0, volume_price)
+        assert 50.0 == volume_price
 
     def test_write_empty(self):
         minute = self.market_opens[self.test_calendar_start]
@@ -366,45 +365,45 @@ class BcolzMinuteBarTestCase(
 
         open_price = self.reader.get_value(sid, minute, "open")
 
-        self.assertEqual(10.0, open_price)
+        assert 10.0 == open_price
 
         high_price = self.reader.get_value(sid, minute, "high")
 
-        self.assertEqual(20.0, high_price)
+        assert 20.0 == high_price
 
         low_price = self.reader.get_value(sid, minute, "low")
 
-        self.assertEqual(30.0, low_price)
+        assert 30.0 == low_price
 
         close_price = self.reader.get_value(sid, minute, "close")
 
-        self.assertEqual(40.0, close_price)
+        assert 40.0 == close_price
 
         volume_price = self.reader.get_value(sid, minute, "volume")
 
-        self.assertEqual(50.0, volume_price)
+        assert 50.0 == volume_price
 
         minute = minutes[1]
 
         open_price = self.reader.get_value(sid, minute, "open")
 
-        self.assertEqual(11.0, open_price)
+        assert 11.0 == open_price
 
         high_price = self.reader.get_value(sid, minute, "high")
 
-        self.assertEqual(21.0, high_price)
+        assert 21.0 == high_price
 
         low_price = self.reader.get_value(sid, minute, "low")
 
-        self.assertEqual(31.0, low_price)
+        assert 31.0 == low_price
 
         close_price = self.reader.get_value(sid, minute, "close")
 
-        self.assertEqual(41.0, close_price)
+        assert 41.0 == close_price
 
         volume_price = self.reader.get_value(sid, minute, "volume")
 
-        self.assertEqual(51.0, volume_price)
+        assert 51.0 == volume_price
 
     def test_no_overwrite(self):
         minute = self.market_opens[TEST_CALENDAR_START]
@@ -421,7 +420,7 @@ class BcolzMinuteBarTestCase(
         )
         self.writer.write_sid(sid, data)
 
-        with self.assertRaises(BcolzMinuteOverlappingData):
+        with pytest.raises(BcolzMinuteOverlappingData):
             self.writer.write_sid(sid, data)
 
     def test_append_to_same_day(self):
@@ -458,15 +457,15 @@ class BcolzMinuteBarTestCase(
         self.writer.write_sid(sid, new_data)
 
         open_price = self.reader.get_value(sid, second_minute, "open")
-        self.assertEqual(5.0, open_price)
+        assert 5.0 == open_price
         high_price = self.reader.get_value(sid, second_minute, "high")
-        self.assertEqual(10.0, high_price)
+        assert 10.0 == high_price
         low_price = self.reader.get_value(sid, second_minute, "low")
-        self.assertEqual(3.0, low_price)
+        assert 3.0 == low_price
         close_price = self.reader.get_value(sid, second_minute, "close")
-        self.assertEqual(7.0, close_price)
+        assert 7.0 == close_price
         volume_price = self.reader.get_value(sid, second_minute, "volume")
-        self.assertEqual(10.0, volume_price)
+        assert 10.0 == volume_price
 
     def test_append_on_new_day(self):
         sid = 1
@@ -500,7 +499,7 @@ class BcolzMinuteBarTestCase(
         # The second minute should have been padded with zeros
         for col in ("open", "high", "low", "close"):
             assert_almost_equal(nan, reader.get_value(sid, second_minute, col))
-        self.assertEqual(0, reader.get_value(sid, second_minute, "volume"))
+        assert 0 == reader.get_value(sid, second_minute, "volume")
 
         # The next day minute should have data.
         for col in ("open", "high", "low", "close", "volume"):
@@ -556,45 +555,45 @@ class BcolzMinuteBarTestCase(
 
         open_price = self.reader.get_value(sid, minute, "open")
 
-        self.assertEqual(15.0, open_price)
+        assert 15.0 == open_price
 
         high_price = self.reader.get_value(sid, minute, "high")
 
-        self.assertEqual(17.0, high_price)
+        assert 17.0 == high_price
 
         low_price = self.reader.get_value(sid, minute, "low")
 
-        self.assertEqual(11.0, low_price)
+        assert 11.0 == low_price
 
         close_price = self.reader.get_value(sid, minute, "close")
 
-        self.assertEqual(15.0, close_price)
+        assert 15.0 == close_price
 
         volume_price = self.reader.get_value(sid, minute, "volume")
 
-        self.assertEqual(100.0, volume_price)
+        assert 100.0 == volume_price
 
         sid = sids[1]
 
         open_price = self.reader.get_value(sid, minute, "open")
 
-        self.assertEqual(25.0, open_price)
+        assert 25.0 == open_price
 
         high_price = self.reader.get_value(sid, minute, "high")
 
-        self.assertEqual(27.0, high_price)
+        assert 27.0 == high_price
 
         low_price = self.reader.get_value(sid, minute, "low")
 
-        self.assertEqual(21.0, low_price)
+        assert 21.0 == low_price
 
         close_price = self.reader.get_value(sid, minute, "close")
 
-        self.assertEqual(25.0, close_price)
+        assert 25.0 == close_price
 
         volume_price = self.reader.get_value(sid, minute, "volume")
 
-        self.assertEqual(200.0, volume_price)
+        assert 200.0 == volume_price
 
     def test_pad_data(self):
         """
@@ -602,12 +601,12 @@ class BcolzMinuteBarTestCase(
         """
         sid = 1
         last_date = self.writer.last_date_in_output_for_sid(sid)
-        self.assertIs(last_date, NaT)
+        assert last_date is NaT
 
         self.writer.pad(sid, TEST_CALENDAR_START)
 
         last_date = self.writer.last_date_in_output_for_sid(sid)
-        self.assertEqual(last_date, TEST_CALENDAR_START)
+        assert last_date == TEST_CALENDAR_START
 
         freq = self.market_opens.index.freq
         day = TEST_CALENDAR_START + freq
@@ -627,32 +626,30 @@ class BcolzMinuteBarTestCase(
 
         open_price = self.reader.get_value(sid, minute, "open")
 
-        self.assertEqual(15.0, open_price)
+        assert 15.0 == open_price
 
         high_price = self.reader.get_value(sid, minute, "high")
 
-        self.assertEqual(17.0, high_price)
+        assert 17.0 == high_price
 
         low_price = self.reader.get_value(sid, minute, "low")
 
-        self.assertEqual(11.0, low_price)
+        assert 11.0 == low_price
 
         close_price = self.reader.get_value(sid, minute, "close")
 
-        self.assertEqual(15.0, close_price)
+        assert 15.0 == close_price
 
         volume_price = self.reader.get_value(sid, minute, "volume")
 
-        self.assertEqual(100.0, volume_price)
+        assert 100.0 == volume_price
 
         # Check that if we then pad the rest of this day, we end up with
         # 2 days worth of minutes.
         self.writer.pad(sid, day)
 
-        self.assertEqual(
-            len(self.writer._ensure_ctable(sid)),
-            self.writer._minutes_per_day * 2,
-        )
+        assert len(self.writer._ensure_ctable(sid)) == \
+            self.writer._minutes_per_day * 2
 
     def test_nans(self):
         """
@@ -660,12 +657,12 @@ class BcolzMinuteBarTestCase(
         """
         sid = 1
         last_date = self.writer.last_date_in_output_for_sid(sid)
-        self.assertIs(last_date, NaT)
+        assert last_date is NaT
 
         self.writer.pad(sid, TEST_CALENDAR_START)
 
         last_date = self.writer.last_date_in_output_for_sid(sid)
-        self.assertEqual(last_date, TEST_CALENDAR_START)
+        assert last_date == TEST_CALENDAR_START
 
         freq = self.market_opens.index.freq
         minute = self.market_opens[TEST_CALENDAR_START + freq]
@@ -708,12 +705,12 @@ class BcolzMinuteBarTestCase(
         """
         sid = 1
         last_date = self.writer.last_date_in_output_for_sid(sid)
-        self.assertIs(last_date, NaT)
+        assert last_date is NaT
 
         self.writer.pad(sid, TEST_CALENDAR_START)
 
         last_date = self.writer.last_date_in_output_for_sid(sid)
-        self.assertEqual(last_date, TEST_CALENDAR_START)
+        assert last_date == TEST_CALENDAR_START
 
         freq = self.market_opens.index.freq
         minute = self.market_opens[TEST_CALENDAR_START + freq]
@@ -774,43 +771,43 @@ class BcolzMinuteBarTestCase(
 
         open_price = self.reader.get_value(sid, minute_0, "open")
 
-        self.assertEqual(10.0, open_price)
+        assert 10.0 == open_price
 
         high_price = self.reader.get_value(sid, minute_0, "high")
 
-        self.assertEqual(20.0, high_price)
+        assert 20.0 == high_price
 
         low_price = self.reader.get_value(sid, minute_0, "low")
 
-        self.assertEqual(30.0, low_price)
+        assert 30.0 == low_price
 
         close_price = self.reader.get_value(sid, minute_0, "close")
 
-        self.assertEqual(40.0, close_price)
+        assert 40.0 == close_price
 
         volume_price = self.reader.get_value(sid, minute_0, "volume")
 
-        self.assertEqual(50.0, volume_price)
+        assert 50.0 == volume_price
 
         open_price = self.reader.get_value(sid, minute_1, "open")
 
-        self.assertEqual(11.0, open_price)
+        assert 11.0 == open_price
 
         high_price = self.reader.get_value(sid, minute_1, "high")
 
-        self.assertEqual(21.0, high_price)
+        assert 21.0 == high_price
 
         low_price = self.reader.get_value(sid, minute_1, "low")
 
-        self.assertEqual(31.0, low_price)
+        assert 31.0 == low_price
 
         close_price = self.reader.get_value(sid, minute_1, "close")
 
-        self.assertEqual(41.0, close_price)
+        assert 41.0 == close_price
 
         volume_price = self.reader.get_value(sid, minute_1, "volume")
 
-        self.assertEqual(51.0, volume_price)
+        assert 51.0 == volume_price
 
     def test_write_cols_mismatch_length(self):
         dts = date_range(
@@ -824,7 +821,7 @@ class BcolzMinuteBarTestCase(
             "close": array([40.0, 41.0]),
             "volume": array([50.0, 51.0, 52.0]),
         }
-        with self.assertRaises(BcolzMinuteWriterColumnMismatch):
+        with pytest.raises(BcolzMinuteWriterColumnMismatch):
             self.writer.write_cols(sid, dts, cols)
 
     def test_unadjusted_minutes(self):
@@ -974,23 +971,19 @@ class BcolzMinuteBarTestCase(
 
         self.writer.write_cols(sid, dts, cols)
 
-        self.assertEqual(
-            self.reader.get_value(
+        assert self.reader.get_value(
                 sid, Timestamp("2015-06-01 20:00:00", tz="UTC"), "open"
-            ),
-            390,
-        )
-        self.assertEqual(
-            self.reader.get_value(
+            ) == \
+            390
+        assert self.reader.get_value(
                 sid, Timestamp("2015-06-02 20:00:00", tz="UTC"), "open"
-            ),
-            780,
-        )
+            ) == \
+            780
 
-        with self.assertRaises(NoDataOnDate):
+        with pytest.raises(NoDataOnDate):
             self.reader.get_value(sid, Timestamp("2015-06-02", tz="UTC"), "open")
 
-        with self.assertRaises(NoDataOnDate):
+        with pytest.raises(NoDataOnDate):
             self.reader.get_value(
                 sid, Timestamp("2015-06-02 20:01:00", tz="UTC"), "open"
             )
@@ -1017,30 +1010,24 @@ class BcolzMinuteBarTestCase(
 
         self.writer.write_cols(sid, dts, cols)
 
-        self.assertEqual(
-            self.reader.get_value(
+        assert self.reader.get_value(
                 sid, Timestamp("2015-11-27 18:00:00", tz="UTC"), "open"
-            ),
-            210,
-        )
-        self.assertEqual(
-            self.reader.get_value(
+            ) == \
+            210
+        assert self.reader.get_value(
                 sid, Timestamp("2015-11-30 21:00:00", tz="UTC"), "open"
-            ),
-            600,
-        )
+            ) == \
+            600
 
-        self.assertEqual(
-            self.reader.get_value(
+        assert self.reader.get_value(
                 sid, Timestamp("2015-11-27 18:01:00", tz="UTC"), "open"
-            ),
-            210,
-        )
+            ) == \
+            210
 
-        with self.assertRaises(NoDataOnDate):
+        with pytest.raises(NoDataOnDate):
             self.reader.get_value(sid, Timestamp("2015-11-30", tz="UTC"), "open")
 
-        with self.assertRaises(NoDataOnDate):
+        with pytest.raises(NoDataOnDate):
             self.reader.get_value(
                 sid, Timestamp("2015-11-30 21:01:00", tz="UTC"), "open"
             )
@@ -1061,7 +1048,7 @@ class BcolzMinuteBarTestCase(
         self.writer.set_sid_attrs(sid, **attrs)
         # Read the attributes
         for k, v in attrs.items():
-            self.assertEqual(self.reader.get_sid_attr(sid, k), v)
+            assert self.reader.get_sid_attr(sid, k) == v
 
     def test_truncate_between_data_points(self):
 
@@ -1101,33 +1088,33 @@ class BcolzMinuteBarTestCase(
         # Refresh the reader since truncate update the metadata.
         self.reader = BcolzMinuteBarReader(self.dest)
 
-        self.assertEqual(self.writer.last_date_in_output_for_sid(sid), days[0])
+        assert self.writer.last_date_in_output_for_sid(sid) == days[0]
 
         cal = self.trading_calendar
         _, last_close = cal.open_and_close_for_session(days[0])
-        self.assertEqual(self.reader.last_available_dt, last_close)
+        assert self.reader.last_available_dt == last_close
 
         minute = minutes[0]
 
         open_price = self.reader.get_value(sid, minute, "open")
 
-        self.assertEqual(10.0, open_price)
+        assert 10.0 == open_price
 
         high_price = self.reader.get_value(sid, minute, "high")
 
-        self.assertEqual(20.0, high_price)
+        assert 20.0 == high_price
 
         low_price = self.reader.get_value(sid, minute, "low")
 
-        self.assertEqual(30.0, low_price)
+        assert 30.0 == low_price
 
         close_price = self.reader.get_value(sid, minute, "close")
 
-        self.assertEqual(40.0, close_price)
+        assert 40.0 == close_price
 
         volume_price = self.reader.get_value(sid, minute, "volume")
 
-        self.assertEqual(50.0, volume_price)
+        assert 50.0 == volume_price
 
     def test_truncate_all_data_points(self):
 
@@ -1164,14 +1151,12 @@ class BcolzMinuteBarTestCase(
         # Refresh the reader since truncate update the metadata.
         self.reader = BcolzMinuteBarReader(self.dest)
 
-        self.assertEqual(
-            self.writer.last_date_in_output_for_sid(sid),
-            self.test_calendar_start,
-        )
+        assert self.writer.last_date_in_output_for_sid(sid) == \
+            self.test_calendar_start
 
         cal = self.trading_calendar
         _, last_close = cal.open_and_close_for_session(self.test_calendar_start)
-        self.assertEqual(self.reader.last_available_dt, last_close)
+        assert self.reader.last_available_dt == last_close
 
     def test_early_market_close(self):
         # Date to test is 2015-11-30 9:31
@@ -1221,18 +1206,16 @@ class BcolzMinuteBarTestCase(
 
         volume = self.reader.get_value(sid, minute, "volume")
 
-        self.assertEqual(0, volume)
+        assert 0 == volume
 
         asset = self.asset_finder.retrieve_asset(sid)
         last_traded_dt = self.reader.get_last_traded_dt(asset, minute)
 
-        self.assertEqual(
-            last_traded_dt,
-            before_early_close,
-            "The last traded dt should be before the early "
-            "close, even when data is written between the early "
-            "close and the next open.",
-        )
+        assert last_traded_dt == \
+            before_early_close, \
+            "The last traded dt should be before the early " \
+            "close, even when data is written between the early " \
+            "close and the next open."
 
     def test_minute_updates(self):
         """

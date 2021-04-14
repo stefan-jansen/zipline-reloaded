@@ -1253,7 +1253,7 @@ def make_alternating_boolean_array(shape, first_value=True):
         raise ValueError(
             "Shape must be 2-dimensional. Given shape was {}".format(shape)
         )
-    alternating = np.empty(shape, dtype=np.bool)
+    alternating = np.empty(shape, dtype=bool)
     for row in alternating:
         row[::2] = first_value
         row[1::2] = not (first_value)
@@ -1286,7 +1286,7 @@ def make_cascading_boolean_array(shape, first_value=True):
         raise ValueError(
             "Shape must be 2-dimensional. Given shape was {}".format(shape)
         )
-    cascading = np.full(shape, not (first_value), dtype=np.bool)
+    cascading = np.full(shape, not (first_value), dtype=bool)
     ending_col = shape[1] - 1
     for row in cascading:
         if ending_col > 0:
