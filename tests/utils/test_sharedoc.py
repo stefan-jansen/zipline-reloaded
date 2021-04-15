@@ -14,6 +14,4 @@ class TestSharedoc(ZiplineTestCase):
         def copied_docstring_function():
             pass
 
-        self.assertEqual(
-            original_docstring_function.__doc__, copied_docstring_function.__doc__
-        )
+        assert original_docstring_function.__doc__ == copied_docstring_function.__doc__

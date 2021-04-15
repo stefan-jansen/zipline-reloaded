@@ -102,7 +102,7 @@ class SecurityListTestCase(WithMakeAlgo, ZiplineTestCase):
             symbol="BZQ",
         )
         algo.run()
-        self.assertTrue(algo.found)
+        assert algo.found
 
     def test_security_list(self):
         # set the knowledge date to the first day of the
@@ -296,4 +296,4 @@ class SecurityListTestCase(WithMakeAlgo, ZiplineTestCase):
         exc = ctx.exception
         self.assertEqual(TradingControlViolation, type(exc))
         exc_msg = str(ctx.exception)
-        self.assertTrue("RestrictedListOrder" in exc_msg)
+        assert "RestrictedListOrder" in exc_msg
