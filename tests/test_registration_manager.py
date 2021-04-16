@@ -3,7 +3,7 @@ from zipline.testing.fixtures import ZiplineTestCase
 from zipline.testing.predicates import assert_raises_str
 
 
-class FakeInterface(object):
+class FakeInterface:
     pass
 
 
