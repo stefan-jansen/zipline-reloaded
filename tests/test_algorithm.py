@@ -2963,7 +2963,8 @@ class TestTradingControls(zf.WithMakeAlgo, zf.ZiplineTestCase):
     def test_set_do_not_order_list(self):
         def initialize(self, restricted_list):
             self.order_count = 0
-            self.set_do_not_order_list(restricted_list, on_error="fail")
+            #self.set_do_not_order_list(restricted_list, on_error="fail")
+            self.set_asset_restrictions(StaticRestrictions(restricted_list), on_error="fail")
 
         def handle_data(algo, data):
             algo.could_trade = data.can_trade(algo.sid(self.sid))
