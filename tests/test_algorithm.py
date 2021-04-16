@@ -342,12 +342,12 @@ def handle_data(context, data):
             trading_calendar=self.trading_calendar,
         )
 
-        with self.assertRaises(ZeroCapitalError) as exc:
+        with pytest.raises(ZeroCapitalError) as exc:
             # make_algo will trace to TradingAlgorithm,
             # where the exception will be raised
             self.make_algo(script=algo_text, sim_params=sim_params)
         # Make sure the correct error was raised
-        error = exc.exception
+        error = exc.value
         assert str(error) == "initial capital base must be greater than zero"
 
     def test_get_environment(self):
@@ -1876,11 +1876,11 @@ def handle_data(context, data):
         error
         """
         algo = self.make_algo(script=algo_text)
-        with self.assertRaises(TypeError) as cm:
+        with pytest.raises(TypeError) as cm:
             algo.run()
 
         assert "%s() got an unexpected keyword argument 'blahblah'" % name == \
-            cm.exception.args[0]
+            cm.value.args[0]
 
     @parameterized.expand(ARG_TYPE_TEST_CASES)
     def test_arg_types(self, name, inputs):
@@ -1888,7 +1888,7 @@ def handle_data(context, data):
         keyword = name.split("__")[1]
 
         algo = self.make_algo(script=inputs[0])
-        with self.assertRaises(TypeError) as cm:
+        with pytest.raises(TypeError) as cm:
             algo.run()
 
         expected = "Expected %s argument to be of type %s%s" % (
@@ -1897,7 +1897,7 @@ def handle_data(context, data):
             inputs[1],
         )
 
-        assert expected == cm.exception.args[0]
+        assert expected == cm.value.args[0]
 
     def test_empty_asset_list_to_history(self):
         params = SimulationParameters(
@@ -1929,12 +1929,12 @@ def handle_data(context, data):
     def test_get_open_orders_kwargs(self, name, script):
         algo = self.make_algo(script=script)
         if name == "bad_kwargs":
-            with self.assertRaises(TypeError) as cm:
+            with pytest.raises(TypeError) as cm:
                 algo.run()
                 assert "Keyword argument `sid` is no longer " \
                     "supported for get_open_orders. Use `asset` " \
                     "instead." == \
-                    cm.exception.args[0]
+                    cm.value.args[0]
         else:
             algo.run()
 
@@ -2760,7 +2760,7 @@ class TestTradingControls(zf.WithMakeAlgo, zf.ZiplineTestCase):
 
     def _check_algo(self, algo, expected_order_count, expected_exc):
 
-        with self.assertRaises(expected_exc) if expected_exc else nop_context:
+        with pytest.raises(expected_exc) if expected_exc else nop_context:
             algo.run()
         assert algo.order_count == expected_order_count
 
@@ -3284,7 +3284,7 @@ class TestAccountControls(zf.WithMakeAlgo, zf.ZiplineTestCase):
         yield cls.sidint, frame
 
     def _check_algo(self, algo, expected_exc):
-        with self.assertRaises(expected_exc) if expected_exc else nop_context:
+        with pytest.raises(expected_exc) if expected_exc else nop_context:
             algo.run()
 
     def check_algo_succeeds(self, algo):
