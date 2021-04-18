@@ -41,6 +41,7 @@ from zipline.protocol import BarData
 from zipline.testing import write_bcolz_minute_data
 import zipline.testing.fixtures as zf
 import zipline.utils.factory as factory
+import pytest
 
 DEFAULT_TIMEOUT = 15  # seconds
 EXTENDED_TIMEOUT = 90
@@ -328,11 +329,11 @@ class FinanceTestCase(zf.WithAssetFinder, zf.WithTradingCalendars, zf.ZiplineTes
 
             for i in range(order_count):
                 order = order_list[i]
-                self.assertEqual(order.asset, asset1)
-                self.assertEqual(order.amount, order_amount * alternator ** i)
+                assert order.asset == asset1
+                assert order.amount == order_amount * alternator ** i
 
             if complete_fill:
-                self.assertEqual(len(transactions), len(order_list))
+                assert len(transactions) == len(order_list)
 
             total_volume = 0
             for i in range(len(transactions)):
@@ -340,21 +341,22 @@ class FinanceTestCase(zf.WithAssetFinder, zf.WithTradingCalendars, zf.ZiplineTes
                 total_volume += txn.amount
                 if complete_fill:
                     order = order_list[i]
-                    self.assertEqual(order.amount, txn.amount)
+                    assert order.amount == txn.amount
 
-            self.assertEqual(total_volume, expected_txn_volume)
+            assert total_volume == expected_txn_volume
 
-            self.assertEqual(len(transactions), expected_txn_count)
+            assert len(transactions) == expected_txn_count
 
             if total_volume == 0:
-                self.assertRaises(KeyError, lambda: tracker.positions[asset1])
+                with pytest.raises(KeyError):
+                    tracker.positions[asset1]
             else:
                 cumulative_pos = tracker.positions[asset1]
-                self.assertEqual(total_volume, cumulative_pos.amount)
+                assert total_volume == cumulative_pos.amount
 
             # the open orders should not contain the asset.
             oo = blotter.open_orders
-            self.assertNotIn(asset1, oo, "Entry is removed when no open orders")
+            assert asset1 not in oo, "Entry is removed when no open orders"
 
     def test_blotter_processes_splits(self):
         blotter = SimulationBlotter(equity_slippage=FixedSlippage())
@@ -374,22 +376,22 @@ class FinanceTestCase(zf.WithAssetFinder, zf.WithTradingCalendars, zf.ZiplineTes
 
         for asset in [asset1, asset2]:
             order_lists = blotter.open_orders[asset]
-            self.assertIsNotNone(order_lists)
-            self.assertEqual(1, len(order_lists))
+            assert order_lists is not None
+            assert 1 == len(order_lists)
 
         asset1_order = blotter.open_orders[1][0]
         asset2_order = blotter.open_orders[2][0]
 
         # make sure the asset1 order didn't change
-        self.assertEqual(100, asset1_order.amount)
-        self.assertEqual(10, asset1_order.limit)
-        self.assertEqual(1, asset1_order.asset)
+        assert 100 == asset1_order.amount
+        assert 10 == asset1_order.limit
+        assert 1 == asset1_order.asset
 
         # make sure the asset2 order did change
         # to 300 shares at 3.33
-        self.assertEqual(300, asset2_order.amount)
-        self.assertEqual(3.33, asset2_order.limit)
-        self.assertEqual(2, asset2_order.asset)
+        assert 300 == asset2_order.amount
+        assert 3.33 == asset2_order.limit
+        assert 2 == asset2_order.asset
 
 
 class SimParamsTestCase(zf.WithTradingCalendars, zf.ZiplineTestCase):
@@ -405,8 +407,8 @@ class SimParamsTestCase(zf.WithTradingCalendars, zf.ZiplineTestCase):
             trading_calendar=self.trading_calendar,
         )
 
-        self.assertTrue(sp.last_close.month == 12)
-        self.assertTrue(sp.last_close.day == 31)
+        assert sp.last_close.month == 12
+        assert sp.last_close.day == 31
 
     @timed(DEFAULT_TIMEOUT)
     def test_sim_params_days_in_period(self):
@@ -439,5 +441,5 @@ class SimParamsTestCase(zf.WithTradingCalendars, zf.ZiplineTestCase):
         )
 
         num_expected_trading_days = 5
-        self.assertEqual(num_expected_trading_days, len(params.sessions))
+        assert num_expected_trading_days == len(params.sessions)
         np.testing.assert_array_equal(expected_trading_days, params.sessions.tolist())

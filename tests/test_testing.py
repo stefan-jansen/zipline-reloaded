@@ -59,7 +59,7 @@ class TestParameterSpace(TestCase):
         pass
 
 
-class TestMakeBooleanArray(TestCase):
+class TestMakeBooleanArray:
     def test_make_alternating_boolean_array(self):
         check_arrays(
             make_alternating_boolean_array((3, 3)),

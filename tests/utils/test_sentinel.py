@@ -1,18 +1,23 @@
 from copy import copy, deepcopy
 from pickle import loads, dumps
 import sys
-from unittest import TestCase
 from weakref import ref
 
 from zipline.utils.sentinel import sentinel
 
+import pytest
 
-class SentinelTestCase(TestCase):
-    def tearDown(self):
-        sentinel._cache.clear()  # don't pollute cache.
 
+@pytest.fixture(scope="function")
+def clear_cache():
+    yield None
+    sentinel._cache.clear()
+
+
+@pytest.mark.usefixtures("clear_cache")
+class TestSentinel:
     def test_name(self):
-        assert sentinel("a").__name__ ==  "a"
+        assert sentinel("a").__name__ == "a"
 
     def test_doc(self):
         assert sentinel("a", "b").__doc__ == "b"
@@ -22,12 +27,12 @@ class SentinelTestCase(TestCase):
         # the assignment of ``a``.
         line = sys._getframe().f_lineno
         a = sentinel("sentinel-name", "original-doc")
-        with self.assertRaises(ValueError) as e:
+        with pytest.raises(ValueError) as excinfo:
             sentinel(a.__name__, "new-doc")
 
-        msg = str(e.exception)
+        msg = str(excinfo.value)
         assert a.__name__ in msg
-        assert a.__doc__ in  msg
+        assert a.__doc__ in msg
         # strip the 'c' in case ``__file__`` is a .pyc and we are running this
         # test twice in the same process...
         assert "%s:%s" % (__file__.rstrip("c"), line + 1) in msg
@@ -47,7 +52,7 @@ class SentinelTestCase(TestCase):
         assert repr(sentinel("a")) == "sentinel('a')"
 
     def test_new(self):
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             type(sentinel("a"))()
 
     def test_pickle_roundtrip(self):

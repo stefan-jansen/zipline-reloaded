@@ -13,6 +13,7 @@ from zipline.utils.pandas_utils import (
     new_pandas,
     skip_pipeline_new_pandas,
 )
+import pytest
 
 
 class TestNearestUnequalElements(ZiplineTestCase):
@@ -43,7 +44,7 @@ class TestNearestUnequalElements(ZiplineTestCase):
         ):
             computed = nearest_unequal_elements(dts, t(dt))
             expected = (t(before), t(after))
-            self.assertEqual(computed, expected)
+            assert computed == expected
 
     @parameter_space(tz=["UTC", "US/Eastern"], __fail_fast=True)
     def test_nearest_unequal_elements_short_dts(self, tz):
@@ -61,7 +62,7 @@ class TestNearestUnequalElements(ZiplineTestCase):
         ):
             computed = nearest_unequal_elements(dts, t(dt))
             expected = (t(before), t(after))
-            self.assertEqual(computed, expected)
+            assert computed == expected
 
         # Length 0
         dts = pd.to_datetime([]).tz_localize(tz)
@@ -72,27 +73,25 @@ class TestNearestUnequalElements(ZiplineTestCase):
         ):
             computed = nearest_unequal_elements(dts, t(dt))
             expected = (t(before), t(after))
-            self.assertEqual(computed, expected)
+            assert computed == expected
 
     def test_nearest_unequal_bad_input(self):
-        with self.assertRaises(ValueError) as e:
+        with pytest.raises(ValueError) as excinfo:
             nearest_unequal_elements(
                 pd.to_datetime(["2014", "2014"]),
                 pd.Timestamp("2014"),
             )
 
-        self.assertEqual(str(e.exception), "dts must be unique")
+        assert str(excinfo.value) == "dts must be unique"
 
-        with self.assertRaises(ValueError) as e:
+        with pytest.raises(ValueError) as excinfo:
             nearest_unequal_elements(
                 pd.to_datetime(["2014", "2013"]),
                 pd.Timestamp("2014"),
             )
 
-        self.assertEqual(
-            str(e.exception),
-            "dts must be sorted in increasing order",
-        )
+        assert str(excinfo.value) == \
+            "dts must be sorted in increasing order"
 
 
 class TestCatDFConcat(ZiplineTestCase):
@@ -173,14 +172,10 @@ class TestCatDFConcat(ZiplineTestCase):
             ),
         ]
 
-        with self.assertRaises(ValueError) as cm:
+        with pytest.raises(ValueError) as excinfo:
             categorical_df_concat(mismatched_dtypes)
-        self.assertEqual(
-            str(cm.exception), "Input DataFrames must have the same columns/dtypes."
-        )
+        assert str(excinfo.value) == "Input DataFrames must have the same columns/dtypes."
 
-        with self.assertRaises(ValueError) as cm:
+        with pytest.raises(ValueError) as excinfo:
             categorical_df_concat(mismatched_column_names)
-        self.assertEqual(
-            str(cm.exception), "Input DataFrames must have the same columns/dtypes."
-        )
+        assert str(excinfo.value) == "Input DataFrames must have the same columns/dtypes."
