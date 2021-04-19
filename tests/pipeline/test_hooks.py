@@ -25,6 +25,7 @@ from zipline.testing.fixtures import (
 )
 from zipline.testing.predicates import instance_of
 from numpy.testing import assert_almost_equal
+import pytest
 
 
 class TrivialFactor(CustomFactor):
@@ -130,10 +131,8 @@ class HooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
         """Verify a trace of a Pipeline execution."""
         # First/last calls should bracket the pipeline execution.
         self.expect_context_pair(trace[0], trace[-1], "running_pipeline")
-        self.assertEqual(
-            trace[0].args,
-            (pipeline, pipeline_start_date, pipeline_end_date),
-        )
+        assert trace[0].args == \
+            (pipeline, pipeline_start_date, pipeline_end_date)
 
         # Break up the trace into the traces of each chunk.
         chunk_traces = self.split_by_chunk(trace[1:-1])
@@ -141,8 +140,8 @@ class HooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
         for ctrace, (chunk_start, chunk_end) in zip(chunk_traces, expected_chunks):
             # Next call should bracket compute_chunk
             self.expect_context_pair(ctrace[0], ctrace[-1], "computing_chunk")
-            self.assertIsInstance(ctrace[0].args[0], list)  # terms
-            self.assertEqual(ctrace[0].args[1:], (chunk_start, chunk_end))
+            assert isinstance(ctrace[0].args[0], list)  # terms
+            assert ctrace[0].args[1:] == (chunk_start, chunk_end)
 
             # Remainder of calls should be loads and computes. These have to
             # happen in dependency order, but we don't bother to assert that
@@ -157,18 +156,18 @@ class HooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
                 if enter.method_name == "loading_terms":
                     for loaded_term in enter.args[0]:
                         # We should only see each term once.
-                        self.assertNotIn(loaded_term, loads)
+                        assert loaded_term not in loads
                         # Don't worry about domains here.
                         loads.add(loaded_term.unspecialize())
                 elif enter.method_name == "computing_term":
                     computed_term = enter.args[0]
-                    self.assertNotIn(computed_term, computes)
+                    assert computed_term not in computes
                     computes.add(computed_term)
                 else:
                     raise ValueError("Unexpected method: {}".format(enter.method_name))
 
-            self.assertEqual(loads, expected_loads)
-            self.assertEqual(computes, expected_computes)
+            assert loads == expected_loads
+            assert computes == expected_computes
 
     def split_by_chunk(self, trace):
         """
@@ -187,17 +186,17 @@ class HooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
                 to_yield = []
 
         # Make sure all calls were part of a chunk.
-        self.assertEqual(to_yield, [])
+        assert to_yield == []
 
     def expect_context_pair(self, enter, exit_, method):
-        self.assertEqual(enter.state, "enter")
-        self.assertEqual(exit_.state, "exit")
+        assert enter.state == "enter"
+        assert exit_.state == "exit"
 
         if method is None:
             # Just assert that the methods match.
-            self.assertIs(enter.call, exit_.call)
+            assert enter.call is exit_.call
         else:
-            self.assertEqual(enter.call.method_name, method)
+            assert enter.call.method_name == method
 
 
 class ShouldGetSkipped(DataSet):
@@ -281,10 +280,10 @@ class ProgressHooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
         ]
 
         # First chunk should get prepopulated term in initial workspace.
-        self.assertLess(expected_chunks[0][1], self.PREPOPULATED_TERM_CUTOFF)
+        assert expected_chunks[0][1] < self.PREPOPULATED_TERM_CUTOFF
 
         # Second chunk should have to compute PREPOPULATED_TERM explicitly.
-        self.assertLess(expected_chunks[0][1], self.PREPOPULATED_TERM_CUTOFF)
+        assert expected_chunks[0][1] < self.PREPOPULATED_TERM_CUTOFF
 
         self.run_chunked_pipeline(
             pipeline=pipeline,
@@ -338,10 +337,8 @@ class ProgressHooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
         # Percent complete should be monotonically increasing through the whole
         # execution.
         for before, after in toolz.sliding_window(2, trace):
-            self.assertGreaterEqual(
-                after.percent_complete,
-                before.percent_complete,
-            )
+            assert after.percent_complete >= \
+                before.percent_complete
 
         # First publish should come from the start of the first chunk, with no
         # work yet.
@@ -353,7 +350,7 @@ class ProgressHooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
             current_chunk_bounds=expected_chunks[0],
             current_work=None,
         )
-        self.assertEqual(first, expected_first)
+        assert first == expected_first
 
         # Last publish should have a state of success and be 100% complete.
         last = trace[-1]
@@ -371,25 +368,25 @@ class ProgressHooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
             # empty pipeline, the final work will be None.
             current_work=None if empty else [instance_of(ComputableTerm)],
         )
-        self.assertEqual(last, expected_last)
+        assert last == expected_last
 
         # Remaining updates should all be loads or computes.
         middle = trace[1:-1]
         for update in middle:
             # For empty pipelines we never leave the 'init' state.
             if empty:
-                self.assertEqual(update.state, "init")
-                self.assertIs(update.current_work, None)
+                assert update.state == "init"
+                assert update.current_work is None
                 continue
 
             if update.state in ("loading", "computing"):
-                self.assertIsInstance(update.current_work, list)
+                assert isinstance(update.current_work, list)
             if update.state == "loading":
                 for term in update.current_work:
-                    self.assertIsInstance(term, (LoadableTerm, AssetExists))
+                    assert isinstance(term, (LoadableTerm, AssetExists))
             elif update.state == "computing":
                 for term in update.current_work:
-                    self.assertIsInstance(term, ComputableTerm)
+                    assert isinstance(term, ComputableTerm)
             else:
                 raise AssertionError(
                     "Unexpected state: {}".format(update.state),
@@ -413,7 +410,7 @@ class ProgressHooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
                 expected_end_progress,
             )
 
-        self.assertEqual(all_chunks, expected_chunks)
+        assert all_chunks == expected_chunks
 
     @parameter_space(chunked=[True, False])
     def test_error_handling(self, chunked):
@@ -433,7 +430,7 @@ class ProgressHooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
         pipeline = Pipeline({"boom": ExplodingFactor()}, domain=US_EQUITIES)
         start_date, end_date = self.trading_days[[-10, -1]]
 
-        with self.assertRaises(SomeError):
+        with pytest.raises(SomeError):
             if chunked:
                 self.run_chunked_pipeline(
                     pipeline=pipeline,
@@ -451,7 +448,7 @@ class ProgressHooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
                 )
 
         final_update = publisher.trace[-1]
-        self.assertEqual(final_update.state, "error")
+        assert final_update.state == "error"
 
     def expected_chunk_progress(self, pipeline_start, pipeline_end, chunk_end):
         """Get expected progress after finishing a chunk ending at ``chunk_end``."""
@@ -467,10 +464,8 @@ class TermReprTestCase(ZiplineTestCase):
             inputs = [TestingDataSet.float_col]
             window_length = 3
 
-        self.assertEqual(
-            repr_htmlsafe(MyFactor()),
-            repr(MyFactor()),
-        )
+        assert repr_htmlsafe(MyFactor()) == \
+            repr(MyFactor())
 
     def test_htmlsafe_repr_escapes_html(self):
         class MyFactor(CustomFactor):
@@ -480,10 +475,8 @@ class TermReprTestCase(ZiplineTestCase):
             def __repr__(self):
                 return "<b>foo</b>"
 
-        self.assertEqual(
-            repr_htmlsafe(MyFactor()),
-            "<b>foo</b>".replace("<", "&lt;").replace(">", "&gt;"),
-        )
+        assert repr_htmlsafe(MyFactor()) == \
+            "<b>foo</b>".replace("<", "&lt;").replace(">", "&gt;")
 
     def test_htmlsafe_repr_handles_errors(self):
         class MyFactor(CustomFactor):
@@ -493,10 +486,8 @@ class TermReprTestCase(ZiplineTestCase):
             def __repr__(self):
                 raise ValueError("Kaboom!")
 
-        self.assertEqual(
-            repr_htmlsafe(MyFactor()),
-            "(Error Displaying MyFactor)",
-        )
+        assert repr_htmlsafe(MyFactor()) == \
+            "(Error Displaying MyFactor)"
 
     def test_htmlsafe_repr_escapes_html_when_it_handles_errors(self):
         class MyFactor(CustomFactor):
@@ -509,10 +500,8 @@ class TermReprTestCase(ZiplineTestCase):
         MyFactor.__name__ = "<b>foo</b>"
         converted = MyFactor.__name__.replace("<", "&lt;").replace(">", "&gt;")
 
-        self.assertEqual(
-            repr_htmlsafe(MyFactor()),
-            "(Error Displaying {})".format(converted),
-        )
+        assert repr_htmlsafe(MyFactor()) == \
+            "(Error Displaying {})".format(converted)
 
 
 def two_at_a_time(it):

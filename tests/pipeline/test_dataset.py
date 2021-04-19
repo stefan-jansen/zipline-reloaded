@@ -5,6 +5,7 @@ from textwrap import dedent
 from zipline.pipeline.data.dataset import Column, DataSet
 from zipline.testing import chrange, ZiplineTestCase
 from zipline.testing.predicates import assert_messages_equal
+import pytest
 
 
 class SomeDataSet(DataSet):
@@ -28,15 +29,15 @@ class GetColumnTestCase(ZiplineTestCase):
 
         # Run multiple times to validate caching of descriptor return values.
         for _ in range(3):
-            self.assertIs(SomeDataSet.get_column("a"), a)
-            self.assertIs(SomeDataSet.get_column("b"), b)
-            self.assertIs(SomeDataSet.get_column("c"), c)
+            assert SomeDataSet.get_column("a") is a
+            assert SomeDataSet.get_column("b") is b
+            assert SomeDataSet.get_column("c") is c
 
     def test_get_column_failure(self):
-        with self.assertRaises(AttributeError) as e:
+        with pytest.raises(AttributeError) as excinfo:
             SomeDataSet.get_column("arglebargle")
 
-        result = str(e.exception)
+        result = str(excinfo.value)
         expected = dedent(
             """\
             SomeDataSet has no column 'arglebargle':
@@ -50,12 +51,12 @@ class GetColumnTestCase(ZiplineTestCase):
 
     def test_get_column_failure_but_attribute_exists(self):
         attr = "exists_but_not_a_column"
-        self.assertTrue(hasattr(SomeDataSet, attr))
+        assert hasattr(SomeDataSet, attr)
 
-        with self.assertRaises(AttributeError) as e:
+        with pytest.raises(AttributeError) as excinfo:
             SomeDataSet.get_column(attr)
 
-        result = str(e.exception)
+        result = str(excinfo.value)
         expected = dedent(
             """\
             SomeDataSet has no column 'exists_but_not_a_column':
@@ -68,10 +69,10 @@ class GetColumnTestCase(ZiplineTestCase):
         assert_messages_equal(result, expected)
 
     def test_get_column_failure_truncate_error_message(self):
-        with self.assertRaises(AttributeError) as e:
+        with pytest.raises(AttributeError) as excinfo:
             LargeDataSet.get_column("arglebargle")
 
-        result = str(e.exception)
+        result = str(excinfo.value)
         expected = dedent(
             """\
             LargeDataSet has no column 'arglebargle':
@@ -94,4 +95,4 @@ class GetColumnTestCase(ZiplineTestCase):
 
 class ReprTestCase(ZiplineTestCase):
     def test_dataset_repr(self):
-        self.assertEqual(repr(SomeDataSet), "<DataSet: 'SomeDataSet', domain=GENERIC>")
+        assert repr(SomeDataSet) == "<DataSet: 'SomeDataSet', domain=GENERIC>"

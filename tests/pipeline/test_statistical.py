@@ -56,6 +56,8 @@ from zipline.utils.numpy_utils import (
     datetime64ns_dtype,
     float64_dtype,
 )
+import pytest
+import re
 
 
 class StatisticalBuiltInsTestCase(
@@ -349,7 +351,7 @@ class StatisticalBuiltInsTestCase(
                 regression_length=100,
                 allowed_missing_percentage=percentage,
             )
-            self.assertEqual(beta.params["allowed_missing_count"], expected)
+            assert beta.params["allowed_missing_count"] == expected
 
     def test_correlation_and_regression_with_bad_asset(self):
         """
@@ -389,19 +391,19 @@ class StatisticalBuiltInsTestCase(
                 mask=mask,
             )
 
-            with self.assertRaises(NonExistentAssetInTimeFrame):
+            with pytest.raises(NonExistentAssetInTimeFrame):
                 run_pipeline(
                     Pipeline(columns={"pearson_factor": pearson_factor}),
                     start_date,
                     end_date,
                 )
-            with self.assertRaises(NonExistentAssetInTimeFrame):
+            with pytest.raises(NonExistentAssetInTimeFrame):
                 run_pipeline(
                     Pipeline(columns={"spearman_factor": spearman_factor}),
                     start_date,
                     end_date,
                 )
-            with self.assertRaises(NonExistentAssetInTimeFrame):
+            with pytest.raises(NonExistentAssetInTimeFrame):
                 run_pipeline(
                     Pipeline(columns={"regression_factor": regression_factor}),
                     start_date,
@@ -414,21 +416,21 @@ class StatisticalBuiltInsTestCase(
             exchange_info=ExchangeInfo("TEST", "TEST FULL", "US"),
         )
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             RollingPearsonOfReturns(
                 target=my_asset,
                 returns_length=3,
                 correlation_length=1,
             )
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             RollingSpearmanOfReturns(
                 target=my_asset,
                 returns_length=3,
                 correlation_length=1,
             )
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             RollingLinearRegressionOfReturns(
                 target=my_asset,
                 returns_length=3,
@@ -436,45 +438,45 @@ class StatisticalBuiltInsTestCase(
             )
 
     def test_simple_beta_input_validation(self):
-        with self.assertRaises(TypeError) as e:
+        with pytest.raises(TypeError) as excinfo:
             SimpleBeta(
                 target="SPY",
                 regression_length=100,
                 allowed_missing_percentage=0.5,
             )
-        result = str(e.exception)
+        result = str(excinfo.value)
         expected = (
             r"SimpleBeta\(\) expected a value of type"
             " .*Asset for argument 'target',"
             " but got str instead."
         )
-        self.assertRegex(result, expected)
+        assert re.search(expected, result)
 
-        with self.assertRaises(ValueError) as e:
+        with pytest.raises(ValueError) as excinfo:
             SimpleBeta(
                 target=self.my_asset,
                 regression_length=1,
                 allowed_missing_percentage=0.5,
             )
-        result = str(e.exception)
+        result = str(excinfo.value)
         expected = (
             "SimpleBeta() expected a value greater than or equal to 3"
             " for argument 'regression_length', but got 1 instead."
         )
-        self.assertEqual(result, expected)
+        assert result == expected
 
-        with self.assertRaises(ValueError) as e:
+        with pytest.raises(ValueError) as excinfo:
             SimpleBeta(
                 target=self.my_asset,
                 regression_length=100,
                 allowed_missing_percentage=50,
             )
-        result = str(e.exception)
+        result = str(excinfo.value)
         expected = (
             "SimpleBeta() expected a value inclusively between 0.0 and 1.0 "
             "for argument 'allowed_missing_percentage', but got 50 instead."
         )
-        self.assertEqual(result, expected)
+        assert result == expected
 
     def test_simple_beta_target(self):
         beta = SimpleBeta(
@@ -482,7 +484,7 @@ class StatisticalBuiltInsTestCase(
             regression_length=50,
             allowed_missing_percentage=0.5,
         )
-        self.assertIs(beta.target, self.my_asset)
+        assert beta.target is self.my_asset
 
     def test_simple_beta_repr(self):
         beta = SimpleBeta(
@@ -494,7 +496,7 @@ class StatisticalBuiltInsTestCase(
         expected = "SimpleBeta({}, length=50, allowed_missing=25)".format(
             self.my_asset,
         )
-        self.assertEqual(result, expected)
+        assert result == expected
 
     def test_simple_beta_graph_repr(self):
         beta = SimpleBeta(
@@ -504,7 +506,7 @@ class StatisticalBuiltInsTestCase(
         )
         result = beta.graph_repr()
         expected = "SimpleBeta('A', 50, 25)".format(self.my_asset)
-        self.assertEqual(result, expected)
+        assert result == expected
 
 
 class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTestCase):
@@ -633,22 +635,22 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         bad_type_factor = BadTypeFactor()
         bad_type_factor_slice = bad_type_factor[self.my_asset]
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             bad_type_factor.pearsonr(
                 target=returns_slice,
                 correlation_length=correlation_length,
             )
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             bad_type_factor.spearmanr(
                 target=returns_slice,
                 correlation_length=correlation_length,
             )
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             returns.pearsonr(
                 target=bad_type_factor_slice,
                 correlation_length=correlation_length,
             )
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             returns.spearmanr(
                 target=bad_type_factor_slice,
                 correlation_length=correlation_length,
@@ -720,12 +722,12 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         bad_type_factor = BadTypeFactor()
         bad_type_factor_slice = bad_type_factor[self.my_asset]
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             bad_type_factor.linear_regression(
                 target=returns_slice,
                 regression_length=regression_length,
             )
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             returns.linear_regression(
                 target=bad_type_factor_slice,
                 regression_length=regression_length,
@@ -758,12 +760,12 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
             inputs=[self.col],
             mask=AssetID().eq(2),
         )
-        with self.assertRaises(IncompatibleTerms):
+        with pytest.raises(IncompatibleTerms):
             returns_masked_1.pearsonr(
                 target=returns_masked_2,
                 correlation_length=correlation_length,
             )
-        with self.assertRaises(IncompatibleTerms):
+        with pytest.raises(IncompatibleTerms):
             returns_masked_1.spearmanr(
                 target=returns_masked_2,
                 correlation_length=correlation_length,
@@ -868,7 +870,7 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
             inputs=[self.col],
             mask=AssetID().eq(2),
         )
-        with self.assertRaises(IncompatibleTerms):
+        with pytest.raises(IncompatibleTerms):
             returns_masked_1.linear_regression(
                 target=returns_masked_2,
                 regression_length=regression_length,
@@ -965,7 +967,7 @@ class VectorizedBetaTestCase(zf.ZiplineTestCase):
         dependents = 1.0 + true_betas * independent + noise
 
         result = self.compare_with_empyrical(dependents, independent)
-        self.assertTrue((np.abs(result - true_betas) < 0.01).all())
+        assert (np.abs(result - true_betas) < 0.01).all()
 
     @parameter_space(
         seed=[1, 2],
@@ -987,13 +989,13 @@ class VectorizedBetaTestCase(zf.ZiplineTestCase):
 
         # Sanity check that we actually inserted some nans.
         # self.assertTrue(np.count_nonzero(np.isnan(dependents)) > 0)
-        self.assertTrue(np.count_nonzero(np.isnan(independent)) > 0)
+        assert np.count_nonzero(np.isnan(independent)) > 0
 
         result = self.compare_with_empyrical(dependents, independent)
 
         # compare_with_empyrical uses requred_observations=0, so we shouldn't
         # have any nans in the output even though we had some in the input.
-        self.assertTrue(not np.isnan(result).any())
+        assert not np.isnan(result).any()
 
     @parameter_space(nan_offset=[-1, 0, 1])
     def test_produce_nans_when_too_much_missing_data(self, nan_offset):
@@ -1028,9 +1030,9 @@ class VectorizedBetaTestCase(zf.ZiplineTestCase):
                 expect_nan = num_nans[i] > allowed_missing
                 true_beta = true_betas[i]
                 if expect_nan:
-                    self.assertTrue(np.isnan(result))
+                    assert np.isnan(result)
                 else:
-                    self.assertTrue(np.abs(result - true_beta) < 0.01)
+                    assert np.abs(result - true_beta) < 0.01
 
     def test_allowed_missing_doesnt_double_count(self):
         # Test that allowed_missing only counts a row as missing one
@@ -1084,7 +1086,7 @@ class VectorizedBetaTestCase(zf.ZiplineTestCase):
 class VectorizedCorrelationTestCase(zf.ZiplineTestCase):
     def naive_columnwise_func(self, func, left, right):
         out = np.empty_like(left[0])
-        self.assertEqual(left.shape, right.shape)
+        assert left.shape == right.shape
 
         for col in range(left.shape[1]):
             left_col = left[:, col]
@@ -1141,7 +1143,7 @@ class VectorizedCorrelationTestCase(zf.ZiplineTestCase):
             for i, result in enumerate(results):
                 # column i has i + 1 missing values.
                 if i + 1 > allowed_missing:
-                    self.assertTrue(np.isnan(result))
+                    assert np.isnan(result)
                 else:
                     assert_equal(result, expected[i])
 

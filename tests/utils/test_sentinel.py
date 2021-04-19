@@ -10,7 +10,7 @@ import pytest
 
 @pytest.fixture(scope="function")
 def clear_cache():
-    yield None
+    yield
     sentinel._cache.clear()
 
 

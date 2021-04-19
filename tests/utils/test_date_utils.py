@@ -1,16 +1,17 @@
-from pandas import Timestamp
+import pandas as pd
 from parameterized import parameterized
 from trading_calendars import get_calendar
 
 from zipline.testing import ZiplineTestCase
 from zipline.utils.date_utils import compute_date_range_chunks
+import pytest
 
 
 def T(s):
     """
     Helpful function to improve readibility.
     """
-    return Timestamp(s, tz="UTC")
+    return pd.Timestamp(s, tz="UTC")
 
 
 class TestDateUtils(ZiplineTestCase):
@@ -47,39 +48,33 @@ class TestDateUtils(ZiplineTestCase):
             self.calendar.all_sessions, start_date, end_date, chunksize
         )
 
-        self.assertListEqual(list(date_ranges), expected)
+        assert list(date_ranges) == expected
 
     def test_compute_date_range_chunks_invalid_input(self):
         # Start date not found in calendar
-        with self.assertRaises(KeyError) as cm:
+        with pytest.raises(KeyError) as excinfo:
             compute_date_range_chunks(
                 self.calendar.all_sessions,
                 T("2017-05-07"),  # Sunday
                 T("2017-06-01"),
                 None,
             )
-        self.assertEqual(
-            str(cm.exception), "'Start date 2017-05-07 is not found in calendar.'"
-        )
+        assert str(excinfo.value) == "'Start date 2017-05-07 is not found in calendar.'"
 
         # End date not found in calendar
-        with self.assertRaises(KeyError) as cm:
+        with pytest.raises(KeyError) as excinfo:
             compute_date_range_chunks(
                 self.calendar.all_sessions,
                 T("2017-05-01"),
                 T("2017-05-27"),  # Saturday
                 None,
             )
-        self.assertEqual(
-            str(cm.exception), "'End date 2017-05-27 is not found in calendar.'"
-        )
+        assert str(excinfo.value) == "'End date 2017-05-27 is not found in calendar.'"
 
         # End date before start date
-        with self.assertRaises(ValueError) as cm:
+        with pytest.raises(ValueError) as excinfo:
             compute_date_range_chunks(
                 self.calendar.all_sessions, T("2017-06-01"), T("2017-05-01"), None
             )
-        self.assertEqual(
-            str(cm.exception),
-            "End date 2017-05-01 cannot precede start date 2017-06-01.",
-        )
+        assert str(excinfo.value) == \
+            "End date 2017-05-01 cannot precede start date 2017-06-01."

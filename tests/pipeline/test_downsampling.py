@@ -32,6 +32,7 @@ from zipline.testing.fixtures import (
 from zipline.utils.classproperty import classproperty
 from zipline.utils.input_validation import _qualified_name
 from zipline.utils.numpy_utils import int64_dtype
+import pytest
 
 
 class NDaysAgoFactor(CustomFactor):
@@ -195,9 +196,7 @@ class ComputeExtraRowsTestCase(WithTradingSessions, ZiplineTestCase):
         # land prior to the first date of 2012. The downsampled terms will fail
         # to request enough extra rows.
         for i in range(0, 30, 5):
-            with self.assertRaisesRegex(
-                NoFurtherDataError, r"\s*Insufficient data to compute Pipeline"
-            ):
+            with pytest.raises(NoFurtherDataError, match=r"\s*Insufficient data to compute Pipeline"):
                 self.check_extra_row_calculations(
                     downsampled_terms,
                     all_sessions,
@@ -568,15 +567,13 @@ class ComputeExtraRowsTestCase(WithTradingSessions, ZiplineTestCase):
                 end_session,
                 min_extra_rows,
             )
-            self.assertEqual(
-                result,
-                expected_extra_rows,
+            assert result == \
+                expected_extra_rows, \
                 "Expected {} extra_rows from {}, but got {}.".format(
                     expected_extra_rows,
                     term,
                     result,
-                ),
-            )
+                )
 
 
 class DownsampledPipelineTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
@@ -717,7 +714,7 @@ class DownsampledPipelineTestCase(WithSeededRandomPipelineEngine, ZiplineTestCas
     def test_errors_on_bad_downsample_frequency(self):
 
         f = NDaysAgoFactor(window_length=3)
-        with self.assertRaises(ValueError) as e:
+        with pytest.raises(ValueError) as excinfo:
             f.downsample("bad")
 
         expected = (
@@ -725,7 +722,7 @@ class DownsampledPipelineTestCase(WithSeededRandomPipelineEngine, ZiplineTestCas
             "('month_start', 'quarter_start', 'week_start', 'year_start') "
             "for argument 'frequency', but got 'bad' instead."
         ).format(_qualified_name(f.downsample))
-        self.assertEqual(str(e.exception), expected)
+        assert str(excinfo.value) == expected
 
 
 class DownsampledGBPipelineTestCase(DownsampledPipelineTestCase):

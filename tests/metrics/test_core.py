@@ -1,12 +1,7 @@
 from zipline.finance.metrics.core import _make_metrics_set_core
 from zipline.testing.fixtures import ZiplineTestCase
-from zipline.testing.predicates import assert_raises_str
+from zipline.testing.predicates import assert_equal, assert_raises_str
 from zipline.utils.compat import mappingproxy
-from zipline.testing.predicates import (
-    assert_equal,
-    # assert_is,
-    # assert_raises_str,
-)
 
 
 class MetricsSetCoreTestCase(ZiplineTestCase):
@@ -21,7 +16,7 @@ class MetricsSetCoreTestCase(ZiplineTestCase):
         ) = _make_metrics_set_core()
 
         # make sure this starts empty
-        assert self.metrics_sets == mappingproxy({})
+        assert_equal(self.metrics_sets, mappingproxy({}) )
 
     def test_load_not_registered(self):
         msg = "no metrics set registered as 'ayy-lmao', options are: []"

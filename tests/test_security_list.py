@@ -17,6 +17,7 @@ from zipline.utils.security_list import (
     SecurityListSet,
     load_from_directory,
 )
+import pytest
 
 LEVERAGED_ETFS = load_from_directory("leveraged_etf_list")
 
@@ -122,10 +123,10 @@ class SecurityListTestCase(WithMakeAlgo, ZiplineTestCase):
             ]
         ]
         for sid in should_exist:
-            self.assertIn(sid,
+            assert sid in \
                           rl.leveraged_etf_list.current_securities(
                               get_datetime()
-                          ))
+                          )
 
         # assert that a sample of allowed stocks are not in restricted
         shouldnt_exist = [
@@ -138,9 +139,7 @@ class SecurityListTestCase(WithMakeAlgo, ZiplineTestCase):
             ]
         ]
         for sid in shouldnt_exist:
-            self.assertNotIn(
-                sid, rl.leveraged_etf_list.current_securities(get_datetime())
-            )
+            assert sid not in rl.leveraged_etf_list.current_securities(get_datetime())
 
     def test_security_add(self):
         def get_datetime():
@@ -159,11 +158,9 @@ class SecurityListTestCase(WithMakeAlgo, ZiplineTestCase):
                 ]
             ]
             for sid in should_exist:
-                self.assertIn(
-                    sid, rl.leveraged_etf_list.current_securities(
+                assert sid in rl.leveraged_etf_list.current_securities(
                         get_datetime()
                     )
-                )
 
     def test_security_add_delete(self):
         with security_list_copy():
@@ -171,14 +168,10 @@ class SecurityListTestCase(WithMakeAlgo, ZiplineTestCase):
                 return pd.Timestamp("2015-01-27", tz="UTC")
 
             rl = SecurityListSet(get_datetime, self.asset_finder)
-            self.assertNotIn(
-                "BZQ",
+            assert "BZQ" not in \
                 rl.leveraged_etf_list.current_securities(get_datetime())
-            )
-            self.assertNotIn(
-                "URTY",
+            assert "URTY" not in \
                 rl.leveraged_etf_list.current_securities(get_datetime())
-            )
 
     def test_algo_without_rl_violation_via_check(self):
         self.run_algorithm(algo_class=RestrictedAlgoWithCheck, symbol="BZQ")
@@ -200,7 +193,7 @@ class SecurityListTestCase(WithMakeAlgo, ZiplineTestCase):
     )
     def test_algo_with_rl_violation(self, name, algo_class):
         algo = self.make_algo(algo_class=algo_class, symbol="BZQ")
-        with self.assertRaises(TradingControlViolation) as ctx:
+        with pytest.raises(TradingControlViolation) as ctx:
             algo.run()
 
         self.check_algo_exception(algo, ctx, 0)
@@ -211,7 +204,7 @@ class SecurityListTestCase(WithMakeAlgo, ZiplineTestCase):
             symbol="JFT",
         )
 
-        with self.assertRaises(TradingControlViolation) as ctx:
+        with pytest.raises(TradingControlViolation) as ctx:
             algo.run()
 
         self.check_algo_exception(algo, ctx, 0)
@@ -228,7 +221,7 @@ class SecurityListTestCase(WithMakeAlgo, ZiplineTestCase):
             ),
         )
 
-        with self.assertRaises(TradingControlViolation) as ctx:
+        with pytest.raises(TradingControlViolation) as ctx:
             algo.run()
 
         self.check_algo_exception(algo, ctx, 0)
@@ -250,7 +243,7 @@ class SecurityListTestCase(WithMakeAlgo, ZiplineTestCase):
                 symbol="BZQ",
                 sim_params=sim_params,
             )
-            with self.assertRaises(TradingControlViolation) as ctx:
+            with pytest.raises(TradingControlViolation) as ctx:
                 algo.run()
 
             self.check_algo_exception(algo, ctx, 0)
@@ -286,14 +279,13 @@ class SecurityListTestCase(WithMakeAlgo, ZiplineTestCase):
                 symbol="AAPL",
                 sim_params=sim_params,
             )
-            with self.assertRaises(TradingControlViolation) as ctx:
+            with pytest.raises(TradingControlViolation) as ctx:
                 algo.run()
 
             self.check_algo_exception(algo, ctx, 2)
 
     def check_algo_exception(self, algo, ctx, expected_order_count):
-        self.assertEqual(algo.order_count, expected_order_count)
-        exc = ctx.exception
-        self.assertEqual(TradingControlViolation, type(exc))
-        exc_msg = str(ctx.exception)
+        assert algo.order_count == expected_order_count
+        assert TradingControlViolation == ctx.type
+        exc_msg = str(ctx.value)
         assert "RestrictedListOrder" in exc_msg

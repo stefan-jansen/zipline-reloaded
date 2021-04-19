@@ -28,7 +28,7 @@ class DtypeTestCase(ZiplineTestCase):
                 dtype = dtype_
 
             # construct an instance to make sure the valid dtype checks out
-            self.assertEqual(Correct().dtype, dtype_)
+            assert Correct().dtype, dtype_
 
         return test
 
