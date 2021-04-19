@@ -15,6 +15,7 @@
 from datetime import timedelta
 import os
 import numpy as np
+from numpy import nan
 import pandas as pd
 from numpy.testing import assert_almost_equal, assert_array_equal
 
@@ -298,19 +299,19 @@ class BcolzMinuteBarTestCase(
 
         open_price = self.reader.get_value(sid, minute, "open")
 
-        assert_almost_equal(np.nan, open_price)
+        assert_almost_equal(nan, open_price)
 
         high_price = self.reader.get_value(sid, minute, "high")
 
-        assert_almost_equal(np.nan, high_price)
+        assert_almost_equal(nan, high_price)
 
         low_price = self.reader.get_value(sid, minute, "low")
 
-        assert_almost_equal(np.nan, low_price)
+        assert_almost_equal(nan, low_price)
 
         close_price = self.reader.get_value(sid, minute, "close")
 
-        assert_almost_equal(np.nan, close_price)
+        assert_almost_equal(nan, close_price)
 
         volume_price = self.reader.get_value(sid, minute, "volume")
 
@@ -481,7 +482,7 @@ class BcolzMinuteBarTestCase(
 
         # The second minute should have been padded with zeros
         for col in ("open", "high", "low", "close"):
-            assert_almost_equal(np.nan, reader.get_value(sid, second_minute, col))
+            assert_almost_equal(nan, reader.get_value(sid, second_minute, col))
         assert 0 == reader.get_value(sid, second_minute, "volume")
 
         # The next day minute should have data.
@@ -652,10 +653,10 @@ class BcolzMinuteBarTestCase(
         minutes = pd.date_range(minute, periods=9, freq="min")
         data = pd.DataFrame(
             data={
-                "open": np.full(9, np.nan),
-                "high": np.full(9, np.nan),
-                "low": np.full(9, np.nan),
-                "close": np.full(9, np.nan),
+                "open": np.full(9, nan),
+                "high": np.full(9, nan),
+                "low": np.full(9, nan),
+                "close": np.full(9, nan),
                 "volume": np.full(9, 0.0),
             },
             index=minutes,
@@ -678,7 +679,7 @@ class BcolzMinuteBarTestCase(
 
         for i, field in enumerate(fields):
             if field != "volume":
-                assert_array_equal(np.full(9, np.nan), ohlcv_window[i][0])
+                assert_array_equal(np.full(9, nan), ohlcv_window[i][0])
             else:
                 assert_array_equal(np.zeros(9), ohlcv_window[i][0])
 
@@ -734,7 +735,7 @@ class BcolzMinuteBarTestCase(
 
         for i, field in enumerate(fields):
             if field != "volume":
-                assert_array_equal(np.full(9, np.nan), ohlcv_window[i][0])
+                assert_array_equal(np.full(9, nan), ohlcv_window[i][0])
             else:
                 assert_array_equal(np.zeros(9), ohlcv_window[i][0])
 
@@ -820,10 +821,10 @@ class BcolzMinuteBarTestCase(
         sids = [1, 2]
         data_1 = pd.DataFrame(
             data={
-                "open": [15.0, np.nan, 15.1],
-                "high": [17.0, np.nan, 17.1],
-                "low": [11.0, np.nan, 11.1],
-                "close": [14.0, np.nan, 14.1],
+                "open": [15.0, nan, 15.1],
+                "high": [17.0, nan, 17.1],
+                "low": [11.0, nan, 11.1],
+                "close": [14.0, nan, 14.1],
                 "volume": [1000, 0, 1001],
             },
             index=minutes,
@@ -832,10 +833,10 @@ class BcolzMinuteBarTestCase(
 
         data_2 = pd.DataFrame(
             data={
-                "open": [25.0, np.nan, 25.1],
-                "high": [27.0, np.nan, 27.1],
-                "low": [21.0, np.nan, 21.1],
-                "close": [24.0, np.nan, 24.1],
+                "open": [25.0, nan, 25.1],
+                "high": [27.0, nan, 27.1],
+                "low": [21.0, nan, 21.1],
+                "close": [24.0, nan, 24.1],
                 "volume": [2000, 0, 2001],
             },
             index=minutes,
@@ -1161,10 +1162,10 @@ class BcolzMinuteBarTestCase(
         sid = 1
         data = pd.DataFrame(
             data={
-                "open": [10.0, 11.0, np.nan],
-                "high": [20.0, 21.0, np.nan],
-                "low": [30.0, 31.0, np.nan],
-                "close": [40.0, 41.0, np.nan],
+                "open": [10.0, 11.0, nan],
+                "high": [20.0, 21.0, nan],
+                "low": [30.0, 31.0, nan],
+                "close": [40.0, 41.0, nan],
                 "volume": [50, 51, 0],
             },
             index=minutes,
@@ -1173,19 +1174,19 @@ class BcolzMinuteBarTestCase(
 
         open_price = self.reader.get_value(sid, minute, "open")
 
-        assert_almost_equal(np.nan, open_price)
+        assert_almost_equal(nan, open_price)
 
         high_price = self.reader.get_value(sid, minute, "high")
 
-        assert_almost_equal(np.nan, high_price)
+        assert_almost_equal(nan, high_price)
 
         low_price = self.reader.get_value(sid, minute, "low")
 
-        assert_almost_equal(np.nan, low_price)
+        assert_almost_equal(nan, low_price)
 
         close_price = self.reader.get_value(sid, minute, "close")
 
-        assert_almost_equal(np.nan, close_price)
+        assert_almost_equal(nan, close_price)
 
         volume = self.reader.get_value(sid, minute, "volume")
 
@@ -1213,10 +1214,10 @@ class BcolzMinuteBarTestCase(
         sids = [1, 2]
         data_1 = pd.DataFrame(
             data={
-                "open": [15.0, np.nan, 15.1],
-                "high": [17.0, np.nan, 17.1],
-                "low": [11.0, np.nan, 11.1],
-                "close": [14.0, np.nan, 14.1],
+                "open": [15.0, nan, 15.1],
+                "high": [17.0, nan, 17.1],
+                "low": [11.0, nan, 11.1],
+                "close": [14.0, nan, 14.1],
                 "volume": [1000, 0, 1001],
             },
             index=minutes,
@@ -1224,10 +1225,10 @@ class BcolzMinuteBarTestCase(
 
         data_2 = pd.DataFrame(
             data={
-                "open": [25.0, np.nan, 25.1],
-                "high": [27.0, np.nan, 27.1],
-                "low": [21.0, np.nan, 21.1],
-                "close": [24.0, np.nan, 24.1],
+                "open": [25.0, nan, 25.1],
+                "high": [27.0, nan, 27.1],
+                "low": [21.0, nan, 21.1],
+                "close": [24.0, nan, 24.1],
                 "volume": [2000, 0, 2001],
             },
             index=minutes,

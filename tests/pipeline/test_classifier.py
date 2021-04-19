@@ -2,6 +2,7 @@ from functools import reduce
 import operator as op
 
 import numpy as np
+from numpy import nan
 import pandas as pd
 
 from zipline.lib.labelarray import LabelArray
@@ -17,7 +18,7 @@ from zipline.utils.numpy_utils import (
 )
 
 from .base import BaseUSEquityPipelineTestCase
-
+import pytest
 
 bytes_dtype = np.dtype("S3")
 unicode_dtype = np.dtype("U3")
@@ -260,8 +261,8 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
 
     @parameter_space(
         __fail_fast=True,
-        compval=[u"a", u"b", u"ab", u"not in the array"],
-        missing=[u"a", u"ab", u"", u"not in the array"],
+        compval=["a", "b", "ab", "not in the array"],
+        missing=["a", "ab", "", "not in the array"],
         labelarray_dtype=(categorical_dtype, bytes_dtype, unicode_dtype),
     )
     def test_string_elementwise_predicates(self, compval, missing, labelarray_dtype):
@@ -645,9 +646,9 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
             mask = self.build_mask(self.ones_mask(shape=data.shape))
             expected = np.array(
                 [
-                    [3, 3, np.nan, 1, 3, np.nan],
+                    [3, 3, nan, 1, 3, nan],
                     [4, 1, 1, 4, 4, 4],
-                    [np.nan, 1, 3, 3, 3, np.nan],
+                    [nan, 1, 3, 3, 3, nan],
                     [6, 6, 6, 6, 6, 6],
                 ],
             )
@@ -667,10 +668,10 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
             )
             expected = np.array(
                 [
-                    [2, 2, np.nan, 1, np.nan, np.nan],
-                    [3, 1, 1, 3, 3, np.nan],
-                    [np.nan, 1, 3, 3, 3, np.nan],
-                    [4, 4, np.nan, np.nan, 4, 4],
+                    [2, 2, nan, 1, nan, nan],
+                    [3, 1, 1, 3, 3, nan],
+                    [nan, 1, 3, 3, 3, nan],
+                    [4, 4, nan, nan, 4, 4],
                 ],
             )
 
@@ -774,4 +775,4 @@ class TestPostProcessAndToWorkSpaceValue(ZiplineTestCase):
 class ReprTestCase(ZiplineTestCase):
     def test_quantiles_graph_repr(self):
         quantiles = TestingDataSet.float_col.latest.quantiles(5)
-        self.assertEqual(quantiles.graph_repr(), "Quantiles(5)")
+        assert quantiles.graph_repr() == "Quantiles(5)"
