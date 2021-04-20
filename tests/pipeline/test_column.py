@@ -27,6 +27,7 @@ from zipline.utils.pandas_utils import (
 )
 import pytest
 
+
 class LatestTestCase(
     WithSeededRandomPipelineEngine, WithTradingSessions, ZiplineTestCase
 ):
@@ -115,7 +116,7 @@ class LatestTestCase(
 
         with pytest.raises(TypeError) as excinfo:
             column < 1000
-        self.assertEqual(str(excinfo.value), err_msg)
+        assert str(excinfo.value) == err_msg
 
         try:
             column.latest < 1000
@@ -126,9 +127,5 @@ class LatestTestCase(
         with pytest.raises(ValueError) as excinfo:
             Column(dtype=datetime64ns_dtype, currency_aware=True)
 
-        self.assertEqual(
-            str(excinfo.value),
-            "Columns cannot be constructed with currency_aware=True, "
-            "dtype=datetime64[ns]. Currency aware columns must have a float64 "
-            "dtype.",
-        )
+        expected_msg = "Columns cannot be constructed with currency_aware=True, dtype=datetime64[ns]. Currency aware columns must have a float64 dtype."
+        assert str(excinfo.value) == expected_msg

@@ -445,14 +445,12 @@ class InternationalEquityTestCase(
         )
 
     def test_cannot_convert_volume_data(self):
-        with pytest.raises(TypeError) as exc:
+        msg = "The .fx() method cannot be called on EquityPricing.volume "
+        "because it does not produce currency-denominated data."
+        
+        with pytest.raises(TypeError) as excinfo:
             EquityPricing.volume.fx("EUR")
-
-        assert_equal(
-            str(exc.exception),
-            "The .fx() method cannot be called on EquityPricing.volume "
-            "because it does not produce currency-denominated data.",
-        )
+            assert str(excinfo.value) == msg
 
     def check_expected_latest_value(self, calendar, col, date, asset, value):
         """Check the expected result of column.latest from a pipeline."""

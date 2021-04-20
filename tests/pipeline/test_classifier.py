@@ -173,12 +173,8 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
         with pytest.raises(ValueError) as excinfo:
             C().eq(missing)
         errmsg = str(excinfo.value)
-        assert errmsg == "Comparison against self.missing_value ({v!r}) in C.eq().\n"
-        "Missing values have NaN semantics, so the requested comparison"
-        " would always produce False.\n"
-        "Use the isnull() method to check for missing values.".format(
-            v=missing,
-        ),
+        expected_msg = "Comparison against self.missing_value ({v!r}) in C.eq().\nMissing values have NaN semantics, so the requested comparison would always produce False.\nUse the isnull() method to check for missing values.".format(v=missing,)
+        assert errmsg == expected_msg
 
     @parameter_space(compval=[0, 1, 999], missing=[-1, 0, 999])
     def test_not_equal(self, compval, missing):
@@ -440,7 +436,7 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
                 "Use the isnull() method to check for missing values.\n"
                 "Received choices were {}.".format(bad_elems)
             )
-            self.assertEqual(errmsg, expected)
+            assert errmsg == expected
 
     @parameter_space(dtype_=Classifier.ALLOWED_DTYPES)
     def test_element_of_rejects_unhashable_type(self, dtype_):
@@ -583,7 +579,7 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
             "relabel() is only defined on Classifiers producing strings "
             "but it was called on a Classifier of dtype int64."
         )
-        self.assertEqual(result, expected)
+        assert result == expected
 
     @parameter_space(
         compare_op=[op.gt, op.ge, op.le, op.lt],
@@ -599,11 +595,7 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
         with pytest.raises(TypeError) as excinfo:
             compare_op(C(), object())
 
-        self.assertEqual(
-            str(excinfo.value),
-            "cannot compare classifiers with %s"
-            % (methods_to_ops["__%s__" % compare_op.__name__],),
-        )
+        assert str(excinfo.value) == "cannot compare classifiers with %s"% (methods_to_ops["__%s__" % compare_op.__name__],)
 
     @parameter_space(
         dtype_and_missing=[(int64_dtype, -1), (categorical_dtype, None)],
