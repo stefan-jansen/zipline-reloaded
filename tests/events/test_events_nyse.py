@@ -165,10 +165,9 @@ class TestStatelessRulesNYSE(StatelessRulesTests, TestCase):
 
         for m in week_minutes:
             if should_trigger(m):
-                assert m == \
-                    dt \
-                    + timedelta(days=trigger_day_offset) \
-                    + timedelta(minutes=trigger_minute_offset)
+                assert m == dt + timedelta(days=trigger_day_offset) + timedelta(
+                    minutes=trigger_minute_offset
+                )
                 n_triggered += 1
 
         assert n_triggered == 1

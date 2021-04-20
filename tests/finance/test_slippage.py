@@ -919,7 +919,7 @@ class VolatilityVolumeShareTestCase(
             avg_price = (data.current(asset, "high") + data.current(asset, "low")) / 2
             expected_price = avg_price * (1 + model.NO_DATA_VOLATILITY_SLIPPAGE_IMPACT)
 
-            assert abs(price-expected_price) < 0.001
+            assert abs(price - expected_price) < 0.001
             assert amount == 10
 
     def test_impacted_price_worse_than_limit(self):
@@ -1359,16 +1359,20 @@ class FixedBasisPointsSlippageTestCase(WithCreateBarData, ZiplineTestCase):
         with pytest.raises(ValueError) as excinfo:
             FixedBasisPointsSlippage(basis_points=-1)
 
-        assert str(excinfo.value) == \
-            "FixedBasisPointsSlippage() expected a value greater than " \
+        assert (
+            str(excinfo.value)
+            == "FixedBasisPointsSlippage() expected a value greater than "
             "or equal to 0 for argument 'basis_points', but got -1 instead."
+        )
 
         with pytest.raises(ValueError) as excinfo:
             FixedBasisPointsSlippage(volume_limit=0)
 
-        assert str(excinfo.value) == \
-            "FixedBasisPointsSlippage() expected a value strictly " \
+        assert (
+            str(excinfo.value)
+            == "FixedBasisPointsSlippage() expected a value strictly "
             "greater than 0 for argument 'volume_limit', but got 0 instead."
+        )
 
     def test_fill_zero_shares(self):
         slippage_model = FixedBasisPointsSlippage(basis_points=5, volume_limit=0.1)

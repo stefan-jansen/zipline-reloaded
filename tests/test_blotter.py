@@ -133,16 +133,13 @@ class BlotterTestCase(
 
         assert len(blotter.open_orders) == 2
         assert len(blotter.open_orders[self.asset_24]) == 3
-        assert [o.amount for o in blotter.open_orders[self.asset_24]] == \
-            [100, 200, 300]
+        assert [o.amount for o in blotter.open_orders[self.asset_24]] == [100, 200, 300]
 
         blotter.cancel(oid_2)
         assert len(blotter.open_orders) == 2
         assert len(blotter.open_orders[self.asset_24]) == 2
-        assert [o.amount for o in blotter.open_orders[self.asset_24]] == \
-            [100, 300]
-        assert [o.id for o in blotter.open_orders[self.asset_24]] == \
-            [oid_1, oid_3]
+        assert [o.amount for o in blotter.open_orders[self.asset_24]] == [100, 300]
+        assert [o.id for o in blotter.open_orders[self.asset_24]] == [oid_1, oid_3]
 
         blotter.cancel_all_orders_for_asset(self.asset_24)
         assert len(blotter.open_orders) == 1
@@ -362,7 +359,9 @@ class BlotterTestCase(
             for (asset, _, _), order_batch_id, order_id in zip(
                 order_arg_lists, order_batch_ids, order_ids
             ):
-                assert len(blotter1.open_orders[asset]) == len(blotter2.open_orders[asset])
+                assert len(blotter1.open_orders[asset]) == len(
+                    blotter2.open_orders[asset]
+                )
                 assert order_batch_id == blotter1.open_orders[asset][i - 1].id
                 assert order_id == blotter2.open_orders[asset][i - 1].id
 
@@ -385,14 +384,12 @@ class BlotterTestCase(
         # price because the slippage spread is zero. Its commission should be
         # $1.00.
         equity_txn = txns[0]
-        assert equity_txn.price == \
-            bar_data.current(equity_txn.asset, "price")
+        assert equity_txn.price == bar_data.current(equity_txn.asset, "price")
         assert commissions[0]["cost"] == 1.0
 
         # The future transaction price should be 1.0 more than its current
         # price because half of the 'future_slippage' spread is added. Its
         # commission should be $2.00.
         future_txn = txns[1]
-        assert future_txn.price == \
-            bar_data.current(future_txn.asset, "price") + 1.0
+        assert future_txn.price == bar_data.current(future_txn.asset, "price") + 1.0
         assert commissions[1]["cost"] == 2.0

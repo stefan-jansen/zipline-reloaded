@@ -2,9 +2,7 @@ from copy import copy, deepcopy
 from pickle import loads, dumps
 import sys
 from weakref import ref
-
 from zipline.utils.sentinel import sentinel
-
 import pytest
 
 

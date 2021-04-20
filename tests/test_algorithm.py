@@ -402,7 +402,7 @@ def handle_data(context, data):
                 assert [] == algo.get_open_orders(1)
 
                 orders_2 = algo.get_open_orders(2)
-                assert (all_orders[2] == orders_2)
+                assert all_orders[2] == orders_2
                 assert len(all_orders[2]) == 3
 
                 for order_ in orders_2:
@@ -501,9 +501,8 @@ def log_nyse_close(context, data):
             algo.func_called += 1
             curdt = algo.get_datetime().tz_convert(pytz.utc)
             assert curdt == us_eastern.localize(
-                    datetime.datetime.combine(curdt.date(), datetime.time(9, 31)))
-                
-            
+                datetime.datetime.combine(curdt.date(), datetime.time(9, 31))
+            )
 
         def initialize(algo):
             algo.func_called = 0
@@ -570,11 +569,18 @@ def log_nyse_close(context, data):
         assert collected_data_pre == expected_data
         assert collected_data_post == expected_data
 
-        assert len(function_stack) == 3900, "Incorrect number of functions called: %s != 3900" % len(function_stack)
+        assert (
+            len(function_stack) == 3900
+        ), "Incorrect number of functions called: %s != 3900" % len(function_stack)
         expected_functions = [pre, handle_data, f, g, post] * 97530
         for n, (f, g) in enumerate(zip(function_stack, expected_functions)):
-            assert f == g, "function at position %d was incorrect, expected %s but got %s"% (n, g.__name__, f.__name__)
-            
+            assert (
+                f == g
+            ), "function at position %d was incorrect, expected %s but got %s" % (
+                n,
+                g.__name__,
+                f.__name__,
+            )
 
     @parameterized.expand(
         [
@@ -1372,6 +1378,7 @@ class TestBeforeTradingStart(zf.WithMakeAlgo, zf.ZiplineTestCase):
             results.port_value.iloc[1], 10000 + 780 - 392 - 0, places=2
         )
 
+
 class TestAlgoScript(zf.WithMakeAlgo, zf.ZiplineTestCase):
     START_DATE = pd.Timestamp("2006-01-03", tz="utc")
     END_DATE = pd.Timestamp("2006-12-31", tz="utc")
@@ -1638,12 +1645,24 @@ def handle_data(context, data):
                 # for each incremental version of each order, the commission
                 # should be its filled amount * 0.02
                 for order_ in all_orders:
-                    assert round(abs(order_["filled"] * 0.02-order_["commission"]), 7) == 0
+                    assert (
+                        round(abs(order_["filled"] * 0.02 - order_["commission"]), 7)
+                        == 0
+                    )
             else:
                 # the commission should be at least the min_trade_cost
                 for order_ in all_orders:
                     if order_["filled"] > 0:
-                        assert round(abs(max(order_["filled"] * 0.02, minimum_commission)-order_["commission"]), 7) == 0
+                        assert (
+                            round(
+                                abs(
+                                    max(order_["filled"] * 0.02, minimum_commission)
+                                    - order_["commission"]
+                                ),
+                                7,
+                            )
+                            == 0
+                        )
                     else:
                         assert 0 == order_["commission"]
         finally:
@@ -1879,8 +1898,10 @@ def handle_data(context, data):
         with pytest.raises(TypeError) as cm:
             algo.run()
 
-        assert "%s() got an unexpected keyword argument 'blahblah'" % name == \
-            cm.value.args[0]
+        assert (
+            "%s() got an unexpected keyword argument 'blahblah'" % name
+            == cm.value.args[0]
+        )
 
     @parameterized.expand(ARG_TYPE_TEST_CASES)
     def test_arg_types(self, name, inputs):
@@ -1931,10 +1952,11 @@ def handle_data(context, data):
         if name == "bad_kwargs":
             with pytest.raises(TypeError) as cm:
                 algo.run()
-                assert "Keyword argument `sid` is no longer " \
-                    "supported for get_open_orders. Use `asset` " \
-                    "instead." == \
-                    cm.value.args[0]
+                assert (
+                    "Keyword argument `sid` is no longer "
+                    "supported for get_open_orders. Use `asset` "
+                    "instead." == cm.value.args[0]
+                )
         else:
             algo.run()
 
@@ -1987,8 +2009,10 @@ def handle_data(context, data):
         )
 
         with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("ignore", PerformanceWarning )
-            warnings.simplefilter("ignore", RuntimeWarning) # TODO: CHECK WHY DO I HAVE TO DO THAT (empyrical)
+            warnings.simplefilter("ignore", PerformanceWarning)
+            warnings.simplefilter(
+                "ignore", RuntimeWarning
+            )  # TODO: CHECK WHY DO I HAVE TO DO THAT (empyrical)
 
             algo = self.make_algo(script=algocode, sim_params=sim_params)
             algo.run()
@@ -1997,25 +2021,26 @@ def handle_data(context, data):
 
             for i, warning in enumerate(w):
                 assert isinstance(warning.message, UserWarning)
-                assert warning.message.args[0] == "Got a time rule for the second positional argument "\
-                    "date_rule. You should use keyword argument " \
-                    "time_rule= when calling schedule_function without " \
+                assert (
+                    warning.message.args[0]
+                    == "Got a time rule for the second positional argument "
+                    "date_rule. You should use keyword argument "
+                    "time_rule= when calling schedule_function without "
                     "specifying a date_rule"
-                
+                )
+
                 # The warnings come from line 13 and 14 in the algocode
                 assert warning.lineno == 13 + i
 
-        assert algo.done_at_open == \
-            [
-                pd.Timestamp("2006-01-12 14:31:00", tz="UTC"),
-                pd.Timestamp("2006-01-13 14:31:00", tz="UTC"),
-            ]
+        assert algo.done_at_open == [
+            pd.Timestamp("2006-01-12 14:31:00", tz="UTC"),
+            pd.Timestamp("2006-01-13 14:31:00", tz="UTC"),
+        ]
 
-        assert algo.done_at_close == \
-            [
-                pd.Timestamp("2006-01-12 20:59:00", tz="UTC"),
-                pd.Timestamp("2006-01-13 20:59:00", tz="UTC"),
-            ]
+        assert algo.done_at_close == [
+            pd.Timestamp("2006-01-12 20:59:00", tz="UTC"),
+            pd.Timestamp("2006-01-13 20:59:00", tz="UTC"),
+        ]
 
 
 class TestCapitalChanges(zf.WithMakeAlgo, zf.ZiplineTestCase):
@@ -2123,13 +2148,12 @@ def order_stuff(context, data):
         ]
 
         assert len(capital_change_packets) == 1
-        assert capital_change_packets[0] == \
-            {
-                "date": pd.Timestamp("2006-01-06", tz="UTC"),
-                "type": "cash",
-                "target": 151000.0 if change_type == "target" else None,
-                "delta": 50000.0,
-            }
+        assert capital_change_packets[0] == {
+            "date": pd.Timestamp("2006-01-06", tz="UTC"),
+            "type": "cash",
+            "target": 151000.0 if change_type == "target" else None,
+            "delta": 50000.0,
+        }
 
         # 1/03: price = 10, place orders
         # 1/04: orders execute at price = 11, place orders
@@ -2241,7 +2265,9 @@ def order_stuff(context, data):
                 err_msg="cumulative " + stat,
             )
 
-        assert algo.capital_change_deltas == {pd.Timestamp("2006-01-06", tz="UTC"): 50000.0}
+        assert algo.capital_change_deltas == {
+            pd.Timestamp("2006-01-06", tz="UTC"): 50000.0
+        }
 
     @parameterized.expand(
         [
@@ -2411,14 +2437,14 @@ def order_stuff(context, data):
             )
 
         if change_loc == "interday":
-            assert algo.capital_change_deltas == \
-                {pd.Timestamp("2006-01-04", tz="UTC"): 1000.0}
+            assert algo.capital_change_deltas == {
+                pd.Timestamp("2006-01-04", tz="UTC"): 1000.0
+            }
         else:
-            assert algo.capital_change_deltas == \
-                {
-                    pd.Timestamp("2006-01-04 17:00", tz="UTC"): 500.0,
-                    pd.Timestamp("2006-01-04 18:00", tz="UTC"): 500.0,
-                }
+            assert algo.capital_change_deltas == {
+                pd.Timestamp("2006-01-04 17:00", tz="UTC"): 500.0,
+                pd.Timestamp("2006-01-04 18:00", tz="UTC"): 500.0,
+            }
 
     @parameterized.expand(
         [
@@ -2674,14 +2700,14 @@ def order_stuff(context, data):
             )
 
         if change_loc == "interday":
-            assert algo.capital_change_deltas == \
-                {pd.Timestamp("2006-01-04", tz="UTC"): 1000.0}
+            assert algo.capital_change_deltas == {
+                pd.Timestamp("2006-01-04", tz="UTC"): 1000.0
+            }
         else:
-            assert algo.capital_change_deltas == \
-                {
-                    pd.Timestamp("2006-01-04 17:00", tz="UTC"): 500.0,
-                    pd.Timestamp("2006-01-04 18:00", tz="UTC"): 500.0,
-                }
+            assert algo.capital_change_deltas == {
+                pd.Timestamp("2006-01-04 17:00", tz="UTC"): 500.0,
+                pd.Timestamp("2006-01-04 18:00", tz="UTC"): 500.0,
+            }
 
 
 class TestGetDatetime(zf.WithMakeAlgo, zf.ZiplineTestCase):
@@ -2907,10 +2933,11 @@ class TestTradingControls(zf.WithMakeAlgo, zf.ZiplineTestCase):
         with make_test_handler(self) as log_catcher:
             self.check_algo_succeeds(algo)
         logs = [r.message for r in log_catcher.records]
-        assert "Order for 100 shares of Equity(133 [A]) at " \
-            "2006-01-03 21:00:00+00:00 violates trading constraint " \
-            "RestrictedListOrder({})" in \
-            logs
+        assert (
+            "Order for 100 shares of Equity(133 [A]) at "
+            "2006-01-03 21:00:00+00:00 violates trading constraint "
+            "RestrictedListOrder({})" in logs
+        )
         assert not algo.could_trade
 
         # set the restricted list to exclude the sid, and succeed
@@ -2963,8 +2990,10 @@ class TestTradingControls(zf.WithMakeAlgo, zf.ZiplineTestCase):
     def test_set_do_not_order_list(self):
         def initialize(self, restricted_list):
             self.order_count = 0
-            #self.set_do_not_order_list(restricted_list, on_error="fail")
-            self.set_asset_restrictions(StaticRestrictions(restricted_list), on_error="fail")
+            # self.set_do_not_order_list(restricted_list, on_error="fail")
+            self.set_asset_restrictions(
+                StaticRestrictions(restricted_list), on_error="fail"
+            )
 
         def handle_data(algo, data):
             algo.could_trade = data.can_trade(algo.sid(self.sid))
@@ -3309,8 +3338,9 @@ class TestAccountControls(zf.WithMakeAlgo, zf.ZiplineTestCase):
             max_leverage=0,
         )
         self.check_algo_fails(algo)
-        assert algo.recorded_vars["latest_time"] == \
-            pd.Timestamp("2006-01-04 21:00:00", tz="UTC")
+        assert algo.recorded_vars["latest_time"] == pd.Timestamp(
+            "2006-01-04 21:00:00", tz="UTC"
+        )
 
         # Set max leverage to 1 so buying one share passes
         def handle_data(algo, data):
@@ -3352,15 +3382,17 @@ class TestAccountControls(zf.WithMakeAlgo, zf.ZiplineTestCase):
         offset = pd.Timedelta("1 days")
         algo = make_algo(min_leverage=1, grace_period=offset)
         self.check_algo_fails(algo)
-        assert algo.recorded_vars["latest_time"] == \
-            pd.Timestamp("2006-01-04 21:00:00", tz="UTC")
+        assert algo.recorded_vars["latest_time"] == pd.Timestamp(
+            "2006-01-04 21:00:00", tz="UTC"
+        )
 
         # Increase the offset to 2 days, and the algorithm fails a day later
         offset = pd.Timedelta("2 days")
         algo = make_algo(min_leverage=1, grace_period=offset)
         self.check_algo_fails(algo)
-        assert algo.recorded_vars["latest_time"] == \
-            pd.Timestamp("2006-01-05 21:00:00", tz="UTC")
+        assert algo.recorded_vars["latest_time"] == pd.Timestamp(
+            "2006-01-05 21:00:00", tz="UTC"
+        )
 
         # Set the min_leverage to .0001 and the algorithm succeeds.
         algo = make_algo(min_leverage=0.0001, grace_period=offset)
@@ -3697,8 +3729,7 @@ class TestOrderCancelation(zf.WithMakeAlgo, zf.ZiplineTestCase):
 
             for daily_positions in results.positions:
                 assert 1 == len(daily_positions)
-                assert np.copysign(389, direction) == \
-                    daily_positions[0]["amount"]
+                assert np.copysign(389, direction) == daily_positions[0]["amount"]
                 assert 1 == results.positions[0][0]["sid"]
 
             # should be an order on day1, but no more orders afterwards
@@ -3721,17 +3752,19 @@ class TestOrderCancelation(zf.WithMakeAlgo, zf.ZiplineTestCase):
             assert 1 == len(warnings)
 
             if direction == 1:
-                assert "Your order for 1000 shares of ASSET1 has been partially " \
-                    "filled. 389 shares were successfully purchased. " \
-                    "611 shares were not filled by the end of day and " \
-                    "were canceled." == \
-                    str(warnings[0].message)
+                assert (
+                    "Your order for 1000 shares of ASSET1 has been partially "
+                    "filled. 389 shares were successfully purchased. "
+                    "611 shares were not filled by the end of day and "
+                    "were canceled." == str(warnings[0].message)
+                )
             elif direction == -1:
-                assert "Your order for -1000 shares of ASSET1 has been partially " \
-                    "filled. 389 shares were successfully sold. " \
-                    "611 shares were not filled by the end of day and " \
-                    "were canceled." == \
-                    str(warnings[0].message)
+                assert (
+                    "Your order for -1000 shares of ASSET1 has been partially "
+                    "filled. 389 shares were successfully sold. "
+                    "611 shares were not filled by the end of day and "
+                    "were canceled." == str(warnings[0].message)
+                )
 
     def test_default_cancelation_policy(self):
         algo = self.prep_algo("")
@@ -3939,15 +3972,11 @@ class TestDailyEquityAutoClose(zf.WithMakeAlgo, zf.ZiplineTestCase):
         # We have longs if order_size > 0.
         # We have shorts if order_size < 0.
         if order_size > 0:
-            assert expected_num_positions == \
-                list(output["longs_count"])
-            assert [0] * len(self.test_days) == \
-                list(output["shorts_count"])
+            assert expected_num_positions == list(output["longs_count"])
+            assert [0] * len(self.test_days) == list(output["shorts_count"])
         else:
-            assert expected_num_positions == \
-                list(output["shorts_count"])
-            assert [0] * len(self.test_days) == \
-                list(output["longs_count"])
+            assert expected_num_positions == list(output["shorts_count"])
+            assert [0] * len(self.test_days) == list(output["longs_count"])
 
         # The number of positions recorded by the algo should be behind by a
         # day from the computed long/short counts.
@@ -3963,13 +3992,19 @@ class TestDailyEquityAutoClose(zf.WithMakeAlgo, zf.ZiplineTestCase):
         last_minute_of_session = self.trading_calendar.session_close(self.test_days[1])
 
         for asset, txn in zip(assets, initial_fills):
-            assert dict(txn, **{
-                    "amount": order_size,
-                    "commission": None,
-                    "dt": last_minute_of_session,
-                    "price": initial_fill_prices[asset],
-                    "sid": asset,
-                }) == txn
+            assert (
+                dict(
+                    txn,
+                    **{
+                        "amount": order_size,
+                        "commission": None,
+                        "dt": last_minute_of_session,
+                        "price": initial_fill_prices[asset],
+                        "sid": asset,
+                    },
+                )
+                == txn
+            )
             # This will be a UUID.
             assert isinstance(txn["order_id"], str)
 
@@ -3981,32 +4016,30 @@ class TestDailyEquityAutoClose(zf.WithMakeAlgo, zf.ZiplineTestCase):
         (first_auto_close_transaction,) = transactions_for_date(
             assets[0].auto_close_date
         )
-        assert first_auto_close_transaction == \
-            {
-                "amount": -order_size,
-                "commission": None,
-                "dt": self.trading_calendar.session_close(
-                    assets[0].auto_close_date,
-                ),
-                "price": fp0,
-                "sid": assets[0],
-                "order_id": None,  # Auto-close txns emit Nones for order_id.
-            }
+        assert first_auto_close_transaction == {
+            "amount": -order_size,
+            "commission": None,
+            "dt": self.trading_calendar.session_close(
+                assets[0].auto_close_date,
+            ),
+            "price": fp0,
+            "sid": assets[0],
+            "order_id": None,  # Auto-close txns emit Nones for order_id.
+        }
 
         (second_auto_close_transaction,) = transactions_for_date(
             assets[1].auto_close_date
         )
-        assert second_auto_close_transaction == \
-            {
-                "amount": -order_size,
-                "commission": None,
-                "dt": self.trading_calendar.session_close(
-                    assets[1].auto_close_date,
-                ),
-                "price": fp1,
-                "sid": assets[1],
-                "order_id": None,  # Auto-close txns emit Nones for order_id.
-            }
+        assert second_auto_close_transaction == {
+            "amount": -order_size,
+            "commission": None,
+            "dt": self.trading_calendar.session_close(
+                assets[1].auto_close_date,
+            ),
+            "price": fp1,
+            "sid": assets[1],
+            "order_id": None,  # Auto-close txns emit Nones for order_id.
+        }
 
     def test_cancel_open_orders(self):
         """
@@ -4064,29 +4097,41 @@ class TestDailyEquityAutoClose(zf.WithMakeAlgo, zf.ZiplineTestCase):
 
         last_close_for_asset = algo.trading_calendar.session_close(first_asset_end_date)
 
-        assert dict(original_open_orders[0], **{
-                "amount": 10,
-                "commission": 0.0,
-                "created": last_close_for_asset,
-                "dt": last_close_for_asset,
-                "sid": assets[0],
-                "status": ORDER_STATUS.OPEN,
-                "filled": 0,
-            }) == original_open_orders[0]
+        assert (
+            dict(
+                original_open_orders[0],
+                **{
+                    "amount": 10,
+                    "commission": 0.0,
+                    "created": last_close_for_asset,
+                    "dt": last_close_for_asset,
+                    "sid": assets[0],
+                    "status": ORDER_STATUS.OPEN,
+                    "filled": 0,
+                },
+            )
+            == original_open_orders[0]
+        )
 
         orders_after_auto_close = orders_for_date(first_asset_auto_close_date)
         assert len(orders_after_auto_close) == 1
-        assert dict(orders_after_auto_close[0], **{
-                "amount": 10,
-                "commission": 0.0,
-                "created": last_close_for_asset,
-                "dt": algo.trading_calendar.session_close(
-                    first_asset_auto_close_date,
-                ),
-                "sid": assets[0],
-                "status": ORDER_STATUS.CANCELLED,
-                "filled": 0,
-            }) == orders_after_auto_close[0]
+        assert (
+            dict(
+                orders_after_auto_close[0],
+                **{
+                    "amount": 10,
+                    "commission": 0.0,
+                    "created": last_close_for_asset,
+                    "dt": algo.trading_calendar.session_close(
+                        first_asset_auto_close_date,
+                    ),
+                    "sid": assets[0],
+                    "status": ORDER_STATUS.CANCELLED,
+                    "filled": 0,
+                },
+            )
+            == orders_after_auto_close[0]
+        )
 
 
 # NOTE: This suite is almost the same as TestDailyEquityAutoClose, except it
@@ -4243,20 +4288,18 @@ class TestMinutelyEquityAutoClose(zf.WithMakeAlgo, zf.ZiplineTestCase):
         assert len(algo.cash) == len(expected_cash)
         # TODO find more efficient way to compare these lists
         assert algo.cash == expected_cash
-        assert list(output["ending_cash"]) == \
-            [
-                after_fills,
-                after_fills,
-                after_fills,
-                after_first_auto_close,
-                after_first_auto_close,
-                after_second_auto_close,
-                after_second_auto_close,
-            ]
+        assert list(output["ending_cash"]) == [
+            after_fills,
+            after_fills,
+            after_fills,
+            after_first_auto_close,
+            after_first_auto_close,
+            after_second_auto_close,
+            after_second_auto_close,
+        ]
 
         assert algo.num_positions == expected_position_counts
-        assert list(output["longs_count"]) == \
-            [3, 3, 3, 2, 2, 1, 1]
+        assert list(output["longs_count"]) == [3, 3, 3, 2, 2, 1, 1]
 
         # Check expected transactions.
         # We should have a transaction of order_size shares per sid.
@@ -4268,13 +4311,19 @@ class TestMinutelyEquityAutoClose(zf.WithMakeAlgo, zf.ZiplineTestCase):
         initial_fills = transactions.iloc[0]
         assert len(initial_fills) == len(assets)
         for asset, txn in zip(assets, initial_fills):
-            assert dict(txn, **{
-                    "amount": order_size,
-                    "commission": None,
-                    "dt": backtest_minutes[1],
-                    "price": initial_fill_prices[asset],
-                    "sid": asset,
-                }) == txn
+            assert (
+                dict(
+                    txn,
+                    **{
+                        "amount": order_size,
+                        "commission": None,
+                        "dt": backtest_minutes[1],
+                        "price": initial_fill_prices[asset],
+                        "sid": asset,
+                    },
+                )
+                == txn
+            )
             # This will be a UUID.
             assert isinstance(txn["order_id"], str)
 
@@ -4286,32 +4335,30 @@ class TestMinutelyEquityAutoClose(zf.WithMakeAlgo, zf.ZiplineTestCase):
         (first_auto_close_transaction,) = transactions_for_date(
             assets[0].auto_close_date
         )
-        assert first_auto_close_transaction == \
-            {
-                "amount": -order_size,
-                "commission": None,
-                "dt": algo.trading_calendar.session_close(
-                    assets[0].auto_close_date,
-                ),
-                "price": fp0,
-                "sid": assets[0],
-                "order_id": None,  # Auto-close txns emit Nones for order_id.
-            }
+        assert first_auto_close_transaction == {
+            "amount": -order_size,
+            "commission": None,
+            "dt": algo.trading_calendar.session_close(
+                assets[0].auto_close_date,
+            ),
+            "price": fp0,
+            "sid": assets[0],
+            "order_id": None,  # Auto-close txns emit Nones for order_id.
+        }
 
         (second_auto_close_transaction,) = transactions_for_date(
             assets[1].auto_close_date
         )
-        assert second_auto_close_transaction == \
-            {
-                "amount": -order_size,
-                "commission": None,
-                "dt": algo.trading_calendar.session_close(
-                    assets[1].auto_close_date,
-                ),
-                "price": fp1,
-                "sid": assets[1],
-                "order_id": None,  # Auto-close txns emit Nones for order_id.
-            }
+        assert second_auto_close_transaction == {
+            "amount": -order_size,
+            "commission": None,
+            "dt": algo.trading_calendar.session_close(
+                assets[1].auto_close_date,
+            ),
+            "price": fp1,
+            "sid": assets[1],
+            "order_id": None,  # Auto-close txns emit Nones for order_id.
+        }
 
 
 class TestOrderAfterDelist(zf.WithMakeAlgo, zf.ZiplineTestCase):

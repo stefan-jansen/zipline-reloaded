@@ -165,7 +165,7 @@ class CommissionUnitTests(WithAssetFinder, ZiplineTestCase):
         ):
 
             commission = model.calculate(order, txn)
-            assert round(abs(expected_commission-commission), 7) == 0
+            assert round(abs(expected_commission - commission), 7) == 0
             order.filled += fill_amount
             order.commission += commission
 
@@ -184,7 +184,7 @@ class CommissionUnitTests(WithAssetFinder, ZiplineTestCase):
         ):
 
             commission = model.calculate(order, txn)
-            assert round(abs(expected_commission-commission), 7) == 0
+            assert round(abs(expected_commission - commission), 7) == 0
             order.filled += fill_amount
             order.commission += commission
 
@@ -202,7 +202,7 @@ class CommissionUnitTests(WithAssetFinder, ZiplineTestCase):
 
         for i, commission_total in enumerate(commission_totals):
             order.commission += model.calculate(order, txns[i])
-            assert round(abs(commission_total-order.commission), 7) == 0
+            assert round(abs(commission_total - order.commission), 7) == 0
             order.filled += txns[i].amount
 
     def test_per_contract_no_minimum(self):
@@ -300,9 +300,9 @@ class CommissionUnitTests(WithAssetFinder, ZiplineTestCase):
         )
 
         # make sure each commission is pro-rated
-        assert round(abs(34.5-model.calculate(order, txns[0])), 7) == 0
-        assert round(abs(25.755-model.calculate(order, txns[1])), 7) == 0
-        assert round(abs(15.3-model.calculate(order, txns[2])), 7) == 0
+        assert round(abs(34.5 - model.calculate(order, txns[0])), 7) == 0
+        assert round(abs(25.755 - model.calculate(order, txns[1])), 7) == 0
+        assert round(abs(15.3 - model.calculate(order, txns[2])), 7) == 0
 
 
 class CommissionAlgorithmTests(WithMakeAlgo, ZiplineTestCase):
@@ -513,8 +513,7 @@ class CommissionAlgorithmTests(WithMakeAlgo, ZiplineTestCase):
             ),
         )
 
-        assert results.orders[1][0]["commission"] == \
-            expected_commission
+        assert results.orders[1][0]["commission"] == expected_commission
         assert results.capital_used[1] == -expected_commission
 
     def test_per_dollar(self):

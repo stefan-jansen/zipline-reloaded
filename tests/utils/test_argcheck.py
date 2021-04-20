@@ -28,6 +28,7 @@ from zipline.utils.argcheck import (
 
 import pytest
 
+
 class TestArgCheck:
     def test_not_callable(self):
         """

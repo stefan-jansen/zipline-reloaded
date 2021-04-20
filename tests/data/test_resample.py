@@ -739,8 +739,9 @@ class TestResampleSessionBars(WithBcolzFutureMinuteBarReader, ZiplineTestCase):
     def test_get_last_traded_dt(self):
         future = self.asset_finder.retrieve_asset(self.ASSET_FINDER_FUTURE_SIDS[0])
 
-        assert self.trading_calendar.previous_session_label(self.END_DATE) == \
-            self.session_bar_reader.get_last_traded_dt(future, self.END_DATE)
+        assert self.trading_calendar.previous_session_label(
+            self.END_DATE
+        ) == self.session_bar_reader.get_last_traded_dt(future, self.END_DATE)
 
 
 class TestReindexMinuteBars(WithBcolzEquityMinuteBarReader, ZiplineTestCase):
@@ -768,15 +769,15 @@ class TestReindexMinuteBars(WithBcolzEquityMinuteBarReader, ZiplineTestCase):
         opens = DataFrame(data=result[0], index=outer_minutes, columns=[1, 2])
         opens_with_price = opens.dropna()
 
-        assert 1440 == \
-            len(opens), \
-            "The result should have 1440 bars, the number of minutes in a " \
+        assert 1440 == len(opens), (
+            "The result should have 1440 bars, the number of minutes in a "
             "trading session on the target calendar."
+        )
 
-        assert 390 == \
-            len(opens_with_price), \
-            "The result, after dropping nans, should have 390 bars, the " \
+        assert 390 == len(opens_with_price), (
+            "The result, after dropping nans, should have 390 bars, the "
             " number of bars in a trading session in the reader's calendar."
+        )
 
         slicer = outer_minutes.slice_indexer(
             end=pd.Timestamp("2015-12-01 14:30", tz="UTC")
@@ -852,14 +853,14 @@ class TestReindexSessionBars(WithBcolzEquityDailyBarReader, ZiplineTestCase):
         opens = DataFrame(data=result[0], index=outer_sessions, columns=[1, 2])
         opens_with_price = opens.dropna()
 
-        assert 21 == \
-            len(opens), \
-            "The reindexed result should have 21 days, which is the number of " \
+        assert 21 == len(opens), (
+            "The reindexed result should have 21 days, which is the number of "
             "business days in 2015-11"
-        assert 20 == \
-            len(opens_with_price), \
-            "The reindexed result after dropping nans should have 20 days, " \
+        )
+        assert 20 == len(opens_with_price), (
+            "The reindexed result after dropping nans should have 20 days, "
             "because Thanksgiving is a NYSE holiday."
+        )
 
         tday = pd.Timestamp("2015-11-26", tz="UTC")
 
@@ -894,14 +895,14 @@ class TestReindexSessionBars(WithBcolzEquityDailyBarReader, ZiplineTestCase):
         opens = DataFrame(data=result[0], index=outer_sessions, columns=[1, 2])
         opens_with_price = opens.dropna()
 
-        assert 3 == \
-            len(opens), \
-            "The reindexed result should have 3 days, which is the number of " \
+        assert 3 == len(opens), (
+            "The reindexed result should have 3 days, which is the number of "
             "business days in from Thanksgiving to end of 2015-11."
-        assert 2 == \
-            len(opens_with_price), \
-            "The reindexed result after dropping nans should have 2 days, " \
+        )
+        assert 2 == len(opens_with_price), (
+            "The reindexed result after dropping nans should have 2 days, "
             "because Thanksgiving is a NYSE holiday."
+        )
 
     def test_load_raw_arrays_holiday_end(self):
         tday = pd.Timestamp("2015-11-26", tz="UTC")
@@ -912,14 +913,14 @@ class TestReindexSessionBars(WithBcolzEquityDailyBarReader, ZiplineTestCase):
         opens = DataFrame(data=result[0], index=outer_sessions, columns=[1, 2])
         opens_with_price = opens.dropna()
 
-        assert 19 == \
-            len(opens), \
-            "The reindexed result should have 19 days, which is the number of " \
+        assert 19 == len(opens), (
+            "The reindexed result should have 19 days, which is the number of "
             "business days in from start of 2015-11 up to Thanksgiving."
-        assert 18 == \
-            len(opens_with_price), \
-            "The reindexed result after dropping nans should have 18 days, " \
+        )
+        assert 18 == len(opens_with_price), (
+            "The reindexed result after dropping nans should have 18 days, "
             "because Thanksgiving is a NYSE holiday."
+        )
 
     def test_get_value(self):
         assert_almost_equal(
@@ -951,7 +952,7 @@ class TestReindexSessionBars(WithBcolzEquityDailyBarReader, ZiplineTestCase):
         assert self.reader.first_trading_day == self.START_DATE
 
     def test_trading_calendar(self):
-        assert "us_futures" == \
-            self.reader.trading_calendar.name, \
-            "The calendar for the reindex reader should be the " \
+        assert "us_futures" == self.reader.trading_calendar.name, (
+            "The calendar for the reindex reader should be the "
             "specified futures calendar."
+        )

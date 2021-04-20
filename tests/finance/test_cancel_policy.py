@@ -20,10 +20,12 @@ from zipline.gens.sim_engine import BAR, SESSION_END
 
 TEST_INPUT = [SESSION_END, BAR]
 
+
 def test_eod_cancel():
     cancel_policy = EODCancel()
     assert cancel_policy.should_cancel(SESSION_END)
     assert not cancel_policy.should_cancel(BAR)
+
 
 @pytest.mark.parametrize("test_input", TEST_INPUT)
 def test_never_cancel(test_input):

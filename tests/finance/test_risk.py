@@ -82,10 +82,21 @@ class TestRisk(zf.WithBenchmarkReturns, zf.ZiplineTestCase):
             )
 
     def test_trading_days(self):
-        assert [x["trading_days"] for x in self.metrics["twelve_month"]] == \
-            [251]
-        assert [x["trading_days"] for x in self.metrics["one_month"]] == \
-            [20, 19, 23, 19, 22, 22, 20, 23, 20, 22, 21, 20]
+        assert [x["trading_days"] for x in self.metrics["twelve_month"]] == [251]
+        assert [x["trading_days"] for x in self.metrics["one_month"]] == [
+            20,
+            19,
+            23,
+            19,
+            22,
+            22,
+            20,
+            23,
+            20,
+            22,
+            21,
+            20,
+        ]
 
     def test_benchmark_volatility(self):
         # Volatility is calculated by a empyrical function so testing
@@ -93,9 +104,9 @@ class TestRisk(zf.WithBenchmarkReturns, zf.ZiplineTestCase):
         # numerical. This tests for its existence and format.
         for period in PERIODS:
             assert all(
-                    isinstance(x["benchmark_volatility"], float)
-                    for x in self.metrics[period]
-                )
+                isinstance(x["benchmark_volatility"], float)
+                for x in self.metrics[period]
+            )
 
     def test_algorithm_returns(self):
         for period in PERIODS:
@@ -114,9 +125,8 @@ class TestRisk(zf.WithBenchmarkReturns, zf.ZiplineTestCase):
         # numerical. This tests for its existence and format.
         for period in PERIODS:
             assert all(
-                    isinstance(x["algo_volatility"], float)
-                    for x in self.metrics[period]
-                )
+                isinstance(x["algo_volatility"], float) for x in self.metrics[period]
+            )
 
     def test_algorithm_sharpe(self):
         # The sharpe ratio is calculated by a empyrical function so testing
@@ -131,9 +141,9 @@ class TestRisk(zf.WithBenchmarkReturns, zf.ZiplineTestCase):
         # numerical. This tests for its existence and format.
         for period in PERIODS:
             assert all(
-                    isinstance(x["sortino"], float) or x["sortino"] is None
-                    for x in self.metrics[period]
-                )
+                isinstance(x["sortino"], float) or x["sortino"] is None
+                for x in self.metrics[period]
+            )
 
     def test_algorithm_beta(self):
         # Beta is calculated by a empyrical function so testing
@@ -141,9 +151,9 @@ class TestRisk(zf.WithBenchmarkReturns, zf.ZiplineTestCase):
         # numerical. This tests for its existence and format.
         for period in PERIODS:
             assert all(
-                    isinstance(x["beta"], float) or x["beta"] is None
-                    for x in self.metrics[period]
-                )
+                isinstance(x["beta"], float) or x["beta"] is None
+                for x in self.metrics[period]
+            )
 
     def test_algorithm_alpha(self):
         # Alpha is calculated by a empyrical function so testing
@@ -151,9 +161,9 @@ class TestRisk(zf.WithBenchmarkReturns, zf.ZiplineTestCase):
         # numerical. This tests for its existence and format.
         for period in PERIODS:
             assert all(
-                    isinstance(x["alpha"], float) or x["alpha"] is None
-                    for x in self.metrics[period]
-                )
+                isinstance(x["alpha"], float) or x["alpha"] is None
+                for x in self.metrics[period]
+            )
 
     def test_treasury_returns(self):
         returns = factory.create_returns_from_range(self.sim_params)
@@ -166,8 +176,9 @@ class TestRisk(zf.WithBenchmarkReturns, zf.ZiplineTestCase):
         # These values are all expected to be zero because we explicity zero
         # out the treasury period returns as they are no longer actually used.
         for period in PERIODS:
-            assert [x["treasury_period_return"] for x in metrics[period]] == \
-                [0.0] * len(metrics[period])
+            assert [x["treasury_period_return"] for x in metrics[period]] == [
+                0.0
+            ] * len(metrics[period])
 
     def test_benchmarkrange(self):
         start_session = self.trading_calendar.minute_to_session_label(
@@ -241,26 +252,25 @@ class TestRisk(zf.WithBenchmarkReturns, zf.ZiplineTestCase):
             assert not col
         else:
             period_end = pd.Timestamp(col[-1]["period_label"], tz="utc")
-            assert len(col) == \
-                total_months - (period_length - 1), \
-                (
-                    "mismatch for total months - expected:{total_months}/"
-                    "actual:{actual}, period:{period_length}, "
-                    "start:{start_date}, calculated end:{end}"
-                ).format(
-                    total_months=total_months,
-                    period_length=period_length,
-                    start_date=start_date,
-                    end=period_end,
-                    actual=len(col),
-                )
+            assert len(col) == total_months - (period_length - 1), (
+                "mismatch for total months - expected:{total_months}/"
+                "actual:{actual}, period:{period_length}, "
+                "start:{start_date}, calculated end:{end}"
+            ).format(
+                total_months=total_months,
+                period_length=period_length,
+                start_date=start_date,
+                end=period_end,
+                actual=len(col),
+            )
             self.assert_month(start_date.month, period_end.month)
 
     def test_algorithm_leverages(self):
         # Max leverage for an algorithm with 'None' as leverage is 0.
         for period, expected_len in zip(PERIODS, [12, 10, 7, 1]):
-            assert [x["max_leverage"] for x in self.metrics[period]] == \
-                [0.0] * expected_len
+            assert [x["max_leverage"] for x in self.metrics[period]] == [
+                0.0
+            ] * expected_len
 
         test_period = ClassicRiskMetrics.risk_metric_period(
             start_session=self.start_session,

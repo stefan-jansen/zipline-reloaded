@@ -80,7 +80,8 @@ from zipline.testing import (
     tmp_assets_db,
     tmp_asset_finder,
 )
-#from zipline.testing.predicates import assert_equal, assert_not_equal
+
+# from zipline.testing.predicates import assert_equal, assert_not_equal
 from zipline.testing.predicates import assert_index_equal, assert_frame_equal
 from zipline.testing.fixtures import (
     WithAssetFinder,
@@ -332,7 +333,11 @@ class AssetTestCase(TestCase):
     asset4 = Asset(4, exchange_info=test_exchange)
     asset5 = Asset(
         5,
-        exchange_info=ExchangeInfo("still testing", "still testing", "??"),
+        exchange_info=ExchangeInfo(
+            "still testing",
+            "still testing",
+            "??",
+        ),
     )
 
     def test_asset_object(self):
@@ -344,10 +349,8 @@ class AssetTestCase(TestCase):
         assert {5061: "foo"}[the_asset] == "foo"
         assert the_asset == 5061
         assert 5061 == the_asset
-
         assert the_asset == the_asset
         assert int(the_asset) == 5061
-
         assert str(the_asset) == "Asset(5061)"
 
     def test_to_and_from_dict(self):
@@ -361,7 +364,6 @@ class AssetTestCase(TestCase):
             assert getattr(self.asset, attr) == getattr(asset_unpickled, attr)
 
     def test_asset_comparisons(self):
-
         s_23 = Asset(23, exchange_info=self.test_exchange)
         s_24 = Asset(24, exchange_info=self.test_exchange)
 
@@ -375,7 +377,6 @@ class AssetTestCase(TestCase):
         # Check all int types (includes long on py2):
         assert int(23) == s_23
         assert s_23 == int(23)
-
         assert s_23 != s_24
         assert s_23 != 24
         assert s_23 != "23"
@@ -384,7 +385,6 @@ class AssetTestCase(TestCase):
         assert s_23 != None
         # Compare to a value that doesn't fit into a platform int:
         assert s_23, sys.maxsize + 1
-
         assert s_23 < s_24
         assert s_23 < 24
         assert 24 > s_23
@@ -465,7 +465,9 @@ class TestFuture(WithAssetFinder, ZiplineTestCase):
         assert "Future(2468 [OMH15])" == reprd
 
     def test_reduce(self):
-        assert pickle.loads(pickle.dumps(self.future)).to_dict() == self.future.to_dict()
+        assert (
+            pickle.loads(pickle.dumps(self.future)).to_dict() == self.future.to_dict()
+        )
 
     def test_to_and_from_dict(self):
         dictd = self.future.to_dict()
@@ -1245,10 +1247,13 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
         assert asset_1.sid == 1
 
         # We don't know about this ALT_ID yet.
-        with pytest.raises(ValueNotFoundForField, match="Value '{}' was not found for field '{}'.".format(
+        with pytest.raises(
+            ValueNotFoundForField,
+            match="Value '{}' was not found for field '{}'.".format(
                 "100000002",
                 "ALT_ID",
-            )):
+            ),
+        ):
             af.lookup_by_supplementary_field("ALT_ID", "100000002", dt)
 
         # After all assets have ended.
@@ -1342,12 +1347,13 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
         dt = pd.Timestamp("2013-6-28", tz="UTC")
 
         for sid, expected in [(0, "100000000"), (1, "100000001")]:
-            assert finder.get_supplementary_field(sid, "ALT_ID", dt) == \
-                expected
+            assert finder.get_supplementary_field(sid, "ALT_ID", dt) == expected
 
         # Since sid 2 has not yet started, we don't know about its
         # ALT_ID.
-        with pytest.raises(NoValueForSid, match="No '{}' value found for sid '{}'.".format("ALT_ID", 2)):
+        with pytest.raises(
+            NoValueForSid, match="No '{}' value found for sid '{}'.".format("ALT_ID", 2)
+        ):
             finder.get_supplementary_field(2, "ALT_ID", dt),
 
         # After all assets have ended.
@@ -1358,11 +1364,13 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
             (1, "100000001"),
             (2, "100000000"),
         ]:
-            assert finder.get_supplementary_field(sid, "ALT_ID", dt) == \
-                expected
+            assert finder.get_supplementary_field(sid, "ALT_ID", dt) == expected
 
         # Sid 0 has historically held two values for ALT_ID by this dt.
-        with pytest.raises(MultipleValuesFoundForSid, match="Multiple '{}' values found for sid '{}'.".format("ALT_ID", 0)):
+        with pytest.raises(
+            MultipleValuesFoundForSid,
+            match="Multiple '{}' values found for sid '{}'.".format("ALT_ID", 0),
+        ):
             finder.get_supplementary_field(0, "ALT_ID", None),
 
     def test_group_by_type(self):
@@ -1390,8 +1398,7 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
         finder = self.asset_finder
         for equity_sids, future_sids in queries:
             results = finder.group_by_type(equity_sids + future_sids)
-            assert results == \
-                {"equity": set(equity_sids), "future": set(future_sids)}
+            assert results == {"equity": set(equity_sids), "future": set(future_sids)}
 
     @parameterized.expand(
         [
@@ -1431,10 +1438,8 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
             results = lookup(success_sids)
             assert isinstance(results, dict)
             assert set(results.keys()) == set(success_sids)
-            assert valmap(int, results) == \
-                dict(zip(success_sids, success_sids))
-            assert {type_} == \
-                {type(asset) for asset in results.values()}
+            assert valmap(int, results) == dict(zip(success_sids, success_sids))
+            assert {type_} == {type(asset) for asset in results.values()}
             with pytest.raises(failure_type):
                 lookup(fail_sids)
             with pytest.raises(failure_type):
@@ -1481,13 +1486,13 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
             results = finder.retrieve_all(sids)
             assert sids == tuple(map(int, results))
 
-            assert [Equity for _ in equity_sids] + [Future for _ in future_sids] == \
-                list(map(type, results))
+            assert [Equity for _ in equity_sids] + [
+                Future for _ in future_sids
+            ] == list(map(type, results))
             assert (
-                    list(equities.symbol.loc[equity_sids])
-                    + list(futures.symbol.loc[future_sids])
-                ) == \
-                list(asset.symbol for asset in results)
+                list(equities.symbol.loc[equity_sids])
+                + list(futures.symbol.loc[future_sids])
+            ) == list(asset.symbol for asset in results)
 
     @parameterized.expand(
         [
@@ -1581,7 +1586,9 @@ class AssetFinderMultipleCountries(WithTradingCalendars, ZiplineTestCase):
                         country_code=self.country_code(n),
                     )
                     assert actual_asset == assets[n]
-                    assert actual_asset.exchange_info.country_code == self.country_code(n)
+                    assert actual_asset.exchange_info.country_code == self.country_code(
+                        n
+                    )
 
     def test_lookup_symbol_fuzzy(self):
         num_countries = 3
@@ -1652,10 +1659,9 @@ class AssetFinderMultipleCountries(WithTradingCalendars, ZiplineTestCase):
                 with pytest.raises(expected_error):
                     finder.lookup_symbol(ticker, **extra_params)
 
-                assert expected_sid == \
-                    finder.lookup_symbol(
-                        ticker, country_code=country_code, **extra_params
-                    )
+                assert expected_sid == finder.lookup_symbol(
+                    ticker, country_code=country_code, **extra_params
+                )
 
         for n in range(num_countries):
             check_sid(n * 3, "PRTY_HRD", self.country_code(n))
@@ -1737,11 +1743,13 @@ class AssetFinderMultipleCountries(WithTradingCalendars, ZiplineTestCase):
                     as_of_date,
                     country_code=self.country_code(n),
                 )
-                assert result == finder.retrieve_asset(sid_from_country_ix(n)), str(asof)
+                assert result == finder.retrieve_asset(sid_from_country_ix(n)), str(
+                    asof
+                )
                 # The symbol and asset_name should always be the last held
                 # values
                 assert result.symbol == expected_symbol
-                assert result.asset_name ==  expected_name
+                assert result.asset_name == expected_name
 
         # note: these assertions walk forward in time, starting at assertions
         # about ownership before the start_date and ending with assertions
@@ -2292,16 +2300,16 @@ class TestExchangeInfo(ZiplineTestCase):
 
         # same full name but different canonical name
         c = ExchangeInfo("FULL NAME", "NOT E", "US")
-        assert c !=  a
+        assert c != a
 
         # same canonical name but different full name
         d = ExchangeInfo("DIFFERENT FULL NAME", "E", "US")
-        assert d !=  a
+        assert d != a
 
         # same names but different country
 
         e = ExchangeInfo("FULL NAME", "E", "JP")
-        assert e !=  a
+        assert e != a
 
     def test_repr(self):
         e = ExchangeInfo("FULL NAME", "E", "US")

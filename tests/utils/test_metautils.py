@@ -29,7 +29,9 @@ class D:
 
 class ComposeTypesTestCase(ZiplineTestCase):
     def test_identity(self):
-        assert compose_types(C) is C, "compose_types of a single class should be identity"
+        assert (
+            compose_types(C) is C
+        ), "compose_types of a single class should be identity"
 
     def test_compose(self):
         composed = compose_types(C, D)

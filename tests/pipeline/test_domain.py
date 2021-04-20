@@ -67,7 +67,7 @@ import zipline.testing.fixtures as zf
 from zipline.testing.core import parameter_space, powerset
 from zipline.testing.predicates import assert_equal, assert_messages_equal
 from zipline.utils.pandas_utils import days_at_time
-
+import pytest
 
 class Sum(CustomFactor):
     def compute(self, today, assets, out, data):
@@ -209,13 +209,13 @@ class SpecializeTestCase(zf.ZiplineTestCase):
         def do_checks(cls, colnames):
             # DataSets with concrete domains can't be specialized to other
             # concrete domains.
-            with self.assertRaises(ValueError):
+            with pytest.raises(ValueError):
                 cls.specialize(different_domain)
 
             # Same goes for columns of the dataset.
             for name in colnames:
                 col = getattr(cls, name)
-                with self.assertRaises(ValueError):
+                with pytest.raises(ValueError):
                     col.specialize(different_domain)
 
             # We always allow unspecializing to simplify the implementation of
@@ -233,13 +233,13 @@ class SpecializeTestCase(zf.ZiplineTestCase):
                 )
 
             # Don't allow specializing to any other domain.
-            with self.assertRaises(ValueError):
+            with pytest.raises(ValueError):
                 generic_non_root.specialize(different_domain)
 
             # Same deal for columns.
             for name in colnames:
                 col = getattr(generic_non_root, name)
-                with self.assertRaises(ValueError):
+                with pytest.raises(ValueError):
                     col.specialize(different_domain)
 
         do_checks(MyData, ["col1"])
@@ -258,11 +258,11 @@ class InferDomainTestCase(zf.ZiplineTestCase):
         self.assertIs(result, expected)
 
     def check_fails(self, inputs, expected_domains):
-        with self.assertRaises(AmbiguousDomain) as e:
+        with pytest.raises(AmbiguousDomain) as excinfo:
             infer_domain(inputs)
 
-        err = e.exception
-        self.assertEqual(err.domains, expected_domains)
+        err = excinfo.value
+        assert err.domains == expected_domains
 
         return err
 
@@ -334,7 +334,7 @@ class InferDomainTestCase(zf.ZiplineTestCase):
 class DataQueryCutoffForSessionTestCase(zf.ZiplineTestCase):
     def test_generic(self):
         sessions = pd.date_range("2014-01-01", "2014-06-01")
-        with self.assertRaises(NotImplementedError):
+        with pytest.raises(NotImplementedError):
             GENERIC.data_query_cutoff_for_sessions(sessions)
 
     def _test_equity_calendar_domain(
@@ -451,14 +451,14 @@ class DataQueryCutoffForSessionTestCase(zf.ZiplineTestCase):
             msg="There must be at least one invalid session.",
         )
 
-        with self.assertRaises(ValueError) as e:
+        with pytest.raises(ValueError) as excinfo:
             domain.data_query_cutoff_for_sessions(sessions)
 
         expected_msg = (
             "cannot resolve data query time for sessions that are not on the"
             " %s calendar:\n%s"
         ) % (domain.calendar.name, invalid_sessions)
-        assert_messages_equal(str(e.exception), expected_msg)
+        assert_messages_equal(str(excinfo.value), expected_msg)
 
     Case = namedtuple("Case", "time date_offset expected_timedelta")
 
@@ -563,11 +563,11 @@ class RollForwardTestCase(zf.ZiplineTestCase):
         # requesting a session beyond the last session raises an ValueError
         after_last_session = JP_EQUITIES.calendar.last_session + pd.Timedelta(days=20)
 
-        with self.assertRaises(ValueError) as ve:
+        with pytest.raises(ValueError) as excinfo:
             JP_EQUITIES.roll_forward(after_last_session)
 
         self.assertEqual(
-            str(ve.exception),
+            str(excinfo.value),
             "Date {} was past the last session for domain "
             "EquityCalendarDomain('JP', 'XTKS'). The last session for "
             "this domain is {}.".format(

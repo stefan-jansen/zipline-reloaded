@@ -27,6 +27,7 @@ from zipline.testing import check_allclose, parameter_space
 from zipline.utils.numpy_utils import datetime64ns_dtype, float64_dtype
 import pytest
 
+
 class F(Factor):
     dtype = float64_dtype
     inputs = ()
@@ -102,39 +103,39 @@ class NumericalExpressionTestCase(TestCase):
         f, g, h = self.f, self.g, self.h
 
         # Too few inputs.
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             NumExprFactor("x_0", (), dtype=float64_dtype)
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             NumExprFactor("x_0 + x_1", (f,), dtype=float64_dtype)
 
         # Too many inputs.
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             NumExprFactor("x_0", (f, g), dtype=float64_dtype)
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             NumExprFactor("x_0 + x_1", (f, g, h), dtype=float64_dtype)
 
         # Invalid variable name.
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             NumExprFactor("x_0x_1", (f,), dtype=float64_dtype)
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             NumExprFactor("x_0x_1", (f, g), dtype=float64_dtype)
 
         # Variable index must start at 0.
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             NumExprFactor("x_1", (f,), dtype=float64_dtype)
 
         # Scalar operands must be numeric.
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             "2" + f
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             f + "2"
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             f > "2"
 
         # Boolean binary operators must be between filters.
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             f + (f > 2)
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             (f > f) > f
 
     @parameter_space(num_new_inputs=[1, 4])

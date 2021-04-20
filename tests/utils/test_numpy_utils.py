@@ -31,19 +31,22 @@ def mapall(*args):
 def make_array(dtype, value):
     return np.array([value], dtype=dtype)
 
+
 CASES = {
-    (int, is_int): mapall((int, np.int16, np.int32, np.int64, make_array(int)), [0, 1, -1]),
+    (int, is_int): mapall(
+        (int, np.int16, np.int32, np.int64, make_array(int)), [0, 1, -1]
+    ),
     (float, is_float): mapall(
         (np.float16, np.float32, np.float64, float, make_array(float)),
         [0.0, 1.0, -1.0, float("nan"), float("inf"), -float("inf")],
     ),
     (datetime, is_datetime): mapall(
         (
-    make_datetime64D,
-    make_datetime64ns,
-    Timestamp,
-    make_array("datetime64[ns]"),
-),
+            make_datetime64D,
+            make_datetime64ns,
+            Timestamp,
+            make_array("datetime64[ns]"),
+        ),
         [0, 1, 2],
     )
     + [NaTD, NaTns],
@@ -61,6 +64,7 @@ def everything_but(k, d):
 # TypeCheckTestCase
 fixt = [(k, x) for k, v in CASES.items() for x in v]
 not_fixt = [(k, x) for k in CASES.keys() for x in everything_but(k, CASES)]
+
 
 @pytest.mark.parametrize(
     "data_type, value",

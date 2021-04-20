@@ -374,8 +374,12 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
                 exists_today = self.exists(date, asset)
                 existed_yesterday = self.exists(date - self.trading_day, asset)
                 if exists_today and existed_yesterday:
-                    assert closes.loc[asset, "close"] == self.expected_close(date, asset)
-                    assert volumes.loc[asset, "volume"] == self.expected_volume(date, asset)
+                    assert closes.loc[asset, "close"] == self.expected_close(
+                        date, asset
+                    )
+                    assert volumes.loc[asset, "volume"] == self.expected_volume(
+                        date, asset
+                    )
                 else:
                     assert asset not in closes.index
                     assert asset not in volumes.index

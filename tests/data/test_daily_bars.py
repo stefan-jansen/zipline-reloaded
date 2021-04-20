@@ -23,6 +23,8 @@ from toolz import merge
 from trading_calendars import get_calendar
 
 from zipline.data.bar_reader import (
+    NoDataAfterDate,
+    NoDataBeforeDate,
     NoDataOnDate,
 )
 from zipline.data.bcolz_daily_bars import BcolzDailyBarWriter
@@ -35,23 +37,14 @@ from zipline.data.hdf5_daily_bars import (
     VOLUME,
     coerce_to_uint32,
 )
-from zipline.pipeline.loaders.synthetic import (
-    OHLCV,
-    expected_bar_value_with_holes,
-    make_bar_data,
+from zipline.testing import (
+    powerset,
+    seconds_to_timestamp,
+    powerset,
 )
-from zipline.testing import seconds_to_timestamp, powerset
-from zipline.testing.daily_bar_fixtures import (
-    _DailyBarsTestCase,
-    EQUITY_INFO,
-    TEST_CALENDAR_START,
-    TEST_CALENDAR_STOP,
-    TEST_QUERY_START,
-    TEST_QUERY_STOP,
-)
-from zipline.data.bar_reader import (
-    NoDataAfterDate,
-    NoDataBeforeDate,
+from zipline.testing.predicates import (
+    assert_equal,
+    assert_sequence_equal,
 )
 from zipline.testing.fixtures import (
     WithAssetFinder,
@@ -60,12 +53,179 @@ from zipline.testing.fixtures import (
     WithTmpDir,
     WithTradingCalendars,
     ZiplineTestCase,
+    WithEquityDailyBarData,
+    WithSeededRandomState,
 )
-from zipline.testing.predicates import assert_equal, assert_sequence_equal
+from zipline.utils.classproperty import classproperty
+from zipline.pipeline.loaders.synthetic import (
+    OHLCV,
+    expected_bar_value_with_holes,
+    make_bar_data,
+    asset_start,
+    asset_end,
+    expected_bar_values_2d,
+    make_bar_data,
+)
 import pytest
 
+# NOTE: All sids here are odd, so we can test querying for unknown sids
+#       with evens.
+us_info = pd.DataFrame(
+    [
+        # 1) The equity's trades start and end before query.
+        {"start_date": "2015-06-01", "end_date": "2015-06-05"},
+        # 3) The equity's trades start and end after query.
+        {"start_date": "2015-06-22", "end_date": "2015-06-30"},
+        # 5) The equity's data covers all dates in range (but we define
+        #    a hole for it on 2015-06-17).
+        {"start_date": "2015-06-02", "end_date": "2015-06-30"},
+        # 7) The equity's trades start before the query start, but stop
+        #    before the query end.
+        {"start_date": "2015-06-01", "end_date": "2015-06-15"},
+        # 9) The equity's trades start and end during the query.
+        {"start_date": "2015-06-12", "end_date": "2015-06-18"},
+        # 11) The equity's trades start during the query, but extend through
+        #    the whole query.
+        {"start_date": "2015-06-15", "end_date": "2015-06-25"},
+    ],
+    index=np.arange(1, 12, step=2),
+    columns=["start_date", "end_date"],
+).astype("datetime64[ns]")
+
+us_info["exchange"] = "NYSE"
+
+ca_info = pd.DataFrame(
+    [
+        # 13) The equity's trades start and end before query.
+        {"start_date": "2015-06-01", "end_date": "2015-06-05"},
+        # 15) The equity's trades start and end after query.
+        {"start_date": "2015-06-22", "end_date": "2015-06-30"},
+        # 17) The equity's data covers all dates in range.
+        {"start_date": "2015-06-02", "end_date": "2015-06-30"},
+        # 19) The equity's trades start before the query start, but stop
+        #    before the query end.
+        {"start_date": "2015-06-01", "end_date": "2015-06-15"},
+        # 21) The equity's trades start and end during the query.
+        {"start_date": "2015-06-12", "end_date": "2015-06-18"},
+        # 23) The equity's trades start during the query, but extend through
+        #    the whole query.
+        {"start_date": "2015-06-15", "end_date": "2015-06-25"},
+    ],
+    index=np.arange(13, 24, step=2),
+    columns=["start_date", "end_date"],
+).astype("datetime64[ns]")
+
+ca_info["exchange"] = "TSX"
+
+EQUITY_INFO = pd.concat([us_info, ca_info])
+EQUITY_INFO["symbol"] = [chr(ord("A") + x) for x in range(len(EQUITY_INFO))]
 
 TEST_QUERY_ASSETS = EQUITY_INFO.index
+
+TEST_CALENDAR_START = pd.Timestamp("2015-06-01", tz="UTC")
+TEST_CALENDAR_STOP = pd.Timestamp("2015-06-30", tz="UTC")
+
+TEST_QUERY_START = pd.Timestamp("2015-06-10", tz="UTC")
+TEST_QUERY_STOP = pd.Timestamp("2015-06-19", tz="UTC")
+
+
+HOLES = {
+    "US": {5: (pd.Timestamp("2015-06-17", tz="UTC"),)},
+    "CA": {17: (pd.Timestamp("2015-06-17", tz="UTC"),)},
+}
+
+
+class _DailyBarsTestCase(
+    WithEquityDailyBarData,
+    WithSeededRandomState,
+    ZiplineTestCase,
+):
+    EQUITY_DAILY_BAR_START_DATE = TEST_CALENDAR_START
+    EQUITY_DAILY_BAR_END_DATE = TEST_CALENDAR_STOP
+
+    # The country under which these tests should be run.
+    DAILY_BARS_TEST_QUERY_COUNTRY_CODE = "US"
+
+    # Currencies to use for assets in these tests.
+    DAILY_BARS_TEST_CURRENCIES = {"US": ["USD"], "CA": ["USD", "CAD"]}
+
+    @classmethod
+    def init_class_fixtures(cls):
+        super(_DailyBarsTestCase, cls).init_class_fixtures()
+
+        cls.sessions = cls.trading_calendar.sessions_in_range(
+            cls.trading_calendar.minute_to_session_label(TEST_CALENDAR_START),
+            cls.trading_calendar.minute_to_session_label(TEST_CALENDAR_STOP),
+        )
+
+    @classmethod
+    def make_equity_info(cls):
+        return EQUITY_INFO
+
+    @classmethod
+    def make_exchanges_info(cls, *args, **kwargs):
+        return pd.DataFrame({"exchange": ["NYSE", "TSX"], "country_code": ["US", "CA"]})
+
+    @classmethod
+    def make_equity_daily_bar_data(cls, country_code, sids):
+        # Create the data for all countries.
+        return make_bar_data(
+            EQUITY_INFO.loc[list(sids)],
+            cls.equity_daily_bar_days,
+            holes=merge(HOLES.values()),
+        )
+
+    @classmethod
+    def make_equity_daily_bar_currency_codes(cls, country_code, sids):
+        # Evenly distribute choices among ``sids``.
+        choices = cls.DAILY_BARS_TEST_CURRENCIES[country_code]
+        codes = list(islice(cycle(choices), len(sids)))
+        return pd.Series(index=sids, data=np.array(codes, dtype=object))
+
+    @classproperty
+    def holes(cls):
+        return HOLES[cls.DAILY_BARS_TEST_QUERY_COUNTRY_CODE]
+
+    @property
+    def assets(self):
+        return list(
+            self.asset_finder.equities_sids_for_country_code(
+                self.DAILY_BARS_TEST_QUERY_COUNTRY_CODE
+            )
+        )
+
+    def trading_days_between(self, start, end):
+        return self.sessions[self.sessions.slice_indexer(start, end)]
+
+    def asset_start(self, asset_id):
+        return asset_start(EQUITY_INFO, asset_id)
+
+    def asset_end(self, asset_id):
+        return asset_end(EQUITY_INFO, asset_id)
+
+    def dates_for_asset(self, asset_id):
+        start, end = self.asset_start(asset_id), self.asset_end(asset_id)
+        return self.trading_days_between(start, end)
+
+    def _check_read_results(self, columns, assets, start_date, end_date):
+        results = self.daily_bar_reader.load_raw_arrays(
+            columns,
+            start_date,
+            end_date,
+            assets,
+        )
+        dates = self.trading_days_between(start_date, end_date)
+        for column, result in zip(columns, results):
+            assert_equal(
+                result,
+                expected_bar_values_2d(
+                    dates,
+                    assets,
+                    EQUITY_INFO.loc[self.assets],
+                    column,
+                    holes=self.holes,
+                ),
+            )
 
 
 def test_odd_query_assets():
@@ -89,15 +249,17 @@ class BcolzDailyBarTestCase(WithBcolzEquityDailyBarReader, _DailyBarsTestCase):
             multiplier = 1 if column == "volume" else 1000
             for asset_id in self.assets:
                 for date in self.dates_for_asset(asset_id):
-                    assert data[idx] == \
-                        expected_bar_value_with_holes(
+                    assert (
+                        data[idx]
+                        == expected_bar_value_with_holes(
                             asset_id=asset_id,
                             date=date,
                             colname=column,
                             holes=self.holes,
                             missing_value=0,
-                        ) \
+                        )
                         * multiplier
+                    )
                     idx += 1
             assert idx == len(data)
 
@@ -140,24 +302,20 @@ class BcolzDailyBarTestCase(WithBcolzEquityDailyBarReader, _DailyBarsTestCase):
         }
         assert result.attrs["first_row"] == expected_first_row
         assert result.attrs["last_row"] == expected_last_row
-        assert result.attrs["calendar_offset"] == \
-            expected_calendar_offset
+        assert result.attrs["calendar_offset"] == expected_calendar_offset
         cal = get_calendar(result.attrs["calendar_name"])
         first_session = pd.Timestamp(result.attrs["start_session_ns"], tz="UTC")
         end_session = pd.Timestamp(result.attrs["end_session_ns"], tz="UTC")
         sessions = cal.sessions_in_range(first_session, end_session)
 
         assert_equal(self.sessions, sessions)
-    
+
     def test_read_first_trading_day(self):
-        self.assertEqual(
-            self.daily_bar_reader.first_trading_day,
-            self.sessions[0],
-        )
-    
+        assert self.daily_bar_reader.first_trading_day == self.sessions[0]
+
     def test_sessions(self):
         assert_equal(self.daily_bar_reader.sessions, self.sessions)
-    
+
     @parameterized.expand(
         [
             (["open"],),
@@ -276,7 +434,7 @@ class BcolzDailyBarTestCase(WithBcolzEquityDailyBarReader, _DailyBarsTestCase):
     )
     def test_read_only_unknown_sids(self, query_assets):
         columns = [CLOSE, VOLUME]
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             self.daily_bar_reader.load_raw_arrays(
                 columns,
                 TEST_QUERY_START,
@@ -367,13 +525,13 @@ class BcolzDailyBarTestCase(WithBcolzEquityDailyBarReader, _DailyBarsTestCase):
             # Attempting to get data for an asset before its start date
             # should raise NoDataBeforeDate.
             if TEST_CALENDAR_START <= before_start <= TEST_CALENDAR_STOP:
-                with self.assertRaises(NoDataBeforeDate):
+                with pytest.raises(NoDataBeforeDate):
                     reader.get_value(asset, before_start, CLOSE)
 
             # Attempting to get data for an asset after its end date
             # should raise NoDataAfterDate.
             if TEST_CALENDAR_START <= after_end <= TEST_CALENDAR_STOP:
-                with self.assertRaises(NoDataAfterDate):
+                with pytest.raises(NoDataAfterDate):
                     reader.get_value(asset, after_end, CLOSE)
 
         # Retrieving data for "holes" (dates with no data, but within
@@ -446,9 +604,9 @@ class BcolzDailyBarTestCase(WithBcolzEquityDailyBarReader, _DailyBarsTestCase):
         ).values
         assert_equal(all_results, all_expected)
 
-        self.assertEqual(all_results.dtype, np.dtype(object))
+        assert all_results.dtype == np.dtype(object)
         for code in all_results:
-            self.assertIsInstance(code, str)
+            assert isinstance(code, str)
 
         # Check all possible subsets of assets.
         for indices in map(list, powerset(range(len(all_assets)))):
@@ -567,11 +725,9 @@ class _HDF5DailyBarTestCase(
                     sid
                 ),
             )
+
     def test_read_first_trading_day(self):
-        self.assertEqual(
-            self.daily_bar_reader.first_trading_day,
-            self.sessions[0],
-        )
+        assert self.daily_bar_reader.first_trading_day == self.sessions[0]
 
     def test_asset_start_dates(self):
         assert_sequence_equal(self.single_country_reader.sids, self.assets)
@@ -584,6 +740,7 @@ class _HDF5DailyBarTestCase(
                     sid
                 ),
             )
+
     def test_sessions(self):
         assert_equal(self.daily_bar_reader.sessions, self.sessions)
 
@@ -612,6 +769,7 @@ class _HDF5DailyBarTestCase(
                     invalid_date,
                     "close",
                 )
+
     @parameterized.expand(
         [
             (["open"],),
@@ -730,7 +888,7 @@ class _HDF5DailyBarTestCase(
     )
     def test_read_only_unknown_sids(self, query_assets):
         columns = [CLOSE, VOLUME]
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             self.daily_bar_reader.load_raw_arrays(
                 columns,
                 TEST_QUERY_START,
@@ -821,13 +979,13 @@ class _HDF5DailyBarTestCase(
             # Attempting to get data for an asset before its start date
             # should raise NoDataBeforeDate.
             if TEST_CALENDAR_START <= before_start <= TEST_CALENDAR_STOP:
-                with self.assertRaises(NoDataBeforeDate):
+                with pytest.raises(NoDataBeforeDate):
                     reader.get_value(asset, before_start, CLOSE)
 
             # Attempting to get data for an asset after its end date
             # should raise NoDataAfterDate.
             if TEST_CALENDAR_START <= after_end <= TEST_CALENDAR_STOP:
-                with self.assertRaises(NoDataAfterDate):
+                with pytest.raises(NoDataAfterDate):
                     reader.get_value(asset, after_end, CLOSE)
 
         # Retrieving data for "holes" (dates with no data, but within
@@ -900,7 +1058,7 @@ class _HDF5DailyBarTestCase(
         ).values
         assert_equal(all_results, all_expected)
 
-        self.assertEqual(all_results.dtype, np.dtype(object))
+        assert all_results.dtype == np.dtype(object)
         for code in all_results:
             self.assertIsInstance(code, str)
 

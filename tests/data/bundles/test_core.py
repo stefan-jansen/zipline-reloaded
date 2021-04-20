@@ -39,13 +39,9 @@ from zipline.testing.fixtures import (
     ZiplineTestCase,
     WithDefaultDateBounds,
 )
-from zipline.testing.predicates import (
-    assert_raises,
-)
 from zipline.utils.cache import dataframe_cache
 from zipline.utils.functional import apply
 import zipline.utils.paths as pth
-
 
 _1_ns = pd.Timedelta(1, unit="ns")
 

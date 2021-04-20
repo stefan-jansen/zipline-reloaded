@@ -131,8 +131,7 @@ class HooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
         """Verify a trace of a Pipeline execution."""
         # First/last calls should bracket the pipeline execution.
         self.expect_context_pair(trace[0], trace[-1], "running_pipeline")
-        assert trace[0].args == \
-            (pipeline, pipeline_start_date, pipeline_end_date)
+        assert trace[0].args == (pipeline, pipeline_start_date, pipeline_end_date)
 
         # Break up the trace into the traces of each chunk.
         chunk_traces = self.split_by_chunk(trace[1:-1])
@@ -337,8 +336,7 @@ class ProgressHooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
         # Percent complete should be monotonically increasing through the whole
         # execution.
         for before, after in toolz.sliding_window(2, trace):
-            assert after.percent_complete >= \
-                before.percent_complete
+            assert after.percent_complete >= before.percent_complete
 
         # First publish should come from the start of the first chunk, with no
         # work yet.
@@ -464,8 +462,7 @@ class TermReprTestCase(ZiplineTestCase):
             inputs = [TestingDataSet.float_col]
             window_length = 3
 
-        assert repr_htmlsafe(MyFactor()) == \
-            repr(MyFactor())
+        assert repr_htmlsafe(MyFactor()) == repr(MyFactor())
 
     def test_htmlsafe_repr_escapes_html(self):
         class MyFactor(CustomFactor):
@@ -475,8 +472,9 @@ class TermReprTestCase(ZiplineTestCase):
             def __repr__(self):
                 return "<b>foo</b>"
 
-        assert repr_htmlsafe(MyFactor()) == \
-            "<b>foo</b>".replace("<", "&lt;").replace(">", "&gt;")
+        assert repr_htmlsafe(MyFactor()) == "<b>foo</b>".replace("<", "&lt;").replace(
+            ">", "&gt;"
+        )
 
     def test_htmlsafe_repr_handles_errors(self):
         class MyFactor(CustomFactor):
@@ -486,8 +484,7 @@ class TermReprTestCase(ZiplineTestCase):
             def __repr__(self):
                 raise ValueError("Kaboom!")
 
-        assert repr_htmlsafe(MyFactor()) == \
-            "(Error Displaying MyFactor)"
+        assert repr_htmlsafe(MyFactor()) == "(Error Displaying MyFactor)"
 
     def test_htmlsafe_repr_escapes_html_when_it_handles_errors(self):
         class MyFactor(CustomFactor):
@@ -500,8 +497,7 @@ class TermReprTestCase(ZiplineTestCase):
         MyFactor.__name__ = "<b>foo</b>"
         converted = MyFactor.__name__.replace("<", "&lt;").replace(">", "&gt;")
 
-        assert repr_htmlsafe(MyFactor()) == \
-            "(Error Displaying {})".format(converted)
+        assert repr_htmlsafe(MyFactor()) == "(Error Displaying {})".format(converted)
 
 
 def two_at_a_time(it):

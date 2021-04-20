@@ -25,7 +25,7 @@ from zipline.utils.pandas_utils import (
     new_pandas,
     skip_pipeline_new_pandas,
 )
-
+import pytest
 
 class LatestTestCase(
     WithSeededRandomPipelineEngine, WithTradingSessions, ZiplineTestCase
@@ -97,13 +97,13 @@ class LatestTestCase(
     )
     def test_comparison_errors(self, op):
         for column in TDS.columns:
-            with self.assertRaises(TypeError):
+            with pytest.raises(TypeError):
                 op(column, 1000)
-            with self.assertRaises(TypeError):
+            with pytest.raises(TypeError):
                 op(1000, column)
-            with self.assertRaises(TypeError):
+            with pytest.raises(TypeError):
                 op(column, "test")
-            with self.assertRaises(TypeError):
+            with pytest.raises(TypeError):
                 op("test", column)
 
     def test_comparison_error_message(self):
@@ -113,9 +113,9 @@ class LatestTestCase(
             " (Did you mean to use '.latest'?)"
         )
 
-        with self.assertRaises(TypeError) as e:
+        with pytest.raises(TypeError) as excinfo:
             column < 1000
-        self.assertEqual(str(e.exception), err_msg)
+        self.assertEqual(str(excinfo.value), err_msg)
 
         try:
             column.latest < 1000
@@ -123,11 +123,11 @@ class LatestTestCase(
             self.fail()
 
     def test_construction_error_message(self):
-        with self.assertRaises(ValueError) as exc:
+        with pytest.raises(ValueError) as excinfo:
             Column(dtype=datetime64ns_dtype, currency_aware=True)
 
         self.assertEqual(
-            str(exc.exception),
+            str(excinfo.value),
             "Columns cannot be constructed with currency_aware=True, "
             "dtype=datetime64[ns]. Currency aware columns must have a float64 "
             "dtype.",

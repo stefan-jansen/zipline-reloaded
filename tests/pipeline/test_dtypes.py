@@ -9,7 +9,7 @@ from zipline.pipeline.sentinels import NotSpecified
 from zipline.testing import parameter_space
 from zipline.testing.fixtures import ZiplineTestCase
 from zipline.utils.numpy_utils import int64_dtype, bool_dtype
-
+import pytest
 
 missing_values = {
     int64_dtype: -1,
@@ -35,7 +35,7 @@ class DtypeTestCase(ZiplineTestCase):
     def incorrect_dtype(cls, dtypes, hint):
         @parameter_space(dtype_=dtypes)
         def test(self, dtype_):
-            with self.assertRaises(UnsupportedDataType) as e:
+            with pytest.raises(UnsupportedDataType) as excinfo:
 
                 class Incorrect(cls):
                     missing_value = missing_values.get(dtype_, NotSpecified)
@@ -47,8 +47,8 @@ class DtypeTestCase(ZiplineTestCase):
                 # construction time
                 Incorrect()
 
-            self.assertIn(hint, str(e.exception))
-            self.assertIn(str(dtype_), str(e.exception))
+            assert hint in str(excinfo.value)
+            assert str(dtype_) in str(excinfo.value)
 
         return test
 

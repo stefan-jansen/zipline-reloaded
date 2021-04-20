@@ -170,18 +170,15 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
             inputs = ()
             window_length = 0
 
-        with self.assertRaises(ValueError) as e:
+        with pytest.raises(ValueError) as excinfo:
             C().eq(missing)
-        errmsg = str(e.exception)
-        self.assertEqual(
-            errmsg,
-            "Comparison against self.missing_value ({v!r}) in C.eq().\n"
-            "Missing values have NaN semantics, so the requested comparison"
-            " would always produce False.\n"
-            "Use the isnull() method to check for missing values.".format(
-                v=missing,
-            ),
-        )
+        errmsg = str(excinfo.value)
+        assert errmsg == "Comparison against self.missing_value ({v!r}) in C.eq().\n"
+        "Missing values have NaN semantics, so the requested comparison"
+        " would always produce False.\n"
+        "Use the isnull() method to check for missing values.".format(
+            v=missing,
+        ),
 
     @parameter_space(compval=[0, 1, 999], missing=[-1, 0, 999])
     def test_not_equal(self, compval, missing):
@@ -432,9 +429,9 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
         c = C()
 
         for bad_elems in ([missing], [missing, "random other value"]):
-            with self.assertRaises(ValueError) as e:
+            with pytest.raises(ValueError) as excinfo:
                 c.element_of(bad_elems)
-            errmsg = str(e.exception)
+            errmsg = str(excinfo.value)
             expected = (
                 "Found self.missing_value ('not in the array') in choices"
                 " supplied to C.element_of().\n"
@@ -455,10 +452,10 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
 
         c = C()
 
-        with self.assertRaises(TypeError) as e:
+        with pytest.raises(TypeError) as excinfo:
             c.element_of([{"a": 1}])
 
-        errmsg = str(e.exception)
+        errmsg = str(excinfo.value)
         expected = (
             "Expected `choices` to be an iterable of hashable values,"
             " but got \[{'a': 1}\] instead.\n"
@@ -578,10 +575,10 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
 
         c = C()
 
-        with self.assertRaises(TypeError) as e:
+        with pytest.raises(TypeError) as excinfo:
             c.relabel(lambda x: 0 / 0)  # Function should never be called.
 
-        result = str(e.exception)
+        result = str(excinfo.value)
         expected = (
             "relabel() is only defined on Classifiers producing strings "
             "but it was called on a Classifier of dtype int64."
@@ -599,11 +596,11 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
             dtype = dtype_and_missing[0]
             missing_value = dtype_and_missing[1]
 
-        with self.assertRaises(TypeError) as e:
+        with pytest.raises(TypeError) as excinfo:
             compare_op(C(), object())
 
         self.assertEqual(
-            str(e.exception),
+            str(excinfo.value),
             "cannot compare classifiers with %s"
             % (methods_to_ops["__%s__" % compare_op.__name__],),
         )

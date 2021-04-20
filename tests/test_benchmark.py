@@ -153,7 +153,10 @@ class TestBenchmark(
                 self.sim_params.sessions[1:],
                 self.data_portal,
             )
-        assert f"Equity(3 [C]) does not exist on {self.sim_params.sessions[1]}. It started trading on {benchmark_start}." == str(excinfo1.value)
+        assert (
+            f"Equity(3 [C]) does not exist on {self.sim_params.sessions[1]}. It started trading on {benchmark_start}."
+            == str(excinfo1.value)
+        )
 
         with pytest.raises(BenchmarkAssetNotAvailableTooLate) as excinfo2:
             BenchmarkSource(
@@ -163,7 +166,10 @@ class TestBenchmark(
                 self.data_portal,
             )
 
-        assert f"Equity(3 [C]) does not exist on {self.sim_params.sessions[-1]}. It stopped trading on {benchmark_end}." == str(excinfo2.value)
+        assert (
+            f"Equity(3 [C]) does not exist on {self.sim_params.sessions[-1]}. It stopped trading on {benchmark_end}."
+            == str(excinfo2.value)
+        )
 
     def test_asset_IPOed_same_day(self):
         # gotta get some minute data up in here.
@@ -197,7 +203,7 @@ class TestBenchmark(
             days_to_use = self.sim_params.sessions
 
             # first value should be 0.0, coming from daily data
-            assert round(abs(0.0-source.get_value(days_to_use[0])), 7) == 0
+            assert round(abs(0.0 - source.get_value(days_to_use[0])), 7) == 0
 
             manually_calculated = data_portal.get_history_window(
                 [2],
@@ -223,11 +229,13 @@ class TestBenchmark(
                 self.data_portal,
             )
 
-        assert "Equity(4 [D]) cannot be used as the benchmark " \
-            "because it has a stock dividend on 2006-03-16 " \
-            "00:00:00.  Choose another asset to use as the " \
-            "benchmark." == \
-            str(excinfo.value)
+        assert (
+            "Equity(4 [D]) cannot be used as the benchmark "
+            "because it has a stock dividend on 2006-03-16 "
+            "00:00:00.  Choose another asset to use as the "
+            "benchmark." == str(excinfo.value)
+        )
+
 
 class BenchmarkSpecTestCase(WithTmpDir, WithAssetFinder, ZiplineTestCase):
     @classmethod

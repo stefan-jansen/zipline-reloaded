@@ -39,7 +39,6 @@ from zipline.testing import parameter_space
 from zipline.testing.fixtures import WithTradingSessions, ZiplineTestCase
 from zipline.testing.predicates import (
     assert_equal,
-    assert_raises,
     assert_raises_regex,
     assert_regex,
 )
@@ -212,10 +211,8 @@ class DependencyResolutionTestCase(WithTradingSessions, ZiplineTestCase):
             assert specialized_bar in resolution_order
             assert SomeFactor() in resolution_order
 
-            assert graph.graph.nodes[specialized_foo]["extra_rows"] == \
-                4
-            assert graph.graph.nodes[specialized_bar]["extra_rows"] == \
-                4
+            assert graph.graph.nodes[specialized_foo]["extra_rows"] == 4
+            assert graph.graph.nodes[specialized_bar]["extra_rows"] == 4
 
         for foobar in gen_equivalent_factors():
             check_output(self.make_execution_plan(to_dict([foobar])))
@@ -297,34 +294,33 @@ class ObjectIdentityTestCase(TestCase):
     def test_instance_caching(self):
 
         self.assertSameObject(*gen_equivalent_factors())
-        assert SomeFactor(window_length=SomeFactor.window_length + 1) is \
-            SomeFactor(window_length=SomeFactor.window_length + 1)
+        assert SomeFactor(window_length=SomeFactor.window_length + 1) is SomeFactor(
+            window_length=SomeFactor.window_length + 1
+        )
 
-        assert SomeFactor(dtype=float64_dtype) is \
-            SomeFactor(dtype=float64_dtype)
+        assert SomeFactor(dtype=float64_dtype) is SomeFactor(dtype=float64_dtype)
 
-        assert SomeFactor(inputs=[SomeFactor.inputs[1], SomeFactor.inputs[0]]) is \
-            SomeFactor(inputs=[SomeFactor.inputs[1], SomeFactor.inputs[0]])
+        assert SomeFactor(
+            inputs=[SomeFactor.inputs[1], SomeFactor.inputs[0]]
+        ) is SomeFactor(inputs=[SomeFactor.inputs[1], SomeFactor.inputs[0]])
 
         mask = SomeFactor() + SomeOtherFactor()
         assert SomeFactor(mask=mask) is SomeFactor(mask=mask)
 
     def test_instance_caching_multiple_outputs(self):
         assert MultipleOutputs() is MultipleOutputs()
-        assert MultipleOutputs() is \
-            MultipleOutputs(outputs=MultipleOutputs.outputs)
+        assert MultipleOutputs() is MultipleOutputs(outputs=MultipleOutputs.outputs)
         assert MultipleOutputs(
-                outputs=[
-                    MultipleOutputs.outputs[1],
-                    MultipleOutputs.outputs[0],
-                ],
-            ) is \
-            MultipleOutputs(
-                outputs=[
-                    MultipleOutputs.outputs[1],
-                    MultipleOutputs.outputs[0],
-                ],
-            )
+            outputs=[
+                MultipleOutputs.outputs[1],
+                MultipleOutputs.outputs[0],
+            ],
+        ) is MultipleOutputs(
+            outputs=[
+                MultipleOutputs.outputs[1],
+                MultipleOutputs.outputs[0],
+            ],
+        )
 
         # Ensure that both methods of accessing our outputs return the same
         # things.
@@ -356,15 +352,13 @@ class ObjectIdentityTestCase(TestCase):
         f = SomeFactor()
 
         # Different window_length.
-        assert f is not \
-            SomeFactor(window_length=SomeFactor.window_length + 1)
+        assert f is not SomeFactor(window_length=SomeFactor.window_length + 1)
 
         # Different dtype
         assert f is not SomeFactor(dtype=datetime64ns_dtype)
 
         # Reordering inputs changes semantics.
-        assert f is not \
-            SomeFactor(inputs=[SomeFactor.inputs[1], SomeFactor.inputs[0]])
+        assert f is not SomeFactor(inputs=[SomeFactor.inputs[1], SomeFactor.inputs[0]])
 
     def test_instance_non_caching_redefine_class(self):
 
@@ -381,17 +375,15 @@ class ObjectIdentityTestCase(TestCase):
         multiple_outputs = MultipleOutputs()
 
         # Different outputs.
-        assert MultipleOutputs() is not \
-            MultipleOutputs(outputs=["beta", "gamma"])
+        assert MultipleOutputs() is not MultipleOutputs(outputs=["beta", "gamma"])
 
         # Reordering outputs.
-        assert multiple_outputs is not \
-            MultipleOutputs(
-                outputs=[
-                    MultipleOutputs.outputs[1],
-                    MultipleOutputs.outputs[0],
-                ],
-            )
+        assert multiple_outputs is not MultipleOutputs(
+            outputs=[
+                MultipleOutputs.outputs[1],
+                MultipleOutputs.outputs[0],
+            ],
+        )
 
         # Different factors sharing an output name should produce different
         # RecarrayField factors.
@@ -471,26 +463,26 @@ class ObjectIdentityTestCase(TestCase):
         assert f.inputs == tuple(SomeFactor.inputs)
 
     def test_parameterized_term_non_hashable_arg(self):
-        with assert_raises(TypeError) as e:
+        with pytest.raises(TypeError) as excinfo:
             self.SomeFactorParameterized(a=[], b=1)
         assert_equal(
-            str(e.exception),
+            str(excinfo.value),
             "SomeFactorParameterized expected a hashable value for parameter"
             " 'a', but got [] instead.",
         )
 
-        with assert_raises(TypeError) as e:
+        with pytest.raises(TypeError) as excinfo:
             self.SomeFactorParameterized(a=1, b=[])
         assert_equal(
-            str(e.exception),
+            str(excinfo.value),
             "SomeFactorParameterized expected a hashable value for parameter"
             " 'b', but got [] instead.",
         )
 
-        with assert_raises(TypeError) as e:
+        with pytest.raises(TypeError) as excinfo:
             self.SomeFactorParameterized(a=[], b=[])
         assert_regex(
-            str(e.exception),
+            str(excinfo.value),
             r"SomeFactorParameterized expected a hashable value for parameter"
             r" '(a|b)', but got \[\] instead\.",
         )
@@ -585,8 +577,7 @@ class ObjectIdentityTestCase(TestCase):
             SomeFactor().not_an_attr
 
         errmsg = str(excinfo.value)
-        assert errmsg == \
-            "'SomeFactor' object has no attribute 'not_an_attr'"
+        assert errmsg == "'SomeFactor' object has no attribute 'not_an_attr'"
 
         mo = MultipleOutputs()
         with pytest.raises(AttributeError) as excinfo:
@@ -603,8 +594,7 @@ class ObjectIdentityTestCase(TestCase):
             alpha, beta = GenericCustomFactor()
 
         errmsg = str(excinfo.value)
-        assert errmsg == \
-            "GenericCustomFactor does not have multiple outputs."
+        assert errmsg == "GenericCustomFactor does not have multiple outputs."
 
         # Public method, user-defined method.
         # Accessing these attributes should return the output, not the method.
@@ -634,10 +624,11 @@ class ObjectIdentityTestCase(TestCase):
             MyFactor()
 
         errmsg = str(excinfo.value)
-        assert errmsg == \
-            "Term._validate() was not called.\n" \
-            "This probably means that you overrode _validate" \
+        assert (
+            errmsg == "Term._validate() was not called.\n"
+            "This probably means that you overrode _validate"
             " without calling super()."
+        )
 
     def test_latest_on_different_dtypes(self):
         factor_dtypes = (float64_dtype, datetime64ns_dtype)
@@ -666,8 +657,8 @@ class ObjectIdentityTestCase(TestCase):
                 int_column = Column(dtype=int64_dtype, missing_value=3)
 
         assert str(excinfo.value.args[0]).startswith(
-                "Failed to create Column with name 'bad_column'"
-            )
+            "Failed to create Column with name 'bad_column'"
+        )
 
         Column(dtype=complex128_dtype)
         with pytest.raises(UnsupportedDType):
@@ -682,17 +673,18 @@ class SubDataSetTestCase(TestCase):
     def test_subdataset(self):
         some_dataset_map = {column.name: column for column in SomeDataSet.columns}
         sub_dataset_map = {column.name: column for column in SubDataSet.columns}
-        assert {column.name for column in SomeDataSet.columns} == \
-            {column.name for column in SubDataSet.columns}
+        assert {column.name for column in SomeDataSet.columns} == {
+            column.name for column in SubDataSet.columns
+        }
         for k, some_dataset_column in some_dataset_map.items():
             sub_dataset_column = sub_dataset_map[k]
-            assert some_dataset_column is not \
-                sub_dataset_column, \
-                "subclass column %r should not have the same identity as" \
+            assert some_dataset_column is not sub_dataset_column, (
+                "subclass column %r should not have the same identity as"
                 " the parent" % k
-            assert some_dataset_column.dtype == \
-                sub_dataset_column.dtype, \
+            )
+            assert some_dataset_column.dtype == sub_dataset_column.dtype, (
                 "subclass column %r should have the same dtype as the parent" % k
+            )
 
     def test_add_column(self):
         some_dataset_map = {column.name: column for column in SomeDataSet.columns}
@@ -703,20 +695,20 @@ class SubDataSetTestCase(TestCase):
 
         # check our extra col
         assert "qux" in sub_col_names
-        assert sub_dataset_new_col_map["qux"].dtype == \
-            float64_dtype
+        assert sub_dataset_new_col_map["qux"].dtype == float64_dtype
 
-        assert {column.name for column in SomeDataSet.columns} == \
-            sub_col_names - {"qux"}
+        assert {column.name for column in SomeDataSet.columns} == sub_col_names - {
+            "qux"
+        }
         for k, some_dataset_column in some_dataset_map.items():
             sub_dataset_column = sub_dataset_new_col_map[k]
-            assert some_dataset_column is not \
-                sub_dataset_column, \
-                "subclass column %r should not have the same identity as" \
+            assert some_dataset_column is not sub_dataset_column, (
+                "subclass column %r should not have the same identity as"
                 " the parent" % k
-            assert some_dataset_column.dtype == \
-                sub_dataset_column.dtype, \
+            )
+            assert some_dataset_column.dtype == sub_dataset_column.dtype, (
                 "subclass column %r should have the same dtype as the parent" % k
+            )
 
     @parameter_space(
         dtype_=[categorical_dtype, int64_dtype],

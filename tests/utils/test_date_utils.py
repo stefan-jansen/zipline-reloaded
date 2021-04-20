@@ -76,5 +76,7 @@ class TestDateUtils(ZiplineTestCase):
             compute_date_range_chunks(
                 self.calendar.all_sessions, T("2017-06-01"), T("2017-05-01"), None
             )
-        assert str(excinfo.value) == \
-            "End date 2017-05-01 cannot precede start date 2017-06-01."
+        assert (
+            str(excinfo.value)
+            == "End date 2017-05-01 cannot precede start date 2017-06-01."
+        )

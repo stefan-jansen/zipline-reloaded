@@ -46,7 +46,9 @@ class LabelArrayTestCase(ZiplineTestCase):
         with pytest.raises(TypeError) as excinfo:
             np.ndarray.__new__(LabelArray, (5, 5))
 
-        assert str(excinfo.value) == "Direct construction of LabelArrays is not supported."
+        assert (
+            str(excinfo.value) == "Direct construction of LabelArrays is not supported."
+        )
 
     @parameter_space(
         __fail_fast=True,
@@ -336,8 +338,9 @@ class LabelArrayTestCase(ZiplineTestCase):
         arr = LabelArray(self.strs, missing_value=missing_value)
 
         if not arr.has_label(val):
-            assert (val == "not in the array") \
-                or (val is None and missing_value is not None)
+            assert (val == "not in the array") or (
+                val is None and missing_value is not None
+            )
             for slicer in [(0, 0), (0, 1), 1]:
                 with pytest.raises(ValueError):
                     arr[slicer] = val
@@ -375,17 +378,18 @@ class LabelArrayTestCase(ZiplineTestCase):
         orig_arr = arr.copy()
 
         # Write a row.
-        assert not (arr[0] == arr[1]).all(), \
-            "This test doesn't test anything because rows 0" \
-            " and 1 are already equal!"
+        assert not (arr[0] == arr[1]).all(), (
+            "This test doesn't test anything because rows 0" " and 1 are already equal!"
+        )
         arr[0] = arr[1]
         for i in range(arr.shape[1]):
             assert arr[0, i] == arr[1, i]
 
         # Write a column.
-        assert not (arr[:, 0] == arr[:, 1]).all(), \
-            "This test doesn't test anything because columns 0" \
+        assert not (arr[:, 0] == arr[:, 1]).all(), (
+            "This test doesn't test anything because columns 0"
             " and 1 are already equal!"
+        )
         arr[:, 0] = arr[:, 1]
         for i in range(arr.shape[0]):
             assert arr[i, 0] == arr[i, 1]

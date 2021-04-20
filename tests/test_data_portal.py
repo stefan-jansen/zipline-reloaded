@@ -293,18 +293,18 @@ class DataPortalTestBase(WithDataPortal, WithTradingSessions):
         # first value.
         asset = self.asset_finder.retrieve_asset(1)
         assert pd.isnull(
-                self.data_portal.get_last_traded_dt(
-                    asset, self.trading_days[0], "daily"
-                )
-            )
+            self.data_portal.get_last_traded_dt(asset, self.trading_days[0], "daily")
+        )
 
         # Case: Data on requested dt.
-        assert self.trading_days[1] == \
-            self.data_portal.get_last_traded_dt(asset, self.trading_days[1], "daily")
+        assert self.trading_days[1] == self.data_portal.get_last_traded_dt(
+            asset, self.trading_days[1], "daily"
+        )
 
         # Case: No data on dt, but data occuring before dt.
-        assert self.trading_days[2] == \
-            self.data_portal.get_last_traded_dt(asset, self.trading_days[3], "daily")
+        assert self.trading_days[2] == self.data_portal.get_last_traded_dt(
+            asset, self.trading_days[3], "daily"
+        )
 
     def test_get_spot_value_equity_minute(self):
         trading_calendar = self.trading_calendars[Equity]
@@ -469,8 +469,9 @@ class DataPortalTestBase(WithDataPortal, WithTradingSessions):
             pd.Timestamp("2015-07-09", tz="UTC")
         )[0] + Timedelta("30 minutes")
 
-        assert (3 * 390) + 31 == \
-            self.data_portal._get_minute_count_for_transform(july_9_dt, 4)
+        assert (3 * 390) + 31 == self.data_portal._get_minute_count_for_transform(
+            july_9_dt, 4
+        )
 
         #    November 2015
         # Su Mo Tu We Th Fr Sa
@@ -490,39 +491,40 @@ class DataPortalTestBase(WithDataPortal, WithTradingSessions):
             pd.Timestamp("2015-11-30", tz="UTC")
         )[0] + Timedelta("30 minutes")
 
-        assert 390 + 390 + 210 + 31 == \
-            self.data_portal._get_minute_count_for_transform(nov_30_dt, 4)
+        assert 390 + 390 + 210 + 31 == self.data_portal._get_minute_count_for_transform(
+            nov_30_dt, 4
+        )
 
     def test_get_last_traded_dt_minute(self):
         minutes = self.nyse_calendar.minutes_for_session(self.trading_days[2])
         equity = self.asset_finder.retrieve_asset(1)
         result = self.data_portal.get_last_traded_dt(equity, minutes[3], "minute")
-        assert minutes[3] == \
-            result, \
-            "Asset 1 had a trade on third minute, so should " \
+        assert minutes[3] == result, (
+            "Asset 1 had a trade on third minute, so should "
             "return that as the last trade on that dt."
+        )
 
         result = self.data_portal.get_last_traded_dt(equity, minutes[5], "minute")
-        assert minutes[4] == \
-            result, \
-            "Asset 1 had a trade on fourth minute, so should " \
+        assert minutes[4] == result, (
+            "Asset 1 had a trade on fourth minute, so should "
             "return that as the last trade on the fifth."
+        )
 
         future = self.asset_finder.retrieve_asset(10000)
         calendar = self.trading_calendars[Future]
         minutes = calendar.minutes_for_session(self.trading_days[3])
         result = self.data_portal.get_last_traded_dt(future, minutes[3], "minute")
 
-        assert minutes[3] == \
-            result, \
-            "Asset 10000 had a trade on the third minute, so " \
+        assert minutes[3] == result, (
+            "Asset 10000 had a trade on the third minute, so "
             "return that as the last trade on that dt."
+        )
 
         result = self.data_portal.get_last_traded_dt(future, minutes[5], "minute")
-        assert minutes[4] == \
-            result, \
-            "Asset 10000 had a trade on fourth minute, so should " \
+        assert minutes[4] == result, (
+            "Asset 10000 had a trade on fourth minute, so should "
             "return that as the last trade on the fifth."
+        )
 
     def test_get_empty_splits(self):
         splits = self.data_portal.get_splits([], self.trading_days[2])

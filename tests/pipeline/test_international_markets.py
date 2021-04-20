@@ -24,7 +24,7 @@ from zipline.testing.predicates import assert_equal
 from zipline.testing.core import parameter_space, random_tick_prices
 
 import zipline.testing.fixtures as zf
-
+import pytest
 
 def T(s):
     return pd.Timestamp(s, tz="UTC")
@@ -445,7 +445,7 @@ class InternationalEquityTestCase(
         )
 
     def test_cannot_convert_volume_data(self):
-        with self.assertRaises(TypeError) as exc:
+        with pytest.raises(TypeError) as exc:
             EquityPricing.volume.fx("EUR")
 
         assert_equal(

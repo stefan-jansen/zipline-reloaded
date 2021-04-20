@@ -1,6 +1,6 @@
 from zipline.extensions import Registry
 from zipline.testing.fixtures import ZiplineTestCase
-from zipline.testing.predicates import assert_raises_str
+import pytest
 
 
 class FakeInterface:
@@ -12,11 +12,11 @@ class RegistrationManagerTestCase(ZiplineTestCase):
         rm = Registry(FakeInterface)
 
         msg = (
-            "no FakeInterface factory registered under name 'ayy-lmao', "
-            "options are: []"
+            "no FakeInterface factory registered under name 'ayy-lmao', options are: []",
         )
-        with assert_raises_str(ValueError, msg):
+        with pytest.raises(ValueError) as excinfo:
             rm.load("ayy-lmao")
+            assert excinfo.value.args == msg
 
         # register in reverse order to test the sorting of the options
         rm.register("c", FakeInterface)
@@ -27,8 +27,9 @@ class RegistrationManagerTestCase(ZiplineTestCase):
             "no FakeInterface factory registered under name 'ayy-lmao', "
             "options are: ['a', 'b', 'c']"
         )
-        with assert_raises_str(ValueError, msg):
+        with pytest.raises(ValueError) as excinfo:
             rm.load("ayy-lmao")
+            assert excinfo.value.args == msg
 
     def test_register_decorator(self):
         rm = Registry(FakeInterface)
@@ -38,20 +39,24 @@ class RegistrationManagerTestCase(ZiplineTestCase):
             pass
 
         def check_registered():
-            assert rm.is_registered("ayy-lmao"), "Class ProperDummyInterface wasn't properly registered under \n name 'ayy-lmao'"
-            self.assertIsInstance(rm.load("ayy-lmao"), ProperDummyInterface)
+            assert rm.is_registered(
+                "ayy-lmao"
+            ), "Class ProperDummyInterface wasn't properly registered under \n name 'ayy-lmao'"
+
+            assert isinstance(rm.load("ayy-lmao"), ProperDummyInterface)
 
         # Check that we successfully registered.
         check_registered()
 
         # Try and fail to register with the same key again.
-        m = "FakeInterface factory with name 'ayy-lmao' is already registered"
-        with assert_raises_str(ValueError, m):
+        msg = "FakeInterface factory with name 'ayy-lmao' is already registered"
+        with pytest.raises(ValueError) as excinfo:
 
             @rm.register("ayy-lmao")
             class Fake(object):
                 pass
 
+            assert excinfo.value.args == msg
         # check that the failed registration didn't break the previous
         # registration
         check_registered()
@@ -63,11 +68,12 @@ class RegistrationManagerTestCase(ZiplineTestCase):
             "no FakeInterface factory registered under name 'ayy-lmao', "
             "options are: []"
         )
-        with assert_raises_str(ValueError, msg):
+        with pytest.raises(ValueError) as excinfo:
             rm.load("ayy-lmao")
+            assert excinfo.value.args == msg
 
         msg = "FakeInterface factory 'ayy-lmao' was not already registered"
-        with assert_raises_str(ValueError, msg):
+        with pytest.raises(ValueError):
             rm.unregister("ayy-lmao")
 
     def test_register_non_decorator(self):
@@ -79,8 +85,10 @@ class RegistrationManagerTestCase(ZiplineTestCase):
         rm.register("ayy-lmao", ProperDummyInterface)
 
         def check_registered():
-            assert rm.is_registered("ayy-lmao"), "Class ProperDummyInterface wasn't properly registered under name 'ayy-lmao'"
-            self.assertIsInstance(rm.load("ayy-lmao"), ProperDummyInterface)
+            assert rm.is_registered(
+                "ayy-lmao"
+            ), "Class ProperDummyInterface wasn't properly registered under name 'ayy-lmao'"
+            assert isinstance(rm.load("ayy-lmao"), ProperDummyInterface)
 
         # Check that we successfully registered.
         check_registered()
@@ -89,8 +97,8 @@ class RegistrationManagerTestCase(ZiplineTestCase):
             pass
 
         # Try and fail to register with the same key again.
-        m = "FakeInterface factory with name 'ayy-lmao' is already registered"
-        with assert_raises_str(ValueError, m):
+        msg = "FakeInterface factory with name 'ayy-lmao' is already registered"
+        with pytest.raises(ValueError, match=msg):
             rm.register("ayy-lmao", Fake)
 
         # check that the failed registration didn't break the previous
@@ -103,9 +111,10 @@ class RegistrationManagerTestCase(ZiplineTestCase):
             "no FakeInterface factory registered under name 'ayy-lmao', "
             "options are: []"
         )
-        with assert_raises_str(ValueError, msg):
+        with pytest.raises(ValueError) as excinfo:
             rm.load("ayy-lmao")
+            assert excinfo.value.args == msg
 
         msg = "FakeInterface factory 'ayy-lmao' was not already registered"
-        with assert_raises_str(ValueError, msg):
+        with pytest.raises(ValueError, match=msg):
             rm.unregister("ayy-lmao")

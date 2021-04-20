@@ -8,6 +8,7 @@ from unittest import TestCase
 from parameterized import parameterized
 from numpy import arange, array, dtype
 import pytz
+import pytest
 
 from zipline.utils.preprocess import call, preprocess
 from zipline.utils.input_validation import (
@@ -206,9 +207,9 @@ class PreprocessTestCase(TestCase):
                     t=not_int.__name__,
                 ),
             )
-            with self.assertRaises(TypeError):
+            with pytest.raises(TypeError):
                 foo(1, not_int(2), 3)
-            with self.assertRaises(TypeError):
+            with pytest.raises(TypeError):
                 foo(not_int(1), not_int(2), 3)
 
     def test_expect_types_custom_funcname(self):

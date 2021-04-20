@@ -90,8 +90,7 @@ class TestNearestUnequalElements(ZiplineTestCase):
                 pd.Timestamp("2014"),
             )
 
-        assert str(excinfo.value) == \
-            "dts must be sorted in increasing order"
+        assert str(excinfo.value) == "dts must be sorted in increasing order"
 
 
 class TestCatDFConcat(ZiplineTestCase):
@@ -174,8 +173,12 @@ class TestCatDFConcat(ZiplineTestCase):
 
         with pytest.raises(ValueError) as excinfo:
             categorical_df_concat(mismatched_dtypes)
-        assert str(excinfo.value) == "Input DataFrames must have the same columns/dtypes."
+        assert (
+            str(excinfo.value) == "Input DataFrames must have the same columns/dtypes."
+        )
 
         with pytest.raises(ValueError) as excinfo:
             categorical_df_concat(mismatched_column_names)
-        assert str(excinfo.value) == "Input DataFrames must have the same columns/dtypes."
+        assert (
+            str(excinfo.value) == "Input DataFrames must have the same columns/dtypes."
+        )

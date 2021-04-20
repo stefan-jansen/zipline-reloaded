@@ -314,8 +314,9 @@ class TestAPIShim(WithCreateBarData, WithMakeAlgo, ZiplineTestCase):
             # ZiplineDeprecationWarnings
             for warning in w:
                 assert ZiplineDeprecationWarning == warning.category
-                assert "`data[sid(N)]` is deprecated. Use `data.current`." == \
-                    str(warning.message)
+                assert "`data[sid(N)]` is deprecated. Use `data.current`." == str(
+                    warning.message
+                )
 
     def test_data_items(self):
         """
@@ -337,11 +338,13 @@ class TestAPIShim(WithCreateBarData, WithMakeAlgo, ZiplineTestCase):
             for idx, warning in enumerate(w):
                 assert ZiplineDeprecationWarning == warning.category
                 if idx % 2 == 0:
-                    assert "Iterating over the assets in `data` is deprecated." == \
-                        str(warning.message)
+                    assert "Iterating over the assets in `data` is deprecated." == str(
+                        warning.message
+                    )
                 else:
-                    assert "`data[sid(N)]` is deprecated. Use `data.current`." == \
-                        str(warning.message)
+                    assert "`data[sid(N)]` is deprecated. Use `data.current`." == str(
+                        warning.message
+                    )
 
     def test_iterate_data(self):
         with warnings.catch_warnings(record=True) as w:
@@ -364,11 +367,13 @@ class TestAPIShim(WithCreateBarData, WithMakeAlgo, ZiplineTestCase):
                 assert line_nos[idx] == warning.lineno
 
                 if idx < 2:
-                    assert "Checking whether an asset is in data is deprecated." == \
-                        str(warning.message)
+                    assert "Checking whether an asset is in data is deprecated." == str(
+                        warning.message
+                    )
                 else:
-                    assert "Iterating over the assets in `data` is deprecated." == \
-                        str(warning.message)
+                    assert "Iterating over the assets in `data` is deprecated." == str(
+                        warning.message
+                    )
 
     def test_history(self):
         with warnings.catch_warnings(record=True) as w:
@@ -388,8 +393,10 @@ class TestAPIShim(WithCreateBarData, WithMakeAlgo, ZiplineTestCase):
             assert ZiplineDeprecationWarning == w[0].category
             assert "<string>" == w[0].filename
             assert 8 == w[0].lineno
-            assert "The `history` method is deprecated.  Use " "`data.history` instead." == \
-                str(w[0].message)
+            assert (
+                "The `history` method is deprecated.  Use "
+                "`data.history` instead." == str(w[0].message)
+            )
 
     def test_old_new_history_bts_paths(self):
         """
@@ -444,10 +451,12 @@ class TestAPIShim(WithCreateBarData, WithMakeAlgo, ZiplineTestCase):
                 assert line_no == warning1.lineno
                 assert line_no == warning2.lineno
 
-                assert "`data[sid(N)]` is deprecated. Use " "`data.current`." == \
-                    str(warning1.message)
-                assert "The `{0}` method is " "deprecated.".format(transforms[idx]) == \
-                    str(warning2.message)
+                assert "`data[sid(N)]` is deprecated. Use " "`data.current`." == str(
+                    warning1.message
+                )
+                assert "The `{0}` method is " "deprecated.".format(
+                    transforms[idx]
+                ) == str(warning2.message)
 
             # now verify the transform values
             # minute price
@@ -500,11 +509,15 @@ class TestAPIShim(WithCreateBarData, WithMakeAlgo, ZiplineTestCase):
                 assert 7 + idx == warning.lineno
 
                 if idx < 2:
-                    assert "Checking whether an asset is in data is " "deprecated." == \
-                        str(warning.message)
+                    assert (
+                        "Checking whether an asset is in data is "
+                        "deprecated." == str(warning.message)
+                    )
                 else:
-                    assert "Iterating over the assets in `data` is " "deprecated." == \
-                        str(warning.message)
+                    assert (
+                        "Iterating over the assets in `data` is "
+                        "deprecated." == str(warning.message)
+                    )
 
     def test_reference_empty_position_by_int(self):
         with warnings.catch_warnings(record=True) as w:
@@ -515,9 +528,11 @@ class TestAPIShim(WithCreateBarData, WithMakeAlgo, ZiplineTestCase):
             algo.run()
 
             assert 1 == len(w)
-            assert str(w[0].message) == \
-                "Referencing positions by integer is deprecated. Use an asset " \
+            assert (
+                str(w[0].message)
+                == "Referencing positions by integer is deprecated. Use an asset "
                 "instead."
+            )
 
     def test_reference_empty_position_by_unexpected_type(self):
         with warnings.catch_warnings(record=True) as w:
@@ -528,6 +543,8 @@ class TestAPIShim(WithCreateBarData, WithMakeAlgo, ZiplineTestCase):
             algo.run()
 
             assert 1 == len(w)
-            assert str(w[0].message) == \
-                "Position lookup expected a value of type Asset but got str" \
+            assert (
+                str(w[0].message)
+                == "Position lookup expected a value of type Asset but got str"
                 " instead."
+            )

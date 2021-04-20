@@ -38,6 +38,7 @@ from zipline.utils.numpy_utils import (
     int64_dtype,
     object_dtype,
 )
+import pytest
 
 
 def moving_window(array, nrows):
@@ -442,11 +443,11 @@ class AdjustedArrayTestCase(TestCase):
 
         assert_equal(data, original_data * 2)
 
-        with self.assertRaises(ValueError) as e:
+        with pytest.raises(ValueError) as excinfo:
             adjusted_array.traverse(1)
 
         assert_equal(
-            str(e.exception),
+            str(excinfo.value),
             "cannot traverse invalidated AdjustedArray",
         )
 
@@ -463,11 +464,11 @@ class AdjustedArrayTestCase(TestCase):
         for a, b in zip(a_it, b_it):
             assert_equal(a, b)
 
-        with self.assertRaises(ValueError) as e:
+        with pytest.raises(ValueError) as excinfo:
             adjusted_array.copy()
 
         assert_equal(
-            str(e.exception),
+            str(excinfo.value),
             "cannot copy invalidated AdjustedArray",
         )
 
@@ -500,13 +501,13 @@ class AdjustedArrayTestCase(TestCase):
             _gen_unadjusted_cases(
                 "unicode_ndarray",
                 make_input=as_dtype(unicode_dtype),
-                make_expected_output=as_labelarray(unicode_dtype, u""),
-                missing_value=u"",
+                make_expected_output=as_labelarray(unicode_dtype, ""),
+                missing_value="",
             ),
             _gen_unadjusted_cases(
                 "object_ndarray",
                 make_input=lambda a: a.astype(unicode).astype(object),
-                make_expected_output=as_labelarray(unicode_dtype, u""),
+                make_expected_output=as_labelarray(unicode_dtype, ""),
                 missing_value="",
             ),
             # Test passing a LabelArray directly to AdjustedArray.
@@ -520,13 +521,11 @@ class AdjustedArrayTestCase(TestCase):
                 "unicode_labelarray",
                 make_input=as_labelarray(unicode_dtype, None),
                 make_expected_output=as_labelarray(unicode_dtype, None),
-                missing_value=u"",
+                missing_value="",
             ),
             _gen_unadjusted_cases(
                 "object_labelarray",
-                make_input=(
-                    lambda a: LabelArray(a.astype(unicode).astype(object), u"")
-                ),
+                make_input=(lambda a: LabelArray(a.astype(unicode).astype(object), "")),
                 make_expected_output=as_labelarray(unicode_dtype, ""),
                 missing_value="",
             ),
@@ -594,14 +593,14 @@ class AdjustedArrayTestCase(TestCase):
             _gen_unadjusted_cases(
                 "unicode_ndarray",
                 make_input=as_dtype(unicode_dtype),
-                make_expected_output=as_labelarray(unicode_dtype, u""),
-                missing_value=u"",
+                make_expected_output=as_labelarray(unicode_dtype, ""),
+                missing_value="",
             ),
             _gen_unadjusted_cases(
                 "object_ndarray",
                 make_input=lambda a: a.astype(unicode).astype(object),
-                make_expected_output=as_labelarray(unicode_dtype, u""),
-                missing_value=u"",
+                make_expected_output=as_labelarray(unicode_dtype, ""),
+                missing_value="",
             ),
             _gen_unadjusted_cases(
                 "bytes_labelarray",
@@ -611,9 +610,9 @@ class AdjustedArrayTestCase(TestCase):
             ),
             _gen_unadjusted_cases(
                 "unicode_labelarray",
-                make_input=as_labelarray(unicode_dtype, u""),
-                make_expected_output=as_labelarray(unicode_dtype, u""),
-                missing_value=u"",
+                make_input=as_labelarray(unicode_dtype, ""),
+                make_expected_output=as_labelarray(unicode_dtype, ""),
+                missing_value="",
             ),
             _gen_unadjusted_cases(
                 "object_labelarray",
@@ -623,7 +622,7 @@ class AdjustedArrayTestCase(TestCase):
                         None,
                     )
                 ),
-                make_expected_output=as_labelarray(unicode_dtype, u""),
+                make_expected_output=as_labelarray(unicode_dtype, ""),
                 missing_value=None,
             ),
         )
@@ -714,13 +713,13 @@ class AdjustedArrayTestCase(TestCase):
         data = np.arange(30, dtype=float).reshape(6, 5)
         adj_array = AdjustedArray(data, {}, float("nan"))
 
-        with self.assertRaises(WindowLengthTooLong):
+        with pytest.raises(WindowLengthTooLong):
             adj_array.traverse(7)
 
-        with self.assertRaises(WindowLengthNotPositive):
+        with pytest.raises(WindowLengthNotPositive):
             adj_array.traverse(0)
 
-        with self.assertRaises(WindowLengthNotPositive):
+        with pytest.raises(WindowLengthNotPositive):
             adj_array.traverse(-1)
 
     def test_array_views_arent_writable(self):
@@ -729,7 +728,7 @@ class AdjustedArrayTestCase(TestCase):
         adj_array = AdjustedArray(data, {}, float("nan"))
 
         for frame in adj_array.traverse(3):
-            with self.assertRaises(ValueError):
+            with pytest.raises(ValueError):
                 frame[0, 0] = 5.0
 
     def test_inspect(self):

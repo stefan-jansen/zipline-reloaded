@@ -1609,11 +1609,11 @@ class MinuteEquityHistoryTestCase(WithHistory, zf.WithMakeAlgo, zf.ZiplineTestCa
                     "minute",
                 )[self.ASSET3]
 
-                assert len(window) == \
-                    bar_count, \
-                    "Unexpected window length at {}. Expected {}, but was {}.".format(
-                        minute, bar_count, len(window)
-                    )
+                assert (
+                    len(window) == bar_count
+                ), "Unexpected window length at {}. Expected {}, but was {}.".format(
+                    minute, bar_count, len(window)
+                )
                 np.testing.assert_allclose(
                     window[-1],
                     expected,

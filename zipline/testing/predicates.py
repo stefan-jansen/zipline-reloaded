@@ -4,7 +4,6 @@ import datetime
 from functools import partial
 import re
 
-from nose.tools import assert_raises
 import numpy as np
 import pandas as pd
 from pandas.testing import (

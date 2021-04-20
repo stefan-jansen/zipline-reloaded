@@ -79,8 +79,7 @@ class BcolzMinuteBarTestCase(
 
     def test_version(self):
         metadata = self.reader._get_metadata()
-        assert metadata.version == \
-            BcolzMinuteBarMetadata.FORMAT_VERSION
+        assert metadata.version == BcolzMinuteBarMetadata.FORMAT_VERSION
 
     def test_no_minute_bars_for_sid(self):
         minute = self.market_opens[self.test_calendar_start]
@@ -632,8 +631,7 @@ class BcolzMinuteBarTestCase(
         # 2 days worth of minutes.
         self.writer.pad(sid, day)
 
-        assert len(self.writer._ensure_ctable(sid)) == \
-            self.writer._minutes_per_day * 2
+        assert len(self.writer._ensure_ctable(sid)) == self.writer._minutes_per_day * 2
 
     def test_nans(self):
         """
@@ -704,15 +702,15 @@ class BcolzMinuteBarTestCase(
                 "open": ((0b11111111111 << 52) + np.arange(1, 10, dtype=np.int64)).view(
                     np.float64
                 ),
-                "high": ((0b11111111111 << 52) + np.arange(11, 20, dtype=np.int64)).view(
-                    np.float64
-                ),
+                "high": (
+                    (0b11111111111 << 52) + np.arange(11, 20, dtype=np.int64)
+                ).view(np.float64),
                 "low": ((0b11111111111 << 52) + np.arange(21, 30, dtype=np.int64)).view(
                     np.float64
                 ),
-                "close": ((0b11111111111 << 52) + np.arange(31, 40, dtype=np.int64)).view(
-                    np.float64
-                ),
+                "close": (
+                    (0b11111111111 << 52) + np.arange(31, 40, dtype=np.int64)
+                ).view(np.float64),
                 "volume": np.full(9, 0.0),
             },
             index=minutes,
@@ -955,14 +953,18 @@ class BcolzMinuteBarTestCase(
 
         self.writer.write_cols(sid, dts, cols)
 
-        assert self.reader.get_value(
+        assert (
+            self.reader.get_value(
                 sid, pd.Timestamp("2015-06-01 20:00:00", tz="UTC"), "open"
-            ) == \
-            390
-        assert self.reader.get_value(
+            )
+            == 390
+        )
+        assert (
+            self.reader.get_value(
                 sid, pd.Timestamp("2015-06-02 20:00:00", tz="UTC"), "open"
-            ) == \
-            780
+            )
+            == 780
+        )
 
         with pytest.raises(NoDataOnDate):
             self.reader.get_value(sid, pd.Timestamp("2015-06-02", tz="UTC"), "open")
@@ -994,19 +996,25 @@ class BcolzMinuteBarTestCase(
 
         self.writer.write_cols(sid, dts, cols)
 
-        assert self.reader.get_value(
+        assert (
+            self.reader.get_value(
                 sid, pd.Timestamp("2015-11-27 18:00:00", tz="UTC"), "open"
-            ) == \
-            210
-        assert self.reader.get_value(
+            )
+            == 210
+        )
+        assert (
+            self.reader.get_value(
                 sid, pd.Timestamp("2015-11-30 21:00:00", tz="UTC"), "open"
-            ) == \
-            600
+            )
+            == 600
+        )
 
-        assert self.reader.get_value(
+        assert (
+            self.reader.get_value(
                 sid, pd.Timestamp("2015-11-27 18:01:00", tz="UTC"), "open"
-            ) == \
-            210
+            )
+            == 210
+        )
 
         with pytest.raises(NoDataOnDate):
             self.reader.get_value(sid, pd.Timestamp("2015-11-30", tz="UTC"), "open")
@@ -1135,8 +1143,7 @@ class BcolzMinuteBarTestCase(
         # Refresh the reader since truncate update the metadata.
         self.reader = BcolzMinuteBarReader(self.dest)
 
-        assert self.writer.last_date_in_output_for_sid(sid) == \
-            self.test_calendar_start
+        assert self.writer.last_date_in_output_for_sid(sid) == self.test_calendar_start
 
         cal = self.trading_calendar
         _, last_close = cal.open_and_close_for_session(self.test_calendar_start)
@@ -1195,11 +1202,11 @@ class BcolzMinuteBarTestCase(
         asset = self.asset_finder.retrieve_asset(sid)
         last_traded_dt = self.reader.get_last_traded_dt(asset, minute)
 
-        assert last_traded_dt == \
-            before_early_close, \
-            "The last traded dt should be before the early " \
-            "close, even when data is written between the early " \
+        assert last_traded_dt == before_early_close, (
+            "The last traded dt should be before the early "
+            "close, even when data is written between the early "
             "close and the next open."
+        )
 
     def test_minute_updates(self):
         """

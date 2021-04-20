@@ -225,8 +225,10 @@ class TestMinuteBarData(
         for minute in list(concat(all_minutes)):
             bar_data = self.create_bardata(lambda: minute)
 
-            assert self.trading_calendar.minute_to_session_label(minute) == \
-                bar_data.current_session
+            assert (
+                self.trading_calendar.minute_to_session_label(minute)
+                == bar_data.current_session
+            )
 
     def test_current_session_minutes(self):
         first_day_minutes = self.trading_calendar.minutes_for_session(
@@ -354,7 +356,10 @@ class TestMinuteBarData(
                             assert minute == asset2_value
                         else:
                             last_traded_minute = minutes[(idx // 10) * 10]
-                            assert last_traded_minute - timedelta(minutes=1) == asset2_value
+                            assert (
+                                last_traded_minute - timedelta(minutes=1)
+                                == asset2_value
+                            )
 
     def test_minute_of_last_day(self):
         minutes = self.trading_calendar.minutes_for_session(
@@ -997,7 +1002,9 @@ class TestDailyBarData(
         assert 2 == bar_data.current(self.ASSET1, "close")
         assert 200 == bar_data.current(self.ASSET1, "volume")
         assert 2 == bar_data.current(self.ASSET1, "price")
-        assert self.equity_daily_bar_days[0] == bar_data.current(self.ASSET1, "last_traded")
+        assert self.equity_daily_bar_days[0] == bar_data.current(
+            self.ASSET1, "last_traded"
+        )
 
         for field in OHLCP:
             assert np.isnan(bar_data.current(self.ASSET2, field)), field
@@ -1024,7 +1031,9 @@ class TestDailyBarData(
             assert 3 == bar_data.current(asset, "close")
             assert 300 == bar_data.current(asset, "volume")
             assert 3 == bar_data.current(asset, "price")
-            assert self.equity_daily_bar_days[1] == bar_data.current(asset, "last_traded")
+            assert self.equity_daily_bar_days[1] == bar_data.current(
+                asset, "last_traded"
+            )
 
     def test_last_active_day(self):
         bar_data = self.create_bardata(
@@ -1126,7 +1135,16 @@ class TestDailyBarData(
         )
 
         # 3 (price from previous day) * 0.5 (split ratio)
-        assert round(abs(illiquid_day_1_price_adjusted-bar_data.current(illiquid_asset, "price")), 7) == 0
+        assert (
+            round(
+                abs(
+                    illiquid_day_1_price_adjusted
+                    - bar_data.current(illiquid_asset, "price")
+                ),
+                7,
+            )
+            == 0
+        )
 
     def test_can_trade_restricted(self):
         """

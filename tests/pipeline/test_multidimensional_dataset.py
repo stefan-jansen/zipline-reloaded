@@ -13,9 +13,9 @@ from zipline.pipeline.data import (
 from zipline.testing import ZiplineTestCase
 from zipline.testing.predicates import (
     assert_is_subclass,
-    assert_raises_str,
+    # assert_raises_str,
 )
-
+import pytest
 
 class TestDataSetFamily(ZiplineTestCase):
     def test_repr(self):
@@ -55,12 +55,12 @@ class TestDataSetFamily(ZiplineTestCase):
             "DataSetFamily must be defined with non-empty extra_dims,"
             " or with `_abstract = True`"
         )
-        with assert_raises_str(ValueError, msg):
+        with pytest.raises(ValueError, match=msg):
 
             class NoExtraDims(DataSetFamily):
                 pass
 
-        with assert_raises_str(ValueError, msg):
+        with pytest.raises(ValueError, match=msg):
 
             class EmptyExtraDims(DataSetFamily):
                 extra_dims = []
@@ -68,12 +68,12 @@ class TestDataSetFamily(ZiplineTestCase):
         class AbstractParent(DataSetFamily):
             _abstract = True
 
-        with assert_raises_str(ValueError, msg):
+        with pytest.raises(ValueError, match=msg):
 
             class NoExtraDimsChild(AbstractParent):
                 pass
 
-        with assert_raises_str(ValueError, msg):
+        with pytest.raises(ValueError, match=msg):
 
             class EmptyExtraDimsChild(AbstractParent):
                 extra_dims = []
@@ -137,7 +137,7 @@ class TestDataSetFamily(ZiplineTestCase):
                         list(zip(expected_dims.keys(), valid_combination))[
                             len(valid_combination) // 2 :
                         ],
-                    )
+                    ),
                 ),
             ]
             for alt in alternate_constructions:
@@ -174,7 +174,7 @@ class TestDataSetFamily(ZiplineTestCase):
         def expect_slice_fails(*args, **kwargs):
             expected_msg = kwargs.pop("expected_msg")
 
-            with assert_raises_str(TypeError, expected_msg):
+            with pytest.raises(TypeError, match=expected_msg):
                 MD.slice(*args, **kwargs)
 
         # insufficient positional
@@ -245,7 +245,7 @@ class TestDataSetFamily(ZiplineTestCase):
         def expect_slice_fails(*args, **kwargs):
             expected_msg = kwargs.pop("expected_msg")
 
-            with assert_raises_str(ValueError, expected_msg):
+            with pytest.raises(ValueError, match=expected_msg):
                 MD.slice(*args, **kwargs)
 
         expect_slice_fails(
@@ -328,25 +328,25 @@ class TestDataSetFamily(ZiplineTestCase):
             )
 
         expected_msg = make_expected_msg("Parent", "column_0")
-        with assert_raises_str(AttributeError, expected_msg):
+        with pytest.raises(AttributeError, match=expected_msg):
             Parent.column_0
 
         expected_msg = make_expected_msg("Parent", "column_1")
-        with assert_raises_str(AttributeError, expected_msg):
+        with pytest.raises(AttributeError, match=expected_msg):
             Parent.column_1
 
         expected_msg = make_expected_msg("Child", "column_0")
-        with assert_raises_str(AttributeError, expected_msg):
+        with pytest.raises(AttributeError, match=expected_msg):
             Child.column_0
 
         expected_msg = make_expected_msg("Child", "column_1")
-        with assert_raises_str(AttributeError, expected_msg):
+        with pytest.raises(AttributeError, match=expected_msg):
             Child.column_1
 
         expected_msg = make_expected_msg("Child", "column_2")
-        with assert_raises_str(AttributeError, expected_msg):
+        with pytest.raises(AttributeError, match=expected_msg):
             Child.column_2
 
         expected_msg = make_expected_msg("Child", "column_3")
-        with assert_raises_str(AttributeError, expected_msg):
+        with pytest.raises(AttributeError, match=expected_msg):
             Child.column_3

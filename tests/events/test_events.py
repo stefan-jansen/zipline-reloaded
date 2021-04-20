@@ -51,6 +51,7 @@ from zipline.utils.events import (
 
 import pytest
 
+
 def param_range(*args):
     return ([n] for n in range(*args))
 
@@ -81,13 +82,11 @@ class TestUtils:
 
     def test_build_offset_kwargs(self):
         kwargs = {"minutes": 1}
-        assert _build_offset(None, kwargs, None) == \
-            datetime.timedelta(**kwargs)
+        assert _build_offset(None, kwargs, None) == datetime.timedelta(**kwargs)
 
     def test_build_offset_td(self):
         td = datetime.timedelta(minutes=1)
-        assert _build_offset(td, {}, None) == \
-            td
+        assert _build_offset(td, {}, None) == td
 
     def test_build_date_both(self):
         with pytest.raises(ValueError):
@@ -102,13 +101,11 @@ class TestUtils:
 
     def test_build_date_kwargs(self):
         kwargs = {"year": 2014, "month": 9, "day": 25}
-        assert _build_date(None, kwargs) == \
-            datetime.date(**kwargs)
+        assert _build_date(None, kwargs) == datetime.date(**kwargs)
 
     def test_build_date_date(self):
         date = datetime.date(year=2014, month=9, day=25)
-        assert _build_date(date, {}) == \
-            date
+        assert _build_date(date, {}) == date
 
     def test_build_time_both(self):
         with pytest.raises(ValueError):
@@ -122,8 +119,8 @@ class TestUtils:
 
     def test_build_time_kwargs(self):
         kwargs = {"hour": 1, "minute": 5}
-        assert _build_time(None, kwargs) == \
-            datetime.time(**kwargs)
+        assert _build_time(None, kwargs) == datetime.time(**kwargs)
+
 
 class TestEventManager(TestCase):
     def setUp(self):
@@ -148,6 +145,7 @@ class TestEventManager(TestCase):
     def test_checks_should_trigger(self):
         class CountingRule(Always):
             count = 0
+
             def should_trigger(self, dt):
                 CountingRule.count += 1
                 return True
@@ -156,10 +154,10 @@ class TestEventManager(TestCase):
             self.em.add_event(Event(r()))
 
         self.em.handle_data(None, None, datetime.datetime.now())
-        assert CountingRule.count==5
+        assert CountingRule.count == 5
+
 
 class TestEventRule:
-
     def test_is_abstract(self):
         with pytest.raises(TypeError):
             EventRule()
@@ -245,9 +243,11 @@ class RuleTestCase(object):
             and not isabstract(v)
         }
         ds = {k[5:] for k in dir(self) if k.startswith("test") and k[5:] in dem}
-        assert dem <= ds, \
-            "This suite is missing tests for the following classes:\n" \
-            + "\n".join(map(repr, dem - ds))
+        assert (
+            dem <= ds
+        ), "This suite is missing tests for the following classes:\n" + "\n".join(
+            map(repr, dem - ds)
+        )
 
 
 class StatelessRulesTests(RuleTestCase):

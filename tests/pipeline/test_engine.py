@@ -767,13 +767,13 @@ class ConstantInputTestCase(
 
         assert_frame_equal(result, expected)
 
-        assert set(loader1.load_calls) == \
-            {
-                ColumnArgs.sorted_by_ds(Loader1DataSet1.col1, Loader1DataSet2.col1),
-                ColumnArgs.sorted_by_ds(Loader1DataSet1.col2, Loader1DataSet2.col2),
-            }
-        assert set(loader2.load_calls) == \
-            {ColumnArgs.sorted_by_ds(Loader2DataSet.col1, Loader2DataSet.col2)}
+        assert set(loader1.load_calls) == {
+            ColumnArgs.sorted_by_ds(Loader1DataSet1.col1, Loader1DataSet2.col1),
+            ColumnArgs.sorted_by_ds(Loader1DataSet1.col2, Loader1DataSet2.col2),
+        }
+        assert set(loader2.load_calls) == {
+            ColumnArgs.sorted_by_ds(Loader2DataSet.col1, Loader2DataSet.col2)
+        }
 
 
 # Use very large sids that don't fit in that doesn't fit in an int32 as a
@@ -1633,5 +1633,4 @@ class ResolveDomainTestCase(zf.ZiplineTestCase):
         # infer domain from the column if the pipeline and engine have
         # a GENERIC domain
         pipe = Pipeline({"close": USEquityPricing.close.latest})
-        assert engine_generic.resolve_domain(pipe) is \
-            US_EQUITIES
+        assert engine_generic.resolve_domain(pipe) is US_EQUITIES

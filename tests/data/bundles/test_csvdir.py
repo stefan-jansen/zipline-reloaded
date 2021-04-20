@@ -3,7 +3,7 @@ import pandas as pd
 from os.path import (
     dirname,
     join,
-    realpath
+    realpath,
 )
 
 from trading_calendars import get_calendar
@@ -13,8 +13,9 @@ from zipline.testing.fixtures import ZiplineTestCase
 from zipline.utils.functional import apply
 
 TEST_RESOURCE_PATH = join(
-    dirname(dirname(dirname(realpath(__file__)))),  # zipline_repo/tests
-    "resources")
+    dirname(dirname(dirname(realpath(__file__)))),
+    "resources",  # zipline_repo/tests
+)
 
 
 class CSVDIRBundleTestCase(ZiplineTestCase):
@@ -39,12 +40,13 @@ class CSVDIRBundleTestCase(ZiplineTestCase):
 
         def per_symbol(symbol):
             df = pd.read_csv(
-                join(TEST_RESOURCE_PATH,
-                     "csvdir_samples",
-                     "csvdir",
-                     "daily",
-                     symbol + ".csv.gz"
-                     ),
+                join(
+                    TEST_RESOURCE_PATH,
+                    "csvdir_samples",
+                    "csvdir",
+                    "daily",
+                    symbol + ".csv.gz",
+                ),
                 parse_dates=["date"],
                 index_col="date",
                 usecols=[
@@ -62,10 +64,11 @@ class CSVDIRBundleTestCase(ZiplineTestCase):
             df["sid"] = sids[symbol]
             return df
 
-        all_ = (pd.concat(map(per_symbol, self.symbols))
-                .set_index("sid", append=True)
-                .unstack()
-                )
+        all_ = (
+            pd.concat(map(per_symbol, self.symbols))
+            .set_index("sid", append=True)
+            .unstack()
+        )
 
         # fancy list comprehension with statements
         @list
@@ -268,9 +271,13 @@ class CSVDIRBundleTestCase(ZiplineTestCase):
         return pricing, adjustments
 
     def test_bundle(self):
-        environ = {"CSVDIR": join(TEST_RESOURCE_PATH,
-                                  'csvdir_samples',
-                                  'csvdir')}
+        environ = {
+            "CSVDIR": join(
+                TEST_RESOURCE_PATH,
+                "csvdir_samples",
+                "csvdir",
+            ),
+        }
 
         ingest("csvdir", environ=environ)
         bundle = load("csvdir", environ=environ)
