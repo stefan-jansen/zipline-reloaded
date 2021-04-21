@@ -461,29 +461,14 @@ class TestObjectIdentity:
         assert f.inputs == tuple(SomeFactor.inputs)
 
     def test_parameterized_term_non_hashable_arg(self):
-        with pytest.raises(TypeError) as excinfo:
+        with pytest.raises(TypeError, match="SomeFactorParameterized expected a hashable value for parameter 'a', but got \\[\\] instead."):
             self.SomeFactorParameterized(a=[], b=1)
-        assert_equal(
-            str(excinfo.value),
-            "SomeFactorParameterized expected a hashable value for parameter"
-            " 'a', but got [] instead.",
-        )
 
-        with pytest.raises(TypeError) as excinfo:
+        with pytest.raises(TypeError, match="SomeFactorParameterized expected a hashable value for parameter 'b', but got \\[\\] instead."):
             self.SomeFactorParameterized(a=1, b=[])
-        assert_equal(
-            str(excinfo.value),
-            "SomeFactorParameterized expected a hashable value for parameter"
-            " 'b', but got [] instead.",
-        )
-
-        with pytest.raises(TypeError) as excinfo:
+ 
+        with pytest.raises(TypeError, match=r"SomeFactorParameterized expected a hashable value for parameter '(a|b)', but got \[\] instead\."):
             self.SomeFactorParameterized(a=[], b=[])
-        assert_regex(
-            str(excinfo.value),
-            r"SomeFactorParameterized expected a hashable value for parameter"
-            r" '(a|b)', but got \[\] instead\.",
-        )
 
     def test_parameterized_term_default_value(self):
         defaults = {"a": "default for a", "b": "default for b"}
@@ -571,28 +556,16 @@ class TestObjectIdentity:
             MultipleOutputs(outputs=[])
 
     def test_bad_output_access(self):
-        with pytest.raises(AttributeError) as excinfo:
+        with pytest.raises(AttributeError, match="'SomeFactor' object has no attribute 'not_an_attr'"):
             SomeFactor().not_an_attr
 
-        errmsg = str(excinfo.value)
-        assert errmsg == "'SomeFactor' object has no attribute 'not_an_attr'"
-
         mo = MultipleOutputs()
-        with pytest.raises(AttributeError) as excinfo:
+        expected = ("Instance of MultipleOutputs has no output named 'not_an_attr'. Possible choices are: \\('alpha', 'beta'\\).")
+        with pytest.raises(AttributeError, match=expected):
             mo.not_an_attr
 
-        errmsg = str(excinfo.value)
-        expected = (
-            "Instance of MultipleOutputs has no output named 'not_an_attr'."
-            " Possible choices are: ('alpha', 'beta')."
-        )
-        assert errmsg == expected
-
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match="GenericCustomFactor does not have multiple outputs."):
             alpha, beta = GenericCustomFactor()
-
-        errmsg = str(excinfo.value)
-        assert errmsg == "GenericCustomFactor does not have multiple outputs."
 
         # Public method, user-defined method.
         # Accessing these attributes should return the output, not the method.
@@ -722,11 +695,9 @@ class TestSubDataSet:
             outputs = outputs_
             missing_value = dtype_.type("123")
 
-        expected_error = (
-            "SomeClassifier does not support custom outputs, "
-            "but received custom outputs={outputs}.".format(outputs=outputs_)
-        )
+        expected_error = (f"SomeClassifier does not support custom outputs, but received custom outputs={outputs_}.")
 
+        # with pytest.raises(ValueError, match=expected_error):
         with pytest.raises(ValueError) as excinfo:
             SomeClassifier()
         assert str(excinfo.value) == expected_error

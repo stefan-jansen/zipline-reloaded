@@ -76,21 +76,17 @@ class TestNearestUnequalElements(ZiplineTestCase):
             assert computed == expected
 
     def test_nearest_unequal_bad_input(self):
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match="dts must be unique"):
             nearest_unequal_elements(
                 pd.to_datetime(["2014", "2014"]),
                 pd.Timestamp("2014"),
             )
 
-        assert str(excinfo.value) == "dts must be unique"
-
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match="dts must be sorted in increasing order"):
             nearest_unequal_elements(
                 pd.to_datetime(["2014", "2013"]),
                 pd.Timestamp("2014"),
             )
-
-        assert str(excinfo.value) == "dts must be sorted in increasing order"
 
 
 class TestCatDFConcat(ZiplineTestCase):
@@ -171,14 +167,8 @@ class TestCatDFConcat(ZiplineTestCase):
             ),
         ]
 
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match="Input DataFrames must have the same columns/dtypes."):
             categorical_df_concat(mismatched_dtypes)
-        assert (
-            str(excinfo.value) == "Input DataFrames must have the same columns/dtypes."
-        )
 
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match="Input DataFrames must have the same columns/dtypes."):
             categorical_df_concat(mismatched_column_names)
-        assert (
-            str(excinfo.value) == "Input DataFrames must have the same columns/dtypes."
-        )

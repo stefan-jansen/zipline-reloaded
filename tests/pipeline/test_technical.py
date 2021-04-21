@@ -345,13 +345,8 @@ class IchimokuKinkoHyoTestCase(ZiplineTestCase):
     def test_input_validation(self, arg):
         window_length = 52
 
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=f"{arg} must be <= the window_length: 53 > 52"):
             IchimokuKinkoHyo(**{arg: window_length + 1})
-
-        assert_equal(
-            str(excinfo.value),
-            "%s must be <= the window_length: 53 > 52" % arg,
-        )
 
 
 class TestRateOfChangePercentage(ZiplineTestCase):

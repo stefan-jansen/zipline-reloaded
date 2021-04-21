@@ -2281,9 +2281,9 @@ class TestAssetFinderPreprocessors(WithTmpDir, ZiplineTestCase):
     def test_asset_finder_doesnt_silently_create_useless_empty_files(self):
         nonexistent_path = self.tmpdir.getpath(self.id() + "__nothing_here")
 
+        expected = "SQLite file {!r} doesn't exist.".format(nonexistent_path)
         with pytest.raises(ValueError) as excinfo:
             AssetFinder(nonexistent_path)
-        expected = "SQLite file {!r} doesn't exist.".format(nonexistent_path)
         assert str(excinfo.value) == expected
 
         # sqlite3.connect will create an empty file if you connect somewhere
