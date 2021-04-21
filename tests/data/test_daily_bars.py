@@ -1060,7 +1060,7 @@ class _HDF5DailyBarTestCase(
 
         assert all_results.dtype == np.dtype(object)
         for code in all_results:
-            self.assertIsInstance(code, str)
+            assert isinstance(code, str)
 
         # Check all possible subsets of assets.
         for indices in map(list, powerset(range(len(all_assets)))):

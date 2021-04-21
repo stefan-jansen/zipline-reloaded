@@ -19,6 +19,7 @@ from zipline.utils.numpy_utils import (
 
 from .base import BaseUSEquityPipelineTestCase
 import pytest
+import re
 
 bytes_dtype = np.dtype("S3")
 unicode_dtype = np.dtype("U3")
@@ -458,7 +459,7 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
             "This caused the following error: "
             "TypeError\(\"unhashable type: 'dict'\",?\)."
         )
-        self.assertRegex(errmsg, expected)
+        assert re.search(expected, errmsg)
 
     @parameter_space(
         __fail_fast=True,

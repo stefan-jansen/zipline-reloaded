@@ -239,7 +239,7 @@ class FillNATestCase(BaseUSEquityPipelineTestCase):
             f()
 
         message = str(excinfo.value)
-        self.assertIn(expected_message, message)
+        assert expected_message in message
 
     def test_bad_inputs(self):
         def dtype_for(o):

@@ -69,6 +69,7 @@ from zipline.testing.predicates import assert_equal, assert_messages_equal
 from zipline.utils.pandas_utils import days_at_time
 import pytest
 
+
 class Sum(CustomFactor):
     def compute(self, today, assets, out, data):
         out[:] = data.sum(axis=0)
@@ -131,13 +132,13 @@ class SpecializeTestCase(zf.ZiplineTestCase):
             specialized = cls.specialize(domain)
 
             # Specializations should be memoized.
-            self.assertIs(specialized, cls.specialize(domain))
-            self.assertIs(specialized, specialized.specialize(domain))
+            assert specialized is cls.specialize(domain)
+            assert specialized is specialized.specialize(domain)
 
             # Specializations should have the same name and module
             assert_equal(specialized.__name__, cls.__name__)
             assert_equal(specialized.__module__, cls.__module__)
-            self.assertIs(specialized.domain, domain)
+            assert specialized.domain is domain
 
             for attr in colnames:
                 original = getattr(cls, attr)
@@ -146,12 +147,12 @@ class SpecializeTestCase(zf.ZiplineTestCase):
                 # We should get a new column from the specialization, which
                 # should be the same object that we would get from specializing
                 # the original column.
-                self.assertIsNot(original, new)
-                self.assertIs(new, original.specialize(domain))
+                assert original is not new
+                assert new is original.specialize(domain)
 
                 # Columns should be bound to their respective datasets.
-                self.assertIs(original.dataset, cls)
-                self.assertIs(new.dataset, specialized)
+                assert original.dataset is cls
+                assert new.dataset is specialized
 
                 # The new column should have the domain of the specialization.
                 assert_equal(new.domain, domain)
@@ -179,18 +180,18 @@ class SpecializeTestCase(zf.ZiplineTestCase):
             unspecialized = specialized.unspecialize()
             specialized_again = unspecialized.specialize(domain)
 
-            self.assertIs(unspecialized, cls)
-            self.assertIs(specialized, specialized_again)
+            assert unspecialized is cls
+            assert specialized is specialized_again
 
             for attr in colnames:
                 original = getattr(cls, attr)
                 new = getattr(specialized, attr)
                 # Unspecializing a specialization should give back the
                 # original.
-                self.assertIs(new.unspecialize(), original)
+                assert new.unspecialize() is original
                 # Specializing again should give back the same as the first
                 # specialization.
-                self.assertIs(new.unspecialize().specialize(domain), new)
+                assert new.unspecialize().specialize(domain) is new
 
         do_checks(MyData, ["col1", "col2", "col3"])
         do_checks(MyDataSubclass, ["col1", "col2", "col3", "col4"])
@@ -224,13 +225,10 @@ class SpecializeTestCase(zf.ZiplineTestCase):
             generic_non_root = cls.unspecialize()
 
             # Allow specializing a generic non-root back to its family root.
-            self.assertIs(generic_non_root.specialize(domain_param), cls)
+            assert generic_non_root.specialize(domain_param) is cls
             for name in colnames:
                 # Same deal for columns.
-                self.assertIs(
-                    getattr(generic_non_root, name).specialize(domain_param),
-                    getattr(cls, name),
-                )
+                assert getattr(generic_non_root, name).specialize(domain_param) is getattr(cls, name)
 
             # Don't allow specializing to any other domain.
             with pytest.raises(ValueError):
@@ -255,7 +253,7 @@ class D(DataSet):
 class InferDomainTestCase(zf.ZiplineTestCase):
     def check(self, inputs, expected):
         result = infer_domain(inputs)
-        self.assertIs(result, expected)
+        assert result is expected
 
     def check_fails(self, inputs, expected_domains):
         with pytest.raises(AmbiguousDomain) as excinfo:
@@ -402,7 +400,7 @@ class DataQueryCutoffForSessionTestCase(zf.ZiplineTestCase):
         }
 
         # make sure we are not missing any domains in this test
-        self.assertEqual(set(expected_cutoff_times), set(BUILT_IN_DOMAINS))
+        assert set(expected_cutoff_times) == set(BUILT_IN_DOMAINS)
 
         for domain, expected_cutoff_time in expected_cutoff_times.items():
             self._test_equity_calendar_domain(domain, expected_cutoff_time)
@@ -445,11 +443,7 @@ class DataQueryCutoffForSessionTestCase(zf.ZiplineTestCase):
         valid_sessions = domain.all_sessions()[:50]
         sessions = pd.date_range(valid_sessions[0], valid_sessions[-1])
         invalid_sessions = sessions[~sessions.isin(valid_sessions)]
-        self.assertGreater(
-            len(invalid_sessions),
-            1,
-            msg="There must be at least one invalid session.",
-        )
+        assert len(invalid_sessions) >  1, "There must be at least one invalid session."
 
         with pytest.raises(ValueError) as excinfo:
             domain.data_query_cutoff_for_sessions(sessions)
@@ -532,21 +526,18 @@ class RollForwardTestCase(zf.ZiplineTestCase):
 
         # the first three days of the year are holidays on the Tokyo exchange,
         # so the first trading day should be the fourth
-        self.assertEqual(
-            JP_EQUITIES.roll_forward("2017-01-01"),
-            pd.Timestamp("2017-01-04", tz="UTC"),
+        assert JP_EQUITIES.roll_forward("2017-01-01") == pd.Timestamp(
+            "2017-01-04", tz="UTC"
         )
 
         # in US exchanges, the first trading day after 1/1 is the 3rd
-        self.assertEqual(
-            US_EQUITIES.roll_forward("2017-01-01"),
-            pd.Timestamp("2017-01-03", tz="UTC"),
+        assert US_EQUITIES.roll_forward("2017-01-01") == pd.Timestamp(
+            "2017-01-03", tz="UTC"
         )
 
         # passing a valid trading day to roll_forward should return that day
-        self.assertEqual(
-            JP_EQUITIES.roll_forward("2017-01-04"),
-            pd.Timestamp("2017-01-04", tz="UTC"),
+        assert JP_EQUITIES.roll_forward("2017-01-04") == pd.Timestamp(
+            "2017-01-04", tz="UTC"
         )
 
         # passing a date before the first session should return the
@@ -555,9 +546,9 @@ class RollForwardTestCase(zf.ZiplineTestCase):
             days=20
         )
 
-        self.assertEqual(
-            JP_EQUITIES.roll_forward(before_first_session),
-            JP_EQUITIES.calendar.first_session,
+        assert (
+            JP_EQUITIES.roll_forward(before_first_session)
+            == JP_EQUITIES.calendar.first_session
         )
 
         # requesting a session beyond the last session raises an ValueError
@@ -566,15 +557,9 @@ class RollForwardTestCase(zf.ZiplineTestCase):
         with pytest.raises(ValueError) as excinfo:
             JP_EQUITIES.roll_forward(after_last_session)
 
-        self.assertEqual(
-            str(excinfo.value),
-            "Date {} was past the last session for domain "
-            "EquityCalendarDomain('JP', 'XTKS'). The last session for "
-            "this domain is {}.".format(
-                after_last_session.date(),
-                JP_EQUITIES.calendar.last_session.date(),
-            ),
-        )
+        expected_msg = f"Date {after_last_session.date()} was past the last session for domain EquityCalendarDomain('JP', 'XTKS'). The last session for this domain is {JP_EQUITIES.calendar.last_session.date()}."
+
+        assert str(excinfo.value) == expected_msg
 
         # test that a roll_forward works with an EquitySessionDomain,
         # not just calendar domains
@@ -584,17 +569,15 @@ class RollForwardTestCase(zf.ZiplineTestCase):
 
         session_domain = EquitySessionDomain(sessions, CountryCode.UNITED_STATES)
 
-        self.assertEqual(
-            session_domain.roll_forward("2000-02-01"),
-            pd.Timestamp("2000-02-01", tz="UTC"),
+        assert session_domain.roll_forward("2000-02-01") == pd.Timestamp(
+            "2000-02-01", tz="UTC"
         )
 
-        self.assertEqual(
-            session_domain.roll_forward("2000-02-02"),
-            pd.Timestamp("2000-04-01", tz="UTC"),
+        assert session_domain.roll_forward("2000-02-02") == pd.Timestamp(
+            "2000-04-01", tz="UTC"
         )
 
 
 class ReprTestCase(zf.ZiplineTestCase):
     def test_generic_domain_repr(self):
-        self.assertEqual(repr(GENERIC), "GENERIC")
+        assert repr(GENERIC) == "GENERIC"

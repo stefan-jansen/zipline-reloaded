@@ -83,7 +83,7 @@ class NumericalExpressionTestCase(TestCase):
         check_allclose(result, expected)
 
     def check_constant_output(self, expr, expected):
-        self.assertFalse(np.isnan(expected))
+        assert not np.isnan(expected)
         return self.check_output(expr, np.full((5, 5), expected, float))
 
     def test_validate_good(self):
