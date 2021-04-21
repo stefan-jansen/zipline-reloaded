@@ -15,8 +15,8 @@
 import datetime
 from inspect import isabstract
 import random
-from unittest import TestCase
 import warnings
+
 
 from parameterized import parameterized
 import pandas as pd
@@ -122,12 +122,17 @@ class TestUtils:
         assert _build_time(None, kwargs) == datetime.time(**kwargs)
 
 
-class TestEventManager(TestCase):
-    def setUp(self):
-        self.em = EventManager()
-        self.event1 = Event(Always())
-        self.event2 = Event(Always())
+@pytest.fixture(scope="function")
+def set_event_manager(request):
+    request.cls.em = EventManager()
+    request.cls.event1 = Event(Always())
+    request.cls.event2 = Event(Always())
+    yield
+    pass
 
+
+@pytest.mark.usefixtures("set_event_manager")
+class TestEventManager:
     def test_add_event(self):
         self.em.add_event(self.event1)
         assert len(self.em._events) == 1
@@ -204,7 +209,9 @@ def minutes_for_days(cal, ordered_days=False):
     return [cal.minutes_for_session(session_picker(cnt)) for cnt in range(500)]
 
 
-class RuleTestCase(object):
+
+# THE CLASS BELOW ARE GOING TO BE IMPORTED BY test_events_cme and nyse
+class RuleTestCase:
     CALENDAR_STRING = "foo"
 
     @classmethod
@@ -237,6 +244,7 @@ class RuleTestCase(object):
             k
             for k, v in vars(zipline.utils.events).items()
             if isinstance(v, type)
+
             and issubclass(v, self.class_)
             and v is not self.class_
             and v not in classes_to_ignore

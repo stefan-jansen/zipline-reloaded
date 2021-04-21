@@ -431,7 +431,7 @@ def _gen_expectations(
         )
 
 
-class AdjustedArrayTestCase(TestCase):
+class TestAdjustedArray:
     def test_traverse_invalidating(self):
         data = np.arange(5 * 3, dtype="f8").reshape(5, 3)
         original_data = data.copy()
@@ -467,10 +467,7 @@ class AdjustedArrayTestCase(TestCase):
         with pytest.raises(ValueError) as excinfo:
             adjusted_array.copy()
 
-        assert_equal(
-            str(excinfo.value),
-            "cannot copy invalidated AdjustedArray",
-        )
+        assert str(excinfo.value) == "cannot copy invalidated AdjustedArray"
 
         # the clean copy should have the original data even though the
         # original adjusted array has it's data mutated in place

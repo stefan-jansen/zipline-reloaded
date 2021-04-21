@@ -1,5 +1,4 @@
 from datetime import time
-from unittest import TestCase
 import pandas as pd
 from trading_calendars import get_calendar
 from trading_calendars.utils.pandas_utils import days_at_time
@@ -12,21 +11,27 @@ from zipline.gens.sim_engine import (
     SESSION_END,
 )
 
+import pytest
 
-class TestClock(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.nyse_calendar = get_calendar("NYSE")
 
-        # july 15 is friday, so there are 3 sessions in this range (15, 18, 19)
-        cls.sessions = cls.nyse_calendar.sessions_in_range(
-            pd.Timestamp("2016-07-15"), pd.Timestamp("2016-07-19")
-        )
+@pytest.fixture(scope="class")
+def set_session(request):
+    request.cls.nyse_calendar = get_calendar("NYSE")
 
-        trading_o_and_c = cls.nyse_calendar.schedule.loc[cls.sessions]
-        cls.opens = trading_o_and_c["market_open"]
-        cls.closes = trading_o_and_c["market_close"]
+    # july 15 is friday, so there are 3 sessions in this range (15, 18, 19)
+    request.cls.sessions = request.cls.nyse_calendar.sessions_in_range(
+        pd.Timestamp("2016-07-15"), pd.Timestamp("2016-07-19")
+    )
 
+    trading_o_and_c = request.cls.nyse_calendar.schedule.loc[request.cls.sessions]
+    request.cls.opens = trading_o_and_c["market_open"]
+    request.cls.closes = trading_o_and_c["market_close"]
+    yield
+    pass
+
+
+@pytest.mark.usefixtures("set_session")
+class TestClock:
     def test_bts_before_session(self):
         clock = MinuteSimulationClock(
             self.sessions,

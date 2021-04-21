@@ -3,7 +3,6 @@ Tests for zipline.utils.validate.
 """
 from operator import attrgetter
 from types import FunctionType
-from unittest import TestCase
 
 from parameterized import parameterized
 import numpy as np
