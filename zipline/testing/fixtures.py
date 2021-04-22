@@ -2079,6 +2079,7 @@ class WithWerror:
                 "ignore",
                 category=RuntimeWarning,
             )
+        #warnings.simplefilter("ignore", RuntimeWarning, append=True)
         super(WithWerror, cls).init_class_fixtures()
 
 
