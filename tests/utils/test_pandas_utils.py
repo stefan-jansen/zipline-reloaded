@@ -167,8 +167,12 @@ class TestCatDFConcat(ZiplineTestCase):
             ),
         ]
 
-        with pytest.raises(ValueError, match="Input DataFrames must have the same columns/dtypes."):
+        with pytest.raises(
+            ValueError, match="Input DataFrames must have the same columns/dtypes."
+        ):
             categorical_df_concat(mismatched_dtypes)
 
-        with pytest.raises(ValueError, match="Input DataFrames must have the same columns/dtypes."):
+        with pytest.raises(
+            ValueError, match="Input DataFrames must have the same columns/dtypes."
+        ):
             categorical_df_concat(mismatched_column_names)

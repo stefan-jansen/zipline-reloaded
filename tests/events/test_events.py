@@ -209,7 +209,6 @@ def minutes_for_days(cal, ordered_days=False):
     return [cal.minutes_for_session(session_picker(cnt)) for cnt in range(500)]
 
 
-
 # THE CLASS BELOW ARE GOING TO BE IMPORTED BY test_events_cme and nyse
 class RuleTestCase:
     CALENDAR_STRING = "foo"
@@ -244,7 +243,6 @@ class RuleTestCase:
             k
             for k, v in vars(zipline.utils.events).items()
             if isinstance(v, type)
-
             and issubclass(v, self.class_)
             and v is not self.class_
             and v not in classes_to_ignore

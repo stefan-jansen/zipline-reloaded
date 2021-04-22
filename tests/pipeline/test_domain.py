@@ -229,7 +229,9 @@ class SpecializeTestCase(zf.ZiplineTestCase):
             assert generic_non_root.specialize(domain_param) is cls
             for name in colnames:
                 # Same deal for columns.
-                assert getattr(generic_non_root, name).specialize(domain_param) is getattr(cls, name)
+                assert getattr(generic_non_root, name).specialize(
+                    domain_param
+                ) is getattr(cls, name)
 
             # Don't allow specializing to any other domain.
             with pytest.raises(ValueError):
@@ -444,7 +446,7 @@ class DataQueryCutoffForSessionTestCase(zf.ZiplineTestCase):
         valid_sessions = domain.all_sessions()[:50]
         sessions = pd.date_range(valid_sessions[0], valid_sessions[-1])
         invalid_sessions = sessions[~sessions.isin(valid_sessions)]
-        assert len(invalid_sessions) >  1, "There must be at least one invalid session."
+        assert len(invalid_sessions) > 1, "There must be at least one invalid session."
 
         expected_msg = (
             "cannot resolve data query time for sessions that are not on the"
@@ -557,10 +559,9 @@ class RollForwardTestCase(zf.ZiplineTestCase):
             f"Date {after_last_session.date()} was past the last session "
             "for domain EquityCalendarDomain('JP', 'XTKS'). "
             f"The last session for this domain is {JP_EQUITIES.calendar.last_session.date()}."
-            )
+        )
         with pytest.raises(ValueError, match=re.escape(expected_msg)):
             JP_EQUITIES.roll_forward(after_last_session)
-
 
         # test that a roll_forward works with an EquitySessionDomain,
         # not just calendar domains

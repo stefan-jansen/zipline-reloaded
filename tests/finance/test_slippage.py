@@ -1360,18 +1360,17 @@ class FixedBasisPointsSlippageTestCase(WithCreateBarData, ZiplineTestCase):
         err_msg = (
             "FixedBasisPointsSlippage() expected a value greater than "
             "or equal to 0 for argument 'basis_points', but got -1 instead."
-            )
+        )
         with pytest.raises(ValueError, match=re.escape(err_msg)):
             FixedBasisPointsSlippage(basis_points=-1)
 
         err_msg = (
             "FixedBasisPointsSlippage() expected a value strictly "
             "greater than 0 for argument 'volume_limit', but got 0 instead."
-            )
+        )
 
         with pytest.raises(ValueError, match=re.escape(err_msg)):
             FixedBasisPointsSlippage(volume_limit=0)
-
 
     def test_fill_zero_shares(self):
         slippage_model = FixedBasisPointsSlippage(basis_points=5, volume_limit=0.1)

@@ -460,20 +460,20 @@ class TestObjectIdentity:
         err_msg = (
             "SomeFactorParameterized expected a hashable value "
             "for parameter 'a', but got [] instead."
-            )
+        )
         with pytest.raises(TypeError, match=re.escape(err_msg)):
             self.SomeFactorParameterized(a=[], b=1)
 
         err_msg = (
             "SomeFactorParameterized expected a hashable value "
             "for parameter 'b', but got [] instead."
-            )
+        )
         with pytest.raises(TypeError, match=re.escape(err_msg)):
             self.SomeFactorParameterized(a=1, b=[])
         err_msg = (
             r"SomeFactorParameterized expected a hashable value "
             r"for parameter '(a|b)', but got \[\] instead\."
-            )
+        )
         with pytest.raises(TypeError, match=err_msg):
             self.SomeFactorParameterized(a=[], b=[])
 
@@ -563,15 +563,19 @@ class TestObjectIdentity:
             MultipleOutputs(outputs=[])
 
     def test_bad_output_access(self):
-        with pytest.raises(AttributeError, match="'SomeFactor' object has no attribute 'not_an_attr'"):
+        with pytest.raises(
+            AttributeError, match="'SomeFactor' object has no attribute 'not_an_attr'"
+        ):
             SomeFactor().not_an_attr
 
         mo = MultipleOutputs()
-        expected = ("Instance of MultipleOutputs has no output named 'not_an_attr'. Possible choices are: \\('alpha', 'beta'\\).")
+        expected = "Instance of MultipleOutputs has no output named 'not_an_attr'. Possible choices are: \\('alpha', 'beta'\\)."
         with pytest.raises(AttributeError, match=expected):
             mo.not_an_attr
 
-        with pytest.raises(ValueError, match="GenericCustomFactor does not have multiple outputs."):
+        with pytest.raises(
+            ValueError, match="GenericCustomFactor does not have multiple outputs."
+        ):
             alpha, beta = GenericCustomFactor()
 
         # Public method, user-defined method.
@@ -602,10 +606,9 @@ class TestObjectIdentity:
             "Term._validate() was not called.\n"
             "This probably means that you overrode _validate"
             " without calling super()."
-            )
+        )
         with pytest.raises(AssertionError, match=re.escape(err_msg)):
             MyFactor()
-
 
     def test_latest_on_different_dtypes(self):
         factor_dtypes = (float64_dtype, datetime64ns_dtype)
@@ -634,7 +637,6 @@ class TestObjectIdentity:
                 bad_column = Column(dtype=int64_dtype)
                 float_column = Column(dtype=float64_dtype)
                 int_column = Column(dtype=int64_dtype, missing_value=3)
-
 
         Column(dtype=complex128_dtype)
         with pytest.raises(UnsupportedDType):
@@ -686,7 +688,9 @@ class TestSubDataSet:
                 "subclass column %r should have the same dtype as the parent" % k
             )
 
-    @pytest.mark.parametrize("dtype_, outputs_", [(categorical_dtype, ("a",)),(int64_dtype, ("a", "b"))])
+    @pytest.mark.parametrize(
+        "dtype_, outputs_", [(categorical_dtype, ("a",)), (int64_dtype, ("a", "b"))]
+    )
     def test_reject_multi_output_classifiers(self, dtype_, outputs_):
         """
         Multi-output CustomClassifiers don't work because they use special
@@ -703,7 +707,7 @@ class TestSubDataSet:
         expected_error = (
             f"SomeClassifier does not support custom outputs, "
             f"but received custom outputs={outputs_}."
-            )
+        )
         with pytest.raises(ValueError, match=re.escape(expected_error)):
             SomeClassifier()
 

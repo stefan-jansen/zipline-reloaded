@@ -35,6 +35,7 @@ from zipline.utils.numpy_utils import int64_dtype
 import pytest
 import re
 
+
 class NDaysAgoFactor(CustomFactor):
     inputs = [TestingDataSet.float_col]
 
@@ -723,7 +724,6 @@ class DownsampledPipelineTestCase(WithSeededRandomPipelineEngine, ZiplineTestCas
         ).format(_qualified_name(f.downsample))
         with pytest.raises(ValueError, match=re.escape(expected)):
             f.downsample("bad")
-
 
 
 class DownsampledGBPipelineTestCase(DownsampledPipelineTestCase):

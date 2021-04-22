@@ -1304,7 +1304,6 @@ class FactorTestCase(BaseUSEquityPipelineTestCase):
         with pytest.raises(TypeError, match=re.escape(expected)):
             getattr(d, method_name)()
 
-
     @parameter_space(seed=[1, 2, 3])
     def test_quantiles_unmasked(self, seed):
         permute = partial(permute_rows, seed)

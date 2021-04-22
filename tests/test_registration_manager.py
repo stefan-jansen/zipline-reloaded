@@ -15,7 +15,7 @@ class RegistrationManagerTestCase(ZiplineTestCase):
         msg = (
             "no FakeInterface factory registered under name 'ayy-lmao',"
             " options are: []"
-            )
+        )
         with pytest.raises(ValueError, match=re.escape(msg)):
             rm.load("ayy-lmao")
 
@@ -27,7 +27,7 @@ class RegistrationManagerTestCase(ZiplineTestCase):
         msg = (
             "no FakeInterface factory registered under name 'ayy-lmao', "
             "options are: ['a', 'b', 'c']"
-            )
+        )
         with pytest.raises(ValueError, match=re.escape(msg)):
             rm.load("ayy-lmao")
 
@@ -51,11 +51,12 @@ class RegistrationManagerTestCase(ZiplineTestCase):
         # Try and fail to register with the same key again.
         msg = "FakeInterface factory with name 'ayy-lmao' is already registered"
         with pytest.raises(ValueError, match=msg):
+
             @rm.register("ayy-lmao")
             class Fake(object):
                 pass
 
-        #assert excinfo.value.args == msg
+        # assert excinfo.value.args == msg
         # check that the failed registration didn't break the previous
         # registration
         check_registered()

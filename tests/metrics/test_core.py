@@ -6,6 +6,7 @@ from zipline.utils.compat import mappingproxy
 import pytest
 import re
 
+
 class MetricsSetCoreTestCase(ZiplineTestCase):
     def init_instance_fixtures(self):
         super(MetricsSetCoreTestCase, self).init_instance_fixtures()
@@ -51,7 +52,7 @@ class MetricsSetCoreTestCase(ZiplineTestCase):
             @self.register("ayy-lmao")
             def other():  # pragma: no cover
                 raise AssertionError("dead")
-            
+
         # ensure that the failed registration didn't break the previously
         # registered set
         assert self.metrics_sets == expected_metrics_sets

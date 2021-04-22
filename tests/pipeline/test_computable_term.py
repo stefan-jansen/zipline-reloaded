@@ -17,6 +17,7 @@ from .base import BaseUSEquityPipelineTestCase
 import pytest
 import re
 
+
 class Floats(Factor):
     inputs = ()
     window_length = 0

@@ -116,15 +116,16 @@ class TestPreprocess:
 
         message = "Got processors for unknown arguments: %s." % {"a"}
         with pytest.raises(TypeError, match=message):
+
             @a_processor
             def func_with_no_args():
                 pass
 
         with pytest.raises(TypeError, match=message):
+
             @a_processor
             def func_with_arg_named_b(b):
                 pass
-
 
     @parameterized.expand(
         [
@@ -191,14 +192,17 @@ class TestPreprocess:
         for not_int in (str, float):
             msg = (
                 "{qualname}() expected a value of type int for argument 'a', "
-                "but got {t} instead.".format(qualname=qualname(foo), t=not_int.__name__, )
+                "but got {t} instead.".format(
+                    qualname=qualname(foo),
+                    t=not_int.__name__,
                 )
+            )
             with pytest.raises(TypeError, match=re.escape(msg)):
                 foo(not_int(1), 2, 3)
-            
+
             with pytest.raises(TypeError):
                 foo(1, not_int(2), 3)
-            
+
             with pytest.raises(TypeError):
                 foo(not_int(1), not_int(2), 3)
 
@@ -214,8 +218,10 @@ class TestPreprocess:
         for not_int in (str, float):
             msg = (
                 "ArgleBargle() expected a value of type int for argument 'a', "
-                "but got {t} instead.".format(t=not_int.__name__, )
+                "but got {t} instead.".format(
+                    t=not_int.__name__,
                 )
+            )
             with pytest.raises(TypeError, match=re.escape(msg)):
                 Foo(not_int(1))
 
@@ -233,7 +239,6 @@ class TestPreprocess:
         ).format(qualname=qualname(foo))
         with pytest.raises(TypeError, match=re.escape(expected_message)):
             foo("1")
-
 
     def test_expect_optional_types(self):
         @expect_types(a=optional(int))
@@ -253,7 +258,6 @@ class TestPreprocess:
         ).format(qualname=qualname(foo))
         with pytest.raises(TypeError, match=re.escape(expected_message)):
             foo("1")
-
 
     def test_expect_element(self):
         set_ = {"a", "b"}
@@ -276,7 +280,6 @@ class TestPreprocess:
         with pytest.raises(ValueError, match=re.escape(expected_message)):
             f("c")
 
-
     def test_expect_element_custom_funcname(self):
 
         set_ = {"a", "b"}
@@ -295,7 +298,6 @@ class TestPreprocess:
         )
         with pytest.raises(ValueError, match=re.escape(expected_message)):
             Foo("c")
-
 
     def test_expect_dtypes(self):
         @expect_dtypes(a=np.dtype(float), b=np.dtype("datetime64[ns]"))
@@ -325,7 +327,6 @@ class TestPreprocess:
         with pytest.raises(TypeError, match=re.escape(expected_message)):
             foo(np.arange(3, dtype="uint32"), good_c, good_c)
 
-
     def test_expect_dtypes_with_tuple(self):
 
         allowed_dtypes = (np.dtype("datetime64[ns]"), np.dtype("float"))
@@ -347,7 +348,6 @@ class TestPreprocess:
         ).format(qualname=qualname(foo))
         with pytest.raises(TypeError, match=re.escape(expected_message)):
             foo(np.arange(3, dtype="uint32"), object())
-
 
     def test_expect_dtypes_custom_funcname(self):
 

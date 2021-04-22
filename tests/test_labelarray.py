@@ -47,7 +47,6 @@ class LabelArrayTestCase(ZiplineTestCase):
         with pytest.raises(TypeError, match=err_msg):
             np.ndarray.__new__(LabelArray, (5, 5))
 
-
     @parameter_space(
         __fail_fast=True,
         compval=["", "a", "z", "not in the array"],

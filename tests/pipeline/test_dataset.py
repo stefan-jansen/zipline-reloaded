@@ -62,7 +62,6 @@ class GetColumnTestCase(ZiplineTestCase):
         with pytest.raises(AttributeError, match=re.escape(expected)):
             SomeDataSet.get_column(attr)
 
-
     def test_get_column_failure_truncate_error_message(self):
         expected = dedent(
             """\
@@ -83,7 +82,6 @@ class GetColumnTestCase(ZiplineTestCase):
         )
         with pytest.raises(AttributeError, match=re.escape(expected)):
             LargeDataSet.get_column("arglebargle")
-
 
 
 class ReprTestCase(ZiplineTestCase):

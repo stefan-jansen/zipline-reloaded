@@ -346,7 +346,9 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
 
     @parameterized.expand([("clean",), ("load",)])
     def test_bundle_doesnt_exist(self, fnname):
-        with pytest.raises(UnknownBundle, match="No bundle registered with the name 'ayy'"):
+        with pytest.raises(
+            UnknownBundle, match="No bundle registered with the name 'ayy'"
+        ):
             getattr(self, fnname)("ayy", environ=self.environ)
 
     def test_load_no_data(self):

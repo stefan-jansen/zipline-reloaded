@@ -795,7 +795,6 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
         with pytest.raises(ValueError, match=re.escape(expected_error_msg)):
             self.write_assets(equities=df)
 
-
     def test_lookup_generic(self):
         """
         Ensure that lookup_generic works with various permutations of inputs.
@@ -1920,7 +1919,6 @@ class AssetFinderMultipleCountries(WithTradingCalendars, ZiplineTestCase):
                 "country_code": [self.country_code(n) for n in range(num_countries)],
             }
         )
-
 
         expected_error_msg = (
             "Ambiguous ownership for 3 symbols, multiple assets held the"

@@ -27,6 +27,7 @@ import zipline.testing.fixtures as zf
 import pytest
 import re
 
+
 def T(s):
     return pd.Timestamp(s, tz="UTC")
 
@@ -450,7 +451,7 @@ class InternationalEquityTestCase(
             "The .fx() method cannot be called on EquityPricing.volume "
             "because it does not produce currency-denominated data."
         )
-        
+
         with pytest.raises(TypeError, match=re.escape(msg)):
             EquityPricing.volume.fx("EUR")
 

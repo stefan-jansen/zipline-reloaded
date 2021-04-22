@@ -13,9 +13,10 @@ from zipline.pipeline.data import (
 from zipline.testing import ZiplineTestCase
 from zipline.testing.predicates import assert_is_subclass
 
-#from zipline.pipeline.data.dataset import DataSetFamilyLookupError
+# from zipline.pipeline.data.dataset import DataSetFamilyLookupError
 import pytest
 import re
+
 
 class TestDataSetFamily(ZiplineTestCase):
     def test_repr(self):
@@ -326,7 +327,7 @@ class TestDataSetFamily(ZiplineTestCase):
                     c=attr, d=ds
                 ),  # noqa
             )
-        
+
         expected_msg = make_expected_msg("Parent", "column_0")
         with pytest.raises(AttributeError, match=re.escape(expected_msg)):
             Parent.column_0

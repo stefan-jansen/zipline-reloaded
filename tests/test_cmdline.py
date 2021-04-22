@@ -15,6 +15,7 @@ from zipline.extensions import (
 )
 import pytest
 
+
 class CmdLineTestCase(WithTmpDir, ZiplineTestCase):
     def init_instance_fixtures(self):
         super(CmdLineTestCase, self).init_instance_fixtures()

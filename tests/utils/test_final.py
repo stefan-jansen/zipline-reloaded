@@ -8,6 +8,7 @@ from zipline.utils.final import (
 from zipline.utils.metautils import compose_types
 import pytest
 
+
 class FinalMetaTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -240,7 +241,7 @@ class FinalABCMetaTestCase(FinalMetaTestCase):
         SubClass()
         assert SubClass().a == "a"
         assert SubClass().f() == "ClassWithFinal: f"
-        
+
     def test_final_classmethod(self):
         class ClassWithClassMethod(object, metaclass=FinalMeta):
             count = 0

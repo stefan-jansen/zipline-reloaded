@@ -127,7 +127,6 @@ class LatestTestCase(
         err_msg = (
             "Columns cannot be constructed with currency_aware=True, "
             "dtype=datetime64[ns]. Currency aware columns must have a float64 dtype."
-
         )
         with pytest.raises(ValueError, match=re.escape(err_msg)):
             Column(dtype=datetime64ns_dtype, currency_aware=True)

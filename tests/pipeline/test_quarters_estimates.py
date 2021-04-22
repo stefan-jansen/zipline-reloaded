@@ -344,11 +344,11 @@ class WithWrongLoaderDefinition(WithEstimates):
             for c in dataset.columns
         }
         p = Pipeline(columns)
-        
+
         err_msg = (
             r"Passed invalid number of quarters -[0-9],-[0-9]; "
             r"must pass a number of quarters >= 0"
-            )
+        )
         with pytest.raises(ValueError, match=err_msg):
             engine.run_pipeline(
                 p,

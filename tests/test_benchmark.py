@@ -150,8 +150,10 @@ class TestBenchmark(
         expected_msg = (
             f"Equity(3 [C]) does not exist on {self.sim_params.sessions[1]}. "
             f"It started trading on {benchmark_start}."
-            )
-        with pytest.raises(BenchmarkAssetNotAvailableTooEarly, match=re.escape(expected_msg)):
+        )
+        with pytest.raises(
+            BenchmarkAssetNotAvailableTooEarly, match=re.escape(expected_msg)
+        ):
             BenchmarkSource(
                 benchmark,
                 self.trading_calendar,
@@ -163,7 +165,9 @@ class TestBenchmark(
             f"Equity(3 [C]) does not exist on {self.sim_params.sessions[-1]}. "
             f"It stopped trading on {benchmark_end}."
         )
-        with pytest.raises(BenchmarkAssetNotAvailableTooLate, match=re.escape(expected_msg)):
+        with pytest.raises(
+            BenchmarkAssetNotAvailableTooLate, match=re.escape(expected_msg)
+        ):
             BenchmarkSource(
                 benchmark,
                 self.trading_calendar,
@@ -222,7 +226,7 @@ class TestBenchmark(
         # of a stock dividend
 
         err_msg = (
-             "Equity(4 [D]) cannot be used as the benchmark "
+            "Equity(4 [D]) cannot be used as the benchmark "
             "because it has a stock dividend on 2006-03-16 "
             "00:00:00.  Choose another asset to use as the "
             "benchmark."

@@ -119,7 +119,6 @@ class TestPipelineTestCase:
         with pytest.raises(KeyError, match="f"):
             p.remove("f")
 
-
     def test_set_screen(self):
         f, g = SomeFilter(), SomeOtherFilter()
 
@@ -135,7 +134,10 @@ class TestPipelineTestCase:
         p.set_screen(g, overwrite=True)
         assert p.screen == g
 
-        with pytest.raises(TypeError, match="expected a value of type bool or int for argument 'overwrite'"):
+        with pytest.raises(
+            TypeError,
+            match="expected a value of type bool or int for argument 'overwrite'",
+        ):
             p.set_screen(f, g)
 
     def test_show_graph(self):
@@ -148,8 +150,9 @@ class TestPipelineTestCase:
         def mock_display_graph(g, format="svg", include_asset_exists=False):
             return (g, format, include_asset_exists)
 
-        assert getargspec(display_graph) == getargspec(mock_display_graph), "Mock signature doesn't match signature for display_graph."
-        
+        assert getargspec(display_graph) == getargspec(
+            mock_display_graph
+        ), "Mock signature doesn't match signature for display_graph."
 
         patch_display_graph = patch(
             "zipline.pipeline.graph.display_graph",
@@ -187,9 +190,15 @@ class TestPipelineTestCase:
 
         with pytest.raises(ValueError, match=expected):
             p.show_graph(format="fizzbuzz")
-    @pytest.mark.parametrize("domain", [GENERIC, US_EQUITIES], ids=["generic", "us_equities"],)
+
+    @pytest.mark.parametrize(
+        "domain",
+        [GENERIC, US_EQUITIES],
+        ids=["generic", "us_equities"],
+    )
     def test_infer_domain_no_terms(self, domain):
         assert Pipeline().domain(default=domain) == domain
+
     def test_infer_domain_screen_only(self):
         class D(DataSet):
             c = Column(bool)
@@ -198,7 +207,9 @@ class TestPipelineTestCase:
         filter_US = D.c.specialize(US_EQUITIES).latest
         filter_CA = D.c.specialize(CA_EQUITIES).latest
 
-        assert Pipeline(screen=filter_generic).domain(default=GB_EQUITIES) == GB_EQUITIES
+        assert (
+            Pipeline(screen=filter_generic).domain(default=GB_EQUITIES) == GB_EQUITIES
+        )
         assert Pipeline(screen=filter_US).domain(default=GB_EQUITIES) == US_EQUITIES
         assert Pipeline(screen=filter_CA).domain(default=GB_EQUITIES) == CA_EQUITIES
 

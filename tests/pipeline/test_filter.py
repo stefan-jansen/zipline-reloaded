@@ -562,7 +562,6 @@ class FilterTestCase(BaseUSEquityPipelineTestCase):
         with pytest.raises(TypeError, match=expected_msg):
             AllPresent([Mask()], window_length=4)
 
-
     def test_all(self):
 
         data = np.array(

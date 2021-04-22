@@ -175,8 +175,10 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
             "Comparison against self.missing_value ({v!r}) in C.eq().\n"
             "Missing values have NaN semantics, so the requested comparison "
             "would always produce False.\nUse the isnull() method to check "
-            "for missing values.".format(v=missing,)
+            "for missing values.".format(
+                v=missing,
             )
+        )
         with pytest.raises(ValueError, match=re.escape(expected_msg)):
             C().eq(missing)
 
@@ -586,7 +588,9 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
             dtype = dtype_and_missing[0]
             missing_value = dtype_and_missing[1]
 
-        expected = "cannot compare classifiers with %s"% (methods_to_ops["__%s__" % compare_op.__name__],)
+        expected = "cannot compare classifiers with %s" % (
+            methods_to_ops["__%s__" % compare_op.__name__],
+        )
         with pytest.raises(TypeError, match=re.escape(expected)):
             compare_op(C(), object())
 
