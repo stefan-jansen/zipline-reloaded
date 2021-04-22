@@ -17,11 +17,6 @@ from functools import partial
 from textwrap import dedent
 
 import numpy as np
-from numpy import (
-    array,
-    repeat,
-    tile,
-)
 from numpy.testing import assert_almost_equal
 import pandas as pd
 
@@ -265,11 +260,11 @@ class ContinuousFuturesTestCase(
         # session and Y.YYY representing the minute within the session.
         # e.g. the close of the 23rd session would be 231.440.
         r = 10.0
-        day_markers = repeat(
+        day_markers = np.repeat(
             np.arange(r, r * len(sessions) + r, r), FUTURES_MINUTES_PER_DAY
         )
         r = 0.001
-        min_markers = tile(
+        min_markers = np.tile(
             np.arange(r, r * FUTURES_MINUTES_PER_DAY + r, r), len(sessions)
         )
 
@@ -277,12 +272,12 @@ class ContinuousFuturesTestCase(
 
         # Volume uses a similar scheme as above but times 1000.
         r = 10.0 * 1000
-        vol_day_markers = repeat(
+        vol_day_markers = np.repeat(
             np.arange(r, r * len(sessions) + r, r, dtype=np.int64),
             FUTURES_MINUTES_PER_DAY,
         )
         r = 0.001 * 1000
-        vol_min_markers = tile(
+        vol_min_markers = np.tile(
             np.arange(r, r * FUTURES_MINUTES_PER_DAY + r, r, dtype=np.int64),
             len(sessions),
         )
@@ -1860,7 +1855,7 @@ class OrderedContractsTestCase(zf.WithAssetFinder, zf.ZiplineTestCase):
         return pd.concat([fo_frame, ba_frame, bz_frame])
 
     def test_contract_at_offset(self):
-        contract_sids = array([1, 2, 3, 4], dtype=np.int64)
+        contract_sids = np.array([1, 2, 3, 4], dtype=np.int64)
         start_dates = pd.date_range("2015-01-01", periods=4, tz="UTC")
 
         contracts = deque(self.asset_finder.retrieve_all(contract_sids))
@@ -1880,7 +1875,7 @@ class OrderedContractsTestCase(zf.WithAssetFinder, zf.ZiplineTestCase):
         ), "Offset at end of chain should not crash."
 
     def test_active_chain(self):
-        contract_sids = array([1, 2, 3, 4], dtype=np.int64)
+        contract_sids = np.array([1, 2, 3, 4], dtype=np.int64)
 
         contracts = deque(self.asset_finder.retrieve_all(contract_sids))
 
@@ -1961,7 +1956,7 @@ class OrderedContractsTestCase(zf.WithAssetFinder, zf.ZiplineTestCase):
         )
 
     def test_auto_close_before_start(self):
-        contract_sids = array([8, 9, 10, 11], dtype=np.int64)
+        contract_sids = np.array([8, 9, 10, 11], dtype=np.int64)
         contracts = self.asset_finder.retrieve_all(contract_sids)
         oc = OrderedContracts("BZ", deque(contracts))
 
