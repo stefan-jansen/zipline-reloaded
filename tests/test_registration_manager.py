@@ -1,6 +1,7 @@
 from zipline.extensions import Registry
 from zipline.testing.fixtures import ZiplineTestCase
 import pytest
+import re
 
 
 class FakeInterface:
@@ -12,11 +13,11 @@ class RegistrationManagerTestCase(ZiplineTestCase):
         rm = Registry(FakeInterface)
 
         msg = (
-            "no FakeInterface factory registered under name 'ayy-lmao', options are: []",
-        )
-        with pytest.raises(ValueError) as excinfo:
+            "no FakeInterface factory registered under name 'ayy-lmao',"
+            " options are: []"
+            )
+        with pytest.raises(ValueError, match=re.escape(msg)):
             rm.load("ayy-lmao")
-            assert excinfo.value.args == msg
 
         # register in reverse order to test the sorting of the options
         rm.register("c", FakeInterface)
@@ -26,10 +27,9 @@ class RegistrationManagerTestCase(ZiplineTestCase):
         msg = (
             "no FakeInterface factory registered under name 'ayy-lmao', "
             "options are: ['a', 'b', 'c']"
-        )
-        with pytest.raises(ValueError) as excinfo:
+            )
+        with pytest.raises(ValueError, match=re.escape(msg)):
             rm.load("ayy-lmao")
-            assert excinfo.value.args == msg
 
     def test_register_decorator(self):
         rm = Registry(FakeInterface)
@@ -50,13 +50,12 @@ class RegistrationManagerTestCase(ZiplineTestCase):
 
         # Try and fail to register with the same key again.
         msg = "FakeInterface factory with name 'ayy-lmao' is already registered"
-        with pytest.raises(ValueError) as excinfo:
-
+        with pytest.raises(ValueError, match=msg):
             @rm.register("ayy-lmao")
             class Fake(object):
                 pass
 
-            assert excinfo.value.args == msg
+        #assert excinfo.value.args == msg
         # check that the failed registration didn't break the previous
         # registration
         check_registered()
@@ -68,12 +67,11 @@ class RegistrationManagerTestCase(ZiplineTestCase):
             "no FakeInterface factory registered under name 'ayy-lmao', "
             "options are: []"
         )
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=re.escape(msg)):
             rm.load("ayy-lmao")
-            assert excinfo.value.args == msg
 
         msg = "FakeInterface factory 'ayy-lmao' was not already registered"
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match=msg):
             rm.unregister("ayy-lmao")
 
     def test_register_non_decorator(self):
@@ -111,9 +109,8 @@ class RegistrationManagerTestCase(ZiplineTestCase):
             "no FakeInterface factory registered under name 'ayy-lmao', "
             "options are: []"
         )
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=re.escape(msg)):
             rm.load("ayy-lmao")
-            assert excinfo.value.args == msg
 
         msg = "FakeInterface factory 'ayy-lmao' was not already registered"
         with pytest.raises(ValueError, match=msg):

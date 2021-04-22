@@ -36,6 +36,7 @@ from zipline.utils.numpy_utils import (
 )
 from zipline.utils.pandas_utils import new_pandas, skip_pipeline_new_pandas
 import pytest
+import re
 
 
 class EventDataSet(DataSet):
@@ -568,13 +569,10 @@ class EventsLoaderTestCase(WithAssetFinder, WithTradingSessions, ZiplineTestCase
         EventsLoader(events, {EventDataSet_US.next_float: "c"}, {})
         EventsLoader(events, {}, {EventDataSet_US.previous_float: "c"})
 
-        with pytest.raises(ValueError) as excinfo:
-            EventsLoader(events, {EventDataSet_US.next_float: "d"}, {})
-
-        msg = str(excinfo.value)
         expected = (
             "EventsLoader missing required columns ['d'].\n"
             "Got Columns: ['c', 'event_date', 'sid', 'timestamp']\n"
             "Expected Columns: ['d', 'event_date', 'sid', 'timestamp']"
         )
-        assert msg == expected
+        with pytest.raises(ValueError, match=re.escape(expected)):
+            EventsLoader(events, {EventDataSet_US.next_float: "d"}, {})

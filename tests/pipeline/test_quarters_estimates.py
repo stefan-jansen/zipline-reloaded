@@ -19,7 +19,6 @@ from zipline.pipeline.data import DataSet
 from zipline.pipeline.data import Column
 from zipline.pipeline.domain import EquitySessionDomain
 from zipline.pipeline.loaders.earnings_estimates import (
-    INVALID_NUM_QTRS_MESSAGE,
     NextEarningsEstimatesLoader,
     NextSplitAdjustedEarningsEstimatesLoader,
     normalize_quarters,
@@ -32,7 +31,7 @@ from zipline.testing.fixtures import (
     WithTradingSessions,
     ZiplineTestCase,
 )
-from zipline.testing.predicates import assert_equal, assert_raises_regex
+from zipline.testing.predicates import assert_equal
 from zipline.testing.predicates import assert_frame_equal
 from zipline.utils.numpy_utils import datetime64ns_dtype
 from zipline.utils.numpy_utils import float64_dtype
@@ -345,14 +344,17 @@ class WithWrongLoaderDefinition(WithEstimates):
             for c in dataset.columns
         }
         p = Pipeline(columns)
-
-        with pytest.raises(ValueError) as excinfo:
+        
+        err_msg = (
+            r"Passed invalid number of quarters -[0-9],-[0-9]; "
+            r"must pass a number of quarters >= 0"
+            )
+        with pytest.raises(ValueError, match=err_msg):
             engine.run_pipeline(
                 p,
                 start_date=self.trading_days[0],
                 end_date=self.trading_days[-1],
             )
-            assert_raises_regex(excinfo.value, INVALID_NUM_QTRS_MESSAGE % "-1,-2")
 
     def test_no_num_announcements_attr(self):
         dataset = QuartersEstimatesNoNumQuartersAttr(1)

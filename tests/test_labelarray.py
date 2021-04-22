@@ -43,12 +43,10 @@ class LabelArrayTestCase(ZiplineTestCase):
     def test_fail_on_direct_construction(self):
         # See https://docs.scipy.org/doc/numpy-1.10.0/user/basics.subclassing.html#simple-example-adding-an-extra-attribute-to-ndarray  # noqa
 
-        with pytest.raises(TypeError) as excinfo:
+        err_msg = "Direct construction of LabelArrays is not supported."
+        with pytest.raises(TypeError, match=err_msg):
             np.ndarray.__new__(LabelArray, (5, 5))
 
-        assert (
-            str(excinfo.value) == "Direct construction of LabelArrays is not supported."
-        )
 
     @parameter_space(
         __fail_fast=True,

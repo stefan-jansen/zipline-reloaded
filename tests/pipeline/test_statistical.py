@@ -2,19 +2,8 @@
 Tests for statistical pipeline terms.
 """
 import numpy as np
-from numpy import (
-    arange,
-    full,
-    full_like,
-    nan,
-    where,
-)
-from pandas import (
-    DataFrame,
-    date_range,
-    Int64Index,
-    Timestamp,
-)
+from numpy import nan
+import pandas as pd
 from pandas.testing import assert_frame_equal
 from scipy.stats import linregress, pearsonr, spearmanr
 
@@ -63,9 +52,9 @@ import re
 class StatisticalBuiltInsTestCase(
     zf.WithAssetFinder, zf.WithTradingCalendars, zf.ZiplineTestCase
 ):
-    sids = ASSET_FINDER_EQUITY_SIDS = Int64Index([1, 2, 3])
-    START_DATE = Timestamp("2015-01-31", tz="UTC")
-    END_DATE = Timestamp("2015-03-01", tz="UTC")
+    sids = ASSET_FINDER_EQUITY_SIDS = pd.Int64Index([1, 2, 3])
+    START_DATE = pd.Timestamp("2015-01-31", tz="UTC")
+    END_DATE = pd.Timestamp("2015-03-01", tz="UTC")
     ASSET_FINDER_EQUITY_SYMBOLS = ("A", "B", "C")
     ASSET_FINDER_COUNTRY_CODE = "US"
 
@@ -74,7 +63,7 @@ class StatisticalBuiltInsTestCase(
         super(StatisticalBuiltInsTestCase, cls).init_class_fixtures()
 
         day = cls.trading_calendar.day
-        cls.dates = dates = date_range(
+        cls.dates = dates = pd.date_range(
             "2015-02-01",
             "2015-02-28",
             freq=day,
@@ -96,8 +85,8 @@ class StatisticalBuiltInsTestCase(
         cls.my_asset = assets[my_asset_column]
         cls.num_assets = num_assets = len(assets)
 
-        cls.raw_data = raw_data = DataFrame(
-            data=arange(len(dates) * len(sids), dtype=float64_dtype).reshape(
+        cls.raw_data = raw_data = pd.DataFrame(
+            data=np.arange(len(dates) * len(sids), dtype=float64_dtype).reshape(
                 len(dates),
                 len(sids),
             ),
@@ -126,7 +115,7 @@ class StatisticalBuiltInsTestCase(
         cls.expected_alternating_mask_result = make_alternating_boolean_array(
             shape=(num_days, num_assets),
         )
-        cls.expected_no_mask_result = full(
+        cls.expected_no_mask_result = np.full(
             shape=(num_days, num_assets),
             fill_value=True,
             dtype=bool_dtype,
@@ -200,8 +189,8 @@ class StatisticalBuiltInsTestCase(
             # On each day, calculate the expected correlation coefficients
             # between the asset we are interested in and each other asset. Each
             # correlation is calculated over `correlation_length` days.
-            expected_pearson_results = full_like(pearson_results, nan)
-            expected_spearman_results = full_like(spearman_results, nan)
+            expected_pearson_results = np.full_like(pearson_results, nan)
+            expected_spearman_results = np.full_like(spearman_results, nan)
             for day in range(num_days):
                 todays_returns = returns_results.iloc[day : day + correlation_length]
                 my_asset_returns = todays_returns.iloc[:, my_asset_column]
@@ -216,15 +205,15 @@ class StatisticalBuiltInsTestCase(
                         other_asset_returns,
                     )[0]
 
-            expected_pearson_results = DataFrame(
-                data=where(expected_mask, expected_pearson_results, nan),
+            expected_pearson_results = pd.DataFrame(
+                data=np.where(expected_mask, expected_pearson_results, nan),
                 index=dates[start_date_index : end_date_index + 1],
                 columns=assets,
             )
             assert_frame_equal(pearson_results, expected_pearson_results)
 
-            expected_spearman_results = DataFrame(
-                data=where(expected_mask, expected_spearman_results, nan),
+            expected_spearman_results = pd.DataFrame(
+                data=np.where(expected_mask, expected_spearman_results, nan),
                 index=dates[start_date_index : end_date_index + 1],
                 columns=assets,
             )
@@ -279,7 +268,7 @@ class StatisticalBuiltInsTestCase(
             expected_output_results = {}
             for output in outputs:
                 output_results[output] = results[output].unstack()
-                expected_output_results[output] = full_like(
+                expected_output_results[output] = np.full_like(
                     output_results[output],
                     nan,
                 )
@@ -315,8 +304,8 @@ class StatisticalBuiltInsTestCase(
 
             for output in outputs:
                 output_result = output_results[output]
-                expected_output_result = DataFrame(
-                    where(expected_mask, expected_output_results[output], nan),
+                expected_output_result = pd.DataFrame(
+                    np.where(expected_mask, expected_output_results[output], nan),
                     index=dates[start_date_index : end_date_index + 1],
                     columns=assets,
                 )
@@ -438,45 +427,39 @@ class StatisticalBuiltInsTestCase(
             )
 
     def test_simple_beta_input_validation(self):
-        with pytest.raises(TypeError) as excinfo:
+        expected = (
+            "SimpleBeta() expected a value of type"
+            " Asset for argument 'target',"
+            " but got str instead."
+        )
+        with pytest.raises(TypeError, match=re.escape(expected)):
             SimpleBeta(
                 target="SPY",
                 regression_length=100,
                 allowed_missing_percentage=0.5,
             )
-        result = str(excinfo.value)
-        expected = (
-            r"SimpleBeta\(\) expected a value of type"
-            " .*Asset for argument 'target',"
-            " but got str instead."
-        )
-        assert re.search(expected, result)
 
-        with pytest.raises(ValueError) as excinfo:
+        expected = (
+            "SimpleBeta() expected a value greater than or equal to 3"
+            " for argument 'regression_length', but got 1 instead."
+        )
+        with pytest.raises(ValueError, match=re.escape(expected)):
             SimpleBeta(
                 target=self.my_asset,
                 regression_length=1,
                 allowed_missing_percentage=0.5,
             )
-        result = str(excinfo.value)
-        expected = (
-            "SimpleBeta() expected a value greater than or equal to 3"
-            " for argument 'regression_length', but got 1 instead."
-        )
-        assert result == expected
 
-        with pytest.raises(ValueError) as excinfo:
+        expected = (
+            "SimpleBeta() expected a value inclusively between 0.0 and 1.0 "
+            "for argument 'allowed_missing_percentage', but got 50 instead."
+        )
+        with pytest.raises(ValueError, match=re.escape(expected)):
             SimpleBeta(
                 target=self.my_asset,
                 regression_length=100,
                 allowed_missing_percentage=50,
             )
-        result = str(excinfo.value)
-        expected = (
-            "SimpleBeta() expected a value inclusively between 0.0 and 1.0 "
-            "for argument 'allowed_missing_percentage', but got 50 instead."
-        )
-        assert result == expected
 
     def test_simple_beta_target(self):
         beta = SimpleBeta(
@@ -510,9 +493,9 @@ class StatisticalBuiltInsTestCase(
 
 
 class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTestCase):
-    sids = ASSET_FINDER_EQUITY_SIDS = Int64Index([1, 2, 3])
-    START_DATE = Timestamp("2015-01-31", tz="UTC")
-    END_DATE = Timestamp("2015-03-01", tz="UTC")
+    sids = ASSET_FINDER_EQUITY_SIDS = pd.Int64Index([1, 2, 3])
+    START_DATE = pd.Timestamp("2015-01-31", tz="UTC")
+    END_DATE = pd.Timestamp("2015-03-01", tz="UTC")
     ASSET_FINDER_COUNTRY_CODE = "US"
     SEEDED_RANDOM_PIPELINE_DEFAULT_DOMAIN = US_EQUITIES
 
@@ -544,7 +527,7 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         cls.expected_alternating_mask_result = make_alternating_boolean_array(
             shape=(num_days, num_assets),
         )
-        cls.expected_no_mask_result = full(
+        cls.expected_no_mask_result = np.full(
             shape=(num_days, num_assets),
             fill_value=True,
             dtype=bool_dtype,
@@ -809,8 +792,8 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         # On each day, calculate the expected correlation coefficients
         # between each asset's 5 and 10 day rolling returns. Each correlation
         # is calculated over `correlation_length` days.
-        expected_pearson_results = full_like(pearson_results, nan)
-        expected_spearman_results = full_like(spearman_results, nan)
+        expected_pearson_results = np.full_like(pearson_results, nan)
+        expected_spearman_results = np.full_like(spearman_results, nan)
         for day in range(num_days):
             todays_returns_5 = returns_5_results.iloc[day : day + correlation_length]
             todays_returns_10 = returns_10_results.iloc[day : day + correlation_length]
@@ -826,14 +809,14 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
                     asset_returns_10,
                 )[0]
 
-        expected_pearson_results = DataFrame(
+        expected_pearson_results = pd.DataFrame(
             data=expected_pearson_results,
             index=dates[start_date_index : end_date_index + 1],
             columns=assets,
         )
         assert_frame_equal(pearson_results, expected_pearson_results)
 
-        expected_spearman_results = DataFrame(
+        expected_spearman_results = pd.DataFrame(
             data=expected_spearman_results,
             index=dates[start_date_index : end_date_index + 1],
             columns=assets,
@@ -893,7 +876,7 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         expected_output_results = {}
         for output in outputs:
             output_results[output] = results[output].unstack()
-            expected_output_results[output] = full_like(
+            expected_output_results[output] = np.full_like(
                 output_results[output],
                 nan,
             )
@@ -932,7 +915,7 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
 
         for output in outputs:
             output_result = output_results[output]
-            expected_output_result = DataFrame(
+            expected_output_result = pd.DataFrame(
                 expected_output_results[output],
                 index=dates[start_date_index : end_date_index + 1],
                 columns=assets,

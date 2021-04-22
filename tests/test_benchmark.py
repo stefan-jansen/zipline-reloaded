@@ -44,6 +44,7 @@ from zipline.testing.fixtures import (
 )
 from zipline.testing.core import make_test_handler
 import pytest
+import re
 
 
 class TestBenchmark(
@@ -146,30 +147,29 @@ class TestBenchmark(
         benchmark_start = benchmark.start_date
         benchmark_end = benchmark.end_date
 
-        with pytest.raises(BenchmarkAssetNotAvailableTooEarly) as excinfo1:
+        expected_msg = (
+            f"Equity(3 [C]) does not exist on {self.sim_params.sessions[1]}. "
+            f"It started trading on {benchmark_start}."
+            )
+        with pytest.raises(BenchmarkAssetNotAvailableTooEarly, match=re.escape(expected_msg)):
             BenchmarkSource(
                 benchmark,
                 self.trading_calendar,
                 self.sim_params.sessions[1:],
                 self.data_portal,
             )
-        assert (
-            f"Equity(3 [C]) does not exist on {self.sim_params.sessions[1]}. It started trading on {benchmark_start}."
-            == str(excinfo1.value)
-        )
 
-        with pytest.raises(BenchmarkAssetNotAvailableTooLate) as excinfo2:
+        expected_msg = (
+            f"Equity(3 [C]) does not exist on {self.sim_params.sessions[-1]}. "
+            f"It stopped trading on {benchmark_end}."
+        )
+        with pytest.raises(BenchmarkAssetNotAvailableTooLate, match=re.escape(expected_msg)):
             BenchmarkSource(
                 benchmark,
                 self.trading_calendar,
                 self.sim_params.sessions[120:],
                 self.data_portal,
             )
-
-        assert (
-            f"Equity(3 [C]) does not exist on {self.sim_params.sessions[-1]}. It stopped trading on {benchmark_end}."
-            == str(excinfo2.value)
-        )
 
     def test_asset_IPOed_same_day(self):
         # gotta get some minute data up in here.
@@ -221,20 +221,20 @@ class TestBenchmark(
         # try to use sid(4) as benchmark, should blow up due to the presence
         # of a stock dividend
 
-        with pytest.raises(InvalidBenchmarkAsset) as excinfo:
+        err_msg = (
+             "Equity(4 [D]) cannot be used as the benchmark "
+            "because it has a stock dividend on 2006-03-16 "
+            "00:00:00.  Choose another asset to use as the "
+            "benchmark."
+        )
+
+        with pytest.raises(InvalidBenchmarkAsset, match=re.escape(err_msg)):
             BenchmarkSource(
                 self.asset_finder.retrieve_asset(4),
                 self.trading_calendar,
                 self.sim_params.sessions,
                 self.data_portal,
             )
-
-        assert (
-            "Equity(4 [D]) cannot be used as the benchmark "
-            "because it has a stock dividend on 2006-03-16 "
-            "00:00:00.  Choose another asset to use as the "
-            "benchmark." == str(excinfo.value)
-        )
 
 
 class BenchmarkSpecTestCase(WithTmpDir, WithAssetFinder, ZiplineTestCase):

@@ -52,31 +52,28 @@ class TestDateUtils(ZiplineTestCase):
 
     def test_compute_date_range_chunks_invalid_input(self):
         # Start date not found in calendar
-        with pytest.raises(KeyError) as excinfo:
+        err_msg = "'Start date 2017-05-07 is not found in calendar.'"
+        with pytest.raises(KeyError, match=err_msg):
             compute_date_range_chunks(
                 self.calendar.all_sessions,
                 T("2017-05-07"),  # Sunday
                 T("2017-06-01"),
                 None,
             )
-        assert str(excinfo.value) == "'Start date 2017-05-07 is not found in calendar.'"
 
         # End date not found in calendar
-        with pytest.raises(KeyError) as excinfo:
+        err_msg = "'End date 2017-05-27 is not found in calendar.'"
+        with pytest.raises(KeyError, match=err_msg):
             compute_date_range_chunks(
                 self.calendar.all_sessions,
                 T("2017-05-01"),
                 T("2017-05-27"),  # Saturday
                 None,
             )
-        assert str(excinfo.value) == "'End date 2017-05-27 is not found in calendar.'"
 
         # End date before start date
-        with pytest.raises(ValueError) as excinfo:
+        err_msg = "End date 2017-05-01 cannot precede start date 2017-06-01."
+        with pytest.raises(ValueError, match=err_msg):
             compute_date_range_chunks(
                 self.calendar.all_sessions, T("2017-06-01"), T("2017-05-01"), None
             )
-        assert (
-            str(excinfo.value)
-            == "End date 2017-05-01 cannot precede start date 2017-06-01."
-        )

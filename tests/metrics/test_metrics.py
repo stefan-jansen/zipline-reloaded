@@ -1541,7 +1541,7 @@ class TestFixedReturns(WithMakeAlgo, WithWerror, ZiplineTestCase):
 
                 positions = portfolio.positions
                 if first_bar:
-                    assert_equal(positions, {})
+                    assert positions == {}
                     return
 
                 assert_equal(list(positions), [self.equity])
@@ -1888,7 +1888,6 @@ class TestFixedReturns(WithMakeAlgo, WithWerror, ZiplineTestCase):
             )
 
     @pytest.mark.xfail(reason="Needs fix to calendar mismatch.")
-    @unittest.skip("Needs fix to calendar mismatch.")
     @parameter_space(
         direction=["long", "short"],
         # checking the portfolio forces a sync; we want to ensure that the

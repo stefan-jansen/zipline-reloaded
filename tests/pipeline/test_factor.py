@@ -54,6 +54,7 @@ from zipline.utils.pandas_utils import new_pandas, skip_pipeline_new_pandas
 
 from .base import BaseUSEquityPipelineTestCase
 import pytest
+import re
 
 
 class F(Factor):
@@ -1296,16 +1297,13 @@ class FactorTestCase(BaseUSEquityPipelineTestCase):
             window_length = 0
 
         d = DateFactor()
-        with pytest.raises(TypeError) as excinfo:
-            getattr(d, method_name)()
-
-        errmsg = str(excinfo.value)
         expected = (
             "{normalizer}() is only defined on Factors of dtype float64,"
             " but it was called on a Factor of dtype datetime64[ns]."
         ).format(normalizer=method_name)
+        with pytest.raises(TypeError, match=re.escape(expected)):
+            getattr(d, method_name)()
 
-        assert errmsg == expected
 
     @parameter_space(seed=[1, 2, 3])
     def test_quantiles_unmasked(self, seed):

@@ -35,11 +35,7 @@ from zipline.pipeline.factors import RecarrayField
 from zipline.pipeline.sentinels import NotSpecified
 from zipline.pipeline.term import AssetExists, LoadableTerm
 from zipline.testing.fixtures import WithTradingSessions, ZiplineTestCase
-from zipline.testing.predicates import (
-    assert_equal,
-    assert_raises_regex,
-    assert_regex,
-)
+from zipline.testing.predicates import assert_equal
 from zipline.utils.numpy_utils import (
     bool_dtype,
     categorical_dtype,
@@ -461,13 +457,24 @@ class TestObjectIdentity:
         assert f.inputs == tuple(SomeFactor.inputs)
 
     def test_parameterized_term_non_hashable_arg(self):
-        with pytest.raises(TypeError, match="SomeFactorParameterized expected a hashable value for parameter 'a', but got \\[\\] instead."):
+        err_msg = (
+            "SomeFactorParameterized expected a hashable value "
+            "for parameter 'a', but got [] instead."
+            )
+        with pytest.raises(TypeError, match=re.escape(err_msg)):
             self.SomeFactorParameterized(a=[], b=1)
 
-        with pytest.raises(TypeError, match="SomeFactorParameterized expected a hashable value for parameter 'b', but got \\[\\] instead."):
+        err_msg = (
+            "SomeFactorParameterized expected a hashable value "
+            "for parameter 'b', but got [] instead."
+            )
+        with pytest.raises(TypeError, match=re.escape(err_msg)):
             self.SomeFactorParameterized(a=1, b=[])
- 
-        with pytest.raises(TypeError, match=r"SomeFactorParameterized expected a hashable value for parameter '(a|b)', but got \[\] instead\."):
+        err_msg = (
+            r"SomeFactorParameterized expected a hashable value "
+            r"for parameter '(a|b)', but got \[\] instead\."
+            )
+        with pytest.raises(TypeError, match=err_msg):
             self.SomeFactorParameterized(a=[], b=[])
 
     def test_parameterized_term_default_value(self):
@@ -499,9 +506,9 @@ class TestObjectIdentity:
             window_length = 5
 
         pattern = r"F expected a keyword parameter 'b'\."
-        with assert_raises_regex(TypeError, pattern):
+        with pytest.raises(TypeError, match=pattern):
             F()
-        with assert_raises_regex(TypeError, pattern):
+        with pytest.raises(TypeError, match=pattern):
             F(a="new a")
 
         assert_equal(F(b="new b").params, assoc(defaults, "b", "new b"))
@@ -591,15 +598,14 @@ class TestObjectIdentity:
             def _validate(self):
                 "Woops, I didn't call super()!"
 
-        with pytest.raises(AssertionError) as excinfo:
-            MyFactor()
-
-        errmsg = str(excinfo.value)
-        assert (
-            errmsg == "Term._validate() was not called.\n"
+        err_msg = (
+            "Term._validate() was not called.\n"
             "This probably means that you overrode _validate"
             " without calling super()."
-        )
+            )
+        with pytest.raises(AssertionError, match=re.escape(err_msg)):
+            MyFactor()
+
 
     def test_latest_on_different_dtypes(self):
         factor_dtypes = (float64_dtype, datetime64ns_dtype)
@@ -620,16 +626,15 @@ class TestObjectIdentity:
 
         # Just constructing a bad column shouldn't fail.
         Column(dtype=int64_dtype)
-        with pytest.raises(NoDefaultMissingValue) as excinfo:
+
+        expected_msg = "Failed to create Column with name 'bad_column'"
+        with pytest.raises(NoDefaultMissingValue, match=expected_msg):
 
             class BadDataSet(DataSet):
                 bad_column = Column(dtype=int64_dtype)
                 float_column = Column(dtype=float64_dtype)
                 int_column = Column(dtype=int64_dtype, missing_value=3)
 
-        assert str(excinfo.value.args[0]).startswith(
-            "Failed to create Column with name 'bad_column'"
-        )
 
         Column(dtype=complex128_dtype)
         with pytest.raises(UnsupportedDType):
@@ -695,16 +700,12 @@ class TestSubDataSet:
             outputs = outputs_
             missing_value = dtype_.type("123")
 
-        expected_error = (f"SomeClassifier does not support custom outputs, but received custom outputs={outputs_}.")
-
-        # with pytest.raises(ValueError, match=expected_error):
-        with pytest.raises(ValueError) as excinfo:
+        expected_error = (
+            f"SomeClassifier does not support custom outputs, "
+            f"but received custom outputs={outputs_}."
+            )
+        with pytest.raises(ValueError, match=re.escape(expected_error)):
             SomeClassifier()
-        assert str(excinfo.value) == expected_error
-
-        with pytest.raises(ValueError) as excinfo:
-            SomeClassifier()
-        assert str(excinfo.value) == expected_error
 
     def test_unreasonable_missing_values(self):
 
@@ -721,13 +722,11 @@ class TestSubDataSet:
                 missing_value = bad_mv
                 dtype = dtype_
 
-            with pytest.raises(TypeError) as excinfo:
-                SomeTerm()
-
             prefix = (
                 "^Missing value {mv!r} is not a valid choice "
                 "for term SomeTerm with dtype {dtype}.\n\n"
                 "Coercion attempt failed with:"
             ).format(mv=bad_mv, dtype=dtype_)
 
-            assert re.search(prefix, str(excinfo.value))
+            with pytest.raises(TypeError, match=prefix):
+                SomeTerm()

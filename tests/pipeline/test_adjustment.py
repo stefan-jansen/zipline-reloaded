@@ -106,7 +106,11 @@ class TestAdjustment:
         class SomeClass:
             pass
 
-        with pytest.raises(TypeError) as excinfo:
+        expected_msg = (
+            "Don't know how to make overwrite adjustments for values of type "
+            "%r." % SomeClass
+        )
+        with pytest.raises(TypeError, match=expected_msg):
             adj.make_adjustment_from_indices(
                 1,
                 2,
@@ -115,10 +119,3 @@ class TestAdjustment:
                 adjustment_kind=adj.OVERWRITE,
                 value=SomeClass(),
             )
-
-        exc = excinfo.value
-        expected_msg = (
-            "Don't know how to make overwrite adjustments for values of type "
-            "%r." % SomeClass
-        )
-        assert str(exc) == expected_msg

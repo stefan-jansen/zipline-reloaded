@@ -15,6 +15,7 @@ from zipline.utils.numpy_utils import (
 
 from .base import BaseUSEquityPipelineTestCase
 import pytest
+import re
 
 class Floats(Factor):
     inputs = ()
@@ -235,11 +236,8 @@ class FillNATestCase(BaseUSEquityPipelineTestCase):
         )
 
     def should_error(self, f, exc_type, expected_message):
-        with pytest.raises(exc_type) as excinfo:
+        with pytest.raises(exc_type, match=re.escape(expected_message)):
             f()
-
-        message = str(excinfo.value)
-        assert expected_message in message
 
     def test_bad_inputs(self):
         def dtype_for(o):

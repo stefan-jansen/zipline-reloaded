@@ -8,6 +8,7 @@ from parameterized import parameterized
 import numpy as np
 import pytz
 import pytest
+import re
 
 from zipline.utils.preprocess import call, preprocess
 from zipline.utils.input_validation import (
@@ -114,21 +115,16 @@ class TestPreprocess:
             pass
 
         message = "Got processors for unknown arguments: %s." % {"a"}
-        with pytest.raises(TypeError) as excinfo:
-
+        with pytest.raises(TypeError, match=message):
             @a_processor
             def func_with_no_args():
                 pass
 
-        assert excinfo.value.args[0] == message
-
-        with pytest.raises(TypeError) as excinfo:
-
+        with pytest.raises(TypeError, match=message):
             @a_processor
             def func_with_arg_named_b(b):
                 pass
 
-        assert excinfo.value.args[0] == message
 
     @parameterized.expand(
         [
@@ -193,13 +189,16 @@ class TestPreprocess:
         assert foo(1, 2, c="3") == (1, 2, "3")
 
         for not_int in (str, float):
-            with pytest.raises(TypeError) as excinfo:
+            msg = (
+                "{qualname}() expected a value of type int for argument 'a', "
+                "but got {t} instead.".format(qualname=qualname(foo), t=not_int.__name__, )
+                )
+            with pytest.raises(TypeError, match=re.escape(msg)):
                 foo(not_int(1), 2, 3)
-            msg ="{qualname}() expected a value of type int for argument 'a', but got {t} instead.".format(qualname=qualname(foo), t=not_int.__name__, )
-            assert excinfo.value.args[0] == msg
             
             with pytest.raises(TypeError):
                 foo(1, not_int(2), 3)
+            
             with pytest.raises(TypeError):
                 foo(not_int(1), not_int(2), 3)
 
@@ -213,9 +212,12 @@ class TestPreprocess:
         assert foo.a == 1
 
         for not_int in (str, float):
-            with pytest.raises(TypeError) as excinfo:
+            msg = (
+                "ArgleBargle() expected a value of type int for argument 'a', "
+                "but got {t} instead.".format(t=not_int.__name__, )
+                )
+            with pytest.raises(TypeError, match=re.escape(msg)):
                 Foo(not_int(1))
-            assert excinfo.value.args[0] == "ArgleBargle() expected a value of type int for argument 'a', but got {t} instead.".format(t=not_int.__name__, )
 
     def test_expect_types_with_tuple(self):
         @expect_types(a=(int, float))
@@ -225,14 +227,13 @@ class TestPreprocess:
         assert foo(1) == 1
         assert foo(1.0) == 1.0
 
-        with pytest.raises(TypeError) as excinfo:
-            foo("1")
-
         expected_message = (
             "{qualname}() expected a value of "
             "type int or float for argument 'a', but got str instead."
         ).format(qualname=qualname(foo))
-        assert excinfo.value.args[0] == expected_message
+        with pytest.raises(TypeError, match=re.escape(expected_message)):
+            foo("1")
+
 
     def test_expect_optional_types(self):
         @expect_types(a=optional(int))
@@ -246,14 +247,13 @@ class TestPreprocess:
         assert foo(1) == 1
         assert foo(a=1) == 1
 
-        with pytest.raises(TypeError) as excinfo:
-            foo("1")
-
         expected_message = (
             "{qualname}() expected a value of "
             "type int or NoneType for argument 'a', but got str instead."
         ).format(qualname=qualname(foo))
-        assert excinfo.value.args[0] == expected_message
+        with pytest.raises(TypeError, match=re.escape(expected_message)):
+            foo("1")
+
 
     def test_expect_element(self):
         set_ = {"a", "b"}
@@ -265,9 +265,6 @@ class TestPreprocess:
         assert f("a") == "a"
         assert f("b") == "b"
 
-        with pytest.raises(ValueError) as excinfo:
-            f("c")
-
         expected_message = (
             "{qualname}() expected a value in {set_!r}"
             " for argument 'a', but got 'c' instead."
@@ -276,7 +273,9 @@ class TestPreprocess:
             set_=tuple(sorted(set_)),
             qualname=qualname(f),
         )
-        assert excinfo.value.args[0] == expected_message
+        with pytest.raises(ValueError, match=re.escape(expected_message)):
+            f("c")
+
 
     def test_expect_element_custom_funcname(self):
 
@@ -287,9 +286,6 @@ class TestPreprocess:
             def __init__(self, a):
                 self.a = a
 
-        with pytest.raises(ValueError) as excinfo:
-            Foo("c")
-
         expected_message = (
             "ArgleBargle() expected a value in {set_!r}"
             " for argument 'a', but got 'c' instead."
@@ -297,7 +293,9 @@ class TestPreprocess:
             # We special-case set to show a tuple instead of the set repr.
             set_=tuple(sorted(set_)),
         )
-        assert excinfo.value.args[0] == expected_message
+        with pytest.raises(ValueError, match=re.escape(expected_message)):
+            Foo("c")
+
 
     def test_expect_dtypes(self):
         @expect_dtypes(a=np.dtype(float), b=np.dtype("datetime64[ns]"))
@@ -313,23 +311,20 @@ class TestPreprocess:
         assert b_ret is good_b
         assert c_ret is good_c
 
-        with pytest.raises(TypeError) as excinfo:
-            foo(good_a, np.arange(3, dtype="int64"), good_c)
-
         expected_message = (
             "{qualname}() expected a value with dtype 'datetime64[ns]'"
             " for argument 'b', but got 'int64' instead."
         ).format(qualname=qualname(foo))
-        assert excinfo.value.args[0] == expected_message
-
-        with pytest.raises(TypeError) as excinfo:
-            foo(np.arange(3, dtype="uint32"), good_c, good_c)
+        with pytest.raises(TypeError, match=re.escape(expected_message)):
+            foo(good_a, np.arange(3, dtype="int64"), good_c)
 
         expected_message = (
             "{qualname}() expected a value with dtype 'float64'"
             " for argument 'a', but got 'uint32' instead."
         ).format(qualname=qualname(foo))
-        assert excinfo.value.args[0] == expected_message
+        with pytest.raises(TypeError, match=re.escape(expected_message)):
+            foo(np.arange(3, dtype="uint32"), good_c, good_c)
+
 
     def test_expect_dtypes_with_tuple(self):
 
@@ -346,14 +341,13 @@ class TestPreprocess:
             assert good_a is ret_a
             assert good_b is ret_b
 
-        with pytest.raises(TypeError) as excinfo:
-            foo(np.arange(3, dtype="uint32"), object())
-
         expected_message = (
             "{qualname}() expected a value with dtype 'datetime64[ns]' "
             "or 'float64' for argument 'a', but got 'uint32' instead."
         ).format(qualname=qualname(foo))
-        assert excinfo.value.args[0] == expected_message
+        with pytest.raises(TypeError, match=re.escape(expected_message)):
+            foo(np.arange(3, dtype="uint32"), object())
+
 
     def test_expect_dtypes_custom_funcname(self):
 
@@ -364,14 +358,12 @@ class TestPreprocess:
             def __init__(self, a):
                 self.a = a
 
-        with pytest.raises(TypeError) as excinfo:
-            Foo(np.arange(3, dtype="uint32"))
-
         expected_message = (
             "Foo() expected a value with dtype 'datetime64[ns]' "
             "or 'float64' for argument 'a', but got 'uint32' instead."
         )
-        assert excinfo.value.args[0] == expected_message
+        with pytest.raises(TypeError, match=re.escape(expected_message)):
+            Foo(np.arange(3, dtype="uint32"))
 
     def test_ensure_timezone(self):
         @preprocess(tz=ensure_timezone)
@@ -416,9 +408,8 @@ class TestPreprocess:
         assert f(1) is 1
         assert f(None) is None
 
-        with pytest.raises(TypeError) as excinfo:
+        with pytest.raises(TypeError, match=str(error)):
             f("a")
-        assert excinfo.value is error
 
     def test_expect_dimensions(self):
         @expect_dimensions(x=2)
@@ -427,43 +418,35 @@ class TestPreprocess:
 
         assert foo(np.arange(1).reshape(1, 1), 10) == 0
 
-        with pytest.raises(ValueError) as excinfo:
-            foo(np.arange(1), 1)
-        errmsg = str(excinfo.value)
         expected = (
             "{qualname}() expected a 2-D array for argument 'x', but got"
             " a 1-D array instead.".format(qualname=qualname(foo))
         )
-        assert errmsg == expected
+        with pytest.raises(ValueError, match=re.escape(expected)):
+            foo(np.arange(1), 1)
 
-        with pytest.raises(ValueError) as excinfo:
-            foo(np.arange(1).reshape(1, 1, 1), 1)
-        errmsg = str(excinfo.value)
         expected = (
             "{qualname}() expected a 2-D array for argument 'x', but got"
             " a 3-D array instead.".format(qualname=qualname(foo))
         )
-        assert errmsg == expected
+        with pytest.raises(ValueError, match=re.escape(expected)):
+            foo(np.arange(1).reshape(1, 1, 1), 1)
 
-        with pytest.raises(ValueError) as excinfo:
-            foo(np.array(0), 1)
-        errmsg = str(excinfo.value)
         expected = (
             "{qualname}() expected a 2-D array for argument 'x', but got"
             " a scalar instead.".format(qualname=qualname(foo))
         )
-        assert errmsg == expected
+        with pytest.raises(ValueError, match=re.escape(expected)):
+            foo(np.array(0), 1)
 
     def test_expect_dimensions_custom_name(self):
         @expect_dimensions(__funcname="fizzbuzz", x=2)
         def foo(x, y):
             return x[0, 0]
 
-        with pytest.raises(ValueError) as excinfo:
-            foo(np.arange(1), 1)
-        errmsg = str(excinfo.value)
         expected = (
             "fizzbuzz() expected a 2-D array for argument 'x', but got"
             " a 1-D array instead.".format(qualname=qualname(foo))
         )
-        assert errmsg == expected
+        with pytest.raises(ValueError, match=re.escape(expected)):
+            foo(np.arange(1), 1)

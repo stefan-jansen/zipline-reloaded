@@ -101,10 +101,8 @@ class TestPipelineTestCase:
         p.add(f, "f")
         assert p.columns == {"f": f}
 
-        with pytest.raises(KeyError) as excinfo:
+        with pytest.raises(KeyError, match="Column 'f' already exists."):
             p.add(other_f, "f")
-        [message] = excinfo.value.args
-        assert message == "Column 'f' already exists."
 
         p.add(other_f, "f", overwrite=True)
         assert p.columns == {"f": other_f}
@@ -113,15 +111,14 @@ class TestPipelineTestCase:
         f = SomeFactor()
         p = Pipeline(columns={"f": f})
 
-        with pytest.raises(KeyError) as excinfo:
+        with pytest.raises(KeyError):
             p.remove("not_a_real_name")
 
         assert f == p.remove("f")
 
-        with pytest.raises(KeyError) as excinfo:
+        with pytest.raises(KeyError, match="f"):
             p.remove("f")
 
-        assert excinfo.value.args, ("f",)
 
     def test_set_screen(self):
         f, g = SomeFilter(), SomeOtherFilter()
@@ -138,11 +135,8 @@ class TestPipelineTestCase:
         p.set_screen(g, overwrite=True)
         assert p.screen == g
 
-        with pytest.raises(TypeError) as excinfo:
+        with pytest.raises(TypeError, match="expected a value of type bool or int for argument 'overwrite'"):
             p.set_screen(f, g)
-
-        message = excinfo.value.args[0]
-        assert "expected a value of type bool or int for argument 'overwrite'" in message
 
     def test_show_graph(self):
         f = SomeFactor()
@@ -167,7 +161,7 @@ class TestPipelineTestCase:
             assert graph.outputs["f"] is f
             # '' is a sentinel used for screen if it's not supplied.
             assert sorted(graph.outputs.keys()) == ["f", graph.screen_name]
-            assert format is "svg"
+            assert format == "svg"
             assert include_asset_exists == False
 
         with patch_display_graph:

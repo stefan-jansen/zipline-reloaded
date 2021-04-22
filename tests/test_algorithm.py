@@ -128,6 +128,7 @@ from zipline.utils.events import (
 from zipline.utils import factory
 from zipline.utils.pandas_utils import PerformanceWarning
 import pytest
+import re
 
 # Because test cases appear to reuse some resources.
 
@@ -341,14 +342,12 @@ def handle_data(context, data):
             data_frequency="minute",
             trading_calendar=self.trading_calendar,
         )
-
-        with pytest.raises(ZeroCapitalError) as exc:
+        expected_msg = "initial capital base must be greater than zero"
+        with pytest.raises(ZeroCapitalError, match=expected_msg):
             # make_algo will trace to TradingAlgorithm,
             # where the exception will be raised
             self.make_algo(script=algo_text, sim_params=sim_params)
-        # Make sure the correct error was raised
-        error = exc.value
-        assert str(error) == "initial capital base must be greater than zero"
+            # Make sure the correct error was raised
 
     def test_get_environment(self):
         expected_env = {

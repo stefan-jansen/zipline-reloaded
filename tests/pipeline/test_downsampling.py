@@ -33,7 +33,7 @@ from zipline.utils.classproperty import classproperty
 from zipline.utils.input_validation import _qualified_name
 from zipline.utils.numpy_utils import int64_dtype
 import pytest
-
+import re
 
 class NDaysAgoFactor(CustomFactor):
     inputs = [TestingDataSet.float_col]
@@ -716,15 +716,14 @@ class DownsampledPipelineTestCase(WithSeededRandomPipelineEngine, ZiplineTestCas
     def test_errors_on_bad_downsample_frequency(self):
 
         f = NDaysAgoFactor(window_length=3)
-        with pytest.raises(ValueError) as excinfo:
-            f.downsample("bad")
-
         expected = (
             "{}() expected a value in "
             "('month_start', 'quarter_start', 'week_start', 'year_start') "
             "for argument 'frequency', but got 'bad' instead."
         ).format(_qualified_name(f.downsample))
-        assert str(excinfo.value) == expected
+        with pytest.raises(ValueError, match=re.escape(expected)):
+            f.downsample("bad")
+
 
 
 class DownsampledGBPipelineTestCase(DownsampledPipelineTestCase):

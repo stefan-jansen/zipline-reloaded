@@ -54,6 +54,7 @@ from zipline.testing.fixtures import (
 from zipline.utils.classproperty import classproperty
 from zipline.utils.pandas_utils import normalize_date
 import pytest
+import re
 
 TestOrder = namedtuple("TestOrder", "limit direction")
 
@@ -1356,23 +1357,21 @@ class FixedBasisPointsSlippageTestCase(WithCreateBarData, ZiplineTestCase):
         assert second_txn["amount"] == second_order_fill_amount
 
     def test_broken_constructions(self):
-        with pytest.raises(ValueError) as excinfo:
+        err_msg = (
+            "FixedBasisPointsSlippage() expected a value greater than "
+            "or equal to 0 for argument 'basis_points', but got -1 instead."
+            )
+        with pytest.raises(ValueError, match=re.escape(err_msg)):
             FixedBasisPointsSlippage(basis_points=-1)
 
-        assert (
-            str(excinfo.value)
-            == "FixedBasisPointsSlippage() expected a value greater than "
-            "or equal to 0 for argument 'basis_points', but got -1 instead."
-        )
+        err_msg = (
+            "FixedBasisPointsSlippage() expected a value strictly "
+            "greater than 0 for argument 'volume_limit', but got 0 instead."
+            )
 
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=re.escape(err_msg)):
             FixedBasisPointsSlippage(volume_limit=0)
 
-        assert (
-            str(excinfo.value)
-            == "FixedBasisPointsSlippage() expected a value strictly "
-            "greater than 0 for argument 'volume_limit', but got 0 instead."
-        )
 
     def test_fill_zero_shares(self):
         slippage_model = FixedBasisPointsSlippage(basis_points=5, volume_limit=0.1)

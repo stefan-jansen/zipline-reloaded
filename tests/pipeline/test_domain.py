@@ -68,6 +68,7 @@ from zipline.testing.core import parameter_space, powerset
 from zipline.testing.predicates import assert_equal, assert_messages_equal
 from zipline.utils.pandas_utils import days_at_time
 import pytest
+import re
 
 
 class Sum(CustomFactor):
@@ -445,14 +446,12 @@ class DataQueryCutoffForSessionTestCase(zf.ZiplineTestCase):
         invalid_sessions = sessions[~sessions.isin(valid_sessions)]
         assert len(invalid_sessions) >  1, "There must be at least one invalid session."
 
-        with pytest.raises(ValueError) as excinfo:
-            domain.data_query_cutoff_for_sessions(sessions)
-
         expected_msg = (
             "cannot resolve data query time for sessions that are not on the"
             " %s calendar:\n%s"
         ) % (domain.calendar.name, invalid_sessions)
-        assert_messages_equal(str(excinfo.value), expected_msg)
+        with pytest.raises(ValueError, match=re.escape(expected_msg)):
+            domain.data_query_cutoff_for_sessions(sessions)
 
     Case = namedtuple("Case", "time date_offset expected_timedelta")
 
@@ -554,12 +553,14 @@ class RollForwardTestCase(zf.ZiplineTestCase):
         # requesting a session beyond the last session raises an ValueError
         after_last_session = JP_EQUITIES.calendar.last_session + pd.Timedelta(days=20)
 
-        with pytest.raises(ValueError) as excinfo:
+        expected_msg = (
+            f"Date {after_last_session.date()} was past the last session "
+            "for domain EquityCalendarDomain('JP', 'XTKS'). "
+            f"The last session for this domain is {JP_EQUITIES.calendar.last_session.date()}."
+            )
+        with pytest.raises(ValueError, match=re.escape(expected_msg)):
             JP_EQUITIES.roll_forward(after_last_session)
 
-        expected_msg = f"Date {after_last_session.date()} was past the last session for domain EquityCalendarDomain('JP', 'XTKS'). The last session for this domain is {JP_EQUITIES.calendar.last_session.date()}."
-
-        assert str(excinfo.value) == expected_msg
 
         # test that a roll_forward works with an EquitySessionDomain,
         # not just calendar domains

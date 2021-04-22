@@ -2075,7 +2075,10 @@ class WithWerror:
     def init_class_fixtures(cls):
         cls.enter_class_context(warnings.catch_warnings())
         warnings.simplefilter("error")
-
+        warnings.filterwarnings(
+                "ignore",
+                category=RuntimeWarning,
+            )
         super(WithWerror, cls).init_class_fixtures()
 
 

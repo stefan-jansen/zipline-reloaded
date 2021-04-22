@@ -1,5 +1,6 @@
 import os
 import pytest
+import re
 
 from parameterized import parameterized
 import pytest
@@ -345,21 +346,17 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
 
     @parameterized.expand([("clean",), ("load",)])
     def test_bundle_doesnt_exist(self, fnname):
-        with pytest.raises(UnknownBundle) as e:
+        with pytest.raises(UnknownBundle, match="No bundle registered with the name 'ayy'"):
             getattr(self, fnname)("ayy", environ=self.environ)
-
-        assert e.value.name == "ayy"
 
     def test_load_no_data(self):
         # register but do not ingest data
         self.register("bundle", lambda *args: None)
 
         ts = pd.Timestamp("2014", tz="UTC")
-
-        with pytest.raises(ValueError) as e:
+        expected_msg = "no data for bundle 'bundle' on or before %s" % ts
+        with pytest.raises(ValueError, match=re.escape(expected_msg)):
             self.load("bundle", timestamp=ts, environ=self.environ)
-
-        assert "no data for bundle 'bundle' on or before %s" % ts in str(e.value)
 
     def _list_bundle(self):
         return {

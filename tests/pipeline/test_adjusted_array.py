@@ -443,13 +443,9 @@ class TestAdjustedArray:
 
         assert_equal(data, original_data * 2)
 
-        with pytest.raises(ValueError) as excinfo:
+        err_msg = "cannot traverse invalidated AdjustedArray"
+        with pytest.raises(ValueError, match=err_msg):
             adjusted_array.traverse(1)
-
-        assert_equal(
-            str(excinfo.value),
-            "cannot traverse invalidated AdjustedArray",
-        )
 
     def test_copy(self):
         data = np.arange(5 * 3, dtype="f8").reshape(5, 3)
@@ -464,10 +460,9 @@ class TestAdjustedArray:
         for a, b in zip(a_it, b_it):
             assert_equal(a, b)
 
-        with pytest.raises(ValueError) as excinfo:
+        err_msg = "cannot copy invalidated AdjustedArray"
+        with pytest.raises(ValueError, match=err_msg):
             adjusted_array.copy()
-
-        assert str(excinfo.value) == "cannot copy invalidated AdjustedArray"
 
         # the clean copy should have the original data even though the
         # original adjusted array has it's data mutated in place

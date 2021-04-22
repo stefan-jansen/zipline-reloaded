@@ -1,9 +1,10 @@
+from numpy import mat
 from zipline.finance.metrics.core import _make_metrics_set_core
 from zipline.testing.fixtures import ZiplineTestCase
 from zipline.testing.predicates import assert_equal
 from zipline.utils.compat import mappingproxy
 import pytest
-
+import re
 
 class MetricsSetCoreTestCase(ZiplineTestCase):
     def init_instance_fixtures(self):
@@ -21,9 +22,8 @@ class MetricsSetCoreTestCase(ZiplineTestCase):
 
     def test_load_not_registered(self):
         msg = "no metrics set registered as 'ayy-lmao', options are: []"
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=re.escape(msg)):
             self.load("ayy-lmao")
-            assert excinfo.value == msg
 
         # register in reverse order to test the sorting of the options
         self.register("c", set)
@@ -31,9 +31,8 @@ class MetricsSetCoreTestCase(ZiplineTestCase):
         self.register("a", set)
 
         msg = "no metrics set registered as 'ayy-lmao', options are: " "['a', 'b', 'c']"
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=re.escape(msg)):
             self.load("ayy-lmao")
-            assert excinfo.value == msg
 
     def test_register_decorator(self):
         ayy_lmao_set = set()
@@ -47,14 +46,12 @@ class MetricsSetCoreTestCase(ZiplineTestCase):
         assert self.load("ayy-lmao") is ayy_lmao_set
 
         msg = "metrics set 'ayy-lmao' is already registered"
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=msg):
 
             @self.register("ayy-lmao")
             def other():  # pragma: no cover
                 raise AssertionError("dead")
             
-            assert excinfo.value.args[0] == msg
-
         # ensure that the failed registration didn't break the previously
         # registered set
         assert self.metrics_sets == expected_metrics_sets
@@ -64,14 +61,12 @@ class MetricsSetCoreTestCase(ZiplineTestCase):
         assert self.metrics_sets == mappingproxy({})
 
         msg = "no metrics set registered as 'ayy-lmao', options are: []"
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=re.escape(msg)):
             self.load("ayy-lmao")
-            assert excinfo.value == msg
 
         msg = "metrics set 'ayy-lmao' was not already registered"
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=msg):
             self.unregister("ayy-lmao")
-            assert excinfo.value == msg
 
     def test_register_non_decorator(self):
         ayy_lmao_set = set()
@@ -89,9 +84,8 @@ class MetricsSetCoreTestCase(ZiplineTestCase):
             raise AssertionError("dead")
 
         msg = "metrics set 'ayy-lmao' is already registered"
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=msg):
             self.register("ayy-lmao", other)
-            assert excinfo.value == msg
 
         # ensure that the failed registration didn't break the previously
         # registered set
@@ -102,11 +96,9 @@ class MetricsSetCoreTestCase(ZiplineTestCase):
         assert_equal(self.metrics_sets, mappingproxy({}))
 
         msg = "no metrics set registered as 'ayy-lmao', options are: []"
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=re.escape(msg)):
             self.load("ayy-lmao")
-            assert excinfo.value == msg
 
         msg = "metrics set 'ayy-lmao' was not already registered"
         with pytest.raises(ValueError, match=msg):
             self.unregister("ayy-lmao")
-            assert excinfo.value == msg

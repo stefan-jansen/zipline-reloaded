@@ -558,10 +558,10 @@ class FilterTestCase(BaseUSEquityPipelineTestCase):
 
     def test_all_present_filter_input(self):
         """Test error is raised when filter factor is input to `AllPresent`"""
-        with pytest.raises(TypeError) as excinfo:
+        expected_msg = "Input to filter `AllPresent` cannot be a Filter."
+        with pytest.raises(TypeError, match=expected_msg):
             AllPresent([Mask()], window_length=4)
 
-        assert "Input to filter `AllPresent` cannot be a Filter." == str(excinfo.value)
 
     def test_all(self):
 

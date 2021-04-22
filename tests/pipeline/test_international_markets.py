@@ -25,6 +25,7 @@ from zipline.testing.core import parameter_space, random_tick_prices
 
 import zipline.testing.fixtures as zf
 import pytest
+import re
 
 def T(s):
     return pd.Timestamp(s, tz="UTC")
@@ -445,12 +446,13 @@ class InternationalEquityTestCase(
         )
 
     def test_cannot_convert_volume_data(self):
-        msg = "The .fx() method cannot be called on EquityPricing.volume "
-        "because it does not produce currency-denominated data."
+        msg = (
+            "The .fx() method cannot be called on EquityPricing.volume "
+            "because it does not produce currency-denominated data."
+        )
         
-        with pytest.raises(TypeError) as excinfo:
+        with pytest.raises(TypeError, match=re.escape(msg)):
             EquityPricing.volume.fx("EUR")
-            assert str(excinfo.value) == msg
 
     def check_expected_latest_value(self, calendar, col, date, asset, value):
         """Check the expected result of column.latest from a pipeline."""

@@ -11,13 +11,11 @@ from zipline.pipeline.data import (
     DataSetFamilySlice,
 )
 from zipline.testing import ZiplineTestCase
-from zipline.testing.predicates import (
-    assert_is_subclass,
-    assert_raises_str,
-)
+from zipline.testing.predicates import assert_is_subclass
 
 #from zipline.pipeline.data.dataset import DataSetFamilyLookupError
 import pytest
+import re
 
 class TestDataSetFamily(ZiplineTestCase):
     def test_repr(self):
@@ -328,27 +326,27 @@ class TestDataSetFamily(ZiplineTestCase):
                     c=attr, d=ds
                 ),  # noqa
             )
+        
         expected_msg = make_expected_msg("Parent", "column_0")
-        with assert_raises_str(AttributeError, expected_msg):
+        with pytest.raises(AttributeError, match=re.escape(expected_msg)):
             Parent.column_0
-            assert True
 
         expected_msg = make_expected_msg("Parent", "column_1")
-        with assert_raises_str(AttributeError, expected_msg):
+        with pytest.raises(AttributeError, match=re.escape(expected_msg)):
             Parent.column_1
 
         expected_msg = make_expected_msg("Child", "column_0")
-        with assert_raises_str(AttributeError, expected_msg):
+        with pytest.raises(AttributeError, match=re.escape(expected_msg)):
             Child.column_0
 
         expected_msg = make_expected_msg("Child", "column_1")
-        with assert_raises_str(AttributeError, expected_msg):
+        with pytest.raises(AttributeError, match=re.escape(expected_msg)):
             Child.column_1
 
         expected_msg = make_expected_msg("Child", "column_2")
-        with assert_raises_str(AttributeError, expected_msg):
+        with pytest.raises(AttributeError, match=re.escape(expected_msg)):
             Child.column_2
 
         expected_msg = make_expected_msg("Child", "column_3")
-        with assert_raises_str(AttributeError, expected_msg):
+        with pytest.raises(AttributeError, match=re.escape(expected_msg)):
             Child.column_3

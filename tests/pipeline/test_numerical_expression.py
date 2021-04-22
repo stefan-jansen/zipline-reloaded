@@ -26,6 +26,7 @@ from zipline.pipeline.expression import (
 from zipline.testing import check_allclose, parameter_space
 from zipline.utils.numpy_utils import datetime64ns_dtype, float64_dtype
 import pytest
+import re
 
 
 class F(Factor):
@@ -192,62 +193,51 @@ class NumericalExpressionTestCase(TestCase):
                 self.check_output(expr, expected)
 
     def test_combine_datetimes(self):
-        with pytest.raises(TypeError) as excinfo:
-            self.d + self.d
-        message = excinfo.value.args[0]
         expected = (
             "Don't know how to compute datetime64[ns] + datetime64[ns].\n"
             "Arithmetic operators are only supported between Factors of dtype "
             "'float64'."
         )
-        assert message == expected
+        with pytest.raises(TypeError, match=re.escape(expected)):
+            self.d + self.d
 
         # Confirm that * shows up in the error instead of +.
-        with pytest.raises(TypeError) as excinfo:
-            self.d * self.d
-        message = excinfo.value.args[0]
         expected = (
             "Don't know how to compute datetime64[ns] * datetime64[ns].\n"
             "Arithmetic operators are only supported between Factors of dtype "
             "'float64'."
         )
-        assert message == expected
+        with pytest.raises(TypeError, match=re.escape(expected)):
+            self.d * self.d
 
     def test_combine_datetime_with_float(self):
         # Test with both float-type factors and numeric values.
         for float_value in (self.f, np.float64(1.0), 1.0):
             for op, sym in ((add, "+"), (mul, "*")):
-                with pytest.raises(TypeError) as excinfo:
-                    op(self.f, self.d)
-                message = excinfo.value.args[0]
                 expected = (
                     "Don't know how to compute float64 {sym} datetime64[ns].\n"
                     "Arithmetic operators are only supported between Factors"
                     " of dtype 'float64'."
                 ).format(sym=sym)
-                assert message == expected
+                with pytest.raises(TypeError, match=re.escape(expected)):
+                    op(self.f, self.d)
 
-                with pytest.raises(TypeError) as excinfo:
-                    op(self.d, self.f)
-                message = excinfo.value.args[0]
                 expected = (
                     "Don't know how to compute datetime64[ns] {sym} float64.\n"
                     "Arithmetic operators are only supported between Factors"
                     " of dtype 'float64'."
                 ).format(sym=sym)
-                assert message == expected
+                with pytest.raises(TypeError, match=re.escape(expected)):
+                    op(self.d, self.f)
 
     def test_negate_datetime(self):
-        with pytest.raises(TypeError) as excinfo:
-            -self.d
-
-        message = excinfo.value.args[0]
         expected = (
             "Can't apply unary operator '-' to instance of "
             "'DateFactor' with dtype 'datetime64[ns]'.\n"
             "'-' is only supported for Factors of dtype 'float64'."
         )
-        assert message == expected
+        with pytest.raises(TypeError, match=re.escape(expected)):
+            -self.d
 
     def test_negate(self):
         f, g = self.f, self.g

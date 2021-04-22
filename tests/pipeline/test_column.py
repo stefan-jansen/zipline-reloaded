@@ -26,6 +26,7 @@ from zipline.utils.pandas_utils import (
     skip_pipeline_new_pandas,
 )
 import pytest
+import re
 
 
 class LatestTestCase(
@@ -114,9 +115,8 @@ class LatestTestCase(
             " (Did you mean to use '.latest'?)"
         )
 
-        with pytest.raises(TypeError) as excinfo:
+        with pytest.raises(TypeError, match=re.escape(err_msg)):
             column < 1000
-        assert str(excinfo.value) == err_msg
 
         try:
             column.latest < 1000
@@ -124,8 +124,10 @@ class LatestTestCase(
             self.fail()
 
     def test_construction_error_message(self):
-        with pytest.raises(ValueError) as excinfo:
-            Column(dtype=datetime64ns_dtype, currency_aware=True)
+        err_msg = (
+            "Columns cannot be constructed with currency_aware=True, "
+            "dtype=datetime64[ns]. Currency aware columns must have a float64 dtype."
 
-        expected_msg = "Columns cannot be constructed with currency_aware=True, dtype=datetime64[ns]. Currency aware columns must have a float64 dtype."
-        assert str(excinfo.value) == expected_msg
+        )
+        with pytest.raises(ValueError, match=re.escape(err_msg)):
+            Column(dtype=datetime64ns_dtype, currency_aware=True)

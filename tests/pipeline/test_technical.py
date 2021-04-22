@@ -23,6 +23,7 @@ from zipline.testing.fixtures import ZiplineTestCase
 from zipline.testing.predicates import assert_equal
 from .base import BaseUSEquityPipelineTestCase
 import pytest
+import re
 
 
 class BollingerBandsTestCase(BaseUSEquityPipelineTestCase):
@@ -454,29 +455,24 @@ class MovingAverageConvergenceDivergenceTestCase(ZiplineTestCase):
             "MACDSignal() expected a value greater than or equal to 1"
             " for argument %r, but got 0 instead."
         )
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=re.escape(template % "fast_period")):
             MovingAverageConvergenceDivergenceSignal(fast_period=0)
-        assert template % "fast_period" == str(excinfo.value)
 
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=re.escape(template % "slow_period")):
             MovingAverageConvergenceDivergenceSignal(slow_period=0)
-        assert template % "slow_period" == str(excinfo.value)
 
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=re.escape(template % "signal_period")):
             MovingAverageConvergenceDivergenceSignal(signal_period=0)
-        assert template % "signal_period" == str(excinfo.value)
 
-        with pytest.raises(ValueError) as excinfo:
+        err_msg = (
+            "'slow_period' must be greater than 'fast_period', but got\n"
+            "slow_period=4, fast_period=5"
+        )
+        with pytest.raises(ValueError, match=err_msg):
             MovingAverageConvergenceDivergenceSignal(
                 fast_period=5,
                 slow_period=4,
             )
-
-        expected = (
-            "'slow_period' must be greater than 'fast_period', but got\n"
-            "slow_period=4, fast_period=5"
-        )
-        assert expected == str(excinfo.value)
 
     @parameter_space(
         seed=range(2),

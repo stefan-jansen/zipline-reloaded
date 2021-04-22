@@ -91,6 +91,7 @@ from zipline.testing.fixtures import (
     WithInstanceTmpDir,
 )
 import pytest
+import re
 
 Case = namedtuple("Case", "finder inputs as_of country_code expected")
 
@@ -779,9 +780,6 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
             ]
         )
         # self.write_assets(equities=df)
-        with pytest.raises(ValueError) as excinfo:
-            self.write_assets(equities=df)
-
         expected_error_msg = (
             "Ambiguous ownership for 1 symbol, multiple assets held the"
             " following symbols:\n"
@@ -794,7 +792,9 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
             "  2   2010-01-01 2013-01-01\n"
             "  3   2011-01-01 2012-01-01"
         )
-        assert str(excinfo.value) == expected_error_msg
+        with pytest.raises(ValueError, match=re.escape(expected_error_msg)):
+            self.write_assets(equities=df)
+
 
     def test_lookup_generic(self):
         """
@@ -1921,8 +1921,6 @@ class AssetFinderMultipleCountries(WithTradingCalendars, ZiplineTestCase):
             }
         )
 
-        with pytest.raises(ValueError) as excinfo:
-            self.write_assets(equities=df, exchanges=exchanges)
 
         expected_error_msg = (
             "Ambiguous ownership for 3 symbols, multiple assets held the"
@@ -1957,7 +1955,8 @@ class AssetFinderMultipleCountries(WithTradingCalendars, ZiplineTestCase):
                 self.country_code(2),
             )
         )
-        assert str(excinfo.value) == expected_error_msg
+        with pytest.raises(ValueError, match=re.escape(expected_error_msg)):
+            self.write_assets(equities=df, exchanges=exchanges)
 
     def test_endless_multiple_resolves(self):
         """
@@ -2282,9 +2281,8 @@ class TestAssetFinderPreprocessors(WithTmpDir, ZiplineTestCase):
         nonexistent_path = self.tmpdir.getpath(self.id() + "__nothing_here")
 
         expected = "SQLite file {!r} doesn't exist.".format(nonexistent_path)
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError, match=expected):
             AssetFinder(nonexistent_path)
-        assert str(excinfo.value) == expected
 
         # sqlite3.connect will create an empty file if you connect somewhere
         # nonexistent. Test that we don't do that.

@@ -2,7 +2,7 @@ from functools import reduce
 import operator as op
 
 import numpy as np
-from numpy import nan
+from numpy import exp, nan
 import pandas as pd
 
 from zipline.lib.labelarray import LabelArray
@@ -171,11 +171,14 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
             inputs = ()
             window_length = 0
 
-        with pytest.raises(ValueError) as excinfo:
+        expected_msg = (
+            "Comparison against self.missing_value ({v!r}) in C.eq().\n"
+            "Missing values have NaN semantics, so the requested comparison "
+            "would always produce False.\nUse the isnull() method to check "
+            "for missing values.".format(v=missing,)
+            )
+        with pytest.raises(ValueError, match=re.escape(expected_msg)):
             C().eq(missing)
-        errmsg = str(excinfo.value)
-        expected_msg = "Comparison against self.missing_value ({v!r}) in C.eq().\nMissing values have NaN semantics, so the requested comparison would always produce False.\nUse the isnull() method to check for missing values.".format(v=missing,)
-        assert errmsg == expected_msg
 
     @parameter_space(compval=[0, 1, 999], missing=[-1, 0, 999])
     def test_not_equal(self, compval, missing):
@@ -426,9 +429,6 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
         c = C()
 
         for bad_elems in ([missing], [missing, "random other value"]):
-            with pytest.raises(ValueError) as excinfo:
-                c.element_of(bad_elems)
-            errmsg = str(excinfo.value)
             expected = (
                 "Found self.missing_value ('not in the array') in choices"
                 " supplied to C.element_of().\n"
@@ -437,7 +437,8 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
                 "Use the isnull() method to check for missing values.\n"
                 "Received choices were {}.".format(bad_elems)
             )
-            assert errmsg == expected
+            with pytest.raises(ValueError, match=re.escape(expected)):
+                c.element_of(bad_elems)
 
     @parameter_space(dtype_=Classifier.ALLOWED_DTYPES)
     def test_element_of_rejects_unhashable_type(self, dtype_):
@@ -449,17 +450,12 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
 
         c = C()
 
-        with pytest.raises(TypeError) as excinfo:
-            c.element_of([{"a": 1}])
-
-        errmsg = str(excinfo.value)
         expected = (
-            "Expected `choices` to be an iterable of hashable values,"
-            " but got \[{'a': 1}\] instead.\n"
-            "This caused the following error: "
-            "TypeError\(\"unhashable type: 'dict'\",?\)."
+            """Expected `choices` to be an iterable of hashable values, but got [{'a': 1}] instead.\n"""
+            """This caused the following error: TypeError("unhashable type: 'dict'")."""
         )
-        assert re.search(expected, errmsg)
+        with pytest.raises(TypeError, match=re.escape(expected)):
+            c.element_of([{"a": 1}])
 
     @parameter_space(
         __fail_fast=True,
@@ -572,15 +568,12 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
 
         c = C()
 
-        with pytest.raises(TypeError) as excinfo:
-            c.relabel(lambda x: 0 / 0)  # Function should never be called.
-
-        result = str(excinfo.value)
         expected = (
             "relabel() is only defined on Classifiers producing strings "
             "but it was called on a Classifier of dtype int64."
         )
-        assert result == expected
+        with pytest.raises(TypeError, match=re.escape(expected)):
+            c.relabel(lambda x: 0 / 0)  # Function should never be called.
 
     @parameter_space(
         compare_op=[op.gt, op.ge, op.le, op.lt],
@@ -593,10 +586,9 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
             dtype = dtype_and_missing[0]
             missing_value = dtype_and_missing[1]
 
-        with pytest.raises(TypeError) as excinfo:
+        expected = "cannot compare classifiers with %s"% (methods_to_ops["__%s__" % compare_op.__name__],)
+        with pytest.raises(TypeError, match=re.escape(expected)):
             compare_op(C(), object())
-
-        assert str(excinfo.value) == "cannot compare classifiers with %s"% (methods_to_ops["__%s__" % compare_op.__name__],)
 
     @parameter_space(
         dtype_and_missing=[(int64_dtype, -1), (categorical_dtype, None)],
