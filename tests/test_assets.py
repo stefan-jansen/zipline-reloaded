@@ -24,7 +24,6 @@ import pickle
 import string
 import sys
 from types import GetSetDescriptorType
-from unittest import TestCase
 import uuid
 import warnings
 
@@ -81,7 +80,6 @@ from zipline.testing import (
     tmp_asset_finder,
 )
 
-# from zipline.testing.predicates import assert_equal, assert_not_equal
 from zipline.testing.predicates import assert_index_equal, assert_frame_equal
 from zipline.testing.fixtures import (
     WithAssetFinder,
@@ -308,17 +306,17 @@ def build_lookup_generic_cases():
             expected=[cf, dupe_new, dupe_us],
         )
 
-
-class AssetTestCase(TestCase):
+@pytest.fixture(scope="function")
+def set_asset(request):
     # Dynamically list the Asset properties we want to test.
-    asset_attrs = [
+    request.cls.asset_attrs = [
         name
         for name, value in vars(Asset).items()
         if isinstance(value, GetSetDescriptorType)
     ]
 
     # Very wow
-    asset = Asset(
+    request.cls.asset = Asset(
         1337,
         symbol="DOGE",
         asset_name="DOGECOIN",
@@ -329,10 +327,10 @@ class AssetTestCase(TestCase):
         exchange_info=ExchangeInfo("THE MOON", "MOON", "??"),
     )
 
-    test_exchange = ExchangeInfo("test full", "test", "??")
-    asset3 = Asset(3, exchange_info=test_exchange)
-    asset4 = Asset(4, exchange_info=test_exchange)
-    asset5 = Asset(
+    request.cls.test_exchange = ExchangeInfo("test full", "test", "??")
+    request.cls.asset3 = Asset(3, exchange_info=request.cls.test_exchange)
+    request.cls.asset4 = Asset(4, exchange_info=request.cls.test_exchange)
+    request.cls.asset5 = Asset(
         5,
         exchange_info=ExchangeInfo(
             "still testing",
@@ -341,6 +339,9 @@ class AssetTestCase(TestCase):
         ),
     )
 
+@pytest.mark.usefixtures("set_asset")
+class TestAsset:
+   
     def test_asset_object(self):
         the_asset = Asset(
             5061,
@@ -417,14 +418,10 @@ class AssetTestCase(TestCase):
         assert self.asset5 > self.asset4
 
     def test_type_mismatch(self):
-        if sys.version_info.major < 3:
-            assert (self.asset3 < "a") is not None
-            assert ("a" < self.asset3) is not None
-        else:
-            with pytest.raises(TypeError):
-                self.asset3 < "a"
-            with pytest.raises(TypeError):
-                "a" < self.asset3
+        with pytest.raises(TypeError):
+            self.asset3 < "a"
+        with pytest.raises(TypeError):
+            "a" < self.asset3
 
 
 class TestFuture(WithAssetFinder, ZiplineTestCase):

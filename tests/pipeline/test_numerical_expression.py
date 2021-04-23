@@ -12,7 +12,6 @@ from operator import (
     sub,
 )
 from string import ascii_uppercase
-from unittest import TestCase
 
 import numpy as np
 import pandas as pd
@@ -23,7 +22,7 @@ from zipline.pipeline.expression import (
     NUMEXPR_MATH_FUNCS,
     NumericalExpression,
 )
-from zipline.testing import check_allclose, parameter_space
+from zipline.testing import check_allclose
 from zipline.utils.numpy_utils import datetime64ns_dtype, float64_dtype
 import pytest
 import re
@@ -57,22 +56,26 @@ class DateFactor(Factor):
     inputs = ()
     window_length = 0
 
+@pytest.fixture(scope="function")
+def set_num_expression(request):
+    request.cls.dates = pd.date_range("2014-01-01", periods=5, freq="D")
+    request.cls.assets = pd.Int64Index(range(5))
+    request.cls.f = F()
+    request.cls.g = G()
+    request.cls.h = H()
+    request.cls.d = DateFactor()
+    request.cls.fake_raw_data = {
+        request.cls.f: np.full((5, 5), 3, float),
+        request.cls.g: np.full((5, 5), 2, float),
+        request.cls.h: np.full((5, 5), 1, float),
+        request.cls.d: np.full((5, 5), 0, dtype="datetime64[ns]"),
+    }
+    request.cls.mask = pd.DataFrame(True, index=request.cls.dates, columns=request.cls.assets)
+    yield
+    pass
 
-class NumericalExpressionTestCase(TestCase):
-    def setUp(self):
-        self.dates = pd.date_range("2014-01-01", periods=5, freq="D")
-        self.assets = pd.Int64Index(range(5))
-        self.f = F()
-        self.g = G()
-        self.h = H()
-        self.d = DateFactor()
-        self.fake_raw_data = {
-            self.f: np.full((5, 5), 3, float),
-            self.g: np.full((5, 5), 2, float),
-            self.h: np.full((5, 5), 1, float),
-            self.d: np.full((5, 5), 0, dtype="datetime64[ns]"),
-        }
-        self.mask = pd.DataFrame(True, index=self.dates, columns=self.assets)
+@pytest.mark.usefixtures("set_num_expression")
+class TestNumericalExpression:
 
     def check_output(self, expr, expected):
         result = expr._compute(
@@ -139,7 +142,7 @@ class NumericalExpressionTestCase(TestCase):
         with pytest.raises(TypeError):
             (f > f) > f
 
-    @parameter_space(num_new_inputs=[1, 4])
+    @pytest.mark.parametrize("num_new_inputs", [1, 4])
     def test_many_inputs(self, num_new_inputs):
         """
         Test adding NumericalExpressions with >=32 (NPY_MAXARGS) inputs.

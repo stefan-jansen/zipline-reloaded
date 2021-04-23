@@ -4,7 +4,7 @@ Tests for Factor terms.
 from functools import partial
 from itertools import product
 from parameterized import parameterized
-from unittest import TestCase, skipIf
+from unittest import skipIf
 
 from toolz import compose
 import numpy as np
@@ -1650,11 +1650,11 @@ class TestTermReprs:
         assert recursive_repr == "Rank(...)"
 
 
-class ReprTestCase(TestCase):
+class TestRepr:
     def test_zscore_is_window_safe(self):
         assert F().zscore().window_safe
 
-    @parameter_space(__fail_fast=True, is_window_safe=[True, False])
+    @pytest.mark.parametrize("is_window_safe", [True, False])
     def test_window_safety_propagates_to_recarray_fields(self, is_window_safe):
         class MultipleOutputs(CustomFactor):
             outputs = ["a", "b"]
