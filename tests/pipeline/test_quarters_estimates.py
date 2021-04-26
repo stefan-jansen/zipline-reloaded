@@ -2947,7 +2947,7 @@ class NextWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase):
         }
 
 
-class QuarterShiftTestCase(ZiplineTestCase):
+class TestQuarterShift:
     """
     This tests, in isolation, quarter calculation logic for shifting quarters
     backwards/forwards from a starting point.
@@ -2961,5 +2961,6 @@ class QuarterShiftTestCase(ZiplineTestCase):
         )
         # Can't use assert_series_equal here with check_names=False
         # because that still fails due to name differences.
+        # TODO: With pandas > 1. assert_series_equal seems to work fine
         assert_equal(input_yrs, result_years)
         assert_equal(input_qtrs, result_quarters)

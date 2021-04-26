@@ -26,8 +26,6 @@ def set_session(request):
     trading_o_and_c = request.cls.nyse_calendar.schedule.loc[request.cls.sessions]
     request.cls.opens = trading_o_and_c["market_open"]
     request.cls.closes = trading_o_and_c["market_close"]
-    yield
-    pass
 
 
 @pytest.mark.usefixtures("set_session")

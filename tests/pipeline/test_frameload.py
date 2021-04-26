@@ -36,8 +36,6 @@ def frame_loader(request):
     request.cls.mask = np.ones(
         (len(request.cls.dates), len(request.cls.sids)), dtype=bool
     )
-    yield
-    pass
 
 
 @pytest.mark.usefixtures("frame_loader")

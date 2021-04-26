@@ -127,8 +127,6 @@ def set_event_manager(request):
     request.cls.em = EventManager()
     request.cls.event1 = Event(Always())
     request.cls.event2 = Event(Always())
-    yield
-    pass
 
 
 @pytest.mark.usefixtures("set_event_manager")

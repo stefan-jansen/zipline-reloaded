@@ -6,6 +6,7 @@ from zipline.pipeline.data.dataset import Column, DataSet
 from zipline.testing import chrange, ZiplineTestCase
 import pytest
 import re
+from contextlib import ExitStack
 
 
 class SomeDataSet(DataSet):
@@ -85,5 +86,27 @@ class GetColumnTestCase(ZiplineTestCase):
 
 
 class ReprTestCase(ZiplineTestCase):
+    def test_dataset_repr(self):
+        assert repr(SomeDataSet) == "<DataSet: 'SomeDataSet', domain=GENERIC>"
+
+@pytest.fixture(scope="class")
+def setup_and_teardown(request):
+    # Hold a set of all the "static" attributes on the class. These are
+    # things that are not populated after the class was created like
+    # methods or other class level attributes.
+    _static_class_attributes = set(vars(request.cls))
+    _class_teardown_stack = ExitStack()
+    yield
+    stack = _class_teardown_stack
+    for name in set(vars(request.cls)) - _static_class_attributes:
+        # Remove all of the attributes that were added after the class was
+        # constructed. This cleans up any large test data that is class
+        # scoped while still allowing subclasses to access class level
+        # attributes.
+        delattr(request.cls, name)
+    stack.close()
+
+@pytest.mark.usefixtures("setup_and_teardown")
+class TestRepr:
     def test_dataset_repr(self):
         assert repr(SomeDataSet) == "<DataSet: 'SomeDataSet', domain=GENERIC>"

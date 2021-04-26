@@ -1101,10 +1101,10 @@ class HDF5DailyBarCanadaTestCase(_HDF5DailyBarTestCase):
     DAILY_BARS_TEST_QUERY_COUNTRY_CODE = "CA"
 
 
-class TestCoerceToUint32Price(ZiplineTestCase):
+class TestCoerceToUint32Price:
     """Test the coerce_to_uint32() function used by the HDF5DailyBarWriter."""
 
-    @parameterized.expand(
+    @pytest.mark.parametrize("field, expected",
         [
             (OPEN, np.array([1, 1000, 100000, 100500, 1000005, 130230], dtype="u4")),
             (HIGH, np.array([1, 1000, 100000, 100500, 1000005, 130230], dtype="u4")),

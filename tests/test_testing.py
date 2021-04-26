@@ -157,7 +157,7 @@ class TestTestingSlippage(
         assert volume == order_amount
 
 
-class TestPredicates(ZiplineTestCase):
+class TestPredicates:
     def test_wildcard(self):
         for obj in 1, object(), "foo", {}:
             assert obj == wildcard
