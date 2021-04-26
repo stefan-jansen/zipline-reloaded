@@ -1,4 +1,3 @@
-from parameterized import parameterized
 import numpy as np
 import pandas as pd
 import talib
@@ -19,7 +18,6 @@ from zipline.pipeline.factors import (
     RSI,
 )
 from zipline.testing import check_allclose, parameter_space
-from zipline.testing.fixtures import ZiplineTestCase
 from zipline.testing.predicates import assert_equal
 from .base import BaseUSEquityPipelineTestCase
 import pytest
@@ -113,12 +111,12 @@ class BollingerBandsTestCase(BaseUSEquityPipelineTestCase):
         assert upper is bbands.upper
 
 
-class AroonTestCase(ZiplineTestCase):
+class TestAroon:
     window_length = 10
     nassets = 5
     dtype = [("down", "f8"), ("up", "f8")]
 
-    @parameterized.expand(
+    @pytest.mark.parametrize("lows, highs, expected_out",
         [
             (
                 np.arange(window_length),
@@ -163,7 +161,7 @@ class AroonTestCase(ZiplineTestCase):
         assert_equal(out, expected_out)
 
 
-class TestFastStochasticOscillator(ZiplineTestCase):
+class TestFastStochasticOscillator:
     """
     Test the Fast Stochastic Oscillator
     """
@@ -187,7 +185,7 @@ class TestFastStochasticOscillator(ZiplineTestCase):
         # Expected %K
         assert_equal(out, np.full((3,), 200, dtype=np.float64))
 
-    @parameter_space(seed=range(5))
+    @pytest.mark.parametrize("seed", [range(5),])
     def test_fso_expected_with_talib(self, seed):
         """
         Test the output that is returned from the fast stochastic oscillator
@@ -231,7 +229,7 @@ class TestFastStochasticOscillator(ZiplineTestCase):
         assert_equal(out, expected_out_k, array_decimal=6)
 
 
-class IchimokuKinkoHyoTestCase(ZiplineTestCase):
+class TestIchimokuKinkoHyo:
     def test_ichimoku_kinko_hyo(self):
         window_length = 52
         today = pd.Timestamp("2014", tz="utc")
@@ -340,9 +338,7 @@ class IchimokuKinkoHyoTestCase(ZiplineTestCase):
             msg="chikou_span",
         )
 
-    @parameter_space(
-        arg={"tenkan_sen_length", "kijun_sen_length", "chikou_span_length"},
-    )
+    @pytest.mark.parametrize("arg", {"tenkan_sen_length", "kijun_sen_length", "chikou_span_length"})
     def test_input_validation(self, arg):
         window_length = 52
 
@@ -352,16 +348,16 @@ class IchimokuKinkoHyoTestCase(ZiplineTestCase):
             IchimokuKinkoHyo(**{arg: window_length + 1})
 
 
-class TestRateOfChangePercentage(ZiplineTestCase):
-    @parameterized.expand(
-        [
-            ("constant", [2.0] * 10, 0.0),
-            ("step", [2.0] + [1.0] * 9, -50.0),
-            ("linear", [2.0 + x for x in range(10)], 450.0),
-            ("quadratic", [2.0 + x ** 2 for x in range(10)], 4050.0),
+class TestRateOfChangePercentage:
+    @pytest.mark.parametrize("data, expected, test_name",
+    [
+            ([2.0] * 10, 0.0, "constant"), 
+            ([2.0] + [1.0] * 9, -50.0, "step"), 
+            ([2.0 + x for x in range(10)], 450.0, "linear"), 
+            ([2.0 + x ** 2 for x in range(10)], 4050.0, "quadratic"), 
         ]
     )
-    def test_rate_of_change_percentage(self, test_name, data, expected):
+    def test_rate_of_change_percentage(self, data, expected, test_name):
         window_length = len(data)
 
         rocp = RateOfChangePercentage(
@@ -378,7 +374,7 @@ class TestRateOfChangePercentage(ZiplineTestCase):
         assert_equal(out, np.full((len(assets),), expected))
 
 
-class TestLinearWeightedMovingAverage(ZiplineTestCase):
+class TestLinearWeightedMovingAverage:
     def test_wma1(self):
         wma1 = LinearWeightedMovingAverage(
             inputs=(USEquityPricing.close,), window_length=10
@@ -408,7 +404,7 @@ class TestLinearWeightedMovingAverage(ZiplineTestCase):
         assert_equal(out, np.array([30.0, 31.0, 32.0, 33.0, 34.0]))
 
 
-class TestTrueRange(ZiplineTestCase):
+class TestTrueRange:
     def test_tr_basic(self):
         tr = TrueRange()
 
@@ -424,7 +420,7 @@ class TestTrueRange(ZiplineTestCase):
         assert_equal(out, np.full((3,), 2.0))
 
 
-class MovingAverageConvergenceDivergenceTestCase(ZiplineTestCase):
+class TestMovingAverageConvergenceDivergence:
     def expected_ewma(self, data_df, window):
         # Comment copied from `test_engine.py`:
         # XXX: This is a comically inefficient way to compute a windowed EWMA.
@@ -435,7 +431,7 @@ class MovingAverageConvergenceDivergenceTestCase(ZiplineTestCase):
             lambda sub: pd.DataFrame(sub).ewm(span=window).mean().values[-1]
         )
 
-    @parameter_space(seed=range(5))
+    @pytest.mark.parametrize("seed", [range(5),])
     def test_MACD_window_length_generation(self, seed):
         rng = RandomState(seed)
 
@@ -476,13 +472,10 @@ class MovingAverageConvergenceDivergenceTestCase(ZiplineTestCase):
                 slow_period=4,
             )
 
-    @parameter_space(
-        seed=range(2),
-        fast_period=[3, 5],
-        slow_period=[8, 10],
-        signal_period=[3, 9],
-        __fail_fast=True,
-    )
+    @pytest.mark.parametrize("seed", [range(2)])
+    @pytest.mark.parametrize("fast_period", [3, 5])
+    @pytest.mark.parametrize("slow_period", [8, 10])
+    @pytest.mark.parametrize("signal_period", [3, 9])
     def test_moving_average_convergence_divergence(
         self, seed, fast_period, slow_period, signal_period
     ):
@@ -532,8 +525,8 @@ class MovingAverageConvergenceDivergenceTestCase(ZiplineTestCase):
         np.testing.assert_almost_equal(out, expected_signal, decimal=8)
 
 
-class RSITestCase(ZiplineTestCase):
-    @parameterized.expand(
+class TestRSI:
+    @pytest.mark.parametrize("seed_value, expected", 
         [
             # Test cases computed by doing:
             # from numpy.random import seed, randn
@@ -628,10 +621,10 @@ class RSITestCase(ZiplineTestCase):
 
         closes = np.vstack((example_case, double)).T
         rsi.compute(today, assets, out, closes)
-        self.assertAlmostEqual(out[0], out[1])
+        np.testing.assert_almost_equal(out[0], out[1], decimal=8)
 
 
-class AnnualizedVolatilityTestCase(ZiplineTestCase):
+class TestAnnualizedVolatility:
     """
     Test Annualized Volatility
     """

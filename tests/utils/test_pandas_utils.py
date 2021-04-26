@@ -1,11 +1,8 @@
 """
 Tests for zipline/utils/pandas_utils.py
 """
-from unittest import skipIf
-
 import pandas as pd
 
-from zipline.testing import parameter_space, ZiplineTestCase
 from zipline.testing.predicates import assert_equal
 from zipline.utils.pandas_utils import (
     categorical_df_concat,
@@ -16,8 +13,8 @@ from zipline.utils.pandas_utils import (
 import pytest
 
 
-class TestNearestUnequalElements(ZiplineTestCase):
-    @parameter_space(tz=["UTC", "US/Eastern"], __fail_fast=True)
+class TestNearestUnequalElements:
+    @pytest.mark.parametrize("tz", ["UTC", "US/Eastern"])
     def test_nearest_unequal_elements(self, tz):
 
         dts = pd.to_datetime(
@@ -46,7 +43,7 @@ class TestNearestUnequalElements(ZiplineTestCase):
             expected = (t(before), t(after))
             assert computed == expected
 
-    @parameter_space(tz=["UTC", "US/Eastern"], __fail_fast=True)
+    @pytest.mark.parametrize("tz", ["UTC", "US/Eastern"])
     def test_nearest_unequal_elements_short_dts(self, tz):
 
         # Length 1.
@@ -89,8 +86,8 @@ class TestNearestUnequalElements(ZiplineTestCase):
             )
 
 
-class TestCatDFConcat(ZiplineTestCase):
-    @skipIf(new_pandas, skip_pipeline_new_pandas)
+class TestCatDFConcat:
+    @pytest.mark.skipif(new_pandas, reason=skip_pipeline_new_pandas)
     def test_categorical_df_concat(self):
 
         inp = [

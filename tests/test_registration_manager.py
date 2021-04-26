@@ -1,5 +1,4 @@
 from zipline.extensions import Registry
-from zipline.testing.fixtures import ZiplineTestCase
 import pytest
 import re
 
@@ -8,7 +7,7 @@ class FakeInterface:
     pass
 
 
-class RegistrationManagerTestCase(ZiplineTestCase):
+class TestRegistrationManager:
     def test_load_not_registered(self):
         rm = Registry(FakeInterface)
 

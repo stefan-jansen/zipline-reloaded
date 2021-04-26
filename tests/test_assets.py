@@ -2284,11 +2284,10 @@ class TestAssetFinderPreprocessors(WithTmpDir, ZiplineTestCase):
         assert not os.path.exists(nonexistent_path)
 
 
-class TestExchangeInfo(ZiplineTestCase):
+class TestExchangeInfo:
     def test_equality(self):
         a = ExchangeInfo("FULL NAME", "E", "US")
         b = ExchangeInfo("FULL NAME", "E", "US")
-
         assert a == b
 
         # same full name but different canonical name
@@ -2300,7 +2299,6 @@ class TestExchangeInfo(ZiplineTestCase):
         assert d != a
 
         # same names but different country
-
         e = ExchangeInfo("FULL NAME", "E", "JP")
         assert e != a
 

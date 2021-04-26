@@ -1,8 +1,6 @@
 import pandas as pd
-from parameterized import parameterized
 from trading_calendars import get_calendar
 
-from zipline.testing import ZiplineTestCase
 from zipline.utils.date_utils import compute_date_range_chunks
 import pytest
 
@@ -13,14 +11,15 @@ def T(s):
     """
     return pd.Timestamp(s, tz="UTC")
 
+@pytest.fixture(scope="class")
+def set_calendar(request):
+    request.cls.calendar = get_calendar("XNYS")
+    
 
-class TestDateUtils(ZiplineTestCase):
-    @classmethod
-    def init_class_fixtures(cls):
-        super(TestDateUtils, cls).init_class_fixtures()
-        cls.calendar = get_calendar("XNYS")
+@pytest.mark.usefixtures("set_calendar")
+class TestDateUtils:
 
-    @parameterized.expand(
+    @pytest.mark.parametrize("chunksize, expected",
         [
             (None, [(T("2017-01-03"), T("2017-01-31"))]),
             (

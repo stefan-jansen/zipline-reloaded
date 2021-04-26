@@ -6,7 +6,7 @@ import numpy as np
 from toolz import take
 
 from zipline.lib.labelarray import LabelArray
-from zipline.testing import check_arrays, parameter_space, ZiplineTestCase
+from zipline.testing import check_arrays
 from zipline.testing.predicates import assert_equal
 from zipline.utils.compat import unicode
 import pytest
@@ -31,14 +31,13 @@ def all_ufuncs():
     ufunc_type = type(np.isnan)
     return (f for f in vars(np).values() if isinstance(f, ufunc_type))
 
+@pytest.fixture(scope="class")
+def label_array(request):
+    request.cls.rowvalues = ["", "a", "b", "ab", "a", "", "b", "ab", "z"]
+    request.cls.strs = np.array([rotN(request.cls.rowvalues, i) for i in range(3)], dtype=object)
 
-class LabelArrayTestCase(ZiplineTestCase):
-    @classmethod
-    def init_class_fixtures(cls):
-        super(LabelArrayTestCase, cls).init_class_fixtures()
-
-        cls.rowvalues = row = ["", "a", "b", "ab", "a", "", "b", "ab", "z"]
-        cls.strs = np.array([rotN(row, i) for i in range(3)], dtype=object)
+@pytest.mark.usefixtures("label_array")
+class TestLabelArray:
 
     def test_fail_on_direct_construction(self):
         # See https://docs.scipy.org/doc/numpy-1.10.0/user/basics.subclassing.html#simple-example-adding-an-extra-attribute-to-ndarray  # noqa
@@ -47,13 +46,10 @@ class LabelArrayTestCase(ZiplineTestCase):
         with pytest.raises(TypeError, match=err_msg):
             np.ndarray.__new__(LabelArray, (5, 5))
 
-    @parameter_space(
-        __fail_fast=True,
-        compval=["", "a", "z", "not in the array"],
-        shape=[(27,), (3, 9), (3, 3, 3)],
-        array_astype=(bytes, unicode, object),
-        missing_value=("", "a", "not in the array", None),
-    )
+    @pytest.mark.parametrize("compval", ["", "a", "z", "not in the array"])
+    @pytest.mark.parametrize("shape", [(27,), (3, 9), (3, 3, 3)])
+    @pytest.mark.parametrize("array_astype", (bytes, unicode, object))
+    @pytest.mark.parametrize("missing_value", ("", "a", "not in the array", None))
     def test_compare_to_str(self, compval, shape, array_astype, missing_value):
 
         strs = self.strs.reshape(shape).astype(array_astype)
@@ -101,15 +97,12 @@ class LabelArrayTestCase(ZiplineTestCase):
             np_contains(strs) & notmissing,
         )
 
-    @parameter_space(
-        __fail_fast=True,
-        f=[
+    @pytest.mark.parametrize("f", [
             lambda s: str(len(s)),
             lambda s: s[0],
             lambda s: "".join(reversed(s)),
             lambda s: "",
-        ],
-    )
+        ],)
     def test_map(self, f):
         data = np.array(
             [
@@ -127,7 +120,7 @@ class LabelArrayTestCase(ZiplineTestCase):
 
         assert_equal(numpy_transformed, la_transformed)
 
-    @parameter_space(missing=["A", None])
+    @pytest.mark.parametrize("missing", ["A", None])
     def test_map_ignores_missing_value(self, missing):
         data = np.array([missing, "B", "C"], dtype=object)
         la = LabelArray(data, missing_value=missing)
@@ -139,14 +132,11 @@ class LabelArrayTestCase(ZiplineTestCase):
         expected = LabelArray([missing, "C", "D"], missing_value=missing)
         assert_equal(result.as_string_array(), expected.as_string_array())
 
-    @parameter_space(
-        __fail_fast=True,
-        f=[
+    @pytest.mark.parametrize("f", [
             lambda s: 0,
             lambda s: 0.0,
             lambda s: object(),
-        ],
-    )
+        ],)
     def test_map_requires_f_to_return_a_string_or_none(self, f):
         la = LabelArray(self.strs, missing_value=None)
 
@@ -168,10 +158,7 @@ class LabelArrayTestCase(ZiplineTestCase):
         with pytest.raises(TypeError):
             la.map(lambda x: None)
 
-    @parameter_space(
-        __fail_fast=True,
-        missing_value=("", "a", "not in the array", None),
-    )
+    @pytest.mark.parametrize("missing_value", ("", "a", "not in the array", None))
     def test_compare_to_str_array(self, missing_value):
         strs = self.strs
         shape = strs.shape
@@ -218,9 +205,7 @@ class LabelArrayTestCase(ZiplineTestCase):
                 comparator(strs, value) & notmissing,
             )
 
-    @parameter_space(
-        __fail_fast=True,
-        slice_=[
+    @pytest.mark.parametrize("slice_", [
             0,
             1,
             -1,
@@ -234,8 +219,7 @@ class LabelArrayTestCase(ZiplineTestCase):
             (slice(None), 1),
             (slice(None), slice(None)),
             (slice(None), slice(1, 2)),
-        ],
-    )
+        ],)
     def test_slicing_preserves_attributes(self, slice_):
         arr = LabelArray(self.strs.reshape((9, 3)), missing_value="")
         sliced = arr[slice_]
@@ -326,11 +310,8 @@ class LabelArrayTestCase(ZiplineTestCase):
                 else:
                     assert ret is NotImplemented
 
-    @parameter_space(
-        __fail_fast=True,
-        val=["", "a", "not in the array", None],
-        missing_value=["", "a", "not in the array", None],
-    )
+    @pytest.mark.parametrize("val", ["", "a", "not in the array", None])
+    @pytest.mark.parametrize("missing_value", ["", "a", "not in the array", None])
     def test_setitem_scalar(self, val, missing_value):
         arr = LabelArray(self.strs, missing_value=missing_value)
 
@@ -495,14 +476,14 @@ class LabelArrayTestCase(ZiplineTestCase):
     def test_narrow_condense_back_to_valid_size(self):
         categories = ["a"] * (2 ** 8 + 1)
         arr = LabelArray(categories, missing_value=categories[0])
-        assert_equal(arr.itemsize, 1)
+        assert arr.itemsize == 1
         self.check_roundtrip(arr)
 
         # longer than int16 but still fits when deduped
         categories = self.create_categories(16, plus_one=False)
         categories.append(categories[0])
         arr = LabelArray(categories, missing_value=categories[0])
-        assert_equal(arr.itemsize, 2)
+        assert arr.itemsize == 2
         self.check_roundtrip(arr)
 
     def test_map_shrinks_code_storage_if_possible(self):
@@ -550,7 +531,7 @@ class LabelArrayTestCase(ZiplineTestCase):
         categories_twice = categories + categories
 
         arr = LabelArray(categories_twice, missing_value=None)
-        assert_equal(arr.itemsize, 1)
+        assert arr.itemsize == 1
 
         gen_unique_categories = iter(larger_categories)
 
@@ -562,7 +543,7 @@ class LabelArrayTestCase(ZiplineTestCase):
         result = arr.map(new_string_every_time)
 
         # Result should still be of size 1.
-        assert_equal(result.itemsize, 1)
+        assert result.itemsize == 1
 
         # Result should be the first `len(categories)` entries from the larger
         # categories, repeated twice.
@@ -578,7 +559,7 @@ class LabelArrayTestCase(ZiplineTestCase):
         categories = self.create_categories(24, plus_one=False)
         categories.append(categories[0])
         arr = LabelArray(categories, missing_value=categories[0])
-        assert_equal(arr.itemsize, 4)
+        assert arr.itemsize == 4
         self.check_roundtrip(arr)
 
     def test_copy_categories_list(self):

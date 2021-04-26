@@ -1685,8 +1685,8 @@ class TestRepr:
         )
 
 
-class TestPostProcessAndToWorkSpaceValue(ZiplineTestCase):
-    @parameter_space(dtype_=(float64_dtype, datetime64ns_dtype))
+class TestPostProcessAndToWorkSpaceValue:
+    @pytest.mark.parametrize("dtype_", (float64_dtype, datetime64ns_dtype))
     def test_reversability(self, dtype_):
         class F(Factor):
             inputs = ()
