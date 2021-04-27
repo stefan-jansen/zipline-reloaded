@@ -456,7 +456,7 @@ class ProgressHooksTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
         return round((100.0 * days_complete) / total_days, 3)
 
 
-class TermReprTestCase(ZiplineTestCase):
+class TestTermRepr:
     def test_htmlsafe_repr(self):
         class MyFactor(CustomFactor):
             inputs = [TestingDataSet.float_col]

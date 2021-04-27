@@ -27,7 +27,7 @@ class D:
         return "D.delegate"
 
 
-class ComposeTypesTestCase(ZiplineTestCase):
+class TestComposeTypes:
     def test_identity(self):
         assert (
             compose_types(C) is C
@@ -60,7 +60,7 @@ class N(type):
         return super(N, mcls).__new__(mcls, name, bases, dict_)
 
 
-class WithMetaclassesTestCase(ZiplineTestCase):
+class TestWithMetaclasses:
     def test_with_metaclasses_no_subclasses(self):
         class E(with_metaclasses((M, N))):
             pass

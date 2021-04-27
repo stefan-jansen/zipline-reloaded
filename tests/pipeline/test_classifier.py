@@ -2,7 +2,7 @@ from functools import reduce
 import operator as op
 
 import numpy as np
-from numpy import exp, nan
+from numpy import nan
 import pandas as pd
 
 from zipline.lib.labelarray import LabelArray
@@ -10,7 +10,6 @@ from zipline.pipeline import Classifier
 from zipline.pipeline.data.testing import TestingDataSet
 from zipline.pipeline.expression import methods_to_ops
 from zipline.testing import parameter_space
-from zipline.testing.fixtures import ZiplineTestCase
 from zipline.testing.predicates import assert_equal
 from zipline.utils.numpy_utils import (
     categorical_dtype,
@@ -676,7 +675,7 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
         )
 
 
-class TestPostProcessAndToWorkSpaceValue(ZiplineTestCase):
+class TestPostProcessAndToWorkSpaceValue:
     def test_reversability_categorical(self):
         class F(Classifier):
             inputs = ()
@@ -758,7 +757,7 @@ class TestPostProcessAndToWorkSpaceValue(ZiplineTestCase):
         )
 
 
-class ReprTestCase(ZiplineTestCase):
+class TestRepr:
     def test_quantiles_graph_repr(self):
         quantiles = TestingDataSet.float_col.latest.quantiles(5)
         assert quantiles.graph_repr() == "Quantiles(5)"

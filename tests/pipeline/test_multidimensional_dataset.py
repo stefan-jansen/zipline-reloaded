@@ -2,23 +2,19 @@ from collections import OrderedDict
 import itertools
 from textwrap import dedent
 
-from parameterized import parameterized
 import numpy as np
-
 from zipline.pipeline.data import (
     Column,
     DataSetFamily,
     DataSetFamilySlice,
 )
-from zipline.testing import ZiplineTestCase
 from zipline.testing.predicates import assert_is_subclass
 
-# from zipline.pipeline.data.dataset import DataSetFamilyLookupError
 import pytest
 import re
 
 
-class TestDataSetFamily(ZiplineTestCase):
+class TestDataSetFamily:
     def test_repr(self):
         class MD1(DataSetFamily):
             extra_dims = [("dim_0", [])]
@@ -88,28 +84,26 @@ class TestDataSetFamily(ZiplineTestCase):
                 ("dim_1", {"d", "e", "f"}),
             ]
 
-    def spec(*cs):
-        return (cs,)
-
-    @parameterized.expand(
+    @pytest.mark.parametrize(
+        "dims_spec",
         [
-            spec(("dim_0", range(10))),
-            spec(
+            (("dim_0", range(10)),),
+            (
                 ("dim_0", range(10)),
                 ("dim_1", range(10, 15)),
             ),
-            spec(
+            (
                 ("dim_0", range(10)),
                 ("dim_1", range(10, 15)),
                 ("dim_2", range(5, 15)),
             ),
-            spec(
+            (
                 ("dim_0", range(6)),
                 ("dim_1", {"a", "b", "c"}),
                 ("dim_2", range(5, 15)),
                 ("dim_3", {"b", "c", "e"}),
             ),
-        ]
+        ],
     )
     def test_valid_slice(self, dims_spec):
         class MD(DataSetFamily):
@@ -163,7 +157,7 @@ class TestDataSetFamily(ZiplineTestCase):
             actual_columns = {(c.name, c.dtype, c.dataset) for c in Slice.columns}
             assert actual_columns == expected_columns
 
-    del spec
+    # del spec
 
     def test_slice_unknown_dims(self):
         class MD(DataSetFamily):

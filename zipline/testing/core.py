@@ -252,31 +252,6 @@ def all_subindices(index):
     )
 
 
-def chrange(start, stop):
-    """
-    Construct an iterable of length-1 strings beginning with `start` and ending
-    with `stop`.
-
-    Parameters
-    ----------
-    start : str
-        The first character.
-    stop : str
-        The last character.
-
-    Returns
-    -------
-    chars: iterable[str]
-        Iterable of strings beginning with start and ending with stop.
-
-    Examples
-    --------
-    >>> chrange('A', 'C')
-    ['A', 'B', 'C']
-    """
-    return list(map(chr, range(ord(start), ord(stop) + 1)))
-
-
 def make_trade_data_for_asset_info(
     dates,
     asset_info,

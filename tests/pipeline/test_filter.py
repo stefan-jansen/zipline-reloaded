@@ -1192,7 +1192,7 @@ class SpecificAssetsTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
         )
 
 
-class TestPostProcessAndToWorkSpaceValue(ZiplineTestCase):
+class TestPostProcessAndToWorkSpaceValue:
     def test_reversability(self):
         class F(Filter):
             inputs = ()
@@ -1229,7 +1229,7 @@ class TestPostProcessAndToWorkSpaceValue(ZiplineTestCase):
         )
 
 
-class ReprTestCase(ZiplineTestCase):
+class TestRepr:
     def test_maximum_repr(self):
         m = SomeFactor().top(1, groupby=SomeClassifier(), mask=SomeFilter())
 
