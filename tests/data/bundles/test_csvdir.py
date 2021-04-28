@@ -299,11 +299,15 @@ class CSVDIRBundleTestCase(ZiplineTestCase):
         expected_pricing, expected_adjustments = self._expected_data(
             bundle.asset_finder,
         )
-        np.testing.assert_array_almost_equal(actual, expected_pricing, decimal=2)
+        np.testing.assert_array_almost_equal(
+            actual, expected_pricing, decimal=2
+        )
 
         adjs_for_cols = bundle.adjustment_reader.load_pricing_adjustments(
             self.columns,
             sessions,
             pd.Index(sids),
         )
-        assert [sorted(adj.keys()) for adj in adjs_for_cols] == expected_adjustments
+        assert [
+            sorted(adj.keys()) for adj in adjs_for_cols
+        ] == expected_adjustments

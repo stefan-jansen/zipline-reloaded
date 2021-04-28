@@ -104,17 +104,41 @@ TEST_QUERY_SIDS = EQUITY_INFO.index
 SPLITS = pd.DataFrame(
     [
         # Before query range, should be excluded.
-        {"effective_date": str_to_seconds("2015-06-03"), "ratio": 1.103, "sid": 1},
+        {
+            "effective_date": str_to_seconds("2015-06-03"),
+            "ratio": 1.103,
+            "sid": 1,
+        },
         # First day of query range, should be excluded.
-        {"effective_date": str_to_seconds("2015-06-10"), "ratio": 3.110, "sid": 3},
+        {
+            "effective_date": str_to_seconds("2015-06-10"),
+            "ratio": 3.110,
+            "sid": 3,
+        },
         # Third day of query range, should have last_row of 2
-        {"effective_date": str_to_seconds("2015-06-12"), "ratio": 3.112, "sid": 3},
+        {
+            "effective_date": str_to_seconds("2015-06-12"),
+            "ratio": 3.112,
+            "sid": 3,
+        },
         # After query range, should be excluded.
-        {"effective_date": str_to_seconds("2015-06-21"), "ratio": 6.121, "sid": 6},
+        {
+            "effective_date": str_to_seconds("2015-06-21"),
+            "ratio": 6.121,
+            "sid": 6,
+        },
         # Another action in query range, should have last_row of 1
-        {"effective_date": str_to_seconds("2015-06-11"), "ratio": 3.111, "sid": 3},
+        {
+            "effective_date": str_to_seconds("2015-06-11"),
+            "ratio": 3.111,
+            "sid": 3,
+        },
         # Last day of range.  Should have last_row of 7
-        {"effective_date": str_to_seconds("2015-06-19"), "ratio": 3.119, "sid": 3},
+        {
+            "effective_date": str_to_seconds("2015-06-19"),
+            "ratio": 3.119,
+            "sid": 3,
+        },
     ],
     columns=["effective_date", "ratio", "sid"],
 )
@@ -122,17 +146,41 @@ SPLITS = pd.DataFrame(
 MERGERS = pd.DataFrame(
     [
         # Before query range, should be excluded.
-        {"effective_date": str_to_seconds("2015-06-03"), "ratio": 1.203, "sid": 1},
+        {
+            "effective_date": str_to_seconds("2015-06-03"),
+            "ratio": 1.203,
+            "sid": 1,
+        },
         # First day of query range, should be excluded.
-        {"effective_date": str_to_seconds("2015-06-10"), "ratio": 3.210, "sid": 3},
+        {
+            "effective_date": str_to_seconds("2015-06-10"),
+            "ratio": 3.210,
+            "sid": 3,
+        },
         # Third day of query range, should have last_row of 2
-        {"effective_date": str_to_seconds("2015-06-12"), "ratio": 3.212, "sid": 3},
+        {
+            "effective_date": str_to_seconds("2015-06-12"),
+            "ratio": 3.212,
+            "sid": 3,
+        },
         # After query range, should be excluded.
-        {"effective_date": str_to_seconds("2015-06-25"), "ratio": 6.225, "sid": 6},
+        {
+            "effective_date": str_to_seconds("2015-06-25"),
+            "ratio": 6.225,
+            "sid": 6,
+        },
         # Another action in query range, should have last_row of 2
-        {"effective_date": str_to_seconds("2015-06-12"), "ratio": 4.212, "sid": 4},
+        {
+            "effective_date": str_to_seconds("2015-06-12"),
+            "ratio": 4.212,
+            "sid": 4,
+        },
         # Last day of range.  Should have last_row of 7
-        {"effective_date": str_to_seconds("2015-06-19"), "ratio": 3.219, "sid": 3},
+        {
+            "effective_date": str_to_seconds("2015-06-19"),
+            "ratio": 3.219,
+            "sid": 3,
+        },
     ],
     columns=["effective_date", "ratio", "sid"],
 )
@@ -141,7 +189,9 @@ DIVIDENDS = pd.DataFrame(
     [
         # Before query range, should be excluded.
         {
-            "declared_date": pd.Timestamp("2015-05-01", tz="UTC").to_datetime64(),
+            "declared_date": pd.Timestamp(
+                "2015-05-01", tz="UTC"
+            ).to_datetime64(),
             "ex_date": pd.Timestamp("2015-06-01", tz="UTC").to_datetime64(),
             "record_date": pd.Timestamp("2015-06-03", tz="UTC").to_datetime64(),
             "pay_date": pd.Timestamp("2015-06-05", tz="UTC").to_datetime64(),
@@ -150,7 +200,9 @@ DIVIDENDS = pd.DataFrame(
         },
         # First day of query range, should be excluded.
         {
-            "declared_date": pd.Timestamp("2015-06-01", tz="UTC").to_datetime64(),
+            "declared_date": pd.Timestamp(
+                "2015-06-01", tz="UTC"
+            ).to_datetime64(),
             "ex_date": pd.Timestamp("2015-06-10", tz="UTC").to_datetime64(),
             "record_date": pd.Timestamp("2015-06-15", tz="UTC").to_datetime64(),
             "pay_date": pd.Timestamp("2015-06-17", tz="UTC").to_datetime64(),
@@ -159,7 +211,9 @@ DIVIDENDS = pd.DataFrame(
         },
         # Third day of query range, should have last_row of 2
         {
-            "declared_date": pd.Timestamp("2015-06-01", tz="UTC").to_datetime64(),
+            "declared_date": pd.Timestamp(
+                "2015-06-01", tz="UTC"
+            ).to_datetime64(),
             "ex_date": pd.Timestamp("2015-06-12", tz="UTC").to_datetime64(),
             "record_date": pd.Timestamp("2015-06-15", tz="UTC").to_datetime64(),
             "pay_date": pd.Timestamp("2015-06-17", tz="UTC").to_datetime64(),
@@ -168,7 +222,9 @@ DIVIDENDS = pd.DataFrame(
         },
         # After query range, should be excluded.
         {
-            "declared_date": pd.Timestamp("2015-06-01", tz="UTC").to_datetime64(),
+            "declared_date": pd.Timestamp(
+                "2015-06-01", tz="UTC"
+            ).to_datetime64(),
             "ex_date": pd.Timestamp("2015-06-25", tz="UTC").to_datetime64(),
             "record_date": pd.Timestamp("2015-06-28", tz="UTC").to_datetime64(),
             "pay_date": pd.Timestamp("2015-06-30", tz="UTC").to_datetime64(),
@@ -177,7 +233,9 @@ DIVIDENDS = pd.DataFrame(
         },
         # Another action in query range, should have last_row of 3
         {
-            "declared_date": pd.Timestamp("2015-06-01", tz="UTC").to_datetime64(),
+            "declared_date": pd.Timestamp(
+                "2015-06-01", tz="UTC"
+            ).to_datetime64(),
             "ex_date": pd.Timestamp("2015-06-15", tz="UTC").to_datetime64(),
             "record_date": pd.Timestamp("2015-06-18", tz="UTC").to_datetime64(),
             "pay_date": pd.Timestamp("2015-06-20", tz="UTC").to_datetime64(),
@@ -186,7 +244,9 @@ DIVIDENDS = pd.DataFrame(
         },
         # Last day of range.  Should have last_row of 7
         {
-            "declared_date": pd.Timestamp("2015-06-01", tz="UTC").to_datetime64(),
+            "declared_date": pd.Timestamp(
+                "2015-06-01", tz="UTC"
+            ).to_datetime64(),
             "ex_date": pd.Timestamp("2015-06-19", tz="UTC").to_datetime64(),
             "record_date": pd.Timestamp("2015-06-22", tz="UTC").to_datetime64(),
             "pay_date": pd.Timestamp("2015-06-30", tz="UTC").to_datetime64(),
@@ -194,23 +254,54 @@ DIVIDENDS = pd.DataFrame(
             "sid": 3,
         },
     ],
-    columns=["declared_date", "ex_date", "record_date", "pay_date", "amount", "sid"],
+    columns=[
+        "declared_date",
+        "ex_date",
+        "record_date",
+        "pay_date",
+        "amount",
+        "sid",
+    ],
 )
 
 DIVIDENDS_EXPECTED = pd.DataFrame(
     [
         # Before query range, should be excluded.
-        {"effective_date": str_to_seconds("2015-06-01"), "ratio": 0.1, "sid": 1},
+        {
+            "effective_date": str_to_seconds("2015-06-01"),
+            "ratio": 0.1,
+            "sid": 1,
+        },
         # First day of query range, should be excluded.
-        {"effective_date": str_to_seconds("2015-06-10"), "ratio": 0.20, "sid": 3},
+        {
+            "effective_date": str_to_seconds("2015-06-10"),
+            "ratio": 0.20,
+            "sid": 3,
+        },
         # Third day of query range, should have last_row of 2
-        {"effective_date": str_to_seconds("2015-06-12"), "ratio": 0.30, "sid": 3},
+        {
+            "effective_date": str_to_seconds("2015-06-12"),
+            "ratio": 0.30,
+            "sid": 3,
+        },
         # After query range, should be excluded.
-        {"effective_date": str_to_seconds("2015-06-25"), "ratio": 0.40, "sid": 6},
+        {
+            "effective_date": str_to_seconds("2015-06-25"),
+            "ratio": 0.40,
+            "sid": 6,
+        },
         # Another action in query range, should have last_row of 3
-        {"effective_date": str_to_seconds("2015-06-15"), "ratio": 0.50, "sid": 3},
+        {
+            "effective_date": str_to_seconds("2015-06-15"),
+            "ratio": 0.50,
+            "sid": 3,
+        },
         # Last day of range.  Should have last_row of 7
-        {"effective_date": str_to_seconds("2015-06-19"), "ratio": 0.60, "sid": 3},
+        {
+            "effective_date": str_to_seconds("2015-06-19"),
+            "ratio": 0.60,
+            "sid": 3,
+        },
     ],
     columns=["effective_date", "ratio", "sid"],
 )
@@ -278,7 +369,9 @@ class USEquityPricingLoaderTestCase(WithAdjustmentReader, ZiplineTestCase):
 
         return cls.equity_daily_bar_days[start:stop]
 
-    def expected_adjustments(self, start_date, end_date, tables, adjustment_type):
+    def expected_adjustments(
+        self, start_date, end_date, tables, adjustment_type
+    ):
         price_adjustments = {}
         volume_adjustments = {}
 
@@ -367,7 +460,9 @@ class USEquityPricingLoaderTestCase(WithAdjustmentReader, ZiplineTestCase):
         )
 
         if adjustment_type == "all" or adjustment_type == "price":
-            expected_price_adjustments = expected_adjustments["price_adjustments"]
+            expected_price_adjustments = expected_adjustments[
+                "price_adjustments"
+            ]
             for key in expected_price_adjustments:
                 price_adjustment = adjustments["price"][key]
                 for j, adj in enumerate(price_adjustment):
@@ -379,7 +474,9 @@ class USEquityPricingLoaderTestCase(WithAdjustmentReader, ZiplineTestCase):
                     assert_allclose(adj.value, expected.value)
 
         if adjustment_type == "all" or adjustment_type == "volume":
-            expected_volume_adjustments = expected_adjustments["volume_adjustments"]
+            expected_volume_adjustments = expected_adjustments[
+                "volume_adjustments"
+            ]
             for key in expected_volume_adjustments:
                 volume_adjustment = adjustments["volume"][key]
                 for j, adj in enumerate(volume_adjustment):
@@ -393,7 +490,9 @@ class USEquityPricingLoaderTestCase(WithAdjustmentReader, ZiplineTestCase):
     @parameterized.expand([(True,), (False,)])
     def test_load_adjustments_to_df(self, convert_dts):
         reader = self.adjustment_reader
-        adjustment_dfs = reader.unpack_db_to_component_dfs(convert_dates=convert_dts)
+        adjustment_dfs = reader.unpack_db_to_component_dfs(
+            convert_dates=convert_dts
+        )
 
         name_and_raw = (
             ("splits", SPLITS),
@@ -453,7 +552,9 @@ class USEquityPricingLoaderTestCase(WithAdjustmentReader, ZiplineTestCase):
     def test_read_no_adjustments(self):
         adjustment_reader = NullAdjustmentReader()
         columns = [USEquityPricing.close, USEquityPricing.volume]
-        query_days = self.calendar_days_between(TEST_QUERY_START, TEST_QUERY_STOP)
+        query_days = self.calendar_days_between(
+            TEST_QUERY_START, TEST_QUERY_STOP
+        )
         # Our expected results for each day are based on values from the
         # previous day.
         shifted_query_days = self.calendar_days_between(
@@ -537,7 +638,9 @@ class USEquityPricingLoaderTestCase(WithAdjustmentReader, ZiplineTestCase):
 
     def test_read_with_adjustments(self):
         columns = [USEquityPricing.high, USEquityPricing.volume]
-        query_days = self.calendar_days_between(TEST_QUERY_START, TEST_QUERY_STOP)
+        query_days = self.calendar_days_between(
+            TEST_QUERY_START, TEST_QUERY_STOP
+        )
         # Our expected results for each day are based on values from the
         # previous day.
         shifted_query_days = self.calendar_days_between(
@@ -584,12 +687,16 @@ class USEquityPricingLoaderTestCase(WithAdjustmentReader, ZiplineTestCase):
                     self.sids,
                     baseline,
                     # Apply all adjustments.
-                    pd.concat([SPLITS, MERGERS, DIVIDENDS_EXPECTED], ignore_index=True),
+                    pd.concat(
+                        [SPLITS, MERGERS, DIVIDENDS_EXPECTED], ignore_index=True
+                    ),
                 )
                 assert_allclose(expected_adjusted_highs, window)
 
             for offset, window in enumerate(volumes.traverse(windowlen)):
-                baseline = expected_baseline_volumes[offset : offset + windowlen]
+                baseline = expected_baseline_volumes[
+                    offset : offset + windowlen
+                ]
                 baseline_dates = query_days[offset : offset + windowlen]
                 # Apply only splits and invert the ratio.
                 adjustments = SPLITS.copy()
