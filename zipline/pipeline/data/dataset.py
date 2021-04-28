@@ -29,7 +29,6 @@ from zipline.utils.numpy_utils import float64_dtype, NoDefaultMissingValue
 from zipline.utils.preprocess import preprocess
 from zipline.utils.string_formatting import bulleted_list
 
-
 IsSpecialization = sentinel("IsSpecialization")
 
 
@@ -209,7 +208,7 @@ class BoundColumn(LoadableTerm):
         currency_conversion,
         currency_aware,
         *args,
-        **kwargs
+        **kwargs,
     ):
         self._dataset = dataset
         self._name = name
@@ -229,7 +228,7 @@ class BoundColumn(LoadableTerm):
         currency_conversion,
         currency_aware,
         *args,
-        **kwargs
+        **kwargs,
     ):
         return (
             super(BoundColumn, cls)._static_identity(*args, **kwargs),
@@ -471,7 +470,7 @@ class DataSetMeta(type):
                 # of a root-specialized dataset, which we don't want to create
                 # new specializations of.
                 raise ValueError(
-                    "Can't specialize {dataset} to new domain {new}.".format(
+                    "Can't specialize {dataset} from {current} to new domain {new}.".format(
                         dataset=self.__name__,
                         current=self.domain,
                         new=domain,

@@ -1,6 +1,7 @@
-name: Zipline conda distribution
+name: Anaconda
 
-on: [ push ]
+on:
+  workflow_dispatch
 
 jobs:
   build_wheels:
