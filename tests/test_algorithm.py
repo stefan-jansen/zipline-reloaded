@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import pytest
 import warnings
 import datetime
 from datetime import timedelta
@@ -127,8 +128,6 @@ from zipline.utils.events import (
 )
 from zipline.utils import factory
 from zipline.utils.pandas_utils import PerformanceWarning
-import pytest
-import re
 
 # Because test cases appear to reuse some resources.
 
