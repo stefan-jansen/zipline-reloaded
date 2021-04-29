@@ -1,3 +1,4 @@
+import pytest
 import numpy as np
 import pandas as pd
 from os.path import (
@@ -9,7 +10,6 @@ from os.path import (
 from trading_calendars import get_calendar
 
 from zipline.data.bundles import ingest, load, bundles
-from zipline.testing.fixtures import ZiplineTestCase
 from zipline.utils.functional import apply
 
 TEST_RESOURCE_PATH = join(
@@ -18,7 +18,7 @@ TEST_RESOURCE_PATH = join(
 )
 
 
-class CSVDIRBundleTestCase(ZiplineTestCase):
+class TestCSVDIRBundle:
     symbols = "AAPL", "IBM", "KO", "MSFT"
     asset_start = pd.Timestamp("2012-01-03", tz="utc")
     asset_end = pd.Timestamp("2014-12-31", tz="utc")
@@ -299,15 +299,11 @@ class CSVDIRBundleTestCase(ZiplineTestCase):
         expected_pricing, expected_adjustments = self._expected_data(
             bundle.asset_finder,
         )
-        np.testing.assert_array_almost_equal(
-            actual, expected_pricing, decimal=2
-        )
+        np.testing.assert_array_almost_equal(actual, expected_pricing, decimal=2)
 
         adjs_for_cols = bundle.adjustment_reader.load_pricing_adjustments(
             self.columns,
             sessions,
             pd.Index(sids),
         )
-        assert [
-            sorted(adj.keys()) for adj in adjs_for_cols
-        ] == expected_adjustments
+        assert [sorted(adj.keys()) for adj in adjs_for_cols] == expected_adjustments

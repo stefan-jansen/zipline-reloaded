@@ -4,6 +4,8 @@ Tests for setting up an EventsLoader.
 from datetime import time
 from itertools import product
 from unittest import skipIf
+import pytest
+import re
 
 import numpy as np
 import pandas as pd
@@ -35,8 +37,6 @@ from zipline.utils.numpy_utils import (
     int64_dtype,
 )
 from zipline.utils.pandas_utils import new_pandas, skip_pipeline_new_pandas
-import pytest
-import re
 
 
 class EventDataSet(DataSet):
@@ -157,13 +157,14 @@ def make_events(add_nulls):
     return pd.concat(event_frames, ignore_index=True)
 
 
-class EventIndexerTestCase(ZiplineTestCase):
-    @classmethod
-    def init_class_fixtures(cls):
-        super(EventIndexerTestCase, cls).init_class_fixtures()
-        cls.events = make_events(add_nulls=False).sort_values("event_date")
-        cls.events.reset_index(inplace=True)
+@pytest.fixture(scope="class")
+def event(request):
+    request.cls.events = make_events(add_nulls=False).sort_values("event_date")
+    request.cls.events.reset_index(inplace=True)
 
+
+@pytest.mark.usefixtures("event")
+class TestEventIndexer:
     def test_previous_event_indexer(self):
         events = self.events
         event_sids = events["sid"].values
