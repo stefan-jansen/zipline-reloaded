@@ -3,7 +3,7 @@ name: CI Tests
 on:
   push:
     branches:
-      - nose2pytest/merge2804
+      - main
   pull_request:
     branches:
       - main
