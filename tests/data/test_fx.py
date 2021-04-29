@@ -18,6 +18,7 @@ class _FXReaderTestCase(zp_fixtures.WithFXRates, zp_fixtures.ZiplineTestCase):
     """
 
     __test__ = False
+
     FX_RATES_START_DATE = pd.Timestamp("2014-01-01", tz="UTC")
     FX_RATES_END_DATE = pd.Timestamp("2014-01-31", tz="UTC")
 
@@ -249,12 +250,16 @@ class _FXReaderTestCase(zp_fixtures.WithFXRates, zp_fixtures.ZiplineTestCase):
 
 
 class InMemoryFXReaderTestCase(_FXReaderTestCase):
+    __test__ = True
+
     @property
     def reader(self):
         return self.in_memory_fx_rate_reader
 
 
-class HDF5FXReaderTestCase(zp_fixtures.WithTmpDir, zp_fixtures._FXReaderTestCase):
+class HDF5FXReaderTestCase(zp_fixtures.WithTmpDir, _FXReaderTestCase):
+    __test__ = True
+
     @classmethod
     def init_class_fixtures(cls):
         super(HDF5FXReaderTestCase, cls).init_class_fixtures()
