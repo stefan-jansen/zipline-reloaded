@@ -78,7 +78,7 @@ class _FXReaderTestCase(zp_fixtures.WithFXRates, zp_fixtures.ZiplineTestCase):
         cases = itertools.product(rates, quotes, bases, dates)
 
         for rate, quote, base, dt in cases:
-            dts = pd.DatetimeIndex([dt], tz="UTC")
+            dts = pd.DatetimeIndex([dt])
             bases = np.array([base], dtype=object)
 
             result = reader.get_rates(rate, quote, bases, dts)
@@ -114,7 +114,9 @@ class _FXReaderTestCase(zp_fixtures.WithFXRates, zp_fixtures.ZiplineTestCase):
             # Choose N random distinct days...
             for ndays in 1, 2, 7, 20:
                 dts_raw = rand.choice(dates, ndays, replace=False)
-                dts = pd.DatetimeIndex(dts_raw, tz="utc").sort_values()
+                dts = pd.DatetimeIndex(
+                    dts_raw,
+                ).sort_values()
 
                 # Choose M random possibly-non-distinct currencies...
                 for nbases in 1, 2, 10, 200:
@@ -146,7 +148,7 @@ class _FXReaderTestCase(zp_fixtures.WithFXRates, zp_fixtures.ZiplineTestCase):
             for N in 1, 2, 10, 200:
                 # Choose N (date, base) pairs randomly with replacement.
                 dts_raw = rand.choice(dates, N, replace=True)
-                dts = pd.DatetimeIndex(dts_raw, tz="utc")
+                dts = pd.DatetimeIndex(dts_raw)
                 bases = rand.choice(possible_bases, N, replace=True).astype(object)
 
                 # ... And check that we get the expected result when querying
