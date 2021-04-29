@@ -45,7 +45,7 @@ def tolerant_equals(a, b, atol=10e-7, rtol=10e-7, equal_nan=False):
     if equal_nan and isnan(a) and isnan(b):
         return True
     return math.isclose(a, b, rel_tol=rtol, abs_tol=atol)
-    #return math.fabs(a - b) <= (atol + rtol * math.fabs(b))
+    # return math.fabs(a - b) <= (atol + rtol * math.fabs(b))
 
 
 try:

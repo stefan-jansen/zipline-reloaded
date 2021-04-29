@@ -90,6 +90,7 @@ from zipline.finance.execution import (
 )
 import pytest
 
+
 class TestAlgorithm(TradingAlgorithm):
     """
     This algorithm will send a specified number of orders, to allow unit tests
