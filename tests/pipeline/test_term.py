@@ -140,7 +140,7 @@ def gen_equivalent_factors():
     yield SomeFactorAlias()
 
 
-def to_dict(l):
+def to_dict(a_list):
     """
     Convert a list to a dict with keys drawn from '0', '1', '2', ...
 
@@ -149,7 +149,7 @@ def to_dict(l):
     >>> to_dict([2, 3, 4])  # doctest: +SKIP
     {'0': 2, '1': 3, '2': 4}
     """
-    return dict(zip(map(str, range(len(l))), l))
+    return dict(zip(map(str, range(len(a_list))), a_list))
 
 
 class DependencyResolutionTestCase(WithTradingSessions, ZiplineTestCase):

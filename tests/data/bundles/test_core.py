@@ -3,7 +3,6 @@ import pytest
 import re
 
 from parameterized import parameterized
-import pytest
 import numpy as np
 import pandas as pd
 import sqlalchemy as sa

@@ -38,7 +38,6 @@ from zipline.data.hdf5_daily_bars import (
     coerce_to_uint32,
 )
 from zipline.testing import (
-    powerset,
     seconds_to_timestamp,
     powerset,
 )
@@ -64,7 +63,6 @@ from zipline.pipeline.loaders.synthetic import (
     asset_start,
     asset_end,
     expected_bar_values_2d,
-    make_bar_data,
 )
 import pytest
 
@@ -1104,14 +1102,15 @@ class HDF5DailyBarCanadaTestCase(_HDF5DailyBarTestCase):
 class TestCoerceToUint32Price:
     """Test the coerce_to_uint32() function used by the HDF5DailyBarWriter."""
 
-    @pytest.mark.parametrize("field, expected",
+    @pytest.mark.parametrize(
+        "field, expected",
         [
             (OPEN, np.array([1, 1000, 100000, 100500, 1000005, 130230], dtype="u4")),
             (HIGH, np.array([1, 1000, 100000, 100500, 1000005, 130230], dtype="u4")),
             (LOW, np.array([1, 1000, 100000, 100500, 1000005, 130230], dtype="u4")),
             (CLOSE, np.array([1, 1000, 100000, 100500, 1000005, 130230], dtype="u4")),
             (VOLUME, np.array([0, 1, 100, 100, 1000, 130], dtype="u4")),
-        ]
+        ],
     )
     def test_coerce_to_uint32_price(self, field, expected):
         # NOTE: 130.23 is not perfectly representable as a double, but we

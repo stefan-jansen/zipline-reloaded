@@ -12,7 +12,7 @@ from zipline.utils.compat import unicode
 import pytest
 
 
-def rotN(l, N):
+def rotN(a_list, N):
     """
     Rotate a list of elements.
 
@@ -23,22 +23,25 @@ def rotN(l, N):
     >>> rotN(['a', 'b', 'c', 'd'], 3)
     ['d', 'a', 'b', 'c']
     """
-    assert len(l) >= N, "Can't rotate list by longer than its length."
-    return l[N:] + l[:N]
+    assert len(a_list) >= N, "Can't rotate list by longer than its length."
+    return a_list[N:] + a_list[:N]
 
 
 def all_ufuncs():
     ufunc_type = type(np.isnan)
     return (f for f in vars(np).values() if isinstance(f, ufunc_type))
 
+
 @pytest.fixture(scope="class")
 def label_array(request):
     request.cls.rowvalues = ["", "a", "b", "ab", "a", "", "b", "ab", "z"]
-    request.cls.strs = np.array([rotN(request.cls.rowvalues, i) for i in range(3)], dtype=object)
+    request.cls.strs = np.array(
+        [rotN(request.cls.rowvalues, i) for i in range(3)], dtype=object
+    )
+
 
 @pytest.mark.usefixtures("label_array")
 class TestLabelArray:
-
     def test_fail_on_direct_construction(self):
         # See https://docs.scipy.org/doc/numpy-1.10.0/user/basics.subclassing.html#simple-example-adding-an-extra-attribute-to-ndarray  # noqa
 
@@ -97,12 +100,15 @@ class TestLabelArray:
             np_contains(strs) & notmissing,
         )
 
-    @pytest.mark.parametrize("f", [
+    @pytest.mark.parametrize(
+        "f",
+        [
             lambda s: str(len(s)),
             lambda s: s[0],
             lambda s: "".join(reversed(s)),
             lambda s: "",
-        ],)
+        ],
+    )
     def test_map(self, f):
         data = np.array(
             [
@@ -132,11 +138,14 @@ class TestLabelArray:
         expected = LabelArray([missing, "C", "D"], missing_value=missing)
         assert_equal(result.as_string_array(), expected.as_string_array())
 
-    @pytest.mark.parametrize("f", [
+    @pytest.mark.parametrize(
+        "f",
+        [
             lambda s: 0,
             lambda s: 0.0,
             lambda s: object(),
-        ],)
+        ],
+    )
     def test_map_requires_f_to_return_a_string_or_none(self, f):
         la = LabelArray(self.strs, missing_value=None)
 
@@ -205,7 +214,9 @@ class TestLabelArray:
                 comparator(strs, value) & notmissing,
             )
 
-    @pytest.mark.parametrize("slice_", [
+    @pytest.mark.parametrize(
+        "slice_",
+        [
             0,
             1,
             -1,
@@ -219,7 +230,8 @@ class TestLabelArray:
             (slice(None), 1),
             (slice(None), slice(None)),
             (slice(None), slice(1, 2)),
-        ],)
+        ],
+    )
     def test_slicing_preserves_attributes(self, slice_):
         arr = LabelArray(self.strs.reshape((9, 3)), missing_value="")
         sliced = arr[slice_]

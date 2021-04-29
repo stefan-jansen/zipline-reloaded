@@ -405,7 +405,7 @@ class TestPreprocess:
         def f(a):
             return a
 
-        assert f(1) is 1
+        assert f(1) == 1
         assert f(None) is None
 
         with pytest.raises(TypeError, match=str(error)):
@@ -446,7 +446,7 @@ class TestPreprocess:
 
         expected = (
             "fizzbuzz() expected a 2-D array for argument 'x', but got"
-            " a 1-D array instead.".format(qualname=qualname(foo))
+            " a 1-D array instead."
         )
         with pytest.raises(ValueError, match=re.escape(expected)):
             foo(np.arange(1), 1)

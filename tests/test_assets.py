@@ -306,6 +306,7 @@ def build_lookup_generic_cases():
             expected=[cf, dupe_new, dupe_us],
         )
 
+
 @pytest.fixture(scope="function")
 def set_asset(request):
     # Dynamically list the Asset properties we want to test.
@@ -339,9 +340,9 @@ def set_asset(request):
         ),
     )
 
+
 @pytest.mark.usefixtures("set_asset")
 class TestAsset:
-   
     def test_asset_object(self):
         the_asset = Asset(
             5061,
@@ -384,7 +385,7 @@ class TestAsset:
         assert s_23 != "23"
         assert s_23 != 23.5
         assert s_23 != []
-        assert s_23 != None
+        assert s_23 is not None
         # Compare to a value that doesn't fit into a platform int:
         assert s_23, sys.maxsize + 1
         assert s_23 < s_24

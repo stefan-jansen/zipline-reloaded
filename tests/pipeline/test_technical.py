@@ -116,7 +116,8 @@ class TestAroon:
     nassets = 5
     dtype = [("down", "f8"), ("up", "f8")]
 
-    @pytest.mark.parametrize("lows, highs, expected_out",
+    @pytest.mark.parametrize(
+        "lows, highs, expected_out",
         [
             (
                 np.arange(window_length),
@@ -145,7 +146,7 @@ class TestAroon:
                     buf=np.array([100 * 3 / 9, 100 * 5 / 9] * nassets, dtype="f8"),
                 ),
             ),
-        ]
+        ],
     )
     def test_aroon_basic(self, lows, highs, expected_out):
         aroon = Aroon(window_length=self.window_length)
@@ -185,7 +186,12 @@ class TestFastStochasticOscillator:
         # Expected %K
         assert_equal(out, np.full((3,), 200, dtype=np.float64))
 
-    @pytest.mark.parametrize("seed", [range(5),])
+    @pytest.mark.parametrize(
+        "seed",
+        [
+            range(5),
+        ],
+    )
     def test_fso_expected_with_talib(self, seed):
         """
         Test the output that is returned from the fast stochastic oscillator
@@ -338,7 +344,9 @@ class TestIchimokuKinkoHyo:
             msg="chikou_span",
         )
 
-    @pytest.mark.parametrize("arg", {"tenkan_sen_length", "kijun_sen_length", "chikou_span_length"})
+    @pytest.mark.parametrize(
+        "arg", {"tenkan_sen_length", "kijun_sen_length", "chikou_span_length"}
+    )
     def test_input_validation(self, arg):
         window_length = 52
 
@@ -349,13 +357,14 @@ class TestIchimokuKinkoHyo:
 
 
 class TestRateOfChangePercentage:
-    @pytest.mark.parametrize("data, expected, test_name",
-    [
-            ([2.0] * 10, 0.0, "constant"), 
-            ([2.0] + [1.0] * 9, -50.0, "step"), 
-            ([2.0 + x for x in range(10)], 450.0, "linear"), 
-            ([2.0 + x ** 2 for x in range(10)], 4050.0, "quadratic"), 
-        ]
+    @pytest.mark.parametrize(
+        "data, expected, test_name",
+        [
+            ([2.0] * 10, 0.0, "constant"),
+            ([2.0] + [1.0] * 9, -50.0, "step"),
+            ([2.0 + x for x in range(10)], 450.0, "linear"),
+            ([2.0 + x ** 2 for x in range(10)], 4050.0, "quadratic"),
+        ],
     )
     def test_rate_of_change_percentage(self, data, expected, test_name):
         window_length = len(data)
@@ -431,7 +440,12 @@ class TestMovingAverageConvergenceDivergence:
             lambda sub: pd.DataFrame(sub).ewm(span=window).mean().values[-1]
         )
 
-    @pytest.mark.parametrize("seed", [range(5),])
+    @pytest.mark.parametrize(
+        "seed",
+        [
+            range(5),
+        ],
+    )
     def test_MACD_window_length_generation(self, seed):
         rng = RandomState(seed)
 
@@ -526,7 +540,8 @@ class TestMovingAverageConvergenceDivergence:
 
 
 class TestRSI:
-    @pytest.mark.parametrize("seed_value, expected", 
+    @pytest.mark.parametrize(
+        "seed_value, expected",
         [
             # Test cases computed by doing:
             # from numpy.random import seed, randn
@@ -537,7 +552,7 @@ class TestRSI:
             (100, np.array([41.032913785966, 51.553585468393, 51.022005016446])),
             (101, np.array([43.506969935466, 46.145367530182, 50.57407044197])),
             (102, np.array([46.610102205934, 47.646892444315, 52.13182788538])),
-        ]
+        ],
     )
     def test_rsi(self, seed_value, expected):
 

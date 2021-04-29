@@ -123,7 +123,7 @@ class TestPipelineTestCase:
         f, g = SomeFilter(), SomeOtherFilter()
 
         p = Pipeline()
-        assert p.screen == None
+        assert p.screen is None
 
         p.set_screen(f)
         assert p.screen == f
@@ -165,7 +165,7 @@ class TestPipelineTestCase:
             # '' is a sentinel used for screen if it's not supplied.
             assert sorted(graph.outputs.keys()) == ["f", graph.screen_name]
             assert format == "svg"
-            assert include_asset_exists == False
+            assert include_asset_exists is False
 
         with patch_display_graph:
             graph, format, include_asset_exists = p.show_graph(format="png")
@@ -173,14 +173,14 @@ class TestPipelineTestCase:
             # '' is a sentinel used for screen if it's not supplied.
             assert sorted(graph.outputs.keys()) == ["f", graph.screen_name]
             assert format == "png"
-            assert include_asset_exists == False
+            assert include_asset_exists is False
 
         with patch_display_graph:
             graph, format, include_asset_exists = p.show_graph(format="jpeg")
             assert graph.outputs["f"] is f
             assert sorted(graph.outputs.keys()) == ["f", graph.screen_name]
             assert format == "jpeg"
-            assert include_asset_exists == False
+            assert include_asset_exists is False
 
         expected = (
             r".*\.show_graph\(\) expected a value in "

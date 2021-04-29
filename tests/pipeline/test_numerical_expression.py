@@ -56,6 +56,7 @@ class DateFactor(Factor):
     inputs = ()
     window_length = 0
 
+
 @pytest.fixture(scope="function")
 def set_num_expression(request):
     request.cls.dates = pd.date_range("2014-01-01", periods=5, freq="D")
@@ -70,13 +71,15 @@ def set_num_expression(request):
         request.cls.h: np.full((5, 5), 1, float),
         request.cls.d: np.full((5, 5), 0, dtype="datetime64[ns]"),
     }
-    request.cls.mask = pd.DataFrame(True, index=request.cls.dates, columns=request.cls.assets)
+    request.cls.mask = pd.DataFrame(
+        True, index=request.cls.dates, columns=request.cls.assets
+    )
     yield
     pass
 
+
 @pytest.mark.usefixtures("set_num_expression")
 class TestNumericalExpression:
-
     def check_output(self, expr, expected):
         result = expr._compute(
             [self.fake_raw_data[input_] for input_ in expr.inputs],

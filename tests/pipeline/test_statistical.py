@@ -488,7 +488,7 @@ class StatisticalBuiltInsTestCase(
             allowed_missing_percentage=0.5,
         )
         result = beta.graph_repr()
-        expected = "SimpleBeta('A', 50, 25)".format(self.my_asset)
+        expected = "SimpleBeta('A', 50, 25)"
         assert result == expected
 
 

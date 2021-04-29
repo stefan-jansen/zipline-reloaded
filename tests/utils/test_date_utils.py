@@ -11,15 +11,16 @@ def T(s):
     """
     return pd.Timestamp(s, tz="UTC")
 
+
 @pytest.fixture(scope="class")
 def set_calendar(request):
     request.cls.calendar = get_calendar("XNYS")
-    
+
 
 @pytest.mark.usefixtures("set_calendar")
 class TestDateUtils:
-
-    @pytest.mark.parametrize("chunksize, expected",
+    @pytest.mark.parametrize(
+        "chunksize, expected",
         [
             (None, [(T("2017-01-03"), T("2017-01-31"))]),
             (
@@ -36,7 +37,7 @@ class TestDateUtils:
                     (T("2017-01-25"), T("2017-01-31")),
                 ],
             ),
-        ]
+        ],
     )
     def test_compute_date_range_chunks(self, chunksize, expected):
         # This date range results in 20 business days

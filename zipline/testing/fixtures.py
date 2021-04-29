@@ -2076,10 +2076,10 @@ class WithWerror:
         cls.enter_class_context(warnings.catch_warnings())
         warnings.simplefilter("error")
         warnings.filterwarnings(
-                "ignore",
-                category=RuntimeWarning,
-            )
-        #warnings.simplefilter("ignore", RuntimeWarning, append=True)
+            "ignore",
+            category=RuntimeWarning,
+        )
+        # warnings.simplefilter("ignore", RuntimeWarning, append=True)
         super(WithWerror, cls).init_class_fixtures()
 
 
@@ -2258,8 +2258,6 @@ class WithFXRates:
             for base, dt in zip(bases, dts)
         ]
         return np.array(rates, dtype="float64")
-
-
 
 
 class _FXReaderTestCase(WithFXRates, ZiplineTestCase):

@@ -1870,7 +1870,7 @@ class OrderedContractsTestCase(zf.WithAssetFinder, zf.ZiplineTestCase):
             1, 1, start_dates[-1].value
         ), "Offset of 1 should return next sid in chain."
 
-        assert None == oc.contract_at_offset(
+        assert None is oc.contract_at_offset(
             4, 1, start_dates[-1].value
         ), "Offset at end of chain should not crash."
 
