@@ -1,5 +1,4 @@
 import os
-import itertools
 import sqlite3
 from unittest import TestCase
 import warnings
@@ -32,7 +31,6 @@ from zipline.pipeline.loaders import USEquityPricingLoader
 from zipline.pipeline.loaders.testing import make_seeded_random_loader
 from zipline.protocol import BarData
 from zipline.utils.compat import ExitStack
-from zipline.testing.predicates import assert_equal
 from zipline.utils.paths import ensure_directory, ensure_directory_containing
 from .core import (
     create_daily_bar_data,

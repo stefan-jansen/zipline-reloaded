@@ -19,7 +19,6 @@ Tests for the zipline.finance package
 from datetime import datetime, timedelta
 import os
 
-from nose.tools import timed
 import numpy as np
 import pandas as pd
 import pytz
@@ -61,7 +60,7 @@ class FinanceTestCase(zf.WithAssetFinder, zf.WithTradingCalendars, zf.ZiplineTes
     # TODO: write tests for short sales
     # TODO: write a test to do massive buying or shorting.
 
-    @timed(DEFAULT_TIMEOUT)
+    @pytest.mark.timeout(DEFAULT_TIMEOUT)
     def test_partially_filled_orders(self):
 
         # create a scenario where order size and trade size are equal
@@ -98,7 +97,7 @@ class FinanceTestCase(zf.WithAssetFinder, zf.WithTradingCalendars, zf.ZiplineTes
 
         self.transaction_sim(**params2)
 
-    @timed(DEFAULT_TIMEOUT)
+    @pytest.mark.timeout(DEFAULT_TIMEOUT)
     def test_collapsing_orders(self):
         # create a scenario where order.amount <<< trade.volume
         # to test that several orders can be covered properly by one trade,
@@ -141,7 +140,7 @@ class FinanceTestCase(zf.WithAssetFinder, zf.WithTradingCalendars, zf.ZiplineTes
         }
         self.transaction_sim(**params3)
 
-    @timed(DEFAULT_TIMEOUT)
+    @pytest.mark.timeout(DEFAULT_TIMEOUT)
     def test_alternating_long_short(self):
         # create a scenario where we alternate buys and sells
         params1 = {
@@ -410,7 +409,7 @@ class SimParamsTestCase(zf.WithTradingCalendars, zf.ZiplineTestCase):
         assert sp.last_close.month == 12
         assert sp.last_close.day == 31
 
-    @timed(DEFAULT_TIMEOUT)
+    @pytest.mark.timeout(DEFAULT_TIMEOUT)
     def test_sim_params_days_in_period(self):
 
         #     January 2008

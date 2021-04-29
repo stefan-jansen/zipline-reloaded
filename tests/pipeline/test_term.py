@@ -569,7 +569,10 @@ class TestObjectIdentity:
             SomeFactor().not_an_attr
 
         mo = MultipleOutputs()
-        expected = "Instance of MultipleOutputs has no output named 'not_an_attr'. Possible choices are: \\('alpha', 'beta'\\)."
+        expected = (
+            "Instance of MultipleOutputs has no output named 'not_an_attr'. "
+            "Possible choices are: \\('alpha', 'beta'\\)."
+        )
         with pytest.raises(AttributeError, match=expected):
             mo.not_an_attr
 

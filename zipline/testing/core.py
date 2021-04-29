@@ -17,10 +17,9 @@ from traceback import format_exception
 
 from logbook import TestHandler
 from mock import patch
-from nose.tools import nottest
+
 from numpy.testing import assert_allclose, assert_array_equal
 import pandas as pd
-from six import with_metaclass
 from sqlalchemy import create_engine
 from testfixtures import TempDirectory
 from toolz import concat, curry
@@ -846,7 +845,7 @@ class SubTestFailures(AssertionError):
         )
 
 
-@nottest
+# @nottest
 def subtest(iterator, *_names):
     """
     Construct a subtest in a unittest.
@@ -1288,7 +1287,7 @@ def permute_rows(seed, array):
     return np.apply_along_axis(rand.permutation, 1, array)
 
 
-@nottest
+# @nottest
 def make_test_handler(testcase, *args, **kwargs):
     """
     Returns a TestHandler which will be used by the given testcase. This
@@ -1332,7 +1331,7 @@ zipline_git_root = abspath(
 )
 
 
-@nottest
+# @nottest
 def test_resource_path(*path_parts):
     return os.path.join(zipline_git_root, "tests", "resources", *path_parts)
 
@@ -1371,7 +1370,7 @@ class tmp_dir(TempDirectory, object):
     pass
 
 
-class _TmpBarReader(with_metaclass(ABCMeta, tmp_dir)):
+class _TmpBarReader(tmp_dir, metaclass=ABCMeta):
     """A helper for tmp_bcolz_equity_minute_bar_reader and
     tmp_bcolz_equity_daily_bar_reader.
 
