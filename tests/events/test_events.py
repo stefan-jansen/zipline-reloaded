@@ -17,8 +17,6 @@ from inspect import isabstract
 import random
 import warnings
 
-
-from parameterized import parameterized
 import pandas as pd
 from trading_calendars import get_calendar
 
@@ -57,11 +55,12 @@ def param_range(*args):
 
 
 class TestUtils:
-    @parameterized.expand(
+    @pytest.mark.parametrize(
+        "name, f",
         [
             ("_build_date", _build_date),
             ("_build_time", _build_time),
-        ]
+        ],
     )
     def test_build_none(self, name, f):
         with pytest.raises(ValueError):
@@ -422,13 +421,14 @@ class StatelessRulesTests(RuleTestCase):
             assert composed.second is rule2
             assert not any(map(should_trigger, minute))
 
-    @parameterized.expand(
+    @pytest.mark.parametrize(
+        "name, rule_type",
         [
             ("month_start", NthTradingDayOfMonth),
             ("month_end", NDaysBeforeLastTradingDayOfMonth),
             ("week_start", NthTradingDayOfWeek),
             ("week_end", NthTradingDayOfWeek),
-        ]
+        ],
     )
     def test_pass_float_to_day_of_period_rule(self, name, rule_type):
         with warnings.catch_warnings(record=True) as raised_warnings:
