@@ -17,6 +17,7 @@ from inspect import isabstract
 import random
 import warnings
 
+from parameterized import parameterized
 import pandas as pd
 from trading_calendars import get_calendar
 
@@ -246,10 +247,9 @@ class RuleTestCase:
             and not isabstract(v)
         }
         ds = {k[5:] for k in dir(self) if k.startswith("test") and k[5:] in dem}
-        assert (
-            dem <= ds
-        ), "This suite is missing tests for the following classes:\n" + "\n".join(
-            map(repr, dem - ds)
+        assert dem <= ds, (
+            "This suite is missing tests for the following classes:\n"
+            + "\n".join(map(repr, dem - ds))
         )
 
 
@@ -272,7 +272,8 @@ class StatelessRulesTests(RuleTestCase):
         )
 
         cls.sept_week = cls.cal.minutes_for_sessions_in_range(
-            pd.Timestamp("2014-09-22", tz="UTC"), pd.Timestamp("2014-09-26", tz="UTC")
+            pd.Timestamp("2014-09-22", tz="UTC"),
+            pd.Timestamp("2014-09-26", tz="UTC"),
         )
 
         cls.HALF_SESSION = None
@@ -342,7 +343,9 @@ class StatelessRulesTests(RuleTestCase):
         """
         rule = NthTradingDayOfWeek(0)
         rule.cal = self.cal
-        first_open = self.cal.open_and_close_for_session(self.cal.all_sessions[0])
+        first_open = self.cal.open_and_close_for_session(
+            self.cal.all_sessions[0]
+        )
         assert first_open
 
     def test_NthTradingDayOfWeek(self):
@@ -372,7 +375,9 @@ class StatelessRulesTests(RuleTestCase):
             for minute in self.sept_week:
                 if should_trigger(minute):
                     n_tdays = 0
-                    session = self.cal.minute_to_session_label(minute, direction="none")
+                    session = self.cal.minute_to_session_label(
+                        minute, direction="none"
+                    )
                     next_session = self.cal.next_session_label(session)
                     while next_session.dayofweek > session.dayofweek:
                         session = next_session
@@ -421,8 +426,7 @@ class StatelessRulesTests(RuleTestCase):
             assert composed.second is rule2
             assert not any(map(should_trigger, minute))
 
-    @pytest.mark.parametrize(
-        "name, rule_type",
+    @parameterized.expand(
         [
             ("month_start", NthTradingDayOfMonth),
             ("month_end", NDaysBeforeLastTradingDayOfMonth),
