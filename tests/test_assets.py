@@ -2018,13 +2018,24 @@ class AssetFinderMultipleCountries(WithTradingCalendars, ZiplineTestCase):
             assert result.sid == n * 2 + 1
 
 
-class TestAssetDBVersioning(ZiplineTestCase):
-    def init_instance_fixtures(self):
-        super(TestAssetDBVersioning, self).init_instance_fixtures()
-        self.engine = eng = self.enter_instance_context(empty_assets_db())
-        self.metadata = sa.MetaData(eng)
-        self.metadata.reflect(bind=eng)
+@pytest.fixture(scope="function")
+def sql_db(request):
+    url = "sqlite:///:memory:"
+    request.cls.engine = sa.create_engine(url)
+    yield request.cls.engine
+    request.cls.engine.dispose()
+    request.cls.engine = None
 
+
+@pytest.fixture(scope="function")
+def setup_empty_assets_db(sql_db, request):
+    AssetDBWriter(sql_db).write(None)
+    request.cls.metadata = sa.MetaData(sql_db)
+    request.cls.metadata.reflect(bind=sql_db)
+
+
+@pytest.mark.usefixtures("sql_db", "setup_empty_assets_db")
+class TestAssetDBVersioning:
     def test_check_version(self):
         version_table = self.metadata.tables["version_info"]
 
