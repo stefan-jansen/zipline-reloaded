@@ -12,21 +12,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import pytest
 from functools import partial
 from operator import itemgetter
 import tarfile
 from os.path import dirname, join, realpath
 import matplotlib
 import pandas as pd
-from unittest import skip
 from zipline import examples
 from zipline.data.bundles import register, unregister
-from zipline.testing import parameter_space
-from zipline.testing.fixtures import (
-    WithTmpDir,
-    ZiplineTestCase,
-    read_checked_in_benchmark_data,
-)
+from zipline.testing.fixtures import read_checked_in_benchmark_data
 from zipline.testing.predicates import assert_equal
 from zipline.utils.cache import dataframe_cache
 
@@ -34,38 +29,45 @@ TEST_RESOURCE_PATH = join(
     dirname(realpath(__file__)), "resources"  # zipline_repo/tests
 )
 
-# Otherwise the next line sometimes complains about being run too late.
-_multiprocess_can_split_ = False
 
 matplotlib.use("Agg")
 
 EXAMPLE_MODULES = examples.load_example_modules()
 
 
-class ExamplesTests(WithTmpDir, ZiplineTestCase):
-    # some columns contain values with unique ids that will not be the same
+@pytest.fixture(scope="class")
+def _setup_class(request, tmpdir_factory):
+    request.cls.tmp_path = tmpdir_factory.mktemp("tmp")
+    request.cls.tmpdir = str(request.cls.tmp_path)
+    register("test", lambda *args: None)
 
-    @classmethod
-    def init_class_fixtures(cls):
-        super(ExamplesTests, cls).init_class_fixtures()
+    with tarfile.open(join(TEST_RESOURCE_PATH, "example_data.tar.gz")) as tar:
+        tar.extractall(request.cls.tmpdir)
 
-        register("test", lambda *args: None)
-        cls.add_class_callback(partial(unregister, "test"))
+    request.cls.expected_perf = dataframe_cache(
+        join(
+            str(request.cls.tmp_path),
+            "example_data",
+            "expected_perf/%s" % pd.__version__.replace(".", "-"),
+        ),
+        serialization="pickle",
+    )
 
-        with tarfile.open(join(TEST_RESOURCE_PATH, "example_data.tar.gz")) as tar:
-            tar.extractall(cls.tmpdir.path)
-
-        cls.expected_perf = dataframe_cache(
-            cls.tmpdir.getpath(
-                "example_data/expected_perf/%s" % pd.__version__.replace(".", "-"),
-            ),
-            serialization="pickle",
+    request.cls.no_benchmark_expected_perf = {
+        example_name: request.cls._no_benchmark_expectations_applied(
+            expected_perf.copy()
         )
+        for example_name, expected_perf in request.cls.expected_perf.items()
+    }
+    yield
+    partial(unregister, "test")
 
-        cls.no_benchmark_expected_perf = {
-            example_name: cls._no_benchmark_expectations_applied(expected_perf.copy())
-            for example_name, expected_perf in cls.expected_perf.items()
-        }
+
+@pytest.mark.usefixtures("_setup_class")
+# @pytest.mark.skipif(sys.platform == "win32", reason="does not run on windows")
+class TestsExamplesTests:
+
+    # some columns contain values with unique ids that will not be the same
 
     @staticmethod
     def _no_benchmark_expectations_applied(expected_perf):
@@ -78,11 +80,10 @@ class ExamplesTests(WithTmpDir, ZiplineTestCase):
             ] = 0.0
         return expected_perf
 
-    @skip("Avoid path issues")
-    @parameter_space(
-        example_name=sorted(EXAMPLE_MODULES),
-        benchmark_returns=[read_checked_in_benchmark_data(), None],
+    @pytest.mark.parametrize(
+        "benchmark_returns", [read_checked_in_benchmark_data(), None]
     )
+    @pytest.mark.parametrize("example_name", sorted(EXAMPLE_MODULES))
     def test_example(self, example_name, benchmark_returns):
         actual_perf = examples.run_example(
             EXAMPLE_MODULES,
@@ -90,7 +91,7 @@ class ExamplesTests(WithTmpDir, ZiplineTestCase):
             # This should match the invocation in
             # zipline/tests/resources/rebuild_example_data
             environ={
-                "ZIPLINE_ROOT": self.tmpdir.getpath("example_data/root"),
+                "ZIPLINE_ROOT": join(self.tmpdir, "example_data", "root"),
             },
             benchmark_returns=benchmark_returns,
         )

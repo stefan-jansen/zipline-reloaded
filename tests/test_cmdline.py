@@ -44,26 +44,17 @@ class TestCmdLine:
         assert n.arg_3 == "test3"
         assert n._arg_4_ == "test4"
 
-        msg = (
-            "invalid extension argument '1=test3', " "must be in key=value form"
-        )
+        msg = "invalid extension argument '1=test3', " "must be in key=value form"
         with pytest.raises(ValueError, match=msg):
             parse_extension_arg("1=test3", {})
-        msg = (
-            "invalid extension argument 'arg4 test4', "
-            "must be in key=value form"
-        )
+        msg = "invalid extension argument 'arg4 test4', " "must be in key=value form"
         with pytest.raises(ValueError, match=msg):
             parse_extension_arg("arg4 test4", {})
-        msg = (
-            "invalid extension argument 'arg5.1=test5', "
-            "must be in key=value form"
-        )
+        msg = "invalid extension argument 'arg5.1=test5', " "must be in key=value form"
         with pytest.raises(ValueError, match=msg):
             parse_extension_arg("arg5.1=test5", {})
         msg = (
-            "invalid extension argument 'arg6.6arg=test6', "
-            "must be in key=value form"
+            "invalid extension argument 'arg6.6arg=test6', " "must be in key=value form"
         )
         with pytest.raises(ValueError, match=msg):
             parse_extension_arg("arg6.6arg=test6", {})
@@ -167,9 +158,7 @@ class TestCmdLine:
                 raise AssertionError(
                     "Cli run failed with {exc}\n\n"
                     "Output was:\n\n"
-                    "{output}".format(
-                        exc=result.exception, output=result.output
-                    ),
+                    "{output}".format(exc=result.exception, output=result.output),
                 )
 
             mock_run.assert_called_once()
@@ -200,11 +189,11 @@ class TestCmdLine:
 
         for sid in 2, 3:
             spec = run_and_get_benchmark_spec(["--benchmark-sid", str(sid)])
-            assert spec.benchmark_returns == None
-            assert spec.benchmark_file == None
+            assert spec.benchmark_returns is None
+            assert spec.benchmark_file is None
             assert spec.benchmark_sid == sid
-            assert spec.benchmark_symbol == None
-            assert spec.no_benchmark == False
+            assert spec.benchmark_symbol is None
+            assert spec.no_benchmark is False
 
         # CLI also validates the returns file exists.
         bm_path = str(tmp_path / "returns.csv")
@@ -213,8 +202,8 @@ class TestCmdLine:
             pass
 
         spec = run_and_get_benchmark_spec(["--benchmark-file", bm_path])
-        assert spec.benchmark_returns == None
+        assert spec.benchmark_returns is None
         assert spec.benchmark_file == bm_path
-        assert spec.benchmark_sid == None
-        assert spec.benchmark_symbol == None
-        assert spec.no_benchmark == False
+        assert spec.benchmark_sid is None
+        assert spec.benchmark_symbol is None
+        assert spec.no_benchmark is False
