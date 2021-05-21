@@ -232,35 +232,6 @@ def ignore_pandas_nan_categorical_warning():
         yield
 
 
-if pandas_version < StrictVersion("1.0"):
-    _INDEXER_NAMES = ["_" + name for (name, _) in pd.core.indexing.get_indexers_list()]
-
-    def clear_dataframe_indexer_caches(df):
-        """
-        Clear cached attributes from a pandas DataFrame.
-
-        By default pandas memoizes indexers (`iloc`, `loc`, `ix`, etc.) objects on
-        DataFrames, resulting in refcycles that can lead to unexpectedly long-lived
-        DataFrames. This function attempts to clear those cycles by deleting the
-        cached indexers from the frame.
-
-        Parameters
-        ----------
-        df : pd.DataFrame
-        """
-        for attr in _INDEXER_NAMES:
-            try:
-                delattr(df, attr)
-            except AttributeError:
-                pass
-
-
-else:
-
-    def clear_dataframe_indexer_caches(df):
-        pass
-
-
 def categorical_df_concat(df_list, inplace=False):
     """
     Prepare list of pandas DataFrames to be used as input to pd.concat.
@@ -376,5 +347,7 @@ def check_indexes_all_same(indexes, message="Indexes are not equal."):
             bad_loc = np.flatnonzero(~same)[0]
             raise ValueError(
                 "{}\nFirst difference is at index {}: "
-                "{} != {}".format(message, bad_loc, first[bad_loc], other[bad_loc]),
+                "{} != {}".format(
+                    message, bad_loc, first[bad_loc], other[bad_loc]
+                ),
             )
