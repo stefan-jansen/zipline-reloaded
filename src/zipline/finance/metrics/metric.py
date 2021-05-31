@@ -108,7 +108,12 @@ class StartOfPeriodLedgerField(object):
             self._packet_field = packet_field
 
     def start_of_simulation(
-        self, ledger, emission_rate, trading_calendar, sessions, benchmark_source
+        self,
+        ledger,
+        emission_rate,
+        trading_calendar,
+        sessions,
+        benchmark_source,
     ):
         self._start_of_simulation = self._get_ledger_field(ledger)
 
@@ -147,7 +152,12 @@ class BenchmarkReturnsAndVolatility(object):
     """
 
     def start_of_simulation(
-        self, ledger, emission_rate, trading_calendar, sessions, benchmark_source
+        self,
+        ledger,
+        emission_rate,
+        trading_calendar,
+        sessions,
+        benchmark_source,
     ):
         daily_returns_series = benchmark_source.daily_returns(
             sessions[0],
@@ -184,23 +194,23 @@ class BenchmarkReturnsAndVolatility(object):
 
     def end_of_bar(self, packet, ledger, dt, session_ix, data_portal):
         r = self._minute_cumulative_returns[dt]
-        if np.isnan(r):
+        if np.isnan(r).size > 0:
             r = None
         packet["cumulative_risk_metrics"]["benchmark_period_return"] = r
 
         v = self._minute_annual_volatility[dt]
-        if np.isnan(v):
+        if np.isnan(v).size > 0:
             v = None
         packet["cumulative_risk_metrics"]["benchmark_volatility"] = v
 
     def end_of_session(self, packet, ledger, session, session_ix, data_portal):
         r = self._daily_cumulative_returns[session_ix]
-        if np.isnan(r):
+        if np.isnan(r).size > 0:
             r = None
         packet["cumulative_risk_metrics"]["benchmark_period_return"] = r
 
         v = self._daily_annual_volatility[session_ix]
-        if np.isnan(v):
+        if np.isnan(v).size > 0:
             v = None
         packet["cumulative_risk_metrics"]["benchmark_volatility"] = v
 
@@ -209,7 +219,12 @@ class PNL(object):
     """Tracks daily and cumulative PNL."""
 
     def start_of_simulation(
-        self, ledger, emission_rate, trading_calendar, sessions, benchmark_source
+        self,
+        ledger,
+        emission_rate,
+        trading_calendar,
+        sessions,
+        benchmark_source,
     ):
         self._previous_pnl = 0.0
 
@@ -237,18 +252,27 @@ class CashFlow(object):
     """
 
     def start_of_simulation(
-        self, ledger, emission_rate, trading_calendar, sessions, benchmark_source
+        self,
+        ledger,
+        emission_rate,
+        trading_calendar,
+        sessions,
+        benchmark_source,
     ):
         self._previous_cash_flow = 0.0
 
     def end_of_bar(self, packet, ledger, dt, session_ix, data_portal):
         cash_flow = ledger.portfolio.cash_flow
-        packet["minute_perf"]["capital_used"] = cash_flow - self._previous_cash_flow
+        packet["minute_perf"]["capital_used"] = (
+            cash_flow - self._previous_cash_flow
+        )
         packet["cumulative_perf"]["capital_used"] = cash_flow
 
     def end_of_session(self, packet, ledger, session, session_ix, data_portal):
         cash_flow = ledger.portfolio.cash_flow
-        packet["daily_perf"]["capital_used"] = cash_flow - self._previous_cash_flow
+        packet["daily_perf"]["capital_used"] = (
+            cash_flow - self._previous_cash_flow
+        )
         packet["cumulative_perf"]["capital_used"] = cash_flow
         self._previous_cash_flow = cash_flow
 
@@ -316,7 +340,12 @@ class AlphaBeta(object):
     """End of simulation alpha and beta to the benchmark."""
 
     def start_of_simulation(
-        self, ledger, emission_rate, trading_calendar, sessions, benchmark_source
+        self,
+        ledger,
+        emission_rate,
+        trading_calendar,
+        sessions,
+        benchmark_source,
     ):
         self._daily_returns_array = benchmark_source.daily_returns(
             sessions[0],
@@ -332,7 +361,7 @@ class AlphaBeta(object):
         )
         if not np.isfinite(alpha):
             alpha = None
-        if np.isnan(beta):
+        if np.isnan(beta).size > 0:
             beta = None
 
         risk["alpha"] = alpha
@@ -364,7 +393,9 @@ class NumTradingDays(object):
         self._num_trading_days += 1
 
     def end_of_bar(self, packet, ledger, dt, session_ix, data_portal):
-        packet["cumulative_risk_metrics"]["trading_days"] = self._num_trading_days
+        packet["cumulative_risk_metrics"][
+            "trading_days"
+        ] = self._num_trading_days
 
     end_of_session = end_of_bar
 
@@ -405,7 +436,12 @@ class _ClassicRiskMetrics(object):
     """Produces original risk packet."""
 
     def start_of_simulation(
-        self, ledger, emission_rate, trading_calendar, sessions, benchmark_source
+        self,
+        ledger,
+        emission_rate,
+        trading_calendar,
+        sessions,
+        benchmark_source,
     ):
         self._leverages = np.full_like(sessions, np.nan, dtype="float64")
 
@@ -544,14 +580,18 @@ class _ClassicRiskMetrics(object):
 
             yield cls.risk_metric_period(
                 start_session=period.start_time.tz_localize(tzinfo),
-                end_session=min(period.end_time, end_session).tz_localize(tzinfo),
+                end_session=min(period.end_time, end_session).tz_localize(
+                    tzinfo
+                ),
                 algorithm_returns=algorithm_returns,
                 benchmark_returns=benchmark_returns,
                 algorithm_leverages=algorithm_leverages,
             )
 
     @classmethod
-    def risk_report(cls, algorithm_returns, benchmark_returns, algorithm_leverages):
+    def risk_report(
+        cls, algorithm_returns, benchmark_returns, algorithm_leverages
+    ):
         start_session = algorithm_returns.index[0]
         end_session = algorithm_returns.index[-1]
 
@@ -582,7 +622,13 @@ class _ClassicRiskMetrics(object):
         }
 
     def end_of_simulation(
-        self, packet, ledger, trading_calendar, sessions, data_portal, benchmark_source
+        self,
+        packet,
+        ledger,
+        trading_calendar,
+        sessions,
+        data_portal,
+        benchmark_source,
     ):
         packet.update(
             self.risk_report(
