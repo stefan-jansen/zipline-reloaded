@@ -67,9 +67,7 @@ class MinuteBarReader(BarReader):
 
 
 def _calc_minute_index(market_opens, minutes_per_day):
-    minutes = np.zeros(
-        len(market_opens) * minutes_per_day, dtype="datetime64[ns]"
-    )
+    minutes = np.zeros(len(market_opens) * minutes_per_day, dtype="datetime64[ns]")
     deltas = np.arange(0, minutes_per_day, dtype="timedelta64[m]")
     for i, market_open in enumerate(market_opens):
         start = market_open.asm8
@@ -228,22 +226,16 @@ class BcolzMinuteBarMetadata(object):
 
             if version >= 2:
                 calendar = get_calendar(raw_data["calendar_name"])
-                start_session = pd.Timestamp(
-                    raw_data["start_session"], tz="UTC"
-                )
+                start_session = pd.Timestamp(raw_data["start_session"], tz="UTC")
                 end_session = pd.Timestamp(raw_data["end_session"], tz="UTC")
             else:
                 # No calendar info included in older versions, so
                 # default to NYSE.
                 calendar = get_calendar("XNYS")
 
-                start_session = pd.Timestamp(
-                    raw_data["first_trading_day"], tz="UTC"
-                )
+                start_session = pd.Timestamp(raw_data["first_trading_day"], tz="UTC")
                 end_session = calendar.minute_to_session_label(
-                    pd.Timestamp(
-                        raw_data["market_closes"][-1], unit="m", tz="UTC"
-                    )
+                    pd.Timestamp(raw_data["market_closes"][-1], unit="m", tz="UTC")
                 )
 
             if version >= 3:
@@ -309,28 +301,16 @@ class BcolzMinuteBarMetadata(object):
         end_session : datetime
             'YYYY-MM-DD' formatted representation of the last trading
             session in the data set.
-
-        Deprecated, but included for backwards compatibility:
-
-        first_trading_day : string
-            'YYYY-MM-DD' formatted representation of the first trading day
-             available in the dataset.
-        market_opens : list
-            List of int64 values representing UTC market opens as
-            minutes since epoch.
-        market_closes : list
-            List of int64 values representing UTC market closes as
-            minutes since epoch.
         """
 
-        calendar = self.calendar
-        slicer = calendar.schedule.index.slice_indexer(
-            self.start_session,
-            self.end_session,
-        )
-        schedule = calendar.schedule[slicer]
-        market_opens = schedule.market_open
-        market_closes = schedule.market_close
+        # calendar = self.calendar
+        # slicer = calendar.schedule.index.slice_indexer(
+        #     self.start_session,
+        #     self.end_session,
+        # )
+        # schedule = calendar.schedule[slicer]
+        # market_opens = schedule.market_open
+        # market_closes = schedule.market_close
 
         metadata = {
             "version": self.version,
@@ -340,18 +320,6 @@ class BcolzMinuteBarMetadata(object):
             "calendar_name": self.calendar.name,
             "start_session": str(self.start_session.date()),
             "end_session": str(self.end_session.date()),
-            # Write these values for backwards compatibility
-            "first_trading_day": str(self.start_session.date()),
-            "market_opens": (
-                market_opens.values.astype("datetime64[m]")
-                .astype(np.int64)
-                .tolist()
-            ),
-            "market_closes": (
-                market_closes.values.astype("datetime64[m]")
-                .astype(np.int64)
-                .tolist()
-            ),
         }
         with open(self.metadata_path(rootdir), "w+") as fp:
             json.dump(metadata, fp)
@@ -466,9 +434,7 @@ class BcolzMinuteBarWriter(object):
         self._start_session = start_session
         self._end_session = end_session
         self._calendar = calendar
-        slicer = calendar.schedule.index.slice_indexer(
-            start_session, end_session
-        )
+        slicer = calendar.schedule.index.slice_indexer(start_session, end_session)
         self._schedule = calendar.schedule[slicer]
         self._session_labels = self._schedule.index
         self._minutes_per_day = minutes_per_day
@@ -887,9 +853,7 @@ class BcolzMinuteBarWriter(object):
                 logger.info("{0} not past truncate date={1}.", file_name, date)
                 continue
 
-            logger.info(
-                "Truncating {0} at end_date={1}", file_name, date.date()
-            )
+            logger.info("Truncating {0} at end_date={1}", file_name, date.date())
 
             table.resize(truncate_slice_end)
 
@@ -964,9 +928,7 @@ class BcolzMinuteBarReader(MinuteBarReader):
 
         self._minutes_per_day = metadata.minutes_per_day
 
-        self._carrays = {
-            field: LRU(sid_cache_sizes[field]) for field in self.FIELDS
-        }
+        self._carrays = {field: LRU(sid_cache_sizes[field]) for field in self.FIELDS}
 
         self._last_get_value_dt_position = None
         self._last_get_value_dt_value = None
@@ -1021,9 +983,7 @@ class BcolzMinuteBarReader(MinuteBarReader):
         market_opens = self._market_opens.values.astype("datetime64[m]")
         market_closes = self._market_closes.values.astype("datetime64[m]")
         minutes_per_day = (market_closes - market_opens).astype(np.int64)
-        early_indices = np.where(minutes_per_day != self._minutes_per_day - 1)[
-            0
-        ]
+        early_indices = np.where(minutes_per_day != self._minutes_per_day - 1)[0]
         early_opens = self._market_opens[early_indices]
         early_closes = self._market_closes[early_indices]
         minutes = [
@@ -1054,9 +1014,7 @@ class BcolzMinuteBarReader(MinuteBarReader):
         for market_open, early_close in self._minutes_to_exclude():
             start_pos = self._find_position_of_minute(early_close) + 1
             end_pos = (
-                self._find_position_of_minute(market_open)
-                + self._minutes_per_day
-                - 1
+                self._find_position_of_minute(market_open) + self._minutes_per_day - 1
             )
             data = (start_pos, end_pos)
             itree[start_pos : end_pos + 1] = data
@@ -1269,9 +1227,7 @@ class BcolzMinuteBarReader(MinuteBarReader):
 
         results = []
 
-        indices_to_exclude = self._exclusion_indices_for_range(
-            start_idx, end_idx
-        )
+        indices_to_exclude = self._exclusion_indices_for_range(start_idx, end_idx)
         if indices_to_exclude is not None:
             for excl_start, excl_stop in indices_to_exclude:
                 length = excl_stop - excl_start + 1
@@ -1355,9 +1311,7 @@ class H5MinuteBarUpdateWriter(object):
     _COMPLIB = "zlib"
 
     def __init__(self, path, complevel=None, complib=None):
-        self._complevel = (
-            complevel if complevel is not None else self._COMPLEVEL
-        )
+        self._complevel = complevel if complevel is not None else self._COMPLEVEL
         self._complib = complib if complib is not None else self._COMPLIB
         self._path = path
 
