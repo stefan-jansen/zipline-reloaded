@@ -809,7 +809,7 @@ class BcolzMinuteBarWriter(object):
         vol_col = np.zeros(minutes_count, dtype=np.uint32)
 
         dt_ixs = np.searchsorted(
-            all_minutes_in_window.values, dts.astype("datetime64[ns]")
+            all_minutes_in_window.values, pd.Index(dts).tz_localize(None).values
         )
 
         ohlc_ratio = self.ohlc_ratio_for_sid(sid)
