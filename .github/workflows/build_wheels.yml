@@ -21,7 +21,7 @@ jobs:
         make install &&
         ldconfig
       CIBW_BEFORE_TEST_MACOS: >
-        brew install freetype pkg-config gcc openssl hdf5 ta-lib
+        brew install freetype pkg-config gcc openssl c-blosc hdf5 ta-lib
       CIBW_TEST_COMMAND: python -c "import zipline; print(zipline.__version__)"
       CIBW_TEST_EXTRAS: test
       CIBW_BUILD_VERBOSITY: 1
@@ -52,7 +52,7 @@ jobs:
         uses: actions/setup-python@v2
 
       - name: Build and test wheels
-        uses: joerick/cibuildwheel@v1.11.0
+        uses: joerick/cibuildwheel@v2.1.1
         env:
           CIBW_ENVIRONMENT: MACOSX_DEPLOYMENT_TARGET=10.14
           CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}

@@ -41,7 +41,6 @@ class AlgorithmSimulator(object):
         clock,
         benchmark_source,
         restrictions,
-        universe_func,
     ):
 
         # ==============
@@ -63,7 +62,7 @@ class AlgorithmSimulator(object):
 
         # This object is the way that user algorithms interact with OHLCV data,
         # fetcher data, and some API methods like `data.can_trade`.
-        self.current_data = self._create_bar_data(universe_func)
+        self.current_data = self._create_bar_data()
 
         # We don't have a datetime for the current snapshot until we
         # receive a message.
@@ -88,14 +87,13 @@ class AlgorithmSimulator(object):
     def get_simulation_dt(self):
         return self.simulation_dt
 
-    def _create_bar_data(self, universe_func):
+    def _create_bar_data(self):
         return BarData(
             data_portal=self.data_portal,
             simulation_dt_func=self.get_simulation_dt,
             data_frequency=self.sim_params.data_frequency,
             trading_calendar=self.algo.trading_calendar,
             restrictions=self.restrictions,
-            universe_func=universe_func,
         )
 
     # TODO: simplify
@@ -124,9 +122,11 @@ class AlgorithmSimulator(object):
 
             # handle any transactions and commissions coming out new orders
             # placed in the last bar
-            new_transactions, new_commissions, closed_orders = blotter.get_transactions(
-                current_data
-            )
+            (
+                new_transactions,
+                new_commissions,
+                closed_orders,
+            ) = blotter.get_transactions(current_data)
 
             blotter.prune_orders(closed_orders)
 
@@ -153,7 +153,9 @@ class AlgorithmSimulator(object):
                 metrics_tracker.process_order(new_order)
 
         def once_a_day(
-            midnight_dt, current_data=self.current_data, data_portal=self.data_portal
+            midnight_dt,
+            current_data=self.current_data,
+            data_portal=self.data_portal,
         ):
             # process any capital changes that came overnight
             for capital_change in algo.calculate_capital_changes(
@@ -204,6 +206,14 @@ class AlgorithmSimulator(object):
                     return algo.calculate_capital_changes(
                         dt, emission_rate=emission_rate, is_interday=False
                     )
+
+            elif algo.data_frequency == "daily":
+
+                def execute_order_cancellation_policy():
+                    algo.blotter.execute_daily_cancel_policy(SESSION_END)
+
+                def calculate_minute_capital_changes(dt):
+                    return []
 
             else:
 

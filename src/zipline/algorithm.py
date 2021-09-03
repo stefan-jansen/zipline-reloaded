@@ -32,7 +32,6 @@ from zipline.errors import (
     AttachPipelineAfterInitialize,
     CannotOrderDelistedAsset,
     DuplicatePipelineName,
-    HistoryInInitialize,
     IncompatibleCommissionModel,
     IncompatibleSlippageModel,
     NoSuchPipeline,
@@ -104,7 +103,6 @@ from zipline.utils.input_validation import (
 from zipline.utils.numpy_utils import int64_dtype
 from zipline.utils.pandas_utils import normalize_date
 from zipline.utils.cache import ExpiringCache
-from zipline.utils.pandas_utils import clear_dataframe_indexer_caches
 
 import zipline.utils.events
 from zipline.utils.events import (
@@ -309,7 +307,7 @@ class TradingAlgorithm(object):
 
         # Create an already-expired cache so that we compute the first time
         # data is requested.
-        self._pipeline_cache = ExpiringCache(cleanup=clear_dataframe_indexer_caches)
+        self._pipeline_cache = ExpiringCache()
 
         if blotter is not None:
             self.blotter = blotter
@@ -405,8 +403,6 @@ class TradingAlgorithm(object):
         self.capital_change_deltas = {}
 
         self.restrictions = NoRestrictions()
-
-        self._backwards_compat_universe = None
 
     def init_engine(self, get_loader):
         """
@@ -582,21 +578,10 @@ class TradingAlgorithm(object):
             self._create_clock(),
             benchmark_source,
             self.restrictions,
-            universe_func=self._calculate_universe,
         )
 
         metrics_tracker.handle_start_of_simulation(benchmark_source)
         return self.trading_client.transform()
-
-    def _calculate_universe(self):
-        # this exists to provide backwards compatibility for older,
-        # deprecated APIs, particularly around the iterability of
-        # BarData (ie, 'for sid in data`).
-        if self._backwards_compat_universe is None:
-            self._backwards_compat_universe = self.asset_finder.retrieve_all(
-                self.asset_finder.sids
-            )
-        return self._backwards_compat_universe
 
     def compute_eager_pipelines(self):
         """
@@ -888,7 +873,12 @@ class TradingAlgorithm(object):
 
     @api_method
     def schedule_function(
-        self, func, date_rule=None, time_rule=None, half_days=True, calendar=None
+        self,
+        func,
+        date_rule=None,
+        time_rule=None,
+        half_days=True,
+        calendar=None,
     ):
         """
         Schedule a function to be called repeatedly in the future.
@@ -1390,7 +1380,11 @@ class TradingAlgorithm(object):
 
         amount = self._calculate_order_value_amount(asset, value)
         return self.order(
-            asset, amount, limit_price=limit_price, stop_price=stop_price, style=style
+            asset,
+            amount,
+            limit_price=limit_price,
+            stop_price=stop_price,
+            style=style,
         )
 
     @property
@@ -1593,7 +1587,6 @@ class TradingAlgorithm(object):
         except ValueError:
             raise UnsupportedDatetimeFormat(input=dt, method="set_symbol_lookup_date")
 
-    # Remain backwards compatibility
     @property
     def data_frequency(self):
         return self.sim_params.data_frequency
@@ -1646,7 +1639,11 @@ class TradingAlgorithm(object):
 
         amount = self._calculate_order_percent_amount(asset, percent)
         return self.order(
-            asset, amount, limit_price=limit_price, stop_price=stop_price, style=style
+            asset,
+            amount,
+            limit_price=limit_price,
+            stop_price=stop_price,
+            style=style,
         )
 
     def _calculate_order_percent_amount(self, asset, percent):
@@ -1712,7 +1709,11 @@ class TradingAlgorithm(object):
 
         amount = self._calculate_order_target_amount(asset, target)
         return self.order(
-            asset, amount, limit_price=limit_price, stop_price=stop_price, style=style
+            asset,
+            amount,
+            limit_price=limit_price,
+            stop_price=stop_price,
+            style=style,
         )
 
     def _calculate_order_target_amount(self, asset, target):
@@ -1783,7 +1784,11 @@ class TradingAlgorithm(object):
         target_amount = self._calculate_order_value_amount(asset, target)
         amount = self._calculate_order_target_amount(asset, target_amount)
         return self.order(
-            asset, amount, limit_price=limit_price, stop_price=stop_price, style=style
+            asset,
+            amount,
+            limit_price=limit_price,
+            stop_price=stop_price,
+            style=style,
         )
 
     @api_method
@@ -1846,7 +1851,11 @@ class TradingAlgorithm(object):
 
         amount = self._calculate_order_target_percent_amount(asset, target)
         return self.order(
-            asset, amount, limit_price=limit_price, stop_price=stop_price, style=style
+            asset,
+            amount,
+            limit_price=limit_price,
+            stop_price=stop_price,
+            style=style,
         )
 
     def _calculate_order_target_percent_amount(self, asset, target):
@@ -1940,55 +1949,6 @@ class TradingAlgorithm(object):
             order_id = order_param.id
 
         self.blotter.cancel(order_id)
-
-    @api_method
-    @require_initialized(HistoryInInitialize())
-    def history(self, bar_count, frequency, field, ffill=True):
-        """DEPRECATED: use ``data.history`` instead."""
-        warnings.warn(
-            "The `history` method is deprecated.  Use `data.history` instead.",
-            category=ZiplineDeprecationWarning,
-            stacklevel=4,
-        )
-
-        return self.get_history_window(
-            bar_count, frequency, self._calculate_universe(), field, ffill
-        )
-
-    def get_history_window(self, bar_count, frequency, assets, field, ffill):
-        if not self._in_before_trading_start:
-            return self.data_portal.get_history_window(
-                assets,
-                self.datetime,
-                bar_count,
-                frequency,
-                field,
-                self.data_frequency,
-                ffill,
-            )
-        else:
-            # If we are in before_trading_start, we need to get the window
-            # as of the previous market minute
-            adjusted_dt = self.trading_calendar.previous_minute(self.datetime)
-
-            window = self.data_portal.get_history_window(
-                assets,
-                adjusted_dt,
-                bar_count,
-                frequency,
-                field,
-                self.data_frequency,
-                ffill,
-            )
-
-            # Get the adjustments between the last market minute and the
-            # current before_trading_start dt and apply to the window
-            adjs = self.data_portal.get_adjustments(
-                assets, field, adjusted_dt, self.datetime
-            )
-            window = window * adjs
-
-            return window
 
     ####################
     # Account Controls #
