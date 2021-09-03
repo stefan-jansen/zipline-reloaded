@@ -16,7 +16,6 @@ from abc import ABCMeta, abstractmethod
 
 import numpy as np
 import pandas as pd
-from six import with_metaclass
 
 from zipline.data._resample import (
     _minute_to_session_open,
@@ -29,6 +28,7 @@ from zipline.data.bar_reader import NoDataOnDate
 from zipline.data.minute_bars import MinuteBarReader
 from zipline.data.session_bars import SessionBarReader
 from zipline.utils.memoize import lazyval
+from zipline.utils.math_utils import nanmax, nanmin
 
 _MINUTE_TO_SESSION_OHCLV_HOW = OrderedDict(
     (
@@ -291,7 +291,7 @@ class DailyHistoryAggregator(object):
                             dt,
                             [asset],
                         )[0].T
-                        val = np.nanmax(np.append(window, last_max))
+                        val = nanmax(np.append(window, last_max))
                         entries[asset] = (dt_value, val)
                         highs.append(val)
                         continue
@@ -302,7 +302,7 @@ class DailyHistoryAggregator(object):
                         dt,
                         [asset],
                     )[0].T
-                    val = np.nanmax(window)
+                    val = nanmax(window)
                     entries[asset] = (dt_value, val)
                     highs.append(val)
                     continue
@@ -341,7 +341,7 @@ class DailyHistoryAggregator(object):
                         continue
                     elif last_visited_dt == prev_dt:
                         curr_val = self._minute_reader.get_value(asset, dt, "low")
-                        val = np.nanmin([last_min, curr_val])
+                        val = nanmin([last_min, curr_val])
                         entries[asset] = (dt_value, val)
                         lows.append(val)
                         continue
@@ -355,7 +355,7 @@ class DailyHistoryAggregator(object):
                             dt,
                             [asset],
                         )[0].T
-                        val = np.nanmin(np.append(window, last_min))
+                        val = nanmin(np.append(window, last_min))
                         entries[asset] = (dt_value, val)
                         lows.append(val)
                         continue
@@ -366,7 +366,7 @@ class DailyHistoryAggregator(object):
                         dt,
                         [asset],
                     )[0].T
-                    val = np.nanmin(window)
+                    val = nanmin(window)
                     entries[asset] = (dt_value, val)
                     lows.append(val)
                     continue
@@ -599,7 +599,7 @@ class MinuteResampleSessionBarReader(SessionBarReader):
         return self.trading_calendar.minute_to_session_label(last_dt)
 
 
-class ReindexBarReader(with_metaclass(ABCMeta)):
+class ReindexBarReader(metaclass=ABCMeta):
     """
     A base class for readers which reindexes results, filling in the additional
     indices with empty data.
@@ -630,7 +630,11 @@ class ReindexBarReader(with_metaclass(ABCMeta)):
     """
 
     def __init__(
-        self, trading_calendar, reader, first_trading_session, last_trading_session
+        self,
+        trading_calendar,
+        reader,
+        first_trading_session,
+        last_trading_session,
     ):
         self._trading_calendar = trading_calendar
         self._reader = reader

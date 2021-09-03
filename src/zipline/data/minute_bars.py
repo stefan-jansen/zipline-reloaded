@@ -26,7 +26,6 @@ import logbook
 import numpy as np
 import pandas as pd
 from pandas import HDFStore
-from six import with_metaclass
 from toolz import keymap, valmap
 from trading_calendars import get_calendar
 
@@ -302,28 +301,16 @@ class BcolzMinuteBarMetadata(object):
         end_session : datetime
             'YYYY-MM-DD' formatted representation of the last trading
             session in the data set.
-
-        Deprecated, but included for backwards compatibility:
-
-        first_trading_day : string
-            'YYYY-MM-DD' formatted representation of the first trading day
-             available in the dataset.
-        market_opens : list
-            List of int64 values representing UTC market opens as
-            minutes since epoch.
-        market_closes : list
-            List of int64 values representing UTC market closes as
-            minutes since epoch.
         """
 
-        calendar = self.calendar
-        slicer = calendar.schedule.index.slice_indexer(
-            self.start_session,
-            self.end_session,
-        )
-        schedule = calendar.schedule[slicer]
-        market_opens = schedule.market_open
-        market_closes = schedule.market_close
+        # calendar = self.calendar
+        # slicer = calendar.schedule.index.slice_indexer(
+        #     self.start_session,
+        #     self.end_session,
+        # )
+        # schedule = calendar.schedule[slicer]
+        # market_opens = schedule.market_open
+        # market_closes = schedule.market_close
 
         metadata = {
             "version": self.version,
@@ -333,14 +320,6 @@ class BcolzMinuteBarMetadata(object):
             "calendar_name": self.calendar.name,
             "start_session": str(self.start_session.date()),
             "end_session": str(self.end_session.date()),
-            # Write these values for backwards compatibility
-            "first_trading_day": str(self.start_session.date()),
-            "market_opens": (
-                market_opens.values.astype("datetime64[m]").astype(np.int64).tolist()
-            ),
-            "market_closes": (
-                market_closes.values.astype("datetime64[m]").astype(np.int64).tolist()
-            ),
         }
         with open(self.metadata_path(rootdir), "w+") as fp:
             json.dump(metadata, fp)
@@ -830,7 +809,7 @@ class BcolzMinuteBarWriter(object):
         vol_col = np.zeros(minutes_count, dtype=np.uint32)
 
         dt_ixs = np.searchsorted(
-            all_minutes_in_window.values, dts.astype("datetime64[ns]")
+            all_minutes_in_window.values, pd.Index(dts).tz_localize(None).values
         )
 
         ohlc_ratio = self.ohlc_ratio_for_sid(sid)
@@ -1286,7 +1265,7 @@ class BcolzMinuteBarReader(MinuteBarReader):
         return results
 
 
-class MinuteBarUpdateReader(with_metaclass(ABCMeta, object)):
+class MinuteBarUpdateReader(object, metaclass=ABCMeta):
     """
     Abstract base class for minute update readers.
     """

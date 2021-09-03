@@ -14,7 +14,6 @@
 # limitations under the License.
 from collections import OrderedDict
 from textwrap import dedent
-import unittest
 from parameterized import parameterized
 import numpy as np
 from numpy import nan
@@ -23,7 +22,6 @@ import pandas as pd
 from zipline._protocol import handle_non_market_minutes, BarData
 from zipline.assets import Asset, Equity
 from zipline.errors import (
-    HistoryInInitialize,
     HistoryWindowStartsBeforeData,
 )
 from zipline.finance.asset_restrictions import NoRestrictions
@@ -325,7 +323,8 @@ class WithHistory(zf.WithCreateBarData, zf.WithDataPortal):
                         if asset == self.ASSET2:
                             # asset2 should have some zeros (instead of nans)
                             np.testing.assert_array_equal(
-                                np.zeros(missing_count), asset_series[0:missing_count]
+                                np.zeros(missing_count),
+                                asset_series[0:missing_count],
                             )
 
                             # and some real values
@@ -437,7 +436,8 @@ class WithHistory(zf.WithCreateBarData, zf.WithDataPortal):
                                 )
 
                                 np.testing.assert_array_equal(
-                                    np.array([11] * len(second_part)), second_part
+                                    np.array([11] * len(second_part)),
+                                    second_part,
                                 )
                             else:
                                 np.testing.assert_array_equal(
@@ -584,21 +584,21 @@ class MinuteEquityHistoryTestCase(WithHistory, zf.WithMakeAlgo, zf.ZiplineTestCa
         )
         return data.items()
 
-    def test_history_in_initialize(self):
-        algo_text = dedent(
-            """\
-            from zipline.api import history
+    # def test_history_in_initialize(self):
+    #     algo_text = dedent(
+    #         """\
+    #         from zipline.api import history
 
-            def initialize(context):
-                history([1], 10, '1d', 'price')
+    #         def initialize(context):
+    #             history([1], 10, '1d', 'price')
 
-            def handle_data(context, data):
-                pass
-            """
-        )
-        algo = self.make_algo(script=algo_text)
-        with pytest.raises(HistoryInInitialize):
-            algo.run()
+    #         def handle_data(context, data):
+    #             pass
+    #         """
+    #     )
+    #     algo = self.make_algo(script=algo_text)
+    #     with pytest.raises(HistoryInInitialize):
+    #         algo.run()
 
     def test_negative_bar_count(self):
         """
@@ -1570,8 +1570,14 @@ class MinuteEquityHistoryTestCase(WithHistory, zf.WithMakeAlgo, zf.ZiplineTestCa
                 # dedupe when session_minutes are same as equity_minutes
                 minutes_to_test = OrderedDict(
                     [
-                        (session_minutes[0], np.nan),  # No volume yet on first day
-                        (equity_minutes[0], np.nan),  # No volume yet on first day
+                        (
+                            session_minutes[0],
+                            np.nan,
+                        ),  # No volume yet on first day
+                        (
+                            equity_minutes[0],
+                            np.nan,
+                        ),  # No volume yet on first day
                         (equity_minutes[1], np.nan),  # ...
                         (equity_minutes[8], np.nan),  # Minute before > 0 volume
                         (equity_minutes[9], 11.0),  # We have a price!
@@ -1595,7 +1601,10 @@ class MinuteEquityHistoryTestCase(WithHistory, zf.WithMakeAlgo, zf.ZiplineTestCa
             else:
                 minutes_to_test = OrderedDict(
                     [
-                        (session_minutes[0], 1951.0),  # ffill from previous week
+                        (
+                            session_minutes[0],
+                            1951.0,
+                        ),  # ffill from previous week
                         (equity_minutes[0], 1951.0),  # ...
                         (equity_minutes[8], 1951.0),  # ...
                         (equity_minutes[9], 1961.0),  # New price today
@@ -1758,7 +1767,8 @@ class DailyEquityHistoryTestCase(WithHistory, zf.ZiplineTestCase):
         # SHORT_ASSET trades on 1/5, 1/6, that's it.
 
         days = self.trading_calendar.sessions_in_range(
-            pd.Timestamp("2015-01-07", tz="UTC"), pd.Timestamp("2015-01-08", tz="UTC")
+            pd.Timestamp("2015-01-07", tz="UTC"),
+            pd.Timestamp("2015-01-08", tz="UTC"),
         )
 
         # days has 1/7, 1/8

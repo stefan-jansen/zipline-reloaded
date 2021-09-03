@@ -25,7 +25,6 @@ import string
 import sys
 from types import GetSetDescriptorType
 import uuid
-import warnings
 
 from parameterized import parameterized
 import numpy as np
@@ -85,8 +84,6 @@ from zipline.testing.fixtures import (
     WithAssetFinder,
     ZiplineTestCase,
     WithTradingCalendars,
-    WithTmpDir,
-    WithInstanceTmpDir,
 )
 import pytest
 import re
@@ -1008,29 +1005,6 @@ class AssetFinderTestCase(WithTradingCalendars, ZiplineTestCase):
         )
         assert [matches] == [self.asset_finder.retrieve_asset(1)]
         assert missing == []
-
-    def test_security_dates_warning(self):
-
-        # Build an asset with an end_date
-        eq_end = pd.Timestamp("2012-01-01", tz="UTC")
-        equity_asset = Equity(
-            1,
-            symbol="TESTEQ",
-            end_date=eq_end,
-            exchange_info=ExchangeInfo("TEST", "TEST", "??"),
-        )
-
-        # Catch all warnings
-        with warnings.catch_warnings(record=True) as w:
-            # Cause all warnings to always be triggered
-            warnings.simplefilter("always")
-            equity_asset.security_start_date
-            equity_asset.security_end_date
-            equity_asset.security_name
-            # Verify the warning
-            assert 3 == len(w)
-            for warning in w:
-                assert issubclass(warning.category, DeprecationWarning)
 
     def test_compute_lifetimes(self):
         assets_per_exchange = 4
@@ -2020,13 +1994,24 @@ class AssetFinderMultipleCountries(WithTradingCalendars, ZiplineTestCase):
             assert result.sid == n * 2 + 1
 
 
-class TestAssetDBVersioning(ZiplineTestCase):
-    def init_instance_fixtures(self):
-        super(TestAssetDBVersioning, self).init_instance_fixtures()
-        self.engine = eng = self.enter_instance_context(empty_assets_db())
-        self.metadata = sa.MetaData(eng)
-        self.metadata.reflect(bind=eng)
+@pytest.fixture(scope="function")
+def sql_db(request):
+    url = "sqlite:///:memory:"
+    request.cls.engine = sa.create_engine(url)
+    yield request.cls.engine
+    request.cls.engine.dispose()
+    request.cls.engine = None
 
+
+@pytest.fixture(scope="function")
+def setup_empty_assets_db(sql_db, request):
+    AssetDBWriter(sql_db).write(None)
+    request.cls.metadata = sa.MetaData(sql_db)
+    request.cls.metadata.reflect(bind=sql_db)
+
+
+@pytest.mark.usefixtures("sql_db", "setup_empty_assets_db")
+class TestAssetDBVersioning:
     def test_check_version(self):
         version_table = self.metadata.tables["version_info"]
 
@@ -2273,10 +2258,11 @@ class TestVectorizedSymbolLookup(WithAssetFinder, ZiplineTestCase):
 
 
 @pytest.mark.skipif(sys.platform == "win32", reason="does not run on windows")
-class TestAssetFinderPreprocessors(WithTmpDir, ZiplineTestCase):
-    def test_asset_finder_doesnt_silently_create_useless_empty_files(self):
-        nonexistent_path = self.tmpdir.getpath(self.id() + "__nothing_here")
-
+class TestAssetFinderPreprocessors:
+    def test_asset_finder_doesnt_silently_create_useless_empty_files(
+        self, tmp_path, request
+    ):
+        nonexistent_path = str(tmp_path / request.node.name / "__nothing_here")
         expected = "SQLite file {!r} doesn't exist.".format(nonexistent_path)
         with pytest.raises(ValueError, match=expected):
             AssetFinder(nonexistent_path)
@@ -2359,15 +2345,17 @@ class TestExchangeInfo:
             assert asset.exchange_info == expected_exchange_info
 
 
-class TestWrite(WithInstanceTmpDir, ZiplineTestCase):
-    def init_instance_fixtures(self):
-        super(TestWrite, self).init_instance_fixtures()
-        self.assets_db_path = path = os.path.join(
-            self.instance_tmpdir.path,
-            "assets.db",
-        )
-        self.writer = AssetDBWriter(path)
+@pytest.fixture(scope="function")
+def _setup(request, tmp_path):
+    request.cls.assets_db_path = path = os.path.join(
+        str(tmp_path),
+        "assets.db",
+    )
+    request.cls.writer = AssetDBWriter(path)
 
+
+@pytest.mark.usefixtures("_setup")
+class TestWrite:
     def new_asset_finder(self):
         return AssetFinder(self.assets_db_path)
 
