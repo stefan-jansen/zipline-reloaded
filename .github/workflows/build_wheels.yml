@@ -61,7 +61,7 @@ jobs:
         with:
           path: wheelhouse/*.whl
 
-  build_wheels_macos:
+  build_macos:
     name: Build wheels on macos
     runs-on: macos-latest
     steps:
@@ -103,7 +103,7 @@ jobs:
           path: dist/*.tar.gz
 
   upload_pypi:
-    needs: [ build_wheels, build_sdist ]
+    needs: [ build_linux, build_macos, build_sdist ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
