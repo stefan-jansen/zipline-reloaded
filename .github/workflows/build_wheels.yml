@@ -2,11 +2,16 @@ name: PyPI
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    tags:
-      - '**'           # Push events to every tag including hierarchical tags like v1.0/beta
+    inputs:
+      target:
+        description: 'Package Index'
+        required: true
+        default: 'TESTPYPI'
+#  push:
+#    branches:
+#      - main
+#    tags:
+#      - '**'           # Push events to every tag including hierarchical tags like v1.0/beta
 
 jobs:
   build_wheels:
@@ -40,6 +45,8 @@ jobs:
         include:
           - os: macos-latest
             platform_id: macosx_x86_64
+          - os: macos-latest
+            platform_id: arm64
           - os: ubuntu-latest
             platform_id: manylinux_x86_64
         exclude:
@@ -60,6 +67,7 @@ jobs:
         env:
           CIBW_ENVIRONMENT: MACOSX_DEPLOYMENT_TARGET=10.14
           CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
+          CIBW_SKP: cp37-macosx_arm64
 
       - name: Store artifacts
         uses: actions/upload-artifact@v2
@@ -101,14 +109,15 @@ jobs:
 
       - name: publish to testpypi
         uses: pypa/gh-action-pypi-publish@master
-        if: startsWith(github.event.head_commit.message, 'TEST')
+        if: ${{ github.event.inputs.target }} == 'TESTPYPI'
         with:
           user: __token__
           password: ${{ secrets.TESTPYPI_TOKEN }}
           repository_url: https://test.pypi.org/legacy/
       - name: publish to pypi
         uses: pypa/gh-action-pypi-publish@master
-        if: startsWith(github.event.head_commit.message, 'PYPI')
+        if: ${{ github.event.inputs.target }} == 'PYPI'
+#        if: startsWith(github.event.head_commit.message, 'PYPI')
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}
