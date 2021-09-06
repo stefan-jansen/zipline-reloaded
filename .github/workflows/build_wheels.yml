@@ -36,7 +36,6 @@ jobs:
         uses: pypa/cibuildwheel@v2.1.1
         env:
           CIBW_ARCHS_LINUX: x86_64
-          CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
           CIBW_BEFORE_TEST_LINUX: >
             curl -L -o ta-lib-0.4.0-src.tar.gz  http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz &&
             tar xvfz ta-lib-0.4.0-src.tar.gz &&
