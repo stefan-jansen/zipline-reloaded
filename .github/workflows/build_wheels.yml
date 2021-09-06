@@ -7,13 +7,13 @@ on:
         description: 'Package Index'
         required: true
         default: 'TESTPYPI'
-
-env:
-  CIBW_BUILD: "cp37-* cp38-* cp39-*"
+  release:
+    types:
+    - published
 
 jobs:
   build_linux:
-    name: py${{ matrix.python }} on ${{ matrix.os }} using ${{ matrix.platform_id }}-${{ matrix.manylinux_image }}
+    name: Wheels for py${{ matrix.python }} on ${{ matrix.os }} using ${{ matrix.manylinux_image }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -36,6 +36,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.1.1
         env:
           CIBW_ARCHS_LINUX: x86_64
+          CIBW_BUILD: "cp{{ matrix.python }}-*"
           CIBW_BEFORE_TEST_LINUX: >
             curl -L -o ta-lib-0.4.0-src.tar.gz  http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz &&
             tar xvfz ta-lib-0.4.0-src.tar.gz &&
@@ -54,15 +55,24 @@ jobs:
           path: wheelhouse/*.whl
 
   build_macos:
-    name: Build wheels on macos
-    runs-on: macos-latest
+    name: Wheels for py${{ matrix.python }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ macos-latest ]
+        python: [ 37, 38, 39 ]
+
     steps:
       - name: Checkout zipline
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.1.1
         env:
+          CIBW_BUILD: "cp{{ matrix.python }}-*"
           CIBW_ENVIRONMENT: MACOSX_DEPLOYMENT_TARGET=10.14
           CIBW_BEFORE_TEST_MACOS: >
             brew install freetype pkg-config gcc openssl c-blosc hdf5 ta-lib

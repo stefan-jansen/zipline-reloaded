@@ -12,7 +12,7 @@ build-backend = 'setuptools.build_meta'
 
 [tool.cibuildwheel]
 test-extras = "test"
-test-command = 'python -c "import zipline; print(zipline.__version__)'
+test-command = 'python -c "import zipline; print(zipline.__version__)"'
 build-verbosity = 3
 
 # Optional: support Universal2 for Apple Silicon with these two lines:
