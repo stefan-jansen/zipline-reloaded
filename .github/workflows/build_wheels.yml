@@ -68,6 +68,7 @@ jobs:
           CIBW_ARCHS_LINUX: x86_64
           CIBW_ARCHS_MACOS: x86_64 arm64 universal2
           CIBW_SKIP: cp37-macosx_arm64 cp37-macosx_universal2
+          CIBW_BUILD_VERBOSITY: 3
 
       - name: Store artifacts
         uses: actions/upload-artifact@v2
@@ -99,8 +100,6 @@ jobs:
   upload_pypi:
     needs: [ build_wheels, build_sdist ]
     runs-on: ubuntu-latest
-    # upload to (Test)-PyPI on push with tag
-#    if: startsWith(github.ref, 'refs/tags')
     steps:
       - uses: actions/download-artifact@v2
         with:
