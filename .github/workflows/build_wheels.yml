@@ -121,7 +121,7 @@ jobs:
           repository_url: https://test.pypi.org/legacy/
       - name: publish to pypi
         uses: pypa/gh-action-pypi-publish@master
-        if: ${{ github.event.inputs.target }} == 'PYPI'
+        if: ${{ github.event.inputs.target }} == 'PYPI' || (github.event_name == 'release' && github.event.action == 'published')
         #        if: startsWith(github.event.head_commit.message, 'PYPI')
         with:
           user: __token__

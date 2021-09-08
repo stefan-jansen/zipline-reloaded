@@ -17,7 +17,7 @@ build-verbosity = 3
 
 # Optional: support Universal2 for Apple Silicon with these two lines:
 [tool.cibuildwheel.macos]
-archs = ["x86_64", "auto", "universal2"]
+archs = ["x86_64", "arm64", "universal2"]
 test-skip = ["*universal2:arm64"]
 
 
