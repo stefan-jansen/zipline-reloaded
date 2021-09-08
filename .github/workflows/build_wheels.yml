@@ -15,7 +15,6 @@ jobs:
   build_linux:
     name: Wheels for py${{ matrix.python }} on ${{ matrix.os }} using ${{ matrix.manylinux_image }}
     runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
       matrix:
@@ -119,10 +118,10 @@ jobs:
           user: __token__
           password: ${{ secrets.TESTPYPI_TOKEN }}
           repository_url: https://test.pypi.org/legacy/
+
       - name: publish to pypi
         uses: pypa/gh-action-pypi-publish@master
         if: ${{ github.event.inputs.target }} == 'PYPI' || (github.event_name == 'release' && github.event.action == 'published')
-        #        if: startsWith(github.event.head_commit.message, 'PYPI')
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}
