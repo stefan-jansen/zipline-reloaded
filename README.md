@@ -26,6 +26,26 @@ by [Stefan Jansen](https://www.linkedin.com/in/applied-ai/) who is trying to kee
 
 ## Installation
 
+Install from Source Code. 
+
+Create conda ENV for python 3.7 
+
+```bash
+conda create -y --name zipline-local python==3.7
+```
+
+Install requirements. 
+
+```bash
+pip install -r requirements.txt
+```
+
+Setup using local-Source.
+
+```bash
+python setup.py install
+```
+
 Zipline supports Python >= 3.7 and is compatible with current versions of the relevant [NumFOCUS](https://numfocus.org/sponsored-projects?_sft_project_category=python-interface) libraries, including [pandas](https://pandas.pydata.org/) and [scikit-learn](https://scikit-learn.org/stable/index.html).
 
 If your system meets the pre-requisites described in the [installation instructions](https://zipline.ml4trading.io/install.html), you can install Zipline using pip by running:
