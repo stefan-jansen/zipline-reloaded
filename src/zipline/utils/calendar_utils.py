@@ -3,6 +3,24 @@ import pandas as pd
 
 PANDAS_VERSION = pd.__version__
 
+# NOTE:
+# trading-calendars is no longer maintained and does not support pandas > 1.2.5.
+# exchange-calendars is a fork that retained the same functionalities,
+# but dropped support for zipline 1 minute delay in open and changed some default settings in calendars.
+#
+# We resort here to monkey patching the `_fabricate` function of the  ExchangeCalendarDispatcher
+# and importing `ExchangeCalendar as TradingCalendar` to get as close as possible to the
+# behavior expected by zipline, while also maintaining the possibility to revert back
+# to pandas==1.2.5 and trading-calendars in case something breaks heavily.
+#
+# In order to avoid problems, especially when using the exchange-calendars,
+# all imports should be done via `calendar_utils`, e.g:
+# `from zipline.utils.calendar_utils import get_calendar, register_calendar, ...`
+#
+# Some calendars like for instance the Korean exchange have been extensively updated.
+#
+
+
 try:
     from exchange_calendars import ExchangeCalendar as TradingCalendar
     from exchange_calendars.calendar_utils import (
@@ -25,8 +43,8 @@ try:
             # that we need to overwrite in order to pass the legacy tests
             setattr(factory, "default_start", pd.Timestamp("1990-01-01", tz=UTC))
             # kwargs["start"] = pd.Timestamp("1990-01-01", tz="UTC")
-        # Zipline had default open time of t+1min
         if name not in ["us_futures", "24/7", "24/5", "CMES"]:
+            # Zipline had default open time of t+1min
             factory.open_times = [
                 (d, t.replace(minute=t.minute + 1)) for d, t in factory.open_times
             ]
