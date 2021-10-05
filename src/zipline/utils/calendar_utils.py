@@ -17,9 +17,8 @@ PANDAS_VERSION = pd.__version__
 # all imports should be done via `calendar_utils`, e.g:
 # `from zipline.utils.calendar_utils import get_calendar, register_calendar, ...`
 #
-# Some calendars like for instance the Korean exchange have been extensively updated.
-#
-
+# Some calendars like for instance the Korean exchange have been extensively updated and might no longer
+# work as expected
 
 try:
     from exchange_calendars import ExchangeCalendar as TradingCalendar
