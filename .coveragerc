@@ -1,6 +1,8 @@
+[run]
+include=
+    src/zipline/*
 [report]
 omit =
     */python?.?/*
-    */site-packages/nose/*
 exclude_lines =
     raise NotImplementedError
