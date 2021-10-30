@@ -1,3 +1,5 @@
+[run]
+source=zipline-reloaded
 [report]
 omit =
     */python?.?/*
