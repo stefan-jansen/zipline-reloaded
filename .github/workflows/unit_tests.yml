@@ -97,9 +97,9 @@ jobs:
         with:
           # token: ${{ secrets.CODECOV_TOKEN }}
           # directory: ./coverage/reports/
-          env_vars: OS,PYTHON
+          # env_vars: OS,PYTHON
           fail_ci_if_error: true
-          files: ./coverage.xml,
-          flags: unittests
+          # files: ./coverage.xml,
+          # flags: unittests
           name: codecov-umbrella
           verbose: true
