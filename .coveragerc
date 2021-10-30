@@ -1,6 +1,5 @@
 [run]
 include = */src/*
-source = src/zipline
 [report]
 omit =
     */python?.?/*
