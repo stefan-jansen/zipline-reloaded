@@ -14,10 +14,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # os: [ ubuntu-latest, windows-latest, macos-latest ]
-        os: [ ubuntu-latest ]
-        # python-version: [ 3.7, 3.8, 3.9 ]
-        python-version: [ 3.8 ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        python-version: [ 3.7, 3.8, 3.9 ]
         exclude:
           - os: windows-latest
             python-version: 3.9
@@ -95,11 +93,6 @@ jobs:
       - name: Upload coverage data to Codecov
         uses: codecov/codecov-action@v2
         with:
-          # token: ${{ secrets.CODECOV_TOKEN }}
-          # directory: ./coverage/reports/
-          # env_vars: OS,PYTHON
           fail_ci_if_error: true
-          # files: ./coverage.xml,
-          # flags: unittests
           name: codecov-umbrella
           verbose: true
