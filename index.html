@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zipline &#8212; Zipline 2.0.0post1 documentation</title>
+    <title>Zipline &#8212; Zipline 2.2.0 documentation</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -22,12 +22,12 @@
       
 
     
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css" />
     
   <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -86,13 +86,19 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="trading-calendars.html">
-  Trading Calendars
+  Calendars
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="risk-and-perf-metrics.html">
   Metrics
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="development-guidelines.html">
+  Development
  </a>
 </li>
 
@@ -227,7 +233,7 @@
 by <a class="reference external" href="https://www.linkedin.com/in/applied-ai/">Stefan Jansen</a> who is trying to keep the library up to date and available to his readers and the wider Python algotrading community.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://exchange.ml4trading.io">Join our Community!</a></p></li>
-<li><p><a class="reference external" href="https://zipline.ml4ctrading.io">Documentation</a></p></li>
+<li><p><a class="reference external" href="https://zipline.ml4trading.io">Documentation</a></p></li>
 </ul>
 <div class="section" id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
@@ -297,7 +303,7 @@ $ zipline run -f dual_moving_average.py --start <span class="m">2014</span>-1-1 
 </pre></div>
 </div>
 <p>This will download asset pricing data sourced from <a class="reference external" href="https://www.quandl.com/databases/WIKIP/documentation?anchor=companies">Quandl</a>, and stream it through the algorithm over the specified time range. Then, the resulting performance DataFrame is saved as <code class="docutils literal notranslate"><span class="pre">dma.pickle</span></code>, which you can load and analyze from Python.</p>
-<p>You can find other examples in the <a class="reference external" href="https://github.com/stefan-jansen/zipline-reloaded/tree/main/zipline/examples">zipline/examples</a> directory.</p>
+<p>You can find other examples in the <a class="reference external" href="https://github.com/stefan-jansen/zipline-reloaded/tree/main/src/zipline/examples">zipline/examples</a> directory.</p>
 </div>
 <div class="section" id="questions-suggestions-bugs">
 <h2>Questions, suggestions, bugs?<a class="headerlink" href="#questions-suggestions-bugs" title="Permalink to this headline">¶</a></h2>
@@ -307,8 +313,9 @@ $ zipline run -f dual_moving_average.py --start <span class="m">2014</span>-1-1 
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="beginner-tutorial.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bundles.html">Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="trading-calendars.html">Trading Calendars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trading-calendars.html">Calendars</a></li>
 <li class="toctree-l1"><a class="reference internal" href="risk-and-perf-metrics.html">Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development-guidelines.html">Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api-reference.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="releases.html">Releases</a></li>
 </ul>
@@ -355,7 +362,7 @@ $ zipline run -f dual_moving_average.py --start <span class="m">2014</span>-1-1 
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
 </p>
     </div>
     

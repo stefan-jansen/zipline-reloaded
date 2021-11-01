@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Data &#8212; Zipline 2.0.0post1 documentation</title>
+    <title>Data &#8212; Zipline 2.2.0 documentation</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -22,19 +22,19 @@
       
 
     
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css" />
     
   <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <link rel="shortcut icon" href="_static/zipline.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Trading Calendars" href="trading-calendars.html" />
+    <link rel="next" title="Calendars" href="trading-calendars.html" />
     <link rel="prev" title="Tutorial" href="beginner-tutorial.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -87,13 +87,19 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="trading-calendars.html">
-  Trading Calendars
+  Calendars
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="risk-and-perf-metrics.html">
   Metrics
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="development-guidelines.html">
+  Development
  </a>
 </li>
 
@@ -554,17 +560,17 @@ have.</p>
 <div class="section" id="calendar">
 <h3><code class="docutils literal notranslate"><span class="pre">calendar</span></code><a class="headerlink" href="#calendar" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">calendar</span></code> is an instance of
-<a class="reference internal" href="api-reference.html#zipline.utils.calendars.TradingCalendar" title="zipline.utils.calendars.TradingCalendar"><code class="xref py py-class docutils literal notranslate"><span class="pre">zipline.utils.calendars.TradingCalendar</span></code></a>. The calendar is provided to
+<code class="xref py py-class docutils literal notranslate"><span class="pre">zipline.utils.calendars.TradingCalendar</span></code>. The calendar is provided to
 help some bundles generate queries for the days needed.</p>
 </div>
 <div class="section" id="start-session">
 <h3><code class="docutils literal notranslate"><span class="pre">start_session</span></code><a class="headerlink" href="#start-session" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">start_session</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Timestamp.html#pandas.Timestamp" title="(in pandas v1.2.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Timestamp</span></code></a> object indicating the first
+<p><code class="docutils literal notranslate"><span class="pre">start_session</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Timestamp.html#pandas.Timestamp" title="(in pandas v1.3.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Timestamp</span></code></a> object indicating the first
 day that the bundle should load data for.</p>
 </div>
 <div class="section" id="end-session">
 <h3><code class="docutils literal notranslate"><span class="pre">end_session</span></code><a class="headerlink" href="#end-session" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">end_session</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Timestamp.html#pandas.Timestamp" title="(in pandas v1.2.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Timestamp</span></code></a> object indicating the last day
+<p><code class="docutils literal notranslate"><span class="pre">end_session</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Timestamp.html#pandas.Timestamp" title="(in pandas v1.3.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Timestamp</span></code></a> object indicating the last day
 that the bundle should load data for.</p>
 </div>
 <div class="section" id="cache">
@@ -673,7 +679,7 @@ at daily frequency from the book <a class="reference external" href="https://www
               <div class='prev-next-bottom'>
                 
     <a class='left-prev' id="prev-link" href="beginner-tutorial.html" title="previous page">Tutorial</a>
-    <a class='right-next' id="next-link" href="trading-calendars.html" title="next page">Trading Calendars</a>
+    <a class='right-next' id="next-link" href="trading-calendars.html" title="next page">Calendars</a>
 
               </div>
               
@@ -706,7 +712,7 @@ at daily frequency from the book <a class="reference external" href="https://www
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
 </p>
     </div>
     

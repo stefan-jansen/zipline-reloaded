@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Releases &#8212; Zipline 2.0.0post1 documentation</title>
+    <title>Releases &#8212; Zipline 2.2.0 documentation</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -22,12 +22,12 @@
       
 
     
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css" />
     
   <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -86,13 +86,19 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="trading-calendars.html">
-  Trading Calendars
+  Calendars
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="risk-and-perf-metrics.html">
   Metrics
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="development-guidelines.html">
+  Development
  </a>
 </li>
 
@@ -1098,7 +1104,7 @@ This meant that simulations required an internet connection and stable APIs for 
 <li><p>Added <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_column()</span></code> for looking up columns by name (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/2210">#2210</a>)</p></li>
 <li><p>Added <code class="xref py py-class docutils literal notranslate"><span class="pre">CheckWindowsClassifier</span></code> that allows us to test lookback windows of categorical and string columns using Pipeline. (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/2458">#2458</a>)</p></li>
 <li><p>Added <code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineHooks</span></code> which is now used to display Pipline progress bars (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/2467">#2467</a>)</p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">BoundColumn</span></code> comparisons will now result in an error.
+<li><p><a class="reference internal" href="api-reference.html#zipline.pipeline.data.BoundColumn" title="zipline.pipeline.data.dataset.BoundColumn"><code class="xref py py-class docutils literal notranslate"><span class="pre">BoundColumn</span></code></a> comparisons will now result in an error.
 This prevents writing <code class="docutils literal notranslate"><span class="pre">EquityPricing.volume</span> <span class="pre">&gt;</span> <span class="pre">1000</span></code> (silently returning bad data) insteads of <code class="docutils literal notranslate"><span class="pre">EquityPricing.volume.latest</span> <span class="pre">&gt;</span> <span class="pre">1000</span></code>. (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/2537">#2537</a>)</p></li>
 <li><p>Added currency conversion support to Pipeline. (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/2586">#2586</a>)</p></li>
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">--benchmark-file</span></code> and <code class="docutils literal notranslate"><span class="pre">--benchmark-symbol</span></code> command line arguments to make it easier to provide benchmark data. (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/2642">#2642</a>)</p></li>
@@ -2152,7 +2158,7 @@ implements the Bollinger Bands technical indicator:
 <ul class="simple">
 <li><p>Added a new <code class="xref py py-class docutils literal notranslate"><span class="pre">zipline.lib.labelarray.LabelArray</span></code> class for efficiently
 representing and computing on string data with numpy.  This class is
-conceptually similar to <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Categorical.html#pandas.Categorical" title="(in pandas v1.2.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Categorical</span></code></a>, in that it represents
+conceptually similar to <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Categorical.html#pandas.Categorical" title="(in pandas v1.3.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Categorical</span></code></a>, in that it represents
 string arrays as arrays of indices into a (smaller) array of unique string
 values. (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/1174">#1174</a>)</p></li>
 </ul>
@@ -2319,7 +2325,7 @@ to consume test fixtures. Fixtures are things like:
 <ul class="simple">
 <li><p>Added a new <code class="xref py py-class docutils literal notranslate"><span class="pre">EarningsCalendar</span></code> dataset
 for use in the Pipeline API. (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/905">#905</a>).</p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">AssetFinder</span></code> speedups (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/830">#830</a> and
+<li><p><a class="reference internal" href="api-reference.html#zipline.assets.AssetFinder" title="zipline.assets.assets.AssetFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">AssetFinder</span></code></a> speedups (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/830">#830</a> and
 <a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/817">#817</a>).</p></li>
 <li><p>Improved support for non-float dtypes in Pipeline.  Most notably, we now
 support <code class="docutils literal notranslate"><span class="pre">datetime64</span></code> and <code class="docutils literal notranslate"><span class="pre">int64</span></code> dtypes for <code class="docutils literal notranslate"><span class="pre">Factor</span></code>, and
@@ -2388,7 +2394,7 @@ simulation. The data will be made available on the next day (<a class="reference
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code> for columns of dtype
 <code class="docutils literal notranslate"><span class="pre">bool</span></code> (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/962">#962</a>).</p></li>
 <li><p>Added support for <code class="xref py py-class docutils literal notranslate"><span class="pre">Factor</span></code> instances with
-<code class="docutils literal notranslate"><span class="pre">int64</span></code> dtype.  <code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code> now requires
+<code class="docutils literal notranslate"><span class="pre">int64</span></code> dtype.  <a class="reference internal" href="api-reference.html#zipline.pipeline.data.Column" title="zipline.pipeline.data.dataset.Column"><code class="xref py py-class docutils literal notranslate"><span class="pre">Column</span></code></a> now requires
 a <code class="docutils literal notranslate"><span class="pre">missing_value</span></code> when dtype is integral. (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/962">#962</a>)</p></li>
 <li><p>It is also now possible to specify custom <code class="docutils literal notranslate"><span class="pre">missing_value</span></code> values for
 <code class="docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">datetime</span></code>, and <code class="docutils literal notranslate"><span class="pre">bool</span></code> Pipeline terms. (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/962">#962</a>)</p></li>
@@ -2421,7 +2427,7 @@ in future releases.</p></li>
 the <code class="docutils literal notranslate"><span class="pre">len</span></code> of a <code class="xref py py-class docutils literal notranslate"><span class="pre">SIDData</span></code> object. This would cause
 us to think that the object was not empty even when it was (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/826">#826</a>).</p></li>
 <li><p>Fixes an error raised in calculating beta when benchmark data were sparse.
-Instead <a class="reference external" href="https://numpy.org/doc/stable/reference/constants.html#numpy.nan" title="(in NumPy v1.20)"><code class="xref py py-data docutils literal notranslate"><span class="pre">numpy.nan</span></code></a> is returned (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/859">#859</a>).</p></li>
+Instead <a class="reference external" href="https://numpy.org/doc/stable/reference/constants.html#numpy.nan" title="(in NumPy v1.21)"><code class="xref py py-data docutils literal notranslate"><span class="pre">numpy.nan</span></code></a> is returned (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/859">#859</a>).</p></li>
 <li><p>Fixed an issue pickling <code class="xref py py-func docutils literal notranslate"><span class="pre">sentinel()</span></code> objects
 (<a class="reference external" href="https://github.com/stefan-jansen/zipline/issues/872">#872</a>).</p></li>
 <li><p>Fixed spurious warnings on first download of treasury data (:issue <cite>922</cite>).</p></li>
@@ -3286,7 +3292,7 @@ numbers of commit:</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
 </p>
     </div>
     

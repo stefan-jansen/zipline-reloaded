@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.data.data_portal &#8212; Zipline 2.0.0post1 documentation</title>
+    <title>zipline.data.data_portal &#8212; Zipline 2.2.0 documentation</title>
     
   <link href="../../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -22,12 +22,12 @@
       
 
     
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css" />
     
   <link rel="preload" as="script" href="../../../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
@@ -85,13 +85,19 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../trading-calendars.html">
-  Trading Calendars
+  Calendars
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../risk-and-perf-metrics.html">
   Metrics
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../development-guidelines.html">
+  Development
  </a>
 </li>
 
@@ -214,7 +220,10 @@
     <span class="n">ContinuousFutureSessionBarReader</span><span class="p">,</span>
     <span class="n">ContinuousFutureMinuteBarReader</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">zipline.assets.roll_finder</span> <span class="kn">import</span> <span class="n">CalendarRollFinder</span><span class="p">,</span> <span class="n">VolumeRollFinder</span>
+<span class="kn">from</span> <span class="nn">zipline.assets.roll_finder</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CalendarRollFinder</span><span class="p">,</span>
+    <span class="n">VolumeRollFinder</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">zipline.data.dispatch_bar_reader</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AssetDispatchMinuteBarReader</span><span class="p">,</span>
     <span class="n">AssetDispatchSessionBarReader</span><span class="p">,</span>
@@ -229,12 +238,9 @@
     <span class="n">MinuteHistoryLoader</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">zipline.data.bar_reader</span> <span class="kn">import</span> <span class="n">NoDataOnDate</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.math_utils</span> <span class="kn">import</span> <span class="n">nansum</span><span class="p">,</span> <span class="n">nanmean</span><span class="p">,</span> <span class="n">nanstd</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.memoize</span> <span class="kn">import</span> <span class="n">remember_last</span><span class="p">,</span> <span class="n">weak_lru_cache</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.pandas_utils</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">normalize_date</span><span class="p">,</span>
-    <span class="n">timedelta_to_integral_minutes</span><span class="p">,</span>
-<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">zipline.utils.memoize</span> <span class="kn">import</span> <span class="n">remember_last</span>
+<span class="kn">from</span> <span class="nn">zipline.utils.pandas_utils</span> <span class="kn">import</span> <span class="n">normalize_date</span>
 <span class="kn">from</span> <span class="nn">zipline.errors</span> <span class="kn">import</span> <span class="n">HistoryWindowStartsBeforeData</span>
 
 
@@ -1392,128 +1398,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">assets</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">assets</span><span class="p">,</span> <span class="n">Asset</span><span class="p">)</span> <span class="k">else</span> <span class="p">[]</span></div>
 
-    <span class="c1"># cache size picked somewhat loosely.  this code exists purely to</span>
-    <span class="c1"># handle deprecated API.</span>
-    <span class="nd">@weak_lru_cache</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_get_minute_count_for_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ending_minute</span><span class="p">,</span> <span class="n">days_count</span><span class="p">):</span>
-        <span class="c1"># This function works in three steps.</span>
-        <span class="c1"># Step 1. Count the minutes from ``ending_minute`` to the start of its</span>
-        <span class="c1">#         session.</span>
-        <span class="c1"># Step 2. Count the minutes from the prior ``days_count - 1`` sessions.</span>
-        <span class="c1"># Step 3. Return the sum of the results from steps (1) and (2).</span>
-
-        <span class="c1"># Example (NYSE Calendar)</span>
-        <span class="c1">#     ending_minute = 2016-12-28 9:40 AM US/Eastern</span>
-        <span class="c1">#     days_count = 3</span>
-        <span class="c1"># Step 1. Calculate that there are 10 minutes in the ending session.</span>
-        <span class="c1"># Step 2. Calculate that there are 390 + 210 = 600 minutes in the prior</span>
-        <span class="c1">#         two sessions. (Prior sessions are 2015-12-23 and 2015-12-24.)</span>
-        <span class="c1">#         2015-12-24 is a half day.</span>
-        <span class="c1"># Step 3. Return 600 + 10 = 610.</span>
-
-        <span class="n">cal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span>
-
-        <span class="n">ending_session</span> <span class="o">=</span> <span class="n">cal</span><span class="o">.</span><span class="n">minute_to_session_label</span><span class="p">(</span>
-            <span class="n">ending_minute</span><span class="p">,</span>
-            <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>  <span class="c1"># It&#39;s an error to pass a non-trading minute.</span>
-        <span class="p">)</span>
-
-        <span class="c1"># Assume that calendar days are always full of contiguous minutes,</span>
-        <span class="c1"># which means we can just take 1 + (number of minutes between the last</span>
-        <span class="c1"># minute and the start of the session). We add one so that we include</span>
-        <span class="c1"># the ending minute in the total.</span>
-        <span class="n">ending_session_minute_count</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">timedelta_to_integral_minutes</span><span class="p">(</span>
-                <span class="n">ending_minute</span> <span class="o">-</span> <span class="n">cal</span><span class="o">.</span><span class="n">open_and_close_for_session</span><span class="p">(</span><span class="n">ending_session</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="p">)</span>
-            <span class="o">+</span> <span class="mi">1</span>
-        <span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">days_count</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="c1"># We just need sessions for the active day.</span>
-            <span class="k">return</span> <span class="n">ending_session_minute_count</span>
-
-        <span class="c1"># XXX: We&#39;re subtracting 2 here to account for two offsets:</span>
-        <span class="c1"># 1. We only want ``days_count - 1`` sessions, since we&#39;ve already</span>
-        <span class="c1">#    accounted for the ending session above.</span>
-        <span class="c1"># 2. The API of ``sessions_window`` is to return one more session than</span>
-        <span class="c1">#    the requested number.  I don&#39;t think any consumers actually want</span>
-        <span class="c1">#    that behavior, but it&#39;s the tested and documented behavior right</span>
-        <span class="c1">#    now, so we have to request one less session than we actually want.</span>
-        <span class="n">completed_sessions</span> <span class="o">=</span> <span class="n">cal</span><span class="o">.</span><span class="n">sessions_window</span><span class="p">(</span>
-            <span class="n">cal</span><span class="o">.</span><span class="n">previous_session_label</span><span class="p">(</span><span class="n">ending_session</span><span class="p">),</span>
-            <span class="mi">2</span> <span class="o">-</span> <span class="n">days_count</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="n">completed_sessions_minute_count</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">minutes_count_for_sessions_in_range</span><span class="p">(</span>
-                <span class="n">completed_sessions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">completed_sessions</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-            <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">ending_session_minute_count</span> <span class="o">+</span> <span class="n">completed_sessions_minute_count</span>
-
-    <span class="k">def</span> <span class="nf">get_simple_transform</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">transform_name</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">data_frequency</span><span class="p">,</span> <span class="n">bars</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
-        <span class="k">if</span> <span class="n">transform_name</span> <span class="o">==</span> <span class="s2">&quot;returns&quot;</span><span class="p">:</span>
-            <span class="c1"># returns is always calculated over the last 2 days, regardless</span>
-            <span class="c1"># of the simulation&#39;s data frequency.</span>
-            <span class="n">hst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_history_window</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">asset</span><span class="p">],</span>
-                <span class="n">dt</span><span class="p">,</span>
-                <span class="mi">2</span><span class="p">,</span>
-                <span class="s2">&quot;1d&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;price&quot;</span><span class="p">,</span>
-                <span class="n">data_frequency</span><span class="p">,</span>
-                <span class="n">ffill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="p">)[</span><span class="n">asset</span><span class="p">]</span>
-
-            <span class="k">return</span> <span class="p">(</span><span class="n">hst</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">hst</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">hst</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-        <span class="k">if</span> <span class="n">bars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;bars cannot be None!&quot;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">data_frequency</span> <span class="o">==</span> <span class="s2">&quot;minute&quot;</span><span class="p">:</span>
-            <span class="n">freq_str</span> <span class="o">=</span> <span class="s2">&quot;1m&quot;</span>
-            <span class="n">calculated_bar_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_minute_count_for_transform</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">bars</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">freq_str</span> <span class="o">=</span> <span class="s2">&quot;1d&quot;</span>
-            <span class="n">calculated_bar_count</span> <span class="o">=</span> <span class="n">bars</span>
-
-        <span class="n">price_arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_history_window</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">asset</span><span class="p">],</span>
-            <span class="n">dt</span><span class="p">,</span>
-            <span class="n">calculated_bar_count</span><span class="p">,</span>
-            <span class="n">freq_str</span><span class="p">,</span>
-            <span class="s2">&quot;price&quot;</span><span class="p">,</span>
-            <span class="n">data_frequency</span><span class="p">,</span>
-            <span class="n">ffill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)[</span><span class="n">asset</span><span class="p">]</span>
-
-        <span class="k">if</span> <span class="n">transform_name</span> <span class="o">==</span> <span class="s2">&quot;mavg&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">nanmean</span><span class="p">(</span><span class="n">price_arr</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">transform_name</span> <span class="o">==</span> <span class="s2">&quot;stddev&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">nanstd</span><span class="p">(</span><span class="n">price_arr</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">transform_name</span> <span class="o">==</span> <span class="s2">&quot;vwap&quot;</span><span class="p">:</span>
-            <span class="n">volume_arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_history_window</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">asset</span><span class="p">],</span>
-                <span class="n">dt</span><span class="p">,</span>
-                <span class="n">calculated_bar_count</span><span class="p">,</span>
-                <span class="n">freq_str</span><span class="p">,</span>
-                <span class="s2">&quot;volume&quot;</span><span class="p">,</span>
-                <span class="n">data_frequency</span><span class="p">,</span>
-                <span class="n">ffill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="p">)[</span><span class="n">asset</span><span class="p">]</span>
-
-            <span class="n">vol_sum</span> <span class="o">=</span> <span class="n">nansum</span><span class="p">(</span><span class="n">volume_arr</span><span class="p">)</span>
-
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">ret</span> <span class="o">=</span> <span class="n">nansum</span><span class="p">(</span><span class="n">price_arr</span> <span class="o">*</span> <span class="n">volume_arr</span><span class="p">)</span> <span class="o">/</span> <span class="n">vol_sum</span>
-            <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
-                <span class="n">ret</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-
-            <span class="k">return</span> <span class="n">ret</span>
-
 <div class="viewcode-block" id="DataPortal.get_current_future_chain"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal.get_current_future_chain">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_future_chain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">continuous_future</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves the future chain for the contract at the given `dt` according</span>
@@ -1587,7 +1471,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
 </p>
     </div>
     

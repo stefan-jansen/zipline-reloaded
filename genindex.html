@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; Zipline 2.0.0post1 documentation</title>
+    <title>Index &#8212; Zipline 2.2.0 documentation</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -22,12 +22,12 @@
       
 
     
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css" />
     
   <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -85,13 +85,19 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="trading-calendars.html">
-  Trading Calendars
+  Calendars
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="risk-and-perf-metrics.html">
   Metrics
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="development-guidelines.html">
+  Development
  </a>
 </li>
 
@@ -261,8 +267,6 @@
 </li>
       <li><a href="api-reference.html#zipline.pipeline.Pipeline.add">add() (zipline.pipeline.Pipeline method)</a>
 </li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.adhoc_holidays">adhoc_holidays() (zipline.utils.calendars.TradingCalendar property)</a>
-</li>
       <li><a href="api-reference.html#zipline.pipeline.filters.All">All (class in zipline.pipeline.filters)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.filters.AllPresent">AllPresent (class in zipline.pipeline.filters)</a>
@@ -313,12 +317,12 @@
 </li>
       <li><a href="api-reference.html#zipline.finance.metrics.metric.BenchmarkReturnsAndVolatility">BenchmarkReturnsAndVolatility (class in zipline.finance.metrics.metric)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.sources.benchmark_source.BenchmarkSource">BenchmarkSource (class in zipline.sources.benchmark_source)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.data.Column.bind">bind() (zipline.pipeline.data.Column method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.finance.blotter.blotter.Blotter">Blotter (class in zipline.finance.blotter.blotter)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.factors.BollingerBands">BollingerBands (class in zipline.pipeline.factors)</a>
@@ -326,12 +330,6 @@
       <li><a href="api-reference.html#zipline.pipeline.Factor.bottom">bottom() (zipline.pipeline.Factor method)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.data.BoundColumn">BoundColumn (class in zipline.pipeline.data)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.break_end_times">break_end_times() (zipline.utils.calendars.TradingCalendar property)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.break_start_and_end_for_session">break_start_and_end_for_session() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.break_start_times">break_start_times() (zipline.utils.calendars.TradingCalendar property)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.factors.BusinessDaysSincePreviousEvent">BusinessDaysSincePreviousEvent (class in zipline.pipeline.factors)</a>
 </li>
@@ -350,9 +348,11 @@
       <li><a href="api-reference.html#zipline.finance.commission.CommissionModel.calculate">calculate() (zipline.finance.commission.CommissionModel method)</a>
 </li>
       <li><a href="api-reference.html#zipline.assets.ExchangeInfo.calendar">calendar (zipline.assets.ExchangeInfo attribute)</a>
+
+      <ul>
+        <li><a href="api-reference.html#id7">(zipline.assets.ExchangeInfo property)</a>
 </li>
-      <li><a href="api-reference.html#id7">calendar() (zipline.assets.ExchangeInfo property)</a>
-</li>
+      </ul></li>
       <li><a href="api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.calendar_name">calendar_name (zipline.data.bcolz_daily_bars.BcolzDailyBarReader attribute)</a>
 </li>
       <li><a href="api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.calendar_offset">calendar_offset (zipline.data.bcolz_daily_bars.BcolzDailyBarReader attribute)</a>
@@ -381,17 +381,13 @@
 </li>
       <li><a href="api-reference.html#zipline.finance.metrics.metric.CashFlow">CashFlow (class in zipline.finance.metrics.metric)</a>
 </li>
-      <li><a href="api-reference.html#zipline.utils.calendars.clear_calendars">clear_calendars() (in module zipline.utils.calendars)</a>
-</li>
       <li><a href="api-reference.html#id2">clip() (zipline.pipeline.Factor method)</a>, <a href="api-reference.html#zipline.pipeline.Factor.clip">[1]</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.data.EquityPricing.close">close (zipline.pipeline.data.EquityPricing attribute)</a>
 </li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.close_times">close_times() (zipline.utils.calendars.TradingCalendar property)</a>
-</li>
       <li><a href="api-reference.html#zipline.pipeline.data.Column">Column (class in zipline.pipeline.data)</a>
 </li>
-      <li><a href="api-reference.html#zipline.pipeline.Pipeline.columns">columns() (zipline.pipeline.Pipeline property)</a>
+      <li><a href="api-reference.html#zipline.pipeline.Pipeline.columns">columns (zipline.pipeline.Pipeline property)</a>
 </li>
       <li><a href="api-reference.html#zipline.finance.commission.CommissionModel">CommissionModel (class in zipline.finance.commission)</a>
 </li>
@@ -444,16 +440,18 @@
 </li>
       </ul></li>
       <li><a href="api-reference.html#zipline.pipeline.data.BoundColumn.currency_aware">currency_aware (zipline.pipeline.data.BoundColumn attribute)</a>
+
+      <ul>
+        <li><a href="api-reference.html#id3">(zipline.pipeline.data.BoundColumn property)</a>
 </li>
-      <li><a href="api-reference.html#id3">currency_aware() (zipline.pipeline.data.BoundColumn property)</a>
-</li>
+      </ul></li>
       <li><a href="api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.currency_codes">currency_codes() (zipline.data.bcolz_daily_bars.BcolzDailyBarReader method)</a>
 </li>
-      <li><a href="api-reference.html#zipline.pipeline.data.BoundColumn.currency_conversion">currency_conversion() (zipline.pipeline.data.BoundColumn property)</a>
+      <li><a href="api-reference.html#zipline.pipeline.data.BoundColumn.currency_conversion">currency_conversion (zipline.pipeline.data.BoundColumn property)</a>
 </li>
       <li><a href="api-reference.html#zipline.protocol.BarData.current">current() (zipline.protocol.BarData method)</a>
 </li>
-      <li><a href="api-reference.html#zipline.protocol.Portfolio.current_portfolio_weights">current_portfolio_weights() (zipline.protocol.Portfolio property)</a>
+      <li><a href="api-reference.html#zipline.protocol.Portfolio.current_portfolio_weights">current_portfolio_weights (zipline.protocol.Portfolio property)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.CustomFactor">CustomFactor (class in zipline.pipeline)</a>
 </li>
@@ -481,14 +479,16 @@
 </li>
       <li><a href="api-reference.html#zipline.data.data_portal.DataPortal">DataPortal (class in zipline.data.data_portal)</a>
 </li>
-      <li><a href="api-reference.html#zipline.pipeline.data.DataSet">DataSet (class in zipline.pipeline.data)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api-reference.html#zipline.pipeline.data.DataSet">DataSet (class in zipline.pipeline.data)</a>
+</li>
       <li><a href="api-reference.html#zipline.pipeline.data.BoundColumn.dataset">dataset (zipline.pipeline.data.BoundColumn attribute)</a>
+
+      <ul>
+        <li><a href="api-reference.html#id4">(zipline.pipeline.data.BoundColumn property)</a>
 </li>
-      <li><a href="api-reference.html#id4">dataset() (zipline.pipeline.data.BoundColumn property)</a>
-</li>
+      </ul></li>
       <li><a href="api-reference.html#zipline.pipeline.data.DataSetFamily">DataSetFamily (class in zipline.pipeline.data)</a>
 </li>
       <li><a href="api-reference.html#zipline.api.date_rules">date_rules (class in zipline.api)</a>
@@ -498,8 +498,6 @@
       <li><a href="api-reference.html#zipline.pipeline.engine.default_populate_initial_workspace">default_populate_initial_workspace() (in module zipline.pipeline.engine)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.Factor.demean">demean() (zipline.pipeline.Factor method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.deregister_calendar">deregister_calendar() (in module zipline.utils.calendars)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.Pipeline.domain">domain() (zipline.pipeline.Pipeline method)</a>
 </li>
@@ -523,7 +521,7 @@
 </li>
       <li><a href="api-reference.html#zipline.pipeline.Factor.eq">eq() (zipline.pipeline.Factor method)</a>
 </li>
-      <li><a href="api-reference.html#zipline.assets.AssetFinder.equities_sids">equities_sids() (zipline.assets.AssetFinder property)</a>
+      <li><a href="api-reference.html#zipline.assets.AssetFinder.equities_sids">equities_sids (zipline.assets.AssetFinder property)</a>
 </li>
       <li><a href="api-reference.html#zipline.assets.AssetFinder.equities_sids_for_country_code">equities_sids_for_country_code() (zipline.assets.AssetFinder method)</a>
 </li>
@@ -533,25 +531,25 @@
 </li>
       <li><a href="api-reference.html#zipline.pipeline.loaders.equity_pricing_loader.EquityPricingLoader">EquityPricingLoader (class in zipline.pipeline.loaders.equity_pricing_loader)</a>
 </li>
-      <li><a href="api-reference.html#zipline.pipeline.loaders.events.EventsLoader">EventsLoader (class in zipline.pipeline.loaders.events)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api-reference.html#zipline.pipeline.loaders.events.EventsLoader">EventsLoader (class in zipline.pipeline.loaders.events)</a>
+</li>
       <li><a href="api-reference.html#zipline.api.date_rules.every_day">every_day() (zipline.api.date_rules static method)</a>
 </li>
       <li><a href="api-reference.html#zipline.api.time_rules.every_minute">every_minute (zipline.api.time_rules attribute)</a>
 </li>
       <li><a href="api-reference.html#zipline.assets.Asset.exchange">exchange (zipline.assets.Asset attribute)</a>
+
+      <ul>
+        <li><a href="api-reference.html#zipline.finance.execution.ExecutionStyle.exchange">(zipline.finance.execution.ExecutionStyle property)</a>
 </li>
-      <li><a href="api-reference.html#zipline.finance.execution.ExecutionStyle.exchange">exchange() (zipline.finance.execution.ExecutionStyle property)</a>
-</li>
+      </ul></li>
       <li><a href="api-reference.html#zipline.assets.Asset.exchange_full">exchange_full (zipline.assets.Asset attribute)</a>
 </li>
       <li><a href="api-reference.html#zipline.assets.Asset.exchange_info">exchange_info (zipline.assets.Asset attribute)</a>
 </li>
       <li><a href="api-reference.html#zipline.assets.ExchangeInfo">ExchangeInfo (class in zipline.assets)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.execution_minutes_for_session">execution_minutes_for_session() (zipline.utils.calendars.TradingCalendar method)</a>
 </li>
       <li><a href="api-reference.html#zipline.finance.execution.ExecutionStyle">ExecutionStyle (class in zipline.finance.execution)</a>
 </li>
@@ -577,7 +575,7 @@
 </li>
       <li><a href="api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.first_row">first_row (zipline.data.bcolz_daily_bars.BcolzDailyBarReader attribute)</a>
 </li>
-      <li><a href="api-reference.html#zipline.data.minute_bars.BcolzMinuteBarReader.first_trading_day">first_trading_day() (zipline.data.minute_bars.BcolzMinuteBarReader property)</a>
+      <li><a href="api-reference.html#zipline.data.minute_bars.BcolzMinuteBarReader.first_trading_day">first_trading_day (zipline.data.minute_bars.BcolzMinuteBarReader property)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -591,7 +589,7 @@
 </li>
       <li><a href="api-reference.html#zipline.api.future_symbol">future_symbol() (in module zipline.api)</a>
 </li>
-      <li><a href="api-reference.html#zipline.assets.AssetFinder.futures_sids">futures_sids() (zipline.assets.AssetFinder property)</a>
+      <li><a href="api-reference.html#zipline.assets.AssetFinder.futures_sids">futures_sids (zipline.assets.AssetFinder property)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.data.BoundColumn.fx">fx() (zipline.pipeline.data.BoundColumn method)</a>
 </li>
@@ -604,8 +602,6 @@
       <li><a href="api-reference.html#zipline.data.data_portal.DataPortal.get_adjusted_value">get_adjusted_value() (zipline.data.data_portal.DataPortal method)</a>
 </li>
       <li><a href="api-reference.html#zipline.data.data_portal.DataPortal.get_adjustments">get_adjustments() (zipline.data.data_portal.DataPortal method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.get_calendar">get_calendar() (in module zipline.utils.calendars)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.data.DataSet.get_column">get_column() (zipline.pipeline.data.DataSet class method)</a>
 </li>
@@ -635,10 +631,10 @@
 </li>
       <li><a href="api-reference.html#zipline.data.data_portal.DataPortal.get_scalar_asset_spot_value">get_scalar_asset_spot_value() (zipline.data.data_portal.DataPortal method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.data.data_portal.DataPortal.get_splits">get_splits() (zipline.data.data_portal.DataPortal method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.data.data_portal.DataPortal.get_spot_value">get_spot_value() (zipline.data.data_portal.DataPortal method)</a>
 </li>
       <li><a href="api-reference.html#zipline.data.data_portal.DataPortal.get_stock_dividends">get_stock_dividends() (zipline.data.data_portal.DataPortal method)</a>
@@ -713,13 +709,9 @@
 </li>
       <li><a href="api-reference.html#zipline.assets.Asset.is_alive_for_session">is_alive_for_session() (zipline.assets.Asset method)</a>
 </li>
-      <li><a href="api-reference.html#zipline.assets.Asset.is_exchange_open">is_exchange_open() (zipline.assets.Asset method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.is_open_on_minute">is_open_on_minute() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.is_session">is_session() (zipline.utils.calendars.TradingCalendar method)</a>
+      <li><a href="api-reference.html#zipline.assets.Asset.is_exchange_open">is_exchange_open() (zipline.assets.Asset method)</a>
 </li>
       <li><a href="api-reference.html#zipline.protocol.BarData.is_stale">is_stale() (zipline.protocol.BarData method)</a>
 </li>
@@ -733,7 +725,7 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.last_available_dt">last_available_dt() (zipline.data.bcolz_daily_bars.BcolzDailyBarReader property)</a>
+      <li><a href="api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.last_available_dt">last_available_dt (zipline.data.bcolz_daily_bars.BcolzDailyBarReader property)</a>
 </li>
       <li><a href="api-reference.html#zipline.data.minute_bars.BcolzMinuteBarWriter.last_date_in_output_for_sid">last_date_in_output_for_sid() (zipline.data.minute_bars.BcolzMinuteBarWriter method)</a>
 </li>
@@ -807,6 +799,8 @@
 </li>
       <li><a href="api-reference.html#zipline.finance.metrics.metric.MaxLeverage">MaxLeverage (class in zipline.finance.metrics.metric)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.utils.cli.maybe_show_progress">maybe_show_progress() (in module zipline.utils.cli)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.Factor.mean">mean() (zipline.pipeline.Factor method)</a>
@@ -814,30 +808,16 @@
       <li><a href="api-reference.html#zipline.pipeline.Factor.median">median() (zipline.pipeline.Factor method)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.data.BoundColumn.metadata">metadata (zipline.pipeline.data.BoundColumn attribute)</a>
+
+      <ul>
+        <li><a href="api-reference.html#id5">(zipline.pipeline.data.BoundColumn property)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api-reference.html#id5">metadata() (zipline.pipeline.data.BoundColumn property)</a>
-</li>
+      </ul></li>
       <li><a href="api-reference.html#zipline.pipeline.Factor.min">min() (zipline.pipeline.Factor method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.minute_index_to_session_labels">minute_index_to_session_labels() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.minute_to_session_label">minute_to_session_label() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.minutes_count_for_sessions_in_range">minutes_count_for_sessions_in_range() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.minutes_for_session">minutes_for_session() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.minutes_for_sessions_in_range">minutes_for_sessions_in_range() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.minutes_in_range">minutes_in_range() (zipline.utils.calendars.TradingCalendar method)</a>
 </li>
       <li><a href="api-reference.html#zipline.api.date_rules.month_end">month_end() (zipline.api.date_rules static method)</a>
 </li>
       <li><a href="api-reference.html#zipline.api.date_rules.month_start">month_start() (zipline.api.date_rules static method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.assets.Future.multiplier">multiplier (zipline.assets.Future attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -850,24 +830,16 @@
       <ul>
         <li><a href="api-reference.html#zipline.pipeline.data.BoundColumn.name">(zipline.pipeline.data.BoundColumn attribute)</a>
 </li>
-      </ul></li>
-      <li><a href="api-reference.html#id6">name() (zipline.pipeline.data.BoundColumn property)</a>
+        <li><a href="api-reference.html#id6">(zipline.pipeline.data.BoundColumn property)</a>
 </li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.finance._finance_ext.PositionStats.net_exposure">net_exposure (zipline.finance._finance_ext.PositionStats attribute)</a>
 </li>
       <li><a href="api-reference.html#zipline.finance._finance_ext.PositionStats.net_value">net_value (zipline.finance._finance_ext.PositionStats attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.api.NeverCancel">NeverCancel() (in module zipline.api)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.next_close">next_close() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.next_minute">next_minute() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.next_open">next_open() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.next_session_label">next_session_label() (zipline.utils.calendars.TradingCalendar method)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.Factor.notnan">notnan() (zipline.pipeline.Factor method)</a>
 </li>
@@ -881,10 +853,6 @@
 </li>
       <li><a href="api-reference.html#zipline.data.minute_bars.BcolzMinuteBarWriter.open">open() (zipline.data.minute_bars.BcolzMinuteBarWriter class method)</a>
 </li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.open_and_close_for_session">open_and_close_for_session() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.open_times">open_times() (zipline.utils.calendars.TradingCalendar property)</a>
-</li>
       <li><a href="api-reference.html#zipline.api.order">order() (in module zipline.api)</a>
 
       <ul>
@@ -893,10 +861,10 @@
         <li><a href="api-reference.html#zipline.finance.blotter.SimulationBlotter.order">(zipline.finance.blotter.SimulationBlotter method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.api.order_percent">order_percent() (in module zipline.api)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.api.order_target">order_target() (in module zipline.api)</a>
 </li>
       <li><a href="api-reference.html#zipline.api.order_target_percent">order_target_percent() (in module zipline.api)</a>
@@ -944,17 +912,19 @@
       <li><a href="api-reference.html#zipline.protocol.Portfolio">Portfolio (class in zipline.protocol)</a>
 </li>
       <li><a href="api-reference.html#zipline.finance.ledger.Ledger.portfolio">portfolio (zipline.finance.ledger.Ledger attribute)</a>
+
+      <ul>
+        <li><a href="api-reference.html#id8">(zipline.finance.ledger.Ledger property)</a>
 </li>
-      <li><a href="api-reference.html#id8">portfolio() (zipline.finance.ledger.Ledger property)</a>
-</li>
+      </ul></li>
       <li><a href="api-reference.html#zipline.protocol.Portfolio.portfolio_value">portfolio_value (zipline.protocol.Portfolio attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.finance._finance_ext.PositionStats.position_exposure_array">position_exposure_array (zipline.finance._finance_ext.PositionStats attribute)</a>
 </li>
       <li><a href="api-reference.html#zipline.finance._finance_ext.PositionStats.position_exposure_series">position_exposure_series (zipline.finance._finance_ext.PositionStats attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.finance.ledger.Ledger.position_tracker">position_tracker (zipline.finance.ledger.Ledger attribute)</a>
 </li>
       <li><a href="api-reference.html#zipline.finance.metrics.metric.Positions">Positions (class in zipline.finance.metrics.metric)</a>
@@ -964,14 +934,6 @@
       <li><a href="api-reference.html#zipline.finance._finance_ext.PositionStats">PositionStats (class in zipline.finance._finance_ext)</a>
 </li>
       <li><a href="api-reference.html#zipline.finance.ledger.PositionTracker">PositionTracker (class in zipline.finance.ledger)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.previous_close">previous_close() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.previous_minute">previous_minute() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.previous_open">previous_open() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.previous_session_label">previous_session_label() (zipline.utils.calendars.TradingCalendar method)</a>
 </li>
       <li><a href="api-reference.html#zipline.finance.ledger.Ledger.process_commission">process_commission() (zipline.finance.ledger.Ledger method)</a>
 </li>
@@ -1005,7 +967,7 @@
 <h2 id="Q">Q</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api-reference.html#zipline.pipeline.data.BoundColumn.qualname">qualname() (zipline.pipeline.data.BoundColumn property)</a>
+      <li><a href="api-reference.html#zipline.pipeline.data.BoundColumn.qualname">qualname (zipline.pipeline.data.BoundColumn property)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.Factor.quantiles">quantiles() (zipline.pipeline.Factor method)</a>
 </li>
@@ -1037,12 +999,6 @@
         <li><a href="api-reference.html#zipline.finance.metrics.register">(in module zipline.finance.metrics)</a>
 </li>
       </ul></li>
-      <li><a href="api-reference.html#zipline.utils.calendars.register_calendar">register_calendar() (in module zipline.utils.calendars)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.register_calendar_type">register_calendar_type() (in module zipline.utils.calendars)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.regular_holidays">regular_holidays() (zipline.utils.calendars.TradingCalendar property)</a>
-</li>
       <li><a href="api-reference.html#zipline.finance.blotter.blotter.Blotter.reject">reject() (zipline.finance.blotter.blotter.Blotter method)</a>
 
       <ul>
@@ -1057,10 +1013,10 @@
 </li>
       <li><a href="api-reference.html#zipline.assets.AssetFinder.retrieve_equities">retrieve_equities() (zipline.assets.AssetFinder method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.assets.AssetFinder.retrieve_futures_contracts">retrieve_futures_contracts() (zipline.assets.AssetFinder method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.finance.metrics.metric.Returns">Returns (class in zipline.finance.metrics.metric)</a>
 
       <ul>
@@ -1103,19 +1059,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.api.schedule_function">schedule_function() (in module zipline.api)</a>
 </li>
-      <li><a href="api-reference.html#zipline.pipeline.Pipeline.screen">screen() (zipline.pipeline.Pipeline property)</a>
-</li>
-      <li><a href="api-reference.html#zipline.assets.Equity.security_end_date">security_end_date (zipline.assets.Equity attribute)</a>
-</li>
-      <li><a href="api-reference.html#zipline.assets.Equity.security_name">security_name (zipline.assets.Equity attribute)</a>
-</li>
-      <li><a href="api-reference.html#zipline.assets.Equity.security_start_date">security_start_date (zipline.assets.Equity attribute)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.session_distance">session_distance() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.sessions_in_range">sessions_in_range() (zipline.utils.calendars.TradingCalendar method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.sessions_window">sessions_window() (zipline.utils.calendars.TradingCalendar method)</a>
+      <li><a href="api-reference.html#zipline.pipeline.Pipeline.screen">screen (zipline.pipeline.Pipeline property)</a>
 </li>
       <li><a href="api-reference.html#zipline.api.set_benchmark">set_benchmark() (in module zipline.api)</a>
 </li>
@@ -1161,10 +1105,10 @@
 </li>
       <li><a href="api-reference.html#zipline.data.minute_bars.BcolzMinuteBarWriter.sidpath">sidpath() (zipline.data.minute_bars.BcolzMinuteBarWriter method)</a>
 </li>
+      <li><a href="api-reference.html#zipline.assets.AssetFinder.sids">sids (zipline.assets.AssetFinder property)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api-reference.html#zipline.assets.AssetFinder.sids">sids() (zipline.assets.AssetFinder property)</a>
-</li>
       <li><a href="api-reference.html#zipline.pipeline.factors.SimpleBeta">SimpleBeta (class in zipline.pipeline.factors)</a>
 </li>
       <li><a href="api-reference.html#zipline.finance.metrics.metric.SimpleLedgerField">SimpleLedgerField (class in zipline.finance.metrics.metric)</a>
@@ -1182,14 +1126,6 @@
       <li><a href="api-reference.html#zipline.finance.slippage.SlippageModel">SlippageModel (class in zipline.finance.slippage)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.Factor.spearmanr">spearmanr() (zipline.pipeline.Factor method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.special_closes">special_closes() (zipline.utils.calendars.TradingCalendar property)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.special_closes_adhoc">special_closes_adhoc() (zipline.utils.calendars.TradingCalendar property)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.special_opens">special_opens() (zipline.utils.calendars.TradingCalendar property)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.special_opens_adhoc">special_opens_adhoc() (zipline.utils.calendars.TradingCalendar property)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.data.BoundColumn.specialize">specialize() (zipline.pipeline.data.BoundColumn method)</a>
 </li>
@@ -1209,7 +1145,7 @@
 </li>
       <li><a href="api-reference.html#zipline.pipeline.filters.StaticSids">StaticSids (class in zipline.pipeline.filters)</a>
 </li>
-      <li><a href="api-reference.html#zipline.finance.ledger.PositionTracker.stats">stats() (zipline.finance.ledger.PositionTracker property)</a>
+      <li><a href="api-reference.html#zipline.finance.ledger.PositionTracker.stats">stats (zipline.finance.ledger.PositionTracker property)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.Factor.stddev">stddev() (zipline.pipeline.Factor method)</a>
 </li>
@@ -1233,7 +1169,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api-reference.html#zipline.data.minute_bars.BcolzMinuteBarReader.table_len">table_len() (zipline.data.minute_bars.BcolzMinuteBarReader method)</a>
 </li>
-      <li><a href="api-reference.html#zipline.pipeline.factors.SimpleBeta.target">target() (zipline.pipeline.factors.SimpleBeta property)</a>
+      <li><a href="api-reference.html#zipline.pipeline.factors.SimpleBeta.target">target (zipline.pipeline.factors.SimpleBeta property)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.Term">Term (class in zipline.pipeline)</a>
 </li>
@@ -1247,19 +1183,17 @@
         <li><a href="api-reference.html#zipline.assets.Future.to_dict">(zipline.assets.Future method)</a>
 </li>
       </ul></li>
-      <li><a href="api-reference.html#zipline.pipeline.Pipeline.to_execution_plan">to_execution_plan() (zipline.pipeline.Pipeline method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api-reference.html#zipline.pipeline.Pipeline.to_execution_plan">to_execution_plan() (zipline.pipeline.Pipeline method)</a>
+</li>
       <li><a href="api-reference.html#zipline.pipeline.Pipeline.to_simple_graph">to_simple_graph() (zipline.pipeline.Pipeline method)</a>
 </li>
       <li><a href="api-reference.html#zipline.finance.ledger.Ledger.todays_returns">todays_returns (zipline.finance.ledger.Ledger attribute)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.Factor.top">top() (zipline.pipeline.Factor method)</a>
 </li>
-      <li><a href="api-reference.html#zipline.data.minute_bars.BcolzMinuteBarReader.trading_calendar">trading_calendar() (zipline.data.minute_bars.BcolzMinuteBarReader property)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar">TradingCalendar (class in zipline.utils.calendars)</a>
+      <li><a href="api-reference.html#zipline.data.minute_bars.BcolzMinuteBarReader.trading_calendar">trading_calendar (zipline.data.minute_bars.BcolzMinuteBarReader property)</a>
 </li>
       <li><a href="api-reference.html#zipline.finance.metrics.metric.Transactions">Transactions (class in zipline.finance.metrics.metric)</a>
 </li>
@@ -1314,8 +1248,6 @@
       <li><a href="api-reference.html#zipline.api.date_rules.week_end">week_end() (zipline.api.date_rules static method)</a>
 </li>
       <li><a href="api-reference.html#zipline.api.date_rules.week_start">week_start() (zipline.api.date_rules static method)</a>
-</li>
-      <li><a href="api-reference.html#zipline.utils.calendars.TradingCalendar.weekmask">weekmask() (zipline.utils.calendars.TradingCalendar property)</a>
 </li>
       <li><a href="api-reference.html#zipline.pipeline.factors.WeightedAverageValue">WeightedAverageValue (class in zipline.pipeline.factors)</a>
 </li>
@@ -1405,7 +1337,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
 </p>
     </div>
     

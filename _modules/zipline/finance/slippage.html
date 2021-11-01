@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.finance.slippage &#8212; Zipline 2.0.0post1 documentation</title>
+    <title>zipline.finance.slippage &#8212; Zipline 2.2.0 documentation</title>
     
   <link href="../../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -22,12 +22,12 @@
       
 
     
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css" />
     
   <link rel="preload" as="script" href="../../../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
@@ -85,13 +85,19 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../trading-calendars.html">
-  Trading Calendars
+  Calendars
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../risk-and-perf-metrics.html">
   Metrics
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../development-guidelines.html">
+  Development
  </a>
 </li>
 
@@ -197,7 +203,6 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">isnull</span>
 <span class="kn">from</span> <span class="nn">toolz</span> <span class="kn">import</span> <span class="n">merge</span>
-<span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">with_metaclass</span>
 
 <span class="kn">from</span> <span class="nn">zipline.assets</span> <span class="kn">import</span> <span class="n">Equity</span><span class="p">,</span> <span class="n">Future</span>
 <span class="kn">from</span> <span class="nn">zipline.errors</span> <span class="kn">import</span> <span class="n">HistoryWindowStartsBeforeData</span>
@@ -206,7 +211,10 @@
 <span class="kn">from</span> <span class="nn">zipline.finance.transaction</span> <span class="kn">import</span> <span class="n">create_transaction</span>
 <span class="kn">from</span> <span class="nn">zipline.utils.cache</span> <span class="kn">import</span> <span class="n">ExpiringCache</span>
 <span class="kn">from</span> <span class="nn">zipline.utils.dummy</span> <span class="kn">import</span> <span class="n">DummyMapping</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.input_validation</span> <span class="kn">import</span> <span class="n">expect_bounded</span><span class="p">,</span> <span class="n">expect_strictly_bounded</span>
+<span class="kn">from</span> <span class="nn">zipline.utils.input_validation</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">expect_bounded</span><span class="p">,</span>
+    <span class="n">expect_strictly_bounded</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">SELL</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span>
 <span class="n">BUY</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>
@@ -369,11 +377,16 @@
             <span class="n">txn</span> <span class="o">=</span> <span class="kc">None</span>
 
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">execution_price</span><span class="p">,</span> <span class="n">execution_volume</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_order</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">order</span><span class="p">)</span>
+                <span class="n">execution_price</span><span class="p">,</span> <span class="n">execution_volume</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_order</span><span class="p">(</span>
+                    <span class="n">data</span><span class="p">,</span> <span class="n">order</span>
+                <span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">execution_price</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">txn</span> <span class="o">=</span> <span class="n">create_transaction</span><span class="p">(</span>
-                        <span class="n">order</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">current_dt</span><span class="p">,</span> <span class="n">execution_price</span><span class="p">,</span> <span class="n">execution_volume</span>
+                        <span class="n">order</span><span class="p">,</span>
+                        <span class="n">data</span><span class="o">.</span><span class="n">current_dt</span><span class="p">,</span>
+                        <span class="n">execution_price</span><span class="p">,</span>
+                        <span class="n">execution_volume</span><span class="p">,</span>
                     <span class="p">)</span>
 
             <span class="k">except</span> <span class="n">LiquidityExceeded</span><span class="p">:</span>
@@ -404,8 +417,7 @@
         <span class="p">)</span>
 
 
-<span class="c1"># todo: update to Python3</span>
-<span class="k">class</span> <span class="nc">EquitySlippageModel</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">AllowedAssetMarker</span><span class="p">,</span> <span class="n">SlippageModel</span><span class="p">)):</span>
+<span class="k">class</span> <span class="nc">EquitySlippageModel</span><span class="p">(</span><span class="n">SlippageModel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">AllowedAssetMarker</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for slippage models which only support equities.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -413,8 +425,7 @@
     <span class="n">allowed_asset_types</span> <span class="o">=</span> <span class="p">(</span><span class="n">Equity</span><span class="p">,)</span>
 
 
-<span class="c1"># todo: update to Python3</span>
-<span class="k">class</span> <span class="nc">FutureSlippageModel</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">AllowedAssetMarker</span><span class="p">,</span> <span class="n">SlippageModel</span><span class="p">)):</span>
+<span class="k">class</span> <span class="nc">FutureSlippageModel</span><span class="p">(</span><span class="n">SlippageModel</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">AllowedAssetMarker</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for slippage models which only support futures.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -450,7 +461,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">volume_limit</span><span class="o">=</span><span class="n">DEFAULT_EQUITY_VOLUME_SLIPPAGE_BAR_LIMIT</span><span class="p">,</span> <span class="n">price_impact</span><span class="o">=</span><span class="mf">0.1</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">volume_limit</span><span class="o">=</span><span class="n">DEFAULT_EQUITY_VOLUME_SLIPPAGE_BAR_LIMIT</span><span class="p">,</span>
+        <span class="n">price_impact</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
     <span class="p">):</span>
 
         <span class="nb">super</span><span class="p">(</span><span class="n">VolumeShareSlippage</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -582,7 +595,13 @@
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">get_simulated_impact</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">current_price</span><span class="p">,</span> <span class="n">current_volume</span><span class="p">,</span> <span class="n">txn_volume</span><span class="p">,</span> <span class="n">mean_volume</span><span class="p">,</span> <span class="n">volatility</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">order</span><span class="p">,</span>
+        <span class="n">current_price</span><span class="p">,</span>
+        <span class="n">current_volume</span><span class="p">,</span>
+        <span class="n">txn_volume</span><span class="p">,</span>
+        <span class="n">mean_volume</span><span class="p">,</span>
+        <span class="n">volatility</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate simulated price impact.</span>
@@ -616,7 +635,9 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">volume</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
-        <span class="n">txn_volume</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_txn_volume</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">order</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">open_amount</span><span class="p">)))</span>
+        <span class="n">txn_volume</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_txn_volume</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">order</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">open_amount</span><span class="p">))</span>
+        <span class="p">)</span>
 
         <span class="c1"># If the computed transaction volume is zero or a decimal value, &#39;int&#39;</span>
         <span class="c1"># will round it down to zero. In that case just bail.</span>
@@ -637,7 +658,9 @@
                 <span class="n">volatility</span><span class="o">=</span><span class="n">volatility</span><span class="p">,</span>
             <span class="p">)</span>
 
-        <span class="n">impacted_price</span> <span class="o">=</span> <span class="n">price</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">copysign</span><span class="p">(</span><span class="n">simulated_impact</span><span class="p">,</span> <span class="n">order</span><span class="o">.</span><span class="n">direction</span><span class="p">)</span>
+        <span class="n">impacted_price</span> <span class="o">=</span> <span class="n">price</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">copysign</span><span class="p">(</span>
+            <span class="n">simulated_impact</span><span class="p">,</span> <span class="n">order</span><span class="o">.</span><span class="n">direction</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">fill_price_worse_than_limit_price</span><span class="p">(</span><span class="n">impacted_price</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
@@ -759,7 +782,13 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_simulated_impact</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">current_price</span><span class="p">,</span> <span class="n">current_volume</span><span class="p">,</span> <span class="n">txn_volume</span><span class="p">,</span> <span class="n">mean_volume</span><span class="p">,</span> <span class="n">volatility</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">order</span><span class="p">,</span>
+        <span class="n">current_price</span><span class="p">,</span>
+        <span class="n">current_volume</span><span class="p">,</span>
+        <span class="n">txn_volume</span><span class="p">,</span>
+        <span class="n">mean_volume</span><span class="p">,</span>
+        <span class="n">volatility</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">eta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eta</span><span class="p">[</span><span class="n">order</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">root_symbol</span><span class="p">]</span>
@@ -845,7 +874,9 @@
         <span class="n">max_volume</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">volume_limit</span> <span class="o">*</span> <span class="n">volume</span><span class="p">)</span>
 
         <span class="n">price</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">asset</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">)</span>
-        <span class="n">shares_to_fill</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">open_amount</span><span class="p">),</span> <span class="n">max_volume</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_for_bar</span><span class="p">)</span>
+        <span class="n">shares_to_fill</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+            <span class="nb">abs</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">open_amount</span><span class="p">),</span> <span class="n">max_volume</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">volume_for_bar</span>
+        <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">shares_to_fill</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">LiquidityExceeded</span><span class="p">()</span>
@@ -899,7 +930,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
 </p>
     </div>
     

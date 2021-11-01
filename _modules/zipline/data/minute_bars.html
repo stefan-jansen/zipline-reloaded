@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.data.minute_bars &#8212; Zipline 2.0.0post1 documentation</title>
+    <title>zipline.data.minute_bars &#8212; Zipline 2.2.0 documentation</title>
     
   <link href="../../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -22,12 +22,12 @@
       
 
     
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css" />
     
   <link rel="preload" as="script" href="../../../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
@@ -85,13 +85,19 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../trading-calendars.html">
-  Trading Calendars
+  Calendars
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../risk-and-perf-metrics.html">
   Metrics
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../development-guidelines.html">
+  Development
  </a>
 </li>
 
@@ -206,9 +212,8 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">HDFStore</span>
-<span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">with_metaclass</span>
 <span class="kn">from</span> <span class="nn">toolz</span> <span class="kn">import</span> <span class="n">keymap</span><span class="p">,</span> <span class="n">valmap</span>
-<span class="kn">from</span> <span class="nn">trading_calendars</span> <span class="kn">import</span> <span class="n">get_calendar</span>
+<span class="kn">from</span> <span class="nn">zipline.utils.calendar_utils</span> <span class="kn">import</span> <span class="n">get_calendar</span>
 
 <span class="kn">from</span> <span class="nn">zipline.data._minute_bar_internal</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">minute_value</span><span class="p">,</span>
@@ -482,28 +487,16 @@
 <span class="sd">        end_session : datetime</span>
 <span class="sd">            &#39;YYYY-MM-DD&#39; formatted representation of the last trading</span>
 <span class="sd">            session in the data set.</span>
-
-<span class="sd">        Deprecated, but included for backwards compatibility:</span>
-
-<span class="sd">        first_trading_day : string</span>
-<span class="sd">            &#39;YYYY-MM-DD&#39; formatted representation of the first trading day</span>
-<span class="sd">             available in the dataset.</span>
-<span class="sd">        market_opens : list</span>
-<span class="sd">            List of int64 values representing UTC market opens as</span>
-<span class="sd">            minutes since epoch.</span>
-<span class="sd">        market_closes : list</span>
-<span class="sd">            List of int64 values representing UTC market closes as</span>
-<span class="sd">            minutes since epoch.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">calendar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calendar</span>
-        <span class="n">slicer</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">schedule</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">slice_indexer</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">start_session</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">end_session</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">schedule</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">schedule</span><span class="p">[</span><span class="n">slicer</span><span class="p">]</span>
-        <span class="n">market_opens</span> <span class="o">=</span> <span class="n">schedule</span><span class="o">.</span><span class="n">market_open</span>
-        <span class="n">market_closes</span> <span class="o">=</span> <span class="n">schedule</span><span class="o">.</span><span class="n">market_close</span>
+        <span class="c1"># calendar = self.calendar</span>
+        <span class="c1"># slicer = calendar.schedule.index.slice_indexer(</span>
+        <span class="c1">#     self.start_session,</span>
+        <span class="c1">#     self.end_session,</span>
+        <span class="c1"># )</span>
+        <span class="c1"># schedule = calendar.schedule[slicer]</span>
+        <span class="c1"># market_opens = schedule.market_open</span>
+        <span class="c1"># market_closes = schedule.market_close</span>
 
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
@@ -513,14 +506,6 @@
             <span class="s2">&quot;calendar_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">calendar</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="s2">&quot;start_session&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_session</span><span class="o">.</span><span class="n">date</span><span class="p">()),</span>
             <span class="s2">&quot;end_session&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end_session</span><span class="o">.</span><span class="n">date</span><span class="p">()),</span>
-            <span class="c1"># Write these values for backwards compatibility</span>
-            <span class="s2">&quot;first_trading_day&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_session</span><span class="o">.</span><span class="n">date</span><span class="p">()),</span>
-            <span class="s2">&quot;market_opens&quot;</span><span class="p">:</span> <span class="p">(</span>
-                <span class="n">market_opens</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;datetime64[m]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-            <span class="p">),</span>
-            <span class="s2">&quot;market_closes&quot;</span><span class="p">:</span> <span class="p">(</span>
-                <span class="n">market_closes</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;datetime64[m]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-            <span class="p">),</span>
         <span class="p">}</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata_path</span><span class="p">(</span><span class="n">rootdir</span><span class="p">),</span> <span class="s2">&quot;w+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
@@ -1010,7 +995,7 @@
         <span class="n">vol_col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">minutes_count</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
 
         <span class="n">dt_ixs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span>
-            <span class="n">all_minutes_in_window</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dts</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;datetime64[ns]&quot;</span><span class="p">)</span>
+            <span class="n">all_minutes_in_window</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">dts</span><span class="p">)</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
         <span class="p">)</span>
 
         <span class="n">ohlc_ratio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ohlc_ratio_for_sid</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span>
@@ -1466,7 +1451,7 @@
         <span class="k">return</span> <span class="n">results</span></div></div>
 
 
-<span class="k">class</span> <span class="nc">MinuteBarUpdateReader</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">ABCMeta</span><span class="p">,</span> <span class="nb">object</span><span class="p">)):</span>
+<span class="k">class</span> <span class="nc">MinuteBarUpdateReader</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract base class for minute update readers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1593,7 +1578,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
 </p>
     </div>
     

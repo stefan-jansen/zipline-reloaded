@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trading Calendars &#8212; Zipline 2.0.0post1 documentation</title>
+    <title>Calendars &#8212; Zipline 2.2.0 documentation</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -22,12 +22,12 @@
       
 
     
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css" />
     
   <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -87,13 +87,19 @@
 
 <li class="toctree-l1 current active nav-item">
  <a class="current reference internal nav-link" href="#">
-  Trading Calendars
+  Calendars
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="risk-and-perf-metrics.html">
   Metrics
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="development-guidelines.html">
+  Development
  </a>
 </li>
 
@@ -223,8 +229,8 @@
               
               <div>
                 
-  <div class="section" id="trading-calendars">
-<span id="calendars"></span><h1>Trading Calendars<a class="headerlink" href="#trading-calendars" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="calendars">
+<span id="id1"></span><h1>Calendars<a class="headerlink" href="#calendars" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="what-is-a-trading-calendar">
 <h2>What is a Trading Calendar?<a class="headerlink" href="#what-is-a-trading-calendar" title="Permalink to this headline">¶</a></h2>
 <p>A trading calendar represents the timing information of a single market exchange. The timing information is made up of two parts: sessions, and opens/closes.
@@ -349,7 +355,7 @@ module <code class="docutils literal notranslate"><span class="pre">pandas.tseri
 <span class="kn">from</span> <span class="nn">pytz</span> <span class="kn">import</span> <span class="n">timezone</span>
 
 <span class="c1"># for creating and registering our calendar</span>
-<span class="kn">from</span> <span class="nn">trading_calendars</span> <span class="kn">import</span> <span class="n">register_calendar</span><span class="p">,</span> <span class="n">TradingCalendar</span>
+<span class="kn">from</span> <span class="nn">zipline.utils.calendar_utils</span> <span class="kn">import</span> <span class="n">register_calendar</span><span class="p">,</span> <span class="n">TradingCalendar</span>
 <span class="kn">from</span> <span class="nn">zipline.utils.memoize</span> <span class="kn">import</span> <span class="n">lazyval</span>
 </pre></div>
 </div>
@@ -454,7 +460,7 @@ for creating a bundle from CSV files.</p>
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
 </p>
     </div>
     

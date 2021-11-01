@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.finance.blotter.blotter &#8212; Zipline 2.0.0post1 documentation</title>
+    <title>zipline.finance.blotter.blotter &#8212; Zipline 2.2.0 documentation</title>
     
   <link href="../../../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -22,12 +22,12 @@
       
 
     
-    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/basic.css" />
     
   <link rel="preload" as="script" href="../../../../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
     <script src="../../../../_static/jquery.js"></script>
     <script src="../../../../_static/underscore.js"></script>
     <script src="../../../../_static/doctools.js"></script>
@@ -85,13 +85,19 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../../trading-calendars.html">
-  Trading Calendars
+  Calendars
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../../risk-and-perf-metrics.html">
   Metrics
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../development-guidelines.html">
+  Development
  </a>
 </li>
 
@@ -193,13 +199,12 @@
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">with_metaclass</span>
 <span class="kn">from</span> <span class="nn">zipline.extensions</span> <span class="kn">import</span> <span class="n">extensible</span>
 <span class="kn">from</span> <span class="nn">zipline.finance.cancel_policy</span> <span class="kn">import</span> <span class="n">NeverCancel</span>
 
 
 <div class="viewcode-block" id="Blotter"><a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.blotter.Blotter">[docs]</a><span class="nd">@extensible</span>
-<span class="k">class</span> <span class="nc">Blotter</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">ABCMeta</span><span class="p">)):</span>
+<span class="k">class</span> <span class="nc">Blotter</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cancel_policy</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cancel_policy</span> <span class="o">=</span> <span class="n">cancel_policy</span> <span class="k">if</span> <span class="n">cancel_policy</span> <span class="k">else</span> <span class="n">NeverCancel</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_dt</span> <span class="o">=</span> <span class="kc">None</span>
@@ -416,7 +421,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
 </p>
     </div>
     

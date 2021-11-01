@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.pipeline.data.dataset &#8212; Zipline 2.0.0post1 documentation</title>
+    <title>zipline.pipeline.data.dataset &#8212; Zipline 2.2.0 documentation</title>
     
   <link href="../../../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -22,12 +22,12 @@
       
 
     
-    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/basic.css" />
     
   <link rel="preload" as="script" href="../../../../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
     <script src="../../../../_static/jquery.js"></script>
     <script src="../../../../_static/underscore.js"></script>
     <script src="../../../../_static/doctools.js"></script>
@@ -85,13 +85,19 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../../trading-calendars.html">
-  Trading Calendars
+  Calendars
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../../risk-and-perf-metrics.html">
   Metrics
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../development-guidelines.html">
+  Development
  </a>
 </li>
 
@@ -184,7 +190,6 @@
 <span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">dedent</span>
 <span class="kn">from</span> <span class="nn">weakref</span> <span class="kn">import</span> <span class="n">WeakKeyDictionary</span>
 
-<span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">with_metaclass</span>
 <span class="kn">from</span> <span class="nn">toolz</span> <span class="kn">import</span> <span class="n">first</span>
 
 <span class="kn">from</span> <span class="nn">zipline.currency</span> <span class="kn">import</span> <span class="n">Currency</span>
@@ -263,7 +268,9 @@
 <span class="sd">    parent classes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">missing_value</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">currency_aware</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">missing_value</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">currency_aware</span>
+    <span class="p">):</span>
         <span class="c1"># Validating and calculating default missing values here guarantees</span>
         <span class="c1"># that we fail quickly if the user passes an unsupporte dtype or fails</span>
         <span class="c1"># to provide a missing value for a dtype that requires one</span>
@@ -708,7 +715,9 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">frozenset</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colname</span><span class="p">)</span> <span class="k">for</span> <span class="n">colname</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_column_names</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">frozenset</span><span class="p">(</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colname</span><span class="p">)</span> <span class="k">for</span> <span class="n">colname</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_column_names</span>
+        <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">qualname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -731,7 +740,7 @@
         <span class="k">return</span> <span class="s2">&quot;&lt;DataSet: </span><span class="si">%r</span><span class="s2">, domain=</span><span class="si">%s</span><span class="s2">&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="DataSet"><a class="viewcode-back" href="../../../../api-reference.html#zipline.pipeline.data.DataSet">[docs]</a><span class="k">class</span> <span class="nc">DataSet</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">DataSetMeta</span><span class="p">,</span> <span class="nb">object</span><span class="p">)):</span>
+<div class="viewcode-block" id="DataSet"><a class="viewcode-back" href="../../../../api-reference.html#zipline.pipeline.data.DataSet">[docs]</a><span class="k">class</span> <span class="nc">DataSet</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">DataSetMeta</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for Pipeline datasets.</span>
 
@@ -936,7 +945,10 @@
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_abstract</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">extra_dims</span> <span class="o">=</span> <span class="n">extra_dims</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span>
-                <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extra_dims</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+                <span class="p">[</span>
+                    <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extra_dims</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="p">]</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">extra_dims</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -1220,7 +1232,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
 </p>
     </div>
     

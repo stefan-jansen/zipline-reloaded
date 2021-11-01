@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.finance.blotter.simulation_blotter &#8212; Zipline 2.0.0post1 documentation</title>
+    <title>zipline.finance.blotter.simulation_blotter &#8212; Zipline 2.2.0 documentation</title>
     
   <link href="../../../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -22,12 +22,12 @@
       
 
     
-    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/basic.css" />
     
   <link rel="preload" as="script" href="../../../../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
     <script src="../../../../_static/jquery.js"></script>
     <script src="../../../../_static/underscore.js"></script>
     <script src="../../../../_static/doctools.js"></script>
@@ -85,13 +85,19 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../../trading-calendars.html">
-  Trading Calendars
+  Calendars
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../../../risk-and-perf-metrics.html">
   Metrics
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../../development-guidelines.html">
+  Development
  </a>
 </li>
 
@@ -227,7 +233,7 @@
         <span class="n">future_commission</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">cancel_policy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">SimulationBlotter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">cancel_policy</span><span class="o">=</span><span class="n">cancel_policy</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">cancel_policy</span><span class="o">=</span><span class="n">cancel_policy</span><span class="p">)</span>
 
         <span class="c1"># these orders are aggregated by asset</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
@@ -318,7 +324,9 @@
         <span class="k">elif</span> <span class="n">amount</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_shares</span><span class="p">:</span>
             <span class="c1"># Arbitrary limit of 100 billion (US) shares will never be</span>
             <span class="c1"># exceeded except by a buggy algorithm.</span>
-            <span class="k">raise</span> <span class="ne">OverflowError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t order more than </span><span class="si">%d</span><span class="s2"> shares&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_shares</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">OverflowError</span><span class="p">(</span>
+                <span class="s2">&quot;Can&#39;t order more than </span><span class="si">%d</span><span class="s2"> shares&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_shares</span>
+            <span class="p">)</span>
 
         <span class="n">is_buy</span> <span class="o">=</span> <span class="n">amount</span> <span class="o">&gt;</span> <span class="mi">0</span>
         <span class="n">order</span> <span class="o">=</span> <span class="n">Order</span><span class="p">(</span>
@@ -414,11 +422,62 @@
         <span class="k">assert</span> <span class="ow">not</span> <span class="n">orders</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">[</span><span class="n">asset</span><span class="p">]</span></div>
 
+    <span class="c1"># End of day cancel for daily frequency</span>
+    <span class="k">def</span> <span class="nf">execute_daily_cancel_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cancel_policy</span><span class="o">.</span><span class="n">should_cancel</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+            <span class="n">warn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cancel_policy</span><span class="o">.</span><span class="n">warn_on_cancel</span>
+            <span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">):</span>
+                <span class="n">orders</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">[</span><span class="n">asset</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">orders</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">order</span> <span class="o">=</span> <span class="n">orders</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cancel</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">relay_status</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">warn</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">filled</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">warning_logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                                <span class="s2">&quot;Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of &quot;</span>
+                                <span class="s2">&quot;</span><span class="si">{order_sym}</span><span class="s2"> has been partially filled. &quot;</span>
+                                <span class="s2">&quot;</span><span class="si">{order_filled}</span><span class="s2"> shares were successfully &quot;</span>
+                                <span class="s2">&quot;purchased. </span><span class="si">{order_failed}</span><span class="s2"> shares were not &quot;</span>
+                                <span class="s2">&quot;filled by the end of day and &quot;</span>
+                                <span class="s2">&quot;were canceled.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                    <span class="n">order_amt</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span>
+                                    <span class="n">order_sym</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span>
+                                    <span class="n">order_filled</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">filled</span><span class="p">,</span>
+                                    <span class="n">order_failed</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">amount</span> <span class="o">-</span> <span class="n">order</span><span class="o">.</span><span class="n">filled</span><span class="p">,</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+                        <span class="k">elif</span> <span class="n">order</span><span class="o">.</span><span class="n">filled</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">warning_logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                                <span class="s2">&quot;Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of &quot;</span>
+                                <span class="s2">&quot;</span><span class="si">{order_sym}</span><span class="s2"> has been partially filled. &quot;</span>
+                                <span class="s2">&quot;</span><span class="si">{order_filled}</span><span class="s2"> shares were successfully &quot;</span>
+                                <span class="s2">&quot;sold. </span><span class="si">{order_failed}</span><span class="s2"> shares were not &quot;</span>
+                                <span class="s2">&quot;filled by the end of day and &quot;</span>
+                                <span class="s2">&quot;were canceled.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                    <span class="n">order_amt</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span>
+                                    <span class="n">order_sym</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span>
+                                    <span class="n">order_filled</span><span class="o">=-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">order</span><span class="o">.</span><span class="n">filled</span><span class="p">,</span>
+                                    <span class="n">order_failed</span><span class="o">=-</span><span class="mi">1</span>
+                                    <span class="o">*</span> <span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">amount</span> <span class="o">-</span> <span class="n">order</span><span class="o">.</span><span class="n">filled</span><span class="p">),</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">warning_logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                                <span class="s2">&quot;Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of &quot;</span>
+                                <span class="s2">&quot;</span><span class="si">{order_sym}</span><span class="s2"> failed to fill by the end of day &quot;</span>
+                                <span class="s2">&quot;and was canceled.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                    <span class="n">order_amt</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span>
+                                    <span class="n">order_sym</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">execute_cancel_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cancel_policy</span><span class="o">.</span><span class="n">should_cancel</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
             <span class="n">warn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cancel_policy</span><span class="o">.</span><span class="n">warn_on_cancel</span>
             <span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">cancel_all_orders_for_asset</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="n">warn</span><span class="p">,</span> <span class="n">relay_status</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cancel_all_orders_for_asset</span><span class="p">(</span>
+                    <span class="n">asset</span><span class="p">,</span> <span class="n">warn</span><span class="p">,</span> <span class="n">relay_status</span><span class="o">=</span><span class="kc">False</span>
+                <span class="p">)</span>
 
 <div class="viewcode-block" id="SimulationBlotter.reject"><a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.reject">[docs]</a>    <span class="k">def</span> <span class="nf">reject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -522,7 +581,9 @@
             <span class="k">for</span> <span class="n">asset</span><span class="p">,</span> <span class="n">asset_orders</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">slippage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slippage_models</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">asset</span><span class="p">)]</span>
 
-                <span class="k">for</span> <span class="n">order</span><span class="p">,</span> <span class="n">txn</span> <span class="ow">in</span> <span class="n">slippage</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">bar_data</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">asset_orders</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">order</span><span class="p">,</span> <span class="n">txn</span> <span class="ow">in</span> <span class="n">slippage</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span>
+                    <span class="n">bar_data</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">asset_orders</span>
+                <span class="p">):</span>
                     <span class="n">commission</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commission_models</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">asset</span><span class="p">)]</span>
                     <span class="n">additional_commission</span> <span class="o">=</span> <span class="n">commission</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">txn</span><span class="p">)</span>
 
@@ -612,7 +673,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
 </p>
     </div>
     

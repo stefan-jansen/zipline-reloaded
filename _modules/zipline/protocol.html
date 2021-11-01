@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.protocol &#8212; Zipline 2.0.0post1 documentation</title>
+    <title>zipline.protocol &#8212; Zipline 2.2.0 documentation</title>
     
   <link href="../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -22,12 +22,12 @@
       
 
     
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css" />
     
   <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
@@ -85,13 +85,19 @@
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../trading-calendars.html">
-  Trading Calendars
+  Calendars
  </a>
 </li>
 
 <li class="toctree-l1 nav-item">
  <a class="reference internal nav-link" href="../../risk-and-perf-metrics.html">
   Metrics
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../development-guidelines.html">
+  Development
  </a>
 </li>
 
@@ -192,12 +198,10 @@
 <span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
-<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
-
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">from</span> <span class="nn">.assets</span> <span class="kn">import</span> <span class="n">Asset</span>
-<span class="kn">from</span> <span class="nn">.utils.enum</span> <span class="kn">import</span> <span class="n">enum</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">IntEnum</span>
 <span class="kn">from</span> <span class="nn">._protocol</span> <span class="kn">import</span> <span class="n">BarData</span><span class="p">,</span> <span class="n">InnerPosition</span>  <span class="c1"># noqa</span>
 
 
@@ -229,20 +233,24 @@
 
 <span class="c1"># Datasource type should completely determine the other fields of a</span>
 <span class="c1"># message with its type.</span>
-<span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="n">enum</span><span class="p">(</span>
-    <span class="s2">&quot;AS_TRADED_EQUITY&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;MERGER&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SPLIT&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DIVIDEND&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;TRADE&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;TRANSACTION&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ORDER&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;EMPTY&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DONE&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;CUSTOM&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;BENCHMARK&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;COMMISSION&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;CLOSE_POSITION&quot;</span><span class="p">,</span>
+<span class="n">DATASOURCE_TYPE</span> <span class="o">=</span> <span class="n">IntEnum</span><span class="p">(</span>
+    <span class="s2">&quot;DATASOURCE_TYPE&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;AS_TRADED_EQUITY&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;MERGER&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;SPLIT&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;DIVIDEND&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TRADE&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TRANSACTION&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ORDER&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;EMPTY&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;DONE&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CUSTOM&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BENCHMARK&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;COMMISSION&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CLOSE_POSITION&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># Expected fields/index values for a dividend Series.</span>
@@ -286,55 +294,8 @@
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_deprecated_getitem_method</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Create a deprecated ``__getitem__`` method that tells users to use</span>
-<span class="sd">    getattr instead.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    name : str</span>
-<span class="sd">        The name of the object in the warning message.</span>
-<span class="sd">    attrs : iterable[str]</span>
-<span class="sd">        The set of allowed attributes.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    __getitem__ : callable[any, str]</span>
-<span class="sd">        The ``__getitem__`` method to put in the class dict.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">attrs</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span>
-    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;&#39;</span><span class="si">{name}</span><span class="s2">[</span><span class="si">{attr!r}</span><span class="s2">]&#39; is deprecated, please use&quot;</span> <span class="s2">&quot; &#39;</span><span class="si">{name}</span><span class="s2">.</span><span class="si">{attr}</span><span class="s2">&#39; instead&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;``__getitem__`` is deprecated, please use attribute access instead.&quot;&quot;&quot;</span>
-        <span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="n">key</span><span class="p">),</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="fm">__getitem__</span>
-
-
 <span class="k">class</span> <span class="nc">Order</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
-    <span class="c1"># If you are adding new attributes, don&#39;t update this set. This method</span>
-    <span class="c1"># is deprecated to normal attribute access so we don&#39;t want to encourage</span>
-    <span class="c1"># new usages.</span>
-    <span class="fm">__getitem__</span> <span class="o">=</span> <span class="n">_deprecated_getitem_method</span><span class="p">(</span>
-        <span class="s2">&quot;order&quot;</span><span class="p">,</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;dt&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;sid&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;amount&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;stop&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;limit&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;id&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;filled&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;commission&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;stop_reached&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;limit_reached&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;created&quot;</span><span class="p">,</span>
-        <span class="p">},</span>
-    <span class="p">)</span>
+    <span class="k">pass</span>
 
 
 <div class="viewcode-block" id="Portfolio"><a class="viewcode-back" href="../../api-reference.html#zipline.protocol.Portfolio">[docs]</a><span class="k">class</span> <span class="nc">Portfolio</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -383,24 +344,6 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;Portfolio(</span><span class="si">{0}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
-
-    <span class="c1"># If you are adding new attributes, don&#39;t update this set. This method</span>
-    <span class="c1"># is deprecated to normal attribute access so we don&#39;t want to encourage</span>
-    <span class="c1"># new usages.</span>
-    <span class="fm">__getitem__</span> <span class="o">=</span> <span class="n">_deprecated_getitem_method</span><span class="p">(</span>
-        <span class="s2">&quot;portfolio&quot;</span><span class="p">,</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;capital_used&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;starting_cash&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;portfolio_value&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;pnl&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;returns&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;cash&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;positions&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;start_date&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;positions_value&quot;</span><span class="p">,</span>
-        <span class="p">},</span>
-    <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">current_portfolio_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -456,33 +399,7 @@
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;cannot mutate Account objects&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;Account(</span><span class="si">{0}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
-
-    <span class="c1"># If you are adding new attributes, don&#39;t update this set. This method</span>
-    <span class="c1"># is deprecated to normal attribute access so we don&#39;t want to encourage</span>
-    <span class="c1"># new usages.</span>
-    <span class="fm">__getitem__</span> <span class="o">=</span> <span class="n">_deprecated_getitem_method</span><span class="p">(</span>
-        <span class="s2">&quot;account&quot;</span><span class="p">,</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;settled_cash&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;accrued_interest&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;buying_power&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;equity_with_loan&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;total_positions_value&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;total_positions_exposure&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;regt_equity&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;regt_margin&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;initial_margin_requirement&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;maintenance_margin_requirement&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;available_funds&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;excess_liquidity&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;cushion&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;day_trades_remaining&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;leverage&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;net_leverage&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;net_liquidation&quot;</span><span class="p">,</span>
-        <span class="p">},</span>
-    <span class="p">)</span></div>
+        <span class="k">return</span> <span class="s2">&quot;Account(</span><span class="si">{0}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span></div>
 
 
 <span class="k">class</span> <span class="nc">Position</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -532,49 +449,6 @@
             <span class="p">)</span>
         <span class="p">}</span>
 
-    <span class="c1"># If you are adding new attributes, don&#39;t update this set. This method</span>
-    <span class="c1"># is deprecated to normal attribute access so we don&#39;t want to encourage</span>
-    <span class="c1"># new usages.</span>
-    <span class="fm">__getitem__</span> <span class="o">=</span> <span class="n">_deprecated_getitem_method</span><span class="p">(</span>
-        <span class="s2">&quot;position&quot;</span><span class="p">,</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;sid&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;amount&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;cost_basis&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;last_sale_price&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;last_sale_date&quot;</span><span class="p">,</span>
-        <span class="p">},</span>
-    <span class="p">)</span>
-
-
-<span class="c1"># Copied from Position and renamed.  This is used to handle cases where a user</span>
-<span class="c1"># does something like `context.portfolio.positions[100]` instead of</span>
-<span class="c1"># `context.portfolio.positions[sid(100)]`.</span>
-<span class="k">class</span> <span class="nc">_DeprecatedSidLookupPosition</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sid</span> <span class="o">=</span> <span class="n">sid</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cost_basis</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># per share</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">last_sale_price</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">last_sale_date</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;_DeprecatedSidLookupPosition(</span><span class="si">{0}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
-
-    <span class="c1"># If you are adding new attributes, don&#39;t update this set. This method</span>
-    <span class="c1"># is deprecated to normal attribute access so we don&#39;t want to encourage</span>
-    <span class="c1"># new usages.</span>
-    <span class="fm">__getitem__</span> <span class="o">=</span> <span class="n">_deprecated_getitem_method</span><span class="p">(</span>
-        <span class="s2">&quot;position&quot;</span><span class="p">,</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;sid&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;amount&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;cost_basis&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;last_sale_price&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;last_sale_date&quot;</span><span class="p">,</span>
-        <span class="p">},</span>
-    <span class="p">)</span>
-
 
 <span class="k">class</span> <span class="nc">Positions</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A dict-like object containing the algorithm&#39;s current positions.&quot;&quot;&quot;</span>
@@ -582,18 +456,11 @@
     <span class="k">def</span> <span class="fm">__missing__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">Asset</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Position</span><span class="p">(</span><span class="n">InnerPosition</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;Referencing positions by integer is deprecated.&quot;</span>
-                <span class="s2">&quot; Use an asset instead.&quot;</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;Position lookup expected a value of type Asset but got </span><span class="si">{0}</span><span class="s2">&quot;</span>
-                <span class="s2">&quot; instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
-            <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">_DeprecatedSidLookupPosition</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Position lookup expected a value of type Asset&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> instead&quot;</span>
+        <span class="p">)</span>
 </pre></div>
 
               </div>
@@ -633,7 +500,7 @@
     
     <div class="footer-item">
       <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
 </p>
     </div>
     
