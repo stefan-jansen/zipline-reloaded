@@ -161,7 +161,7 @@ class PositionTracker(object):
                 self._unpaid_dividends[cash_dividend.pay_date].append(div_owed)
             except KeyError:
                 self._unpaid_dividends[cash_dividend.pay_date] = [div_owed]
-
+            
         for stock_dividend in stock_dividends:
             self._dirty_stats = True  # only mark dirty if we pay a dividend
 

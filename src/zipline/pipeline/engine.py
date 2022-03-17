@@ -61,6 +61,7 @@ from functools import partial
 from numpy import array, arange
 from pandas import DataFrame, MultiIndex
 from toolz import groupby
+from toolz.itertoolz import get
 
 from zipline.lib.adjusted_array import ensure_adjusted_array, ensure_ndarray
 from zipline.errors import NoFurtherDataError
@@ -263,7 +264,6 @@ class SimplePipelineEngine(PipelineEngine):
         populate_initial_workspace=None,
         default_hooks=None,
     ):
-
         self._get_loader = get_loader
         self._finder = asset_finder
 
@@ -393,7 +393,6 @@ class SimplePipelineEngine(PipelineEngine):
             )
 
         domain = self.resolve_domain(pipeline)
-
         plan = pipeline.to_execution_plan(
             domain,
             self._root_mask_term,
@@ -419,12 +418,10 @@ class SimplePipelineEngine(PipelineEngine):
             dates,
             sids,
         )
-
         refcounts = plan.initial_refcounts(workspace)
         execution_order = plan.execution_order(workspace, refcounts)
 
         with hooks.computing_chunk(execution_order, start_date, end_date):
-
             results = self.compute_chunk(
                 graph=plan,
                 dates=dates,
@@ -515,7 +512,6 @@ class SimplePipelineEngine(PipelineEngine):
         existed = lifetimes.any()
         ret = lifetimes.loc[:, existed]
         num_assets = ret.shape[1]
-
         if num_assets == 0:
             raise ValueError(
                 "Failed to find any assets with country_code {!r} that traded "
@@ -646,6 +642,7 @@ class SimplePipelineEngine(PipelineEngine):
         # loader registered for an atomic term if all the dependencies of that
         # term were supplied in the initial workspace.
         will_be_loaded = graph.loadable_terms - workspace.keys()
+        x = [t for t in execution_order if t in will_be_loaded][0]
         loader_groups = groupby(
             loader_group_key,
             (t for t in execution_order if t in will_be_loaded),
@@ -668,7 +665,6 @@ class SimplePipelineEngine(PipelineEngine):
                 workspace,
                 dates,
             )
-
             if isinstance(term, LoadableTerm):
                 loader = get_loader(term)
                 to_load = sorted(

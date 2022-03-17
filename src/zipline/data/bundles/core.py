@@ -426,7 +426,8 @@ def _make_bundle_core():
                 adjustment_db_writer = stack.enter_context(
                     SQLiteAdjustmentWriter(
                         wd.getpath(*adjustment_db_relative(name, timestr)),
-                        BcolzDailyBarReader(daily_bars_path),
+                        # BcolzDailyBarReader(daily_bars_path),
+                        BcolzMinuteBarReader(wd.ensure_dir(*minute_equity_relative(name, timestr))),
                         overwrite=True,
                     )
                 )

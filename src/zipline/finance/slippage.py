@@ -179,7 +179,6 @@ class SlippageModel(metaclass=FinancialModelMeta):
             return
         # END
         dt = data.current_dt
-
         for order in orders_for_asset:
             if order.open_amount == 0:
                 continue
@@ -194,7 +193,6 @@ class SlippageModel(metaclass=FinancialModelMeta):
                 execution_price, execution_volume = self.process_order(
                     data, order
                 )
-
                 if execution_price is not None:
                     txn = create_transaction(
                         order,
@@ -375,8 +373,8 @@ class FixedSlippage(SlippageModel):
 
     def process_order(self, data, order):
         price = data.current(order.asset, "close")
-
-        return (price + (self.spread / 2.0 * order.direction), order.amount)
+        
+        return (price * (1 + self.spread / 2.0 * order.direction), order.amount)
 
 
 class MarketImpactBase(SlippageModel):

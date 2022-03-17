@@ -79,7 +79,6 @@ class EquityPricingLoader(implements(PipelineLoader)):
         # query dates back by a trading session.
         sessions = domain.all_sessions()
         shifted_dates = shift_dates(sessions, dates[0], dates[-1], shift=1)
-
         ohlcv_cols, currency_cols = self._split_column_types(columns)
         del columns  # From here on we should use ohlcv_cols or currency_cols.
         ohlcv_colnames = [c.name for c in ohlcv_cols]
@@ -211,3 +210,4 @@ class EquityPricingLoader(implements(PipelineLoader)):
 
 # Backwards compat alias.
 USEquityPricingLoader = EquityPricingLoader
+CryptoPricingLoader = EquityPricingLoader

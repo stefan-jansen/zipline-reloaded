@@ -493,7 +493,11 @@ class SQLiteAdjustmentWriter(object):
         pricing_reader = self._equity_daily_bar_reader
         input_sids = dividends.sid.values
         unique_sids, sids_ix = np.unique(input_sids, return_inverse=True)
-        dates = pricing_reader.sessions.values
+        # dates = pricing_reader.sessions.values
+        dates = pd.date_range(
+            pricing_reader._start_session, 
+            pricing_reader._end_session, 
+            freq='1min').tz_localize(None)
 
         (close,) = pricing_reader.load_raw_arrays(
             ["close"],

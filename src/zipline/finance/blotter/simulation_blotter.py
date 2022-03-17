@@ -386,7 +386,7 @@ class SimulationBlotter(Blotter):
         closed_orders: List
             closed_orders: list of all the orders that have filled.
         """
-
+        
         closed_orders = []
         transactions = []
         commissions = []
@@ -394,7 +394,6 @@ class SimulationBlotter(Blotter):
         if self.open_orders:
             for asset, asset_orders in self.open_orders.items():
                 slippage = self.slippage_models[type(asset)]
-
                 for order, txn in slippage.simulate(
                     bar_data, asset, asset_orders
                 ):

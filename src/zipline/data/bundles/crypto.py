@@ -1,13 +1,14 @@
 """
-Module for building a complete dataset from local directory with csv files.
+Sandbank용 bundle
 """
 import os
 import sys
 
 from logbook import Logger, StreamHandler
 from numpy import empty
-from pandas import DataFrame, read_csv, Index, Timedelta, NaT
+from pandas import DataFrame, Index, Timedelta, NaT, read_parquet
 from zipline.utils.calendar_utils import register_calendar_alias
+import boto3
 
 from zipline.utils.cli import maybe_show_progress
 
@@ -18,8 +19,9 @@ logger = Logger(__name__)
 logger.handlers.append(handler)
 
 
-def csvdir_equities(tframes=None, csvdir=None):
+def crypto_ingest(tframes=None, dir=None, instType='FUTURES'):
     """
+    기존에 비해 추가로 instType을 넣어서 분류할 수도 잇음
     Generate an ingest function for custom data bundle
     This function can be used in ~/.zipline/extension.py
     to register bundle with custom parameters, e.g. with
@@ -52,18 +54,20 @@ def csvdir_equities(tframes=None, csvdir=None):
                 csvdir_equities(["daily", "minute"],
                 '/full/path/to/the/csvdir/directory'))
     """
-    return CSVDIRBundle(tframes, csvdir).ingest
+
+    return SandBankBundle(tframes, dir, instType).ingest
 
 
-class CSVDIRBundle:
+class SandBankBundle:
     """
-    Wrapper class to call csvdir_bundle with provided
+    Wrapper class to call sandbank_bundle with provided
     list of time frames and a path to the csvdir directory
     """
 
-    def __init__(self, tframes=None, csvdir=None):
+    def __init__(self, tframes=None, dir=None, instType='FUTURES'):
         self.tframes = tframes
-        self.csvdir = csvdir
+        self.dir = dir
+        self.instType = instType
 
     def ingest(
         self,
@@ -80,7 +84,7 @@ class CSVDIRBundle:
         output_dir,
     ):
 
-        csvdir_bundle(
+        sandbank_bundle(
             environ,
             asset_db_writer,
             minute_bar_writer,
@@ -93,12 +97,13 @@ class CSVDIRBundle:
             show_progress,
             output_dir,
             self.tframes,
-            self.csvdir,
+            self.dir,
+            self.instType
         )
 
 
-@bundles.register("csvdir")
-def csvdir_bundle(
+@bundles.register("sandbank")
+def sandbank_bundle(
     environ,
     asset_db_writer,
     minute_bar_writer,
@@ -111,25 +116,29 @@ def csvdir_bundle(
     show_progress,
     output_dir,
     tframes=None,
-    csvdir=None,
+    dir=None,
+    instType='FUTURES',
 ):
     """
     Build a zipline data bundle from the directory with csv files.
     """
-    if not csvdir:
-        csvdir = environ.get("CSVDIR")
-        if not csvdir:
-            raise ValueError("CSVDIR environment variable is not set")
+    if not dir:
+        dir = environ.get("SANDBANK")
+        if not dir:
+            raise ValueError("SANDBANK environment variable is not set")
 
-    if not os.path.isdir(csvdir):
-        raise ValueError("%s is not a directory" % csvdir)
+    if not os.path.isdir(dir):
+        if dir[:2]=='s3':
+            is_s3_path = True
+        else:
+            raise ValueError("%s is not a directory" % dir)
 
     if not tframes:
-        tframes = set(["daily", "minute"]).intersection(os.listdir(csvdir))
+        tframes = set(["daily", "minute"]).intersection(os.listdir(dir))
 
         if not tframes:
             raise ValueError(
-                "'daily' and 'minute' directories " "not found in '%s'" % csvdir
+                "'daily' and 'minute' directories " "not found in '%s'" % dir
             )
 
     divs_splits = {
@@ -145,21 +154,58 @@ def csvdir_bundle(
         ),
         "splits": DataFrame(columns=["sid", "ratio", "effective_date"]),
     }
+    
     for tframe in tframes:
-        ddir = os.path.join(csvdir, tframe)
+        if is_s3_path:
+            ddir = dir + "/" + tframe
+            pg = boto3.client('s3').get_paginator('list_objects_v2')
+            bucket = ddir.split('/')[2]
+            prefix = "/".join(ddir.split('/')[3:]) + '/'
+            iterator = pg.paginate(Bucket=bucket, Prefix=prefix)
+            symbols = []
+            files = []
+            for page in iterator:
+                for content in page['Contents']:
+                    if ".gzip" in content['Key']:
+                        symbols.append(content['Key'].split('/')[-1].split('.gzip')[0])
+                        files.append(content['Key'].split(prefix)[1])
 
-        symbols = sorted(
-            item.split(".csv")[0] for item in os.listdir(ddir) if ".csv" in item
-        )
+        else:
+            ddir = os.path.join(dir, tframe)
+            symbols = sorted(
+                item.split(".gzip")[0] for item in os.listdir(ddir) if ".gzip" in item
+            )
+            files = os.listdir(dir)
         if not symbols:
-            raise ValueError("no <symbol>.csv* files found in %s" % ddir)
+            raise ValueError("no <symbol>.gzip* files found in %s" % ddir)
 
-        dtype = [
+        
+        if instType == 'FUTURES':
+            dtype = [
+                ("start_date", "datetime64[ns]"),
+                ("end_date", "datetime64[ns]"),
+                ("auto_close_date", "datetime64[ns]"),
+                ("symbol", "object"),
+                ("root_symbol", "object"),
+                ("asset_name", "object"),
+                ("first_traded", "datetime64[ns]"),
+                ("exchange", "object"),
+                ("notice_date", "datetime64[ns]"),
+                ("expiration_date", "datetime64[ns]"),
+                ("tick_size", "float"),
+                ("multiplier", "float"),
+            ]
+            
+        else:
+            dtype = [
             ("start_date", "datetime64[ns]"),
             ("end_date", "datetime64[ns]"),
             ("auto_close_date", "datetime64[ns]"),
             ("symbol", "object"),
-        ]
+            ]
+            root_symbols = None
+            
+
         metadata = DataFrame(empty(len(symbols), dtype=dtype))
 
         if tframe == "minute":
@@ -167,24 +213,37 @@ def csvdir_bundle(
         else:
             writer = daily_bar_writer
 
+        # symbol별 가격 데이터 입력 + asset meta 데이터에 넣을 universe 작성
+        roots = {"num" : 0}
+        
         writer.write(
-            _pricing_iter(ddir, symbols, metadata, divs_splits, show_progress),
+            _pricing_iter(ddir, symbols, metadata, divs_splits, show_progress, instType, roots, files),
             show_progress=show_progress,
         )
 
-        # Hardcode the exchange to "CSVDIR" for all assets and (elsewhere)
-        # register "CSVDIR" to resolve to the NYSE calendar, because these
-        # are all equities and thus can use the NYSE calendar.
 
         exchanges = DataFrame(
-            data=[["CRYPTO", "CRYPTO", ""]],
+            data=[["CRYPTO", "CRYPTO", "0"]],
             columns=["exchange", "canonical_name", "country_code"],
             )
-        # asset_db_writer.write(equities=asset_metadata, exchanges=exchanges)
         metadata["exchange"] = "CRYPTO"
 
-
-        asset_db_writer.write(equities=metadata, exchanges=exchanges)
+        
+        if instType in ['FUTURES', 'PERPETUAL']:
+            del roots['num']
+            root_symbols = (DataFrame(
+                list(roots.values()), 
+                columns=[
+                    'root_symbol_id', 'root_symbol', 
+                    'sector', 'description', 'exchange'])
+                .astype({'root_symbol_id' : 'int', 
+                        'root_symbol' : 'object', 
+                        'sector' : 'object', 
+                        'description' : 'object',
+                        'exchange' : 'object'}))
+            asset_db_writer.write(futures=metadata, exchanges=exchanges, root_symbols=root_symbols)
+        else:
+            asset_db_writer.write(equities=metadata, exchanges=exchanges)
 
         divs_splits["divs"]["sid"] = divs_splits["divs"]["sid"].astype(int)
         divs_splits["splits"]["sid"] = divs_splits["splits"]["sid"].astype(int)
@@ -193,33 +252,47 @@ def csvdir_bundle(
         )
 
 
-def _pricing_iter(csvdir, symbols, metadata, divs_splits, show_progress):
+def _pricing_iter(dir, symbols, metadata, divs_splits, show_progress, instType, roots, files):
     with maybe_show_progress(
         symbols, show_progress, label="Loading custom pricing data: "
     ) as it:
-        files = os.listdir(csvdir)
+        
         for sid, symbol in enumerate(it):
             logger.debug("%s: sid %s" % (symbol, sid))
 
+            
             try:
-                fname = [fname for fname in files if "%s.csv" % symbol in fname][0]
+                fname = [fname for fname in files if "%s.gzip" % symbol in fname][0]
             except IndexError:
-                raise ValueError("%s.csv file is not in %s" % (symbol, csvdir))
-
-            dfr = read_csv(
-                os.path.join(csvdir, fname),
-                parse_dates=[0],
-                infer_datetime_format=True,
-                index_col=0,
-            ).sort_index()
+                raise ValueError("%s.gzip file is not in %s" % (symbol, dir))
+            
+            # gzip 파일 받아오기
+            dfr = read_parquet(os.path.join(dir, fname)).sort_index()
 
             start_date = dfr.index[0]
             end_date = dfr.index[-1]
 
-            # The auto_close date is the day after the last trade.
-            ac_date = end_date + Timedelta(days=1)
-            metadata.iloc[sid] = start_date, end_date, ac_date, symbol
+            # Auto close : 종목의 상장 폐지가 발생하는 경우 처분하는 날짜
+            ac_date = end_date
 
+            if instType in ['FUTURES', 'SWAP']:
+                root_symbol = "".join(symbol.split('/')[:2])
+                if root_symbol not in roots: 
+                    roots[root_symbol] = [roots["num"], root_symbol, "", "", "CRYPTO"]
+                    roots['num']+=1 
+                
+                tick_size = dfr['tick_size'].unique()[0]
+                multiplier = dfr['multiplier'].unique()[0]
+                notice_date=expiration_date=end_date
+                metadata.iloc[sid] = (
+                    start_date, end_date, ac_date, symbol,
+                    root_symbol, symbol, start_date, "CRYPTO",
+                    notice_date, expiration_date, tick_size, multiplier
+                )
+            else:
+                metadata.iloc[sid] = start_date, end_date, ac_date, symbol
+
+            # split, dividend 관련 정보를 입력함.
             if "split" in dfr.columns:
                 tmp = 1.0 / dfr[dfr["split"] != 1.0]["split"]
                 split = DataFrame(data=tmp.index.tolist(), columns=["effective_date"])
@@ -249,4 +322,4 @@ def _pricing_iter(csvdir, symbols, metadata, divs_splits, show_progress):
             yield sid, dfr
 
 
-register_calendar_alias("CSVDIR", "NYSE")
+register_calendar_alias("SANDBANK", "CRYPTO")

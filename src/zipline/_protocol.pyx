@@ -442,15 +442,18 @@ cdef class BarData:
         cdef object dt_to_use_for_exchange_check,
 
         if self._is_restricted(asset, adjusted_dt):
+            print('restricted')
             return False
 
         session_label = self._trading_calendar.minute_to_session_label(dt)
 
         if not asset.is_alive_for_session(session_label):
+            print('not alive')
             # asset isn't alive
             return False
 
         if asset.auto_close_date and session_label > asset.auto_close_date:
+            pirnt('auto close')
             return False
 
         if not self._daily_mode:
@@ -463,6 +466,7 @@ cdef class BarData:
                     self._trading_calendar.next_open(dt)
 
             if not asset.is_exchange_open(dt_to_use_for_exchange_check):
+                print('exchange not open')
                 return False
 
         # is there a last price?

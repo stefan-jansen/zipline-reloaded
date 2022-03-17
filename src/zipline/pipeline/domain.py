@@ -262,6 +262,7 @@ TR_EQUITIES = EquityCalendarDomain(CountryCode.TURKEY, "XIST")
 TW_EQUITIES = EquityCalendarDomain(CountryCode.TAIWAN, "XTAI")
 US_EQUITIES = EquityCalendarDomain(CountryCode.UNITED_STATES, "XNYS")
 ZA_EQUITIES = EquityCalendarDomain(CountryCode.SOUTH_AFRICA, "XJSE")
+CRYPTO = EquityCalendarDomain('0', "CRYPTO")
 
 BUILT_IN_DOMAINS = [
     AR_EQUITIES,

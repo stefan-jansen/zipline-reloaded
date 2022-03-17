@@ -21,8 +21,8 @@ from zipline.data.benchmarks import get_benchmark_returns_from_file
 from zipline.data.data_portal import DataPortal
 from zipline.finance import metrics
 from zipline.finance.trading import SimulationParameters
-from zipline.pipeline.data import USEquityPricing
-from zipline.pipeline.loaders import USEquityPricingLoader
+from zipline.pipeline.data import USEquityPricing, CryptoPricing
+from zipline.pipeline.loaders import USEquityPricingLoader, CryptoPricingLoader
 
 import zipline.utils.paths as pth
 from zipline.extensions import load
@@ -98,7 +98,7 @@ def _run(
 
     if trading_calendar is None:
         trading_calendar = get_calendar("XNYS")
-
+    
     # date parameter validation
     if trading_calendar.session_distance(start, end) < 1:
         raise _RunAlgoError(
@@ -171,14 +171,15 @@ def _run(
         future_daily_reader=bundle_data.equity_daily_bar_reader,
     )
 
-    pipeline_loader = USEquityPricingLoader.without_fx(
-        bundle_data.equity_daily_bar_reader,
+    pipeline_loader = CryptoPricingLoader.without_fx(
+        bundle_data.equity_minute_bar_reader,
         bundle_data.adjustment_reader,
     )
 
-    def choose_loader(column):
-        if column in USEquityPricing.columns:
-            return pipeline_loader
+    def choose_loader(column, check=None):
+        if column in CryptoPricing.columns:
+            return pipeline_lo
+            ader
         try:
             return custom_loader.get(column)
         except KeyError:

@@ -1410,6 +1410,7 @@ class AssetFinder(object):
         """
         sids = starts = ends = []
         equities_cols = self.equities.c
+        # equities_cols = self.futures_contracts.c
         if country_codes:
             results = (
                 sa.select(

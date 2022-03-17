@@ -221,7 +221,6 @@ class TradingAlgorithm(object):
         handle_data=None,
         before_trading_start=None,
         analyze=None,
-        #
         trading_calendar=None,
         metrics_set=None,
         blotter=None,
@@ -531,7 +530,6 @@ class TradingAlgorithm(object):
             benchmark_asset = self.asset_finder.retrieve_asset(self.benchmark_sid)
             benchmark_returns = None
         else:
-
             benchmark_asset = None
             benchmark_returns = self.benchmark_returns
         return BenchmarkSource(

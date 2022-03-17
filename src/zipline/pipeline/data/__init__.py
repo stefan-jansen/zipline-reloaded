@@ -1,4 +1,4 @@
-from .equity_pricing import EquityPricing, USEquityPricing
+from .equity_pricing import EquityPricing, USEquityPricing, CryptoPricing
 from .dataset import (
     BoundColumn,
     Column,
