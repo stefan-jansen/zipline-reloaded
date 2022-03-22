@@ -8,9 +8,63 @@ from weakref import WeakKeyDictionary, ref
 
 from _thread import allocate_lock as Lock
 from toolz.sandbox import unzip
-from zipline.utils.calendar_utils import lazyval
 
 from zipline.utils.compat import wraps
+
+
+class lazyval(property):
+    """Decorator that marks that an attribute of an instance should not be
+    computed until needed, and that the value should be memoized.
+
+    Example
+    -------
+
+    >>> from zipline.utils.memoize import lazyval
+    >>> class C(object):
+    ...     def __init__(self):
+    ...         self.count = 0
+    ...     @lazyval
+    ...     def val(self):
+    ...         self.count += 1
+    ...         return "val"
+    ...
+    >>> c = C()
+    >>> c.count
+    0
+    >>> c.val, c.count
+    ('val', 1)
+    >>> c.val, c.count
+    ('val', 1)
+    >>> c.val = 'not_val'
+    Traceback (most recent call last):
+    ...
+    AttributeError: Can't set read-only attribute.
+    >>> c.val
+    'val'
+    """
+
+    __slots__ = ["func", "_cache"]
+
+    def __init__(self, func):
+        self.func = func
+        self._cache = WeakKeyDictionary()
+
+    def __get__(self, instance, owner=None):
+        if instance is None:
+            return self
+        try:
+            return self._cache[instance]
+        except KeyError:
+            self._cache[instance] = val = self.func(instance)
+            return val
+
+    def __set__(self, instance, value):
+        raise AttributeError(
+            f"Can't set read-only attribute: {instance.__class__.__name__}.{self.func.__name__} "
+        )
+
+    def __delitem__(self, instance):
+        del self._cache[instance]
 
 
 class classlazyval(lazyval):
@@ -157,9 +211,7 @@ class _WeakArgs(Sequence):
 
     @property
     def alive(self):
-        return all(
-            item() is not None for item in compress(self._items, self._selectors)
-        )
+        return all(item() is not None for item in compress(self._items, self._selectors))
 
     def __eq__(self, other):
         return self._items == other._items
@@ -242,16 +294,16 @@ def weak_lru_cache(maxsize=100):
                 inst = ref(instance)
 
                 @_weak_lru_cache(maxsize)
-                @wraps(self._get)
+                @wraps(self.func)
                 def wrapper(*args, **kwargs):
-                    return self._get(inst(), *args, **kwargs)
+                    return self.func(inst(), *args, **kwargs)
 
                 self._cache[instance] = wrapper
                 return wrapper
 
         @_weak_lru_cache(maxsize)
         def __call__(self, *args, **kwargs):
-            return self._get(*args, **kwargs)
+            return self.func(*args, **kwargs)
 
     return desc
 
