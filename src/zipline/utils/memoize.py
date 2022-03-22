@@ -2,7 +2,7 @@
 Tools for memoization of function results.
 """
 from collections.abc import Sequence
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 from itertools import compress
 from weakref import WeakKeyDictionary, ref
 
@@ -97,6 +97,9 @@ class classlazyval(lazyval):
         return super(classlazyval, self).__get__(owner, owner)
 
 
+_CacheInfo = namedtuple("CacheInfo", ["hits", "misses", "maxsize", "currsize"])
+
+
 def _weak_lru_cache(maxsize=100):
     """
     Users should only access the lru_cache through its public API:
@@ -105,11 +108,9 @@ def _weak_lru_cache(maxsize=100):
     to allow the implementation to change.
     """
 
-    def decorating_function(
-        user_function, tuple=tuple, sorted=sorted, len=len, KeyError=KeyError
-    ):
+    def decorating_function(user_function, tuple=tuple, sorted=sorted, KeyError=KeyError):
 
-        hits, misses = [0], [0]
+        hits = misses = 0
         kwd_mark = (object(),)  # separates positional and keyword args
         lock = Lock()  # needed because OrderedDict isn't threadsafe
 
@@ -118,18 +119,19 @@ def _weak_lru_cache(maxsize=100):
 
             @wraps(user_function)
             def wrapper(*args, **kwds):
+                nonlocal hits, misses
                 key = args
                 if kwds:
                     key += kwd_mark + tuple(sorted(kwds.items()))
                 try:
                     result = cache[key]
-                    hits[0] += 1
+                    hits += 1
                     return result
                 except KeyError:
                     pass
                 result = user_function(*args, **kwds)
                 cache[key] = result
-                misses[0] += 1
+                misses += 1
                 return result
 
         else:
@@ -140,6 +142,7 @@ def _weak_lru_cache(maxsize=100):
 
             @wraps(user_function)
             def wrapper(*args, **kwds):
+                nonlocal hits, misses
                 key = args
                 if kwds:
                     key += kwd_mark + tuple(sorted(kwds.items()))
@@ -147,23 +150,26 @@ def _weak_lru_cache(maxsize=100):
                     try:
                         result = cache[key]
                         cache_renew(key)  # record recent use of this key
-                        hits[0] += 1
+                        hits += 1
                         return result
                     except KeyError:
+                        misses += 1
                         pass
                 result = user_function(*args, **kwds)
                 with lock:
                     cache[key] = result  # record recent use of this key
-                    misses[0] += 1
-                    if len(cache) > maxsize:
+                    misses += 1
+                    if cache_len() > maxsize:
                         # purge least recently used cache entry
-                        cache_popitem(False)
+                        cache_popitem(last=False)
                 return result
+
+        cache_len = cache.__len__
 
         def cache_info():
             """Report cache statistics"""
             with lock:
-                return hits[0], misses[0], maxsize, len(cache)
+                return _CacheInfo(hits, misses, maxsize, cache_len())
 
         def cache_clear():
             """Clear the cache and cache statistics"""
