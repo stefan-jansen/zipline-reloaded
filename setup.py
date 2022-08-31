@@ -158,10 +158,10 @@ ext_modules = [
 for ext_module in ext_modules:
     ext_module.cython_directives = dict(language_level="3")
 
-version = versioneer.get_version()
+#version = versioneer.get_version()
 
 setup(
-    version=version,
+    version='3.0.0',
     cmdclass=LazyBuildExtCommandClass(versioneer.get_cmdclass()),
     entry_points={
         "console_scripts": [

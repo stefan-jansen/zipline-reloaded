@@ -12,10 +12,7 @@ from toolz import curry, complement, take
 
 from ..adjustments import SQLiteAdjustmentReader, SQLiteAdjustmentWriter
 from ..bcolz_daily_bars import BcolzDailyBarReader, BcolzDailyBarWriter
-from ..minute_bars import (
-    BcolzMinuteBarReader,
-    BcolzMinuteBarWriter,
-)
+
 from zipline.assets import AssetDBWriter, AssetFinder, ASSET_DB_VERSION
 from zipline.assets.asset_db_migrations import downgrade
 from zipline.utils.cache import (
@@ -413,13 +410,7 @@ def _make_bundle_core():
                 # that it can compute the adjustment ratios for the dividends.
 
                 daily_bar_writer.write(())
-                minute_bar_writer = BcolzMinuteBarWriter(
-                    wd.ensure_dir(*minute_equity_relative(name, timestr)),
-                    calendar,
-                    start_session,
-                    end_session,
-                    minutes_per_day=bundle.minutes_per_day,
-                )
+
                 assets_db_path = wd.getpath(*asset_db_relative(name, timestr))
                 asset_db_writer = AssetDBWriter(assets_db_path)
 
@@ -534,9 +525,7 @@ def _make_bundle_core():
             asset_finder=AssetFinder(
                 asset_db_path(name, timestr, environ=environ),
             ),
-            equity_minute_bar_reader=BcolzMinuteBarReader(
-                minute_equity_path(name, timestr, environ=environ),
-            ),
+            equity_minute_bar_reader=None,
             equity_daily_bar_reader=BcolzDailyBarReader(
                 daily_equity_path(name, timestr, environ=environ),
             ),
