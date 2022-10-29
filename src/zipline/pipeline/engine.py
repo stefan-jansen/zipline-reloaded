@@ -781,8 +781,14 @@ class SimplePipelineEngine(PipelineEngine):
 
         resolved_assets = array(self._finder.retrieve_all(assets))
         index = _pipeline_output_index(dates, resolved_assets, mask)
+        df = DataFrame(data=final_columns, index=index)
 
-        return DataFrame(data=final_columns, index=index)
+        import numpy as np
+
+        for col, dtype in df.dtypes.items():
+            if dtype.type == np.record:
+                df[col] = df[col].apply(tuple)
+        return df
 
     def _validate_compute_chunk_params(self, graph, dates, sids, initial_workspace):
         """
