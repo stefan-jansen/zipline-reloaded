@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  build:
+  tests:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
