@@ -89,7 +89,7 @@ jobs:
 
       - name: Unittests with tox & pytest
         run: |
-          tox -e ci_tests
+          tox -e py38-pandas15
 
       - name: Upload coverage data to Codecov
         if: ${{ matrix.os == 'ubuntu-latest' }}
