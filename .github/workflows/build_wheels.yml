@@ -7,9 +7,9 @@ on:
         description: 'Package Index'
         required: true
         default: 'TESTPYPI'
-  release:
-    types:
-    - published
+#  release:
+#    types:
+#    - published
 
 jobs:
   build_linux:
@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
-        python: [ 37, 38, 39 ]
+        python: [ 37, 38, 39, '310']
         manylinux_image: [ manylinux2010, manylinux2014 ]
 
     steps:
@@ -59,7 +59,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ macos-latest ]
-        python: [ 37, 38, 39 ]
+        python: [ 37, 38, 39, '310']
 
     steps:
       - name: Checkout zipline
@@ -90,7 +90,7 @@ jobs:
       - uses: actions/setup-python@v4
         name: Install Python
         with:
-          python-version: '3.8'
+          python-version: '3.9'
 
       - name: Build sdist
         run: |
