@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout zipline
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -48,7 +48,7 @@ jobs:
                                harfbuzz-devel fribidi-devel libraqm-devel libimagequant-devel libxcb-devel
 
       - name: Store artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: wheelhouse/*.whl
 
@@ -63,7 +63,7 @@ jobs:
 
     steps:
       - name: Checkout zipline
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -75,7 +75,7 @@ jobs:
           CIBW_BEFORE_TEST_MACOS: >
             brew install freetype pkg-config gcc openssl c-blosc hdf5 ta-lib
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
 
@@ -83,7 +83,7 @@ jobs:
     name: Build source distribution
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -97,7 +97,7 @@ jobs:
           pip install -U pip setuptools build
           python -m build --sdist
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           path: dist/*.tar.gz
 
@@ -111,7 +111,7 @@ jobs:
           path: dist
 
       - name: publish to testpypi
-        uses: pypa/gh-action-pypi-publish@master
+        uses: pypa/gh-action-pypi-publish@release/v1
         if: ${{ github.event.inputs.target }} == 'TESTPYPI'
         with:
           user: __token__
@@ -119,7 +119,7 @@ jobs:
           repository_url: https://test.pypi.org/legacy/
 
       - name: publish to pypi
-        uses: pypa/gh-action-pypi-publish@master
+        uses: pypa/gh-action-pypi-publish@release/v1
         if: ${{ github.event.inputs.target }} == 'PYPI' || (github.event_name == 'release' && github.event.action == 'published')
         with:
           user: __token__
