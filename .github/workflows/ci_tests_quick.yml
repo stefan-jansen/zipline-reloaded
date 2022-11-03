@@ -80,6 +80,8 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
           pip install tox tox-gh-actions
           pip install -e .[test]
+          pip uninstall -y ta-lib
+          python -m pip install --no-cache-dir git+https://github.com/mrjbq7/ta-lib.git
 
       - name: Lint with flake8
         run: |
