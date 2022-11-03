@@ -6,7 +6,7 @@ on:
     - cron: "0 9 * * 6"
 
 jobs:
-  build:
+  tests:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -78,6 +78,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox tox-gh-actions
           pip install -e .[test]
+          pip uninstall -y ta-lib
+          python -m pip install --no-cache-dir git+https://github.com/mrjbq7/ta-lib.git
 
       - name: Lint with flake8
         run: |
