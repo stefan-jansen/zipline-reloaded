@@ -115,7 +115,7 @@ class PipelineEngine(metaclass=ABCMeta):
 
     @abstractmethod
     def run_chunked_pipeline(
-            self, pipeline, start_date, end_date, chunksize, hooks=None
+        self, pipeline, start_date, end_date, chunksize, hooks=None
     ):
         """
         Compute values for ``pipeline`` from ``start_date`` to ``end_date``, in
@@ -176,7 +176,7 @@ class ExplodingPipelineEngine(PipelineEngine):
         )
 
     def run_chunked_pipeline(
-            self, pipeline, start_date, end_date, chunksize, hooks=None
+        self, pipeline, start_date, end_date, chunksize, hooks=None
     ):
         raise NoEngineRegistered(
             "Attempted to run a chunked pipeline but no pipeline "
@@ -185,7 +185,7 @@ class ExplodingPipelineEngine(PipelineEngine):
 
 
 def default_populate_initial_workspace(
-        initial_workspace, root_mask_term, execution_plan, dates, assets
+    initial_workspace, root_mask_term, execution_plan, dates, assets
 ):
     """The default implementation for ``populate_initial_workspace``. This
     function returns the ``initial_workspace`` argument without making any
@@ -254,12 +254,12 @@ class SimplePipelineEngine(PipelineEngine):
         __funcname="SimplePipelineEngine",
     )
     def __init__(
-            self,
-            get_loader,
-            asset_finder,
-            default_domain=GENERIC,
-            populate_initial_workspace=None,
-            default_hooks=None,
+        self,
+        get_loader,
+        asset_finder,
+        default_domain=GENERIC,
+        populate_initial_workspace=None,
+        default_hooks=None,
     ):
 
         self._get_loader = get_loader
@@ -269,7 +269,7 @@ class SimplePipelineEngine(PipelineEngine):
         self._root_mask_dates_term = InputDates()
 
         self._populate_initial_workspace = (
-                populate_initial_workspace or default_populate_initial_workspace
+            populate_initial_workspace or default_populate_initial_workspace
         )
         self._default_domain = default_domain
 
@@ -279,7 +279,7 @@ class SimplePipelineEngine(PipelineEngine):
             self._default_hooks = list(default_hooks)
 
     def run_chunked_pipeline(
-            self, pipeline, start_date, end_date, chunksize, hooks=None
+        self, pipeline, start_date, end_date, chunksize, hooks=None
     ):
         """
         Compute values for ``pipeline`` from ``start_date`` to ``end_date``, in
@@ -497,7 +497,7 @@ class SimplePipelineEngine(PipelineEngine):
         # `start_date.`
         finder = self._finder
         lifetimes = finder.lifetimes(
-            sessions[start_idx - extra_rows: end_idx],
+            sessions[start_idx - extra_rows : end_idx],
             include_start_date=False,
             country_codes=(domain.country_code,),
         )
@@ -577,7 +577,7 @@ class SimplePipelineEngine(PipelineEngine):
         return out
 
     def compute_chunk(
-            self, graph, dates, sids, workspace, refcounts, execution_order, hooks
+        self, graph, dates, sids, workspace, refcounts, execution_order, hooks
     ):
         """
         Compute the Pipeline terms in the graph for the requested start and end
@@ -681,13 +681,13 @@ class SimplePipelineEngine(PipelineEngine):
                         mask,
                     )
                 assert set(loaded) == set(to_load), (
-                        "loader did not return an AdjustedArray for each column\n"
-                        "expected: %r\n"
-                        "got:      %r"
-                        % (
-                            sorted(to_load, key=repr),
-                            sorted(loaded, key=repr),
-                        )
+                    "loader did not return an AdjustedArray for each column\n"
+                    "expected: %r\n"
+                    "got:      %r"
+                    % (
+                        sorted(to_load, key=repr),
+                        sorted(loaded, key=repr),
+                    )
                 )
                 workspace.update(loaded)
             else:
@@ -719,7 +719,7 @@ class SimplePipelineEngine(PipelineEngine):
         graph_extra_rows = graph.extra_rows
         for name, term in graph.outputs.items():
             # Truncate off extra rows from outputs.
-            out[name] = workspace[term][graph_extra_rows[term]:]
+            out[name] = workspace[term][graph_extra_rows[term] :]
         return out
 
     def _to_narrow(self, terms, data, mask, dates, assets):
