@@ -60,10 +60,11 @@ jobs:
         env:
           CIBW_BUILD: 'cp38-win_amd64 cp39-win_amd64 cp310-win_amd64 cp311-win_amd64'
 
-      - uses: actions/upload-artifact@v3
+      - name: Store artifacts
+        uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
-      - name: Store artifacts
+
 
   build_sdist:
     name: Build source distribution
