@@ -89,7 +89,7 @@ jobs:
           path: dist/*.tar.gz
 
   upload_pypi:
-    needs: [ build_linux, build_macos, build_sdist ]
+    needs: [ build_wheels, build_sdist ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
