@@ -14,9 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-
 import numpy
+from Cython.Build import cythonize
 from setuptools import Extension, setup  # noqa: E402
 
 
@@ -101,16 +100,11 @@ ext_modules = [
         define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
 ]
-for ext_module in ext_modules:
-    ext_module.cython_directives = dict(language_level="3")
+# for ext_module in ext_modules:
+#     ext_module.cython_directives = dict(language_level="3")
 
 setup(
     use_scm_version=True,
-    ext_modules=ext_modules,
-    package_data={
-        root.replace(os.sep, "."): ["*.pyi", "*.pyx", "*.pxi", "*.pxd"]
-        for root, dirnames, filenames in os.walk("src/zipline")
-        if "__pycache__" not in root
-    },
+    ext_modules=cythonize(ext_modules, **ext_options),
     include_dirs=[numpy.get_include()],
 )

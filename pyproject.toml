@@ -131,6 +131,9 @@ write_to = "src/zipline/_version.py"
 version_scheme = 'guess-next-dev'
 local_scheme = 'dirty-tag'
 
+[tool.setuptools.package-data]
+"*" = ["*.pyi", "*.pyx", "*.pxi", "*.pxd"]
+
 
 [tool.pytest]
 testpaths = 'tests'
@@ -151,7 +154,7 @@ archs = ["auto64"]
 
 [tool.flake8]
 exclude = [
-#    "versioneer.py",
+    #    "versioneer.py",
     "setup.py",
     '.git',
     '__pycache__',
