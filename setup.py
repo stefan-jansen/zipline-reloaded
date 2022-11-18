@@ -14,64 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
 import os
-from pathlib import Path
 
-# ensure the current directory is on sys.path
-# so versioneer can be imported when pip uses
-# PEP 517/518 build rules.
-# https://github.com/python-versioneer/python-versioneer/issues/193
-sys.path.append(Path(__file__).resolve(strict=True).parent.as_posix())
-import versioneer  # noqa: E402
-from setuptools import Extension, find_packages, setup  # noqa: E402
-
-
-class LazyBuildExtCommandClass(dict):
-    """
-    Lazy command class that defers operations requiring Cython and numpy until
-    they've actually been downloaded and installed by setup_requires.
-    """
-
-    def __contains__(self, key):
-        return key == "build_ext" or super(LazyBuildExtCommandClass, self).__contains__(
-            key
-        )
-
-    def __setitem__(self, key, value):
-        if key == "build_ext":
-            raise AssertionError("build_ext overridden!")
-        super(LazyBuildExtCommandClass, self).__setitem__(key, value)
-
-    def __getitem__(self, key):
-        if key != "build_ext":
-            return super(LazyBuildExtCommandClass, self).__getitem__(key)
-
-        from Cython.Distutils import build_ext as cython_build_ext
-        import numpy
-
-        # Cython_build_ext isn't a new-style class in Py2.
-        class build_ext(cython_build_ext, object):
-            """
-            Custom build_ext command that lazily adds numpy's include_dir to
-            extensions.
-            """
-
-            def build_extensions(self):
-                """
-                Lazily append numpy's include directory to Extension includes.
-
-                This is done here rather than at module scope because setup.py
-                may be run before numpy has been installed, in which case
-                importing numpy and calling `numpy.get_include()` will fail.
-                """
-                numpy_incl = numpy.get_include()
-                for ext in self.extensions:
-                    ext.include_dirs.append(numpy_incl)
-
-                super(build_ext, self).build_extensions()
-
-        return build_ext
+import numpy
+from setuptools import Extension, setup  # noqa: E402
 
 
 def window_specialization(typename):
@@ -158,23 +104,13 @@ ext_modules = [
 for ext_module in ext_modules:
     ext_module.cython_directives = dict(language_level="3")
 
-version = versioneer.get_version()
-
 setup(
-    version=version,
-    cmdclass=LazyBuildExtCommandClass(versioneer.get_cmdclass()),
-    entry_points={
-        "console_scripts": [
-            "zipline = zipline.__main__:main",
-        ],
-    },
-    # packages=find_packages(include=["src/zipline"]),
+    use_scm_version=True,
     ext_modules=ext_modules,
-    # package_dir={'': 'src'},
-    # packages=find_packages(where='src'),
     package_data={
         root.replace(os.sep, "."): ["*.pyi", "*.pyx", "*.pxi", "*.pxd"]
         for root, dirnames, filenames in os.walk("src/zipline")
         if "__pycache__" not in root
     },
+    include_dirs=[numpy.get_include()],
 )
