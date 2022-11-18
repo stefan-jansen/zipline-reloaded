@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: [3.8]
+        python-version: ['3.10']
 
     steps:
       - name: Checkout Zipline
@@ -33,7 +33,8 @@ jobs:
       - name: Install TA-Lib macOS
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          brew install freetype pkg-config gcc openssl hdf5 ta-lib c-blosc
+#          brew install freetype pkg-config gcc openssl hdf5 ta-lib c-blosc
+          brew install ta-lib
 
       - name: Developer Command Prompt for Microsoft Visual C++
         uses: ilammy/msvc-dev-cmd@v1
