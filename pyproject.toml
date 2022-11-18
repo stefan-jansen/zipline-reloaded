@@ -134,13 +134,11 @@ local_scheme = 'dirty-tag'
 [tool.setuptools.package-data]
 "*" = ["*.pyi", "*.pyx", "*.pxi", "*.pxd"]
 
-
 [tool.pytest]
 testpaths = 'tests'
 addopts = '-v'
 
 [tool.cibuildwheel]
-skip = "*musllinux*"
 test-extras = "test"
 test-command = 'python -c "import zipline; print(zipline.__version__)"'
 build-verbosity = 3
@@ -151,6 +149,7 @@ test-skip = ["*universal2:arm64"]
 
 [tool.cibuildwheel.linux]
 archs = ["auto64"]
+skip = "*musllinux*"
 
 [tool.black]
 line-length = 88
@@ -182,7 +181,6 @@ python =
     3.8: py38
     3.9: py39
     3.10: py310
-
 
 [testenv:py38-pandas15]
 ; Without this line uploading reports to codecov doesn't work
