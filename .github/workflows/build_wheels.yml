@@ -59,6 +59,8 @@ jobs:
         uses: pypa/cibuildwheel@v2.11.2
         env:
           CIBW_BUILD: 'cp38-win_amd64 cp39-win_amd64 cp310-win_amd64 cp311-win_amd64'
+          CIBW_BEFORE_ALL_WINDOWS: >
+            ./tools/install_talib.bat
 
       - name: Store artifacts
         uses: actions/upload-artifact@v3
