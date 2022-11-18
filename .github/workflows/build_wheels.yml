@@ -36,16 +36,7 @@ jobs:
         env:
           CIBW_BUILD: "cp${{ matrix.python }}-*"
           CIBW_BEFORE_TEST_LINUX: >
-            curl -L -o ta-lib-0.4.0-src.tar.gz  http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz &&
-            tar xvfz ta-lib-0.4.0-src.tar.gz &&
-            cd ta-lib &&
-            ./configure &&
-            make &&
-            make install &&
-            ldconfig &&
-            yum install -y libtiff-devel libjpeg-devel openjpeg2-devel zlib-devel \
-                               freetype-devel lcms2-devel libwebp-devel tcl-devel tk-devel \
-                               harfbuzz-devel fribidi-devel libraqm-devel libimagequant-devel libxcb-devel
+            ./tools/install_talib.sh
 
       - name: Store artifacts
         uses: actions/upload-artifact@v3
@@ -73,7 +64,7 @@ jobs:
           CIBW_BUILD: "cp${{ matrix.python }}-*"
           CIBW_ENVIRONMENT: MACOSX_DEPLOYMENT_TARGET=10.14
           CIBW_BEFORE_TEST_MACOS: >
-            brew install freetype pkg-config gcc openssl c-blosc hdf5 ta-lib
+            brew install ta-lib
 
       - uses: actions/upload-artifact@v3
         with:
