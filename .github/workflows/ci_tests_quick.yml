@@ -48,7 +48,7 @@ jobs:
           python -VV
           python -m pip install --upgrade pip setuptools wheel
           pip install tox tox-gh-actions
-          pip install -e .[test]
+          pip install .[test]
 
       - name: Lint with flake8
         run: |
