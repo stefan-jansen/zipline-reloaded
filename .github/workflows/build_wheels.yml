@@ -42,8 +42,7 @@ jobs:
         env:
           CIBW_BEFORE_ALL_LINUX: >
             ./tools/install_talib.sh
-          CIBW_BEFORE_ALL_MACOS: brew install hdf5 c-blosc
-          CIBW_BEFORE_TEST_MACOS: brew install hdf5 c-blosc
+          CIBW_BEFORE_TEST_MACOS: brew install ta-lib
           CIBW_ARCHS_LINUX: ${{ matrix.arch }}
           CIBW_ARCHS_MACOS: x86_64 arm64
           CIBW_BUILD: "cp${{ matrix.python }}-*"
@@ -61,9 +60,8 @@ jobs:
         env:
           CIBW_BUILD: 'cp38-win_amd64 cp39-win_amd64 cp310-win_amd64 cp311-win_amd64'
           CIBW_BEFORE_TEST_WINDOWS: >
-            ./tools/install_talib.bat
-          CIBW_BEFORE_ALL_WINDOWS: >
-            ./tools/install_talib.bat
+            call "c:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64 &&
+            call ./tools/install_talib.bat
 
       - name: Store artifacts
         uses: actions/upload-artifact@v3
