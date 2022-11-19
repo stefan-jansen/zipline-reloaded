@@ -1,7 +1,6 @@
 #!/bin/bash
 wget https://downloads.sourceforge.net/project/ta-lib/ta-lib/0.4.0/ta-lib-0.4.0-src.tar.gz &&
 sudo tar xvfz ta-lib-0.4.0-src.tar.gz &&
-export PREFIX=/usr/local &&
 sudo apt-get update &&
 sudo apt-get install gcc-multilib g++-multilib &&
 echo "Installing TA-Lib in $PREFIX" &&
