@@ -58,7 +58,7 @@ jobs:
       - name: Unittests with tox & pytest
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 45
+          timeout_minutes: 90
           max_attempts: 3
           retry_on: error
           command: tox
