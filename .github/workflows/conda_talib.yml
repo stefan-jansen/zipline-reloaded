@@ -18,13 +18,13 @@ jobs:
       matrix:
         os: [ macos-latest, windows-latest, ubuntu-latest ]
         python: [ '3.7', '3.8', '3.9' , '3.10']
+        arch: [x64]
 
     steps:
       - name: Checkout zipline-reloaded
         uses: actions/checkout@v3
         with:
           python-version: ${{ matrix.python-version }}
-
 
       - name: Setup miniconda3
         uses: conda-incubator/setup-miniconda@v2
