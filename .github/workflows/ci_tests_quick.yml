@@ -55,8 +55,12 @@ jobs:
           flake8
 
       - name: Unittests with tox & pytest
-        run: |
-          tox -e py310-pandas15
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 45
+          max_attempts: 3
+          retry_on: error
+          command: tox -e py310-pandas15
 
       - name: Upload coverage data to Codecov
         if: ${{ matrix.os == 'ubuntu-latest' }}

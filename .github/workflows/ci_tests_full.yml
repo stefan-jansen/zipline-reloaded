@@ -56,5 +56,9 @@ jobs:
           flake8
 
       - name: Unittests with tox & pytest
-        run: |
-          tox
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 45
+          max_attempts: 3
+          retry_on: error
+          command: tox
