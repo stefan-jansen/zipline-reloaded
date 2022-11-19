@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest , windows-latest, macos-latest ]
-        python: [ '3.7', '3.8', '3.9', '3.10' ]
+        python: [ 37, 38, 39, '310' ]
         arch: [ auto64 ]
 
     steps:
@@ -58,7 +58,7 @@ jobs:
         if: runner.os == 'Windows'
         uses: pypa/cibuildwheel@v2.11.2
         env:
-          CIBW_BUILD: 'cp${{ matrix.python }}-win_amd64'
+          CIBW_BUILD: "cp${{ matrix.python }}-win_amd64"
           CIBW_BEFORE_TEST_WINDOWS: >
             call "c:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64 &&
             call ./tools/install_talib.bat
