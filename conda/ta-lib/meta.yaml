@@ -23,8 +23,7 @@ requirements:
     - setuptools_scm
     - cython
     - numpy<1.23
-    - gcc-multilib  # [linux]
-    - g++-multilib  # [linux]
+
   run:
     - python
     - numpy
