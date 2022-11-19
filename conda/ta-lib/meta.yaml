@@ -19,6 +19,7 @@ requirements:
     - python
     - cython
     - numpy
+    - {{ compiler('c') }}
   run:
     - python
     - numpy
