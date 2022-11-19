@@ -1,4 +1,4 @@
-name: CI Tests
+name: CI Tests - Quick
 
 on:
   workflow_dispatch:
@@ -56,13 +56,13 @@ jobs:
 
       - name: Unittests with tox & pytest
         run: |
-          tox -e py38-pandas15
+          tox -e py310-pandas15
 
       - name: Upload coverage data to Codecov
         if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
+          fail_ci_if_error: false
           name: codecov-umbrella
           verbose: true
