@@ -16,11 +16,15 @@ build:
 
 requirements:
   build:
-    - python
-    - cython
-    - numpy
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+  host:
+    - python
+    - setuptools_scm
+    - cython
+    - numpy<1.23
+    - gcc-multilib  # [linux]
+    - g++-multilib  # [linux]
   run:
     - python
     - numpy

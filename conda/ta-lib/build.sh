@@ -1,7 +1,9 @@
 #!/bin/bash
 wget https://downloads.sourceforge.net/project/ta-lib/ta-lib/0.4.0/ta-lib-0.4.0-src.tar.gz &&
 tar xvfz ta-lib-0.4.0-src.tar.gz &&
+export PREFIX=/usr/local &&
 echo "Installing TA-Lib in $PREFIX" &&
+ls ta-lib &&
 pushd ta-lib &&
 ./configure --prefix=$PREFIX &&
 make &&
