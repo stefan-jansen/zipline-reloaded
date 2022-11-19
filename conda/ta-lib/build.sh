@@ -12,8 +12,8 @@ sudo make &&
 sudo make install &&
 sudo ldconfig &&
 popd &&
-rm ta-lib-0.4.0-src.tar.gz &&
-rm -r ta-lib &&
+sudo rm ta-lib-0.4.0-src.tar.gz &&
+sudo rm -r ta-lib &&
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PREFIX/lib &&
 export TA_INCLUDE_PATH=$PREFIX/include &&
