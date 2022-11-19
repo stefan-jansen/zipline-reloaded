@@ -6,8 +6,9 @@ echo "Installing TA-Lib in $PREFIX" &&
 ls ta-lib &&
 pushd ta-lib &&
 ./configure --prefix=$PREFIX &&
-make &&
-make install &&
+sudo make &&
+sudo make install &&
+sudo ldconfig &&
 popd &&
 rm ta-lib-0.4.0-src.tar.gz &&
 rm -r ta-lib &&
