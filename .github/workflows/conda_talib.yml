@@ -26,8 +26,8 @@ jobs:
 
     steps:
       - name: Set Xcode version
-        uses: maxim-lobanov/setup-xcode@v1
         if: ${{ matrix.os == 'macos-latest' }}
+        uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
 
@@ -40,6 +40,7 @@ jobs:
           xcrun --show-sdk-path | ls
 
       - name: Install MSVC amd64
+        if: ${{ matrix.os == 'windows-latest' }}
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
