@@ -17,7 +17,6 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
   host:
     - python
     - setuptools_scm
@@ -29,8 +28,16 @@ requirements:
     - numpy
 
 test:
+  requires:
+    - numpy
+    - Cython
+    - pytest
+    - pandas
+    - polars
   imports:
     - talib
+  commands:
+    - python -c "import talib; talib.test()"
 
 about:
   home: http://github.com/mrjbq7/ta-lib

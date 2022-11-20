@@ -16,10 +16,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-latest, windows-latest, ubuntu-latest ]
-#        os: [ macos-latest, windows-latest ]
-        python: [ '3.7', '3.8', '3.9' , '3.10']
-        arch: [x64]
+#        os: [ macos-latest, windows-latest, ubuntu-latest ]
+        os: [ macos-latest, windows-latest ]
+        python: [ '3.7', '3.8', '3.9' , '3.10' ]
+        arch: [ x64, arm64 ]
+        skip:
+          - os: [ 'windows-latest', 'ubuntu-latest' ]
+            arch: arm64
 
     steps:
       - name: Set Xcode version
@@ -35,6 +38,11 @@ jobs:
           xcode-select --print-path | ls
           xcrun --show-sdk-path
           xcrun --show-sdk-path | ls
+
+      - name: Install MSVC amd64
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
 
       - name: Checkout zipline-reloaded
         uses: actions/checkout@v3

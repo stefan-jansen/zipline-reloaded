@@ -1,3 +1,5 @@
+@ECHO ON
+
 rmdir /s /q "C:\ta-lib\"
 powershell -Command "(New-Object Net.WebClient).DownloadFile('http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-msvc.zip', 'ta-lib-0.4.0-msvc.zip')"
 IF %ERRORLEVEL% == 1; exit 1
@@ -11,5 +13,5 @@ popd
 popd
 del ta-lib-0.4.0-msvc.zip
 
-python setup.py build --compiler msvc
-python setup.py install  --prefix=$PREFIX
+python %SRC_DIR%/setup.py build --compiler msvc
+python %SRC_DIR%/setup.py install  --prefix=$PREFIX

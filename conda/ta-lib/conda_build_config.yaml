@@ -1,0 +1,9 @@
+CONDA_BUILD_SYSROOT:
+  - /Applications/Xcode_13.2.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk # [osx]
+  - "c:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\" # [win]
+
+python:
+  - 3.7
+  - 3.8
+  - 3.9
+  - 3.10
