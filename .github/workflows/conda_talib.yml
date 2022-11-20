@@ -57,9 +57,7 @@ jobs:
           conda activate recipe
           conda clean --all
           mamba install -n recipe boa -c conda-forge
-#          conda install -n recipe conda-build conda-verify anaconda-client
           mamba install -n recipe conda-verify anaconda-client
-#          conda-build --output-folder . --python ${{ matrix.python }} conda/ta-lib/
 
       - name: conda build
         shell: bash -l {0}
