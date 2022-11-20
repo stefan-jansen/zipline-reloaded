@@ -140,7 +140,7 @@ addopts = '-v'
 
 [tool.cibuildwheel]
 test-extras = "test"
-test-command = 'python -c "import zipline; print(zipline.__version__)"'
+test-command = 'pytest -n 8'
 build-verbosity = 3
 
 [tool.cibuildwheel.macos]
