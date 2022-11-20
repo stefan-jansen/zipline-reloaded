@@ -60,7 +60,6 @@ jobs:
           path: win-64/*.tar.bz2
 
       - name: upload ${{ matrix.os }} result to anaconcda
-        if: ${{ matrix.python != '3.9'}}
         env:
           OS: ${{ matrix.os }}
         run: |
