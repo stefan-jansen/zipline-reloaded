@@ -13,12 +13,11 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     rm ta-lib-0.4.0-src.tar.gz &&
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PREFIX/lib &&
     export TA_INCLUDE_PATH=$PREFIX/include &&
-    export TA_LIBRARY_PATH=$PREFIX/lib &&
-    python setup.py build &&
-    python setup.py install --prefix=$PREFIX
+    export TA_LIBRARY_PATH=$PREFIX/lib
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   brew upgrade &&
     brew install ta-lib &&
-    python setup.py build &&
-    python setup.py install --prefix=$PREFIX
+    brew info ta-lib
 fi
+python setup.py build &&
+  python setup.py install --prefix=$PREFIX

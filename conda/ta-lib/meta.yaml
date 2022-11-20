@@ -22,7 +22,7 @@ requirements:
     - python
     - setuptools_scm
     - cython
-    - numpy<1.23
+    - numpy
 
   run:
     - python

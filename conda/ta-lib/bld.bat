@@ -12,4 +12,4 @@ popd
 del ta-lib-0.4.0-msvc.zip
 
 python setup.py build --compiler msvc
-python setup.py install
+python setup.py install  --prefix=$PREFIX
