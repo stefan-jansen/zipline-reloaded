@@ -51,7 +51,8 @@ jobs:
           activate-environment: recipe
           channels: conda-forge, defaults, anaconda
 
-      - name: conda build for ${{ matrix.os }}
+      - name: conda install
+        shell: bash -l {0}
         run: |
           conda activate recipe
           conda clean --all
