@@ -21,7 +21,10 @@ requirements:
     - python
     - setuptools_scm
     - cython
-    - numpy
+    - numpy >=1.15 [py==37]
+    - numpy >=1.18 [py==38]
+    - numpy >=1.21 [py==39]
+    - numpy >=1.23 [py==310]
 
   run:
     - python
@@ -34,10 +37,11 @@ test:
     - pytest
     - pandas
     - polars
+    - pytest
   imports:
     - talib
   commands:
-    - python -c "import talib; talib.test()"
+    - pytest
 
 about:
   home: http://github.com/mrjbq7/ta-lib
