@@ -9,7 +9,6 @@ pushd ta-lib &&
 ./configure --prefix=$PREFIX &&
 make &&
 make install &&
-ldconfig &&
 popd &&
 rm ta-lib-0.4.0-src.tar.gz &&
 rm -r ta-lib &&
