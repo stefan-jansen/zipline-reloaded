@@ -17,7 +17,8 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     python setup.py build &&
     python setup.py install --prefix=$PREFIX
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-  brew install ta-lib &&
+  brew upgrade &&
+    brew install ta-lib &&
     python setup.py build &&
-    python setup.py install
+    python setup.py install --prefix=$PREFIX
 fi
