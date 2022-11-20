@@ -5,7 +5,7 @@ on:
 
 jobs:
   build_wheels:
-    name: py${{ matrix.python }} on ${{ matrix.os }}
+    name: py${{ matrix.python }} on ${{ matrix.os }} for ${{ matrix.arch }}
     runs-on: ${{ matrix.os }}
     env:
       ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
