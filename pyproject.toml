@@ -96,7 +96,8 @@ test = [
     'responses >=0.9.0',
     'pandas-datareader >=0.2.1',
     'click <8.1.0',
-    'coverage'
+    'coverage',
+    'pytest-rerunfailures'
 ]
 dev = [
     'flake8 >=3.9.1',
@@ -140,7 +141,7 @@ addopts = '-v'
 
 [tool.cibuildwheel]
 test-extras = "test"
-test-command = 'python -c "import zipline; print(zipline.__version__)"'
+test-command = "pytest -n 8 --reruns 5 {package}/tests"
 build-verbosity = 3
 
 [tool.cibuildwheel.macos]
@@ -197,5 +198,5 @@ deps =
     pandas15: pandas>=1.5.0,<1.6
 
 commands =
-    pytest -n 4 --cov={toxinidir}/src --cov-report term  --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
+    pytest -n 4 --reruns 5 --cov={toxinidir}/src --cov-report term  --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
 """
