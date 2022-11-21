@@ -141,7 +141,7 @@ addopts = '-v'
 
 [tool.cibuildwheel]
 test-extras = "test"
-test-command = "pytest -n 8 {package}/tests"
+test-command = "pytest -n 8 --reruns 5 {package}/tests"
 build-verbosity = 3
 
 [tool.cibuildwheel.macos]
@@ -175,12 +175,6 @@ envlist = py{37,38,39,310}-pandas{11,12,13},py{38,39,310}-pandas{14,15}
 isolated_build = True
 skip_missing_interpreters = True
 minversion = 3.23.0
-requires = setuptools>=42.0.0
-           setuptools_scm[toml]>=6.2
-           wheel>=0.36.0
-           Cython>=0.29.21,<3
-           numpy
-           tox-gh-actions
 
 [gh-actions]
 python =
@@ -204,5 +198,5 @@ deps =
     pandas15: pandas>=1.5.0,<1.6
 
 commands =
-    pytest -n 4 --cov={toxinidir}/src --cov-report term  --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
+    pytest -n 4 --reruns 5 --cov={toxinidir}/src --cov-report term  --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
 """
