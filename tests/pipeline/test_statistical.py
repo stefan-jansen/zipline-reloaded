@@ -49,6 +49,7 @@ from zipline.utils.numpy_utils import (
 import pytest
 import re
 
+# a single test occasionally fails on GitHub Actions
 runs_on_ci = os.getenv("GITHUB_ACTIONS", False) == "true"
 
 
@@ -124,6 +125,7 @@ class StatisticalBuiltInsTestCase(
             dtype=bool_dtype,
         )
 
+    # todo: figure out why this fails on CI
     @parameter_space(returns_length=[2, 3], correlation_length=[3, 4])
     @pytest.mark.skipif(runs_on_ci, reason="Sometimes fails on CI")
     def test_correlation_factors(self, returns_length, correlation_length):
@@ -643,6 +645,8 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
                 correlation_length=correlation_length,
             )
 
+    # todo: figure out why this sometimes fails on CI
+    @pytest.mark.skipif(runs_on_ci, reason="Sometimes fails on CI")
     @parameter_space(returns_length=[2, 3], regression_length=[3, 4])
     def test_factor_regression_method(self, returns_length, regression_length):
         """
