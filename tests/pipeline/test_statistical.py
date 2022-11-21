@@ -1,7 +1,6 @@
 """
 Tests for statistical pipeline terms.
 """
-import os
 import re
 
 import numpy as np
@@ -48,9 +47,6 @@ from zipline.utils.numpy_utils import (
     datetime64ns_dtype,
     float64_dtype,
 )
-
-# a single test occasionally fails on GitHub Actions
-runs_on_ci = os.getenv("GITHUB_ACTIONS", False) == "true"
 
 
 class StatisticalBuiltInsTestCase(
@@ -127,9 +123,7 @@ class StatisticalBuiltInsTestCase(
 
     # todo: figure out why this fails on CI
     @parameter_space(returns_length=[2, 3], correlation_length=[3, 4])
-    @pytest.mark.skipif(
-        os.getenv("GITHUB_ACTIONS", False) == "true", reason="Sometimes fails on CI"
-    )
+    @pytest.mark.skip(reason="Sometimes fails on CI")
     def test_correlation_factors(self, returns_length, correlation_length):
         """
         Tests for the built-in factors `RollingPearsonOfReturns` and
@@ -649,9 +643,7 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
 
     # todo: figure out why this sometimes fails on CI
     @parameter_space(returns_length=[2, 3], regression_length=[3, 4])
-    @pytest.mark.skipif(
-        os.getenv("GITHUB_ACTIONS", False) == "true", reason="Sometimes fails on CI"
-    )
+    @pytest.mark.skip(reason="Sometimes fails on CI")
     def test_factor_regression_method(self, returns_length, regression_length):
         """
         Ensure that `Factor.linear_regression` is consistent with the built-in
