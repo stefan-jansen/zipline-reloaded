@@ -5,7 +5,9 @@ on:
     inputs:
       target:
         description: 'Package Index'
-        required: true
+        required: truewqq
+        type: choice
+        options: ['TESTPYPI', 'PYPI']
         default: 'TESTPYPI'
 
 jobs:
@@ -102,7 +104,7 @@ jobs:
 
       - name: publish to testpypi
         uses: pypa/gh-action-pypi-publish@release/v1
-        if: ${{ github.event.inputs.target }} == 'TESTPYPI'
+        if: ${{ inputs.target }} == 'TESTPYPI'
         with:
           user: __token__
           password: ${{ secrets.TESTPYPI_TOKEN }}
@@ -110,7 +112,7 @@ jobs:
 
       - name: publish to pypi
         uses: pypa/gh-action-pypi-publish@release/v1
-        if: ${{ github.event.inputs.target }} == 'PYPI' && startsWith(github.ref, 'refs/tags'
+        if: ${{ inputs.target }} == 'PYPI' && startsWith(github.ref, 'refs/tags'
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}
