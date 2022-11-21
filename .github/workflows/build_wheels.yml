@@ -6,19 +6,19 @@ on:
       target:
         description: 'Package Index'
         required: true
-        default: 'TESTPYPI'
+        default: 'PYPI'
         type: choice
-        options: ['TESTPYPI', 'PYPI']
+        options: [ 'TESTPYPI', 'PYPI' ]
 
 jobs:
   build_wheels:
-    name: Wheels for py${{ matrix.python }} on ${{ matrix.os }} - upload to ${{github.event.inputs.target}}
+    name: Wheels for py${{ matrix.python }} on ${{ matrix.os }} - upload to ${{inputs.target}}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest , windows-latest, macos-latest ]
-        python: [ 37, 38, 39, '310' ]
+        python: [ '3.7', '3.8', '3.9', '3.10' ]
         arch: [ auto64 ]
 
     steps:
