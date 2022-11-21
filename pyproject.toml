@@ -96,7 +96,8 @@ test = [
     'responses >=0.9.0',
     'pandas-datareader >=0.2.1',
     'click <8.1.0',
-    'coverage'
+    'coverage',
+    'pytest-rerunfailures'
 ]
 dev = [
     'flake8 >=3.9.1',
