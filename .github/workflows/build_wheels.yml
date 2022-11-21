@@ -5,10 +5,10 @@ on:
     inputs:
       target:
         description: 'Package Index'
-        required: truewqq
+        required: true
+        default: 'TESTPYPI'
         type: choice
         options: ['TESTPYPI', 'PYPI']
-        default: 'TESTPYPI'
 
 jobs:
   build_wheels:
