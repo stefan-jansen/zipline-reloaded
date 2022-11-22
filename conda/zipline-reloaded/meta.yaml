@@ -20,16 +20,18 @@ build:
 
 requirements:
   build:
+    - {{ compiler('c') }}
     - numpy >=1.16 # [py37]
     - numpy >=1.18 # [py38]
     - numpy >=1.21 # [py39]
     - numpy >=1.23 # [py310]
+  host:
     - python {{ python }}
     - cython
     - toml
     - pip
+    - setuptools
     - setuptools_scm
-    - {{ compiler('c') }}
   run:
     - alembic >=0.7.7
     - bcolz-zipline >=1.2.3
