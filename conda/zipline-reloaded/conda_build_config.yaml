@@ -10,7 +10,7 @@ python:
   - 3.8.* *_cpython
   - 3.9.* *_cpython
   - 3.10.* *_cpython
-  -
+
 python_impl:
   - cpython
   - cpython
