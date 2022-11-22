@@ -55,6 +55,7 @@ jobs:
 
       - name: conda build for ${{ matrix.os }} Python ${{ matrix.python }}
         shell: bash -l {0}
+        run: |
           conda mambabuild --output-folder . --python ${{ matrix.python }} conda/zipline-reloaded
 
       - name: store windows result
