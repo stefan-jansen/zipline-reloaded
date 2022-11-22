@@ -18,10 +18,13 @@ jobs:
       fail-fast: false
       matrix:
         os: [ macos-latest, windows-latest, ubuntu-latest ]
-        python: [ '3.7', '3.8', '3.9' ]
+        python: [ '3.7', '3.8', '3.9', '3.10' ]
+        arch: [ 'x64', 'arm64' ]
         exclude:
-          - os: macos-latest
-            python: '3.9'
+          - os: windows-latest
+            arch: arm64
+          - os: ubuntu-latest
+            arch: arm64
 
     steps:
       - name: set Xcode version
@@ -31,7 +34,7 @@ jobs:
           xcode-version: '11.5'
 
       - name: Checkout zipline-reloaded
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup miniconda3
         uses: conda-incubator/setup-miniconda@v2
@@ -44,21 +47,15 @@ jobs:
           activate-environment: recipe
           channels: ml4t, conda-forge, defaults, anaconda, ranaroussi, adteam
 
-      - name: create uploader
-        # address broken client under py3.9
-        if: ${{ matrix.python == '3.9' }}
-        run: conda create -n up python=3.7 anaconda-client
-
-      - name: conda build for ${{ matrix.os }}
+      - name: conda install
         run: |
           conda activate recipe
-          mamba install -n recipe boa conda-verify anaconda-client
-          conda mambabuild --output-folder . --python ${{ matrix.python }} conda/zipline-reloaded
+          conda clean --all
+          mamba install -n recipe boa conda-verify -c conda-forge
 
-      - name: activate uploader
-        # address broken client under py3.9
-        if: ${{ matrix.python == '3.9' }}
-        run: conda activate up
+      - name: conda build for ${{ matrix.os }} Python ${{ matrix.python }}
+        shell: bash -l {0}
+          conda mambabuild --output-folder . --python ${{ matrix.python }} conda/zipline-reloaded
 
       - name: store windows result
         uses: actions/upload-artifact@v2

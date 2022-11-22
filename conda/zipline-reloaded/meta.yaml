@@ -1,5 +1,5 @@
 {% set name = "zipline-reloaded" %}
-{% set version = "2.2.0" %}
+{% set version = "2.3" %}
 
 
 package:
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  md5: 922ab8c5edeaae4a50523e5e40e1ee30
+  md5: 3455fb138b83eb3d7999e07adbd86e6d
 
 build:
   number: 0
@@ -20,14 +20,14 @@ build:
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
-    - cython                                 # [build_platform != target_platform]
-    - numpy                                  # [build_platform != target_platform]      -
     - {{ compiler('c') }}
   host:
     - python
     - cython
-    - numpy
+    - numpy >=1.16 # [py37]
+    - numpy >=1.18 # [py38]
+    - numpy >=1.21 # [py39]
+    - numpy >=1.23 # [py310]
     - pip
   run:
     - alembic >=0.7.7
@@ -68,8 +68,20 @@ test:
     - pip check
     - python -c "import zipline; print(zipline.__version__)"
     - conda update --all -y
+    - pytest -n 8 tests/
   requires:
-    - pip
+    - pytest==6.2.5
+    - pytest-cov >=3.0.0
+    - pytest-xdist >=2.5.0
+    - pytest-timeout >=1.4.2
+    - parameterized >=0.6.1
+    - mock >=2.0.0p
+    - testfixtures >=4.1.2
+    - flake8 >=3.9.1
+    - matplotlib >=1.5.3
+    - responses >=0.9.0
+    - pandas-datareader >=0.2.1
+    - click <8.1.0
 
 about:
   home: https://zipline.ml4trading.io
