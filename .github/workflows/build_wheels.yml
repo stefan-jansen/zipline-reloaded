@@ -104,7 +104,7 @@ jobs:
 
       - name: publish to testpypi
         uses: pypa/gh-action-pypi-publish@release/v1
-        if: startsWith(inputs.target, "TESTPYPI") && !startsWith(github.ref, 'refs/tags')
+        if: ( ${{ inputs.target }} == "TESTPYPI" ) && !startsWith(github.ref, 'refs/tags')
         with:
           user: __token__
           password: ${{ secrets.TESTPYPI_TOKEN }}
@@ -112,7 +112,7 @@ jobs:
 
       - name: publish to pypi
         uses: pypa/gh-action-pypi-publish@release/v1
-        if: startsWith(inputs.target, "PYPI") && startsWith(github.ref, 'refs/tags')
+        if: ( ${{ inputs.target }} == "PYPI" ) && startsWith(github.ref, 'refs/tags')
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}
