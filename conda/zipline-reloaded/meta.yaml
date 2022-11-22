@@ -30,11 +30,6 @@ requirements:
     - pip
     - setuptools_scm
     - {{ compiler('c') }}
-  host:
-    - python
-    - cython
-    - numpy
-    - pip
   run:
     - alembic >=0.7.7
     - bcolz-zipline >=1.2.3
@@ -70,10 +65,10 @@ requirements:
     - {{ pin_compatible('numpy') }}
 
 test:
+  source_files:
+    - tests/*
   commands:
-    - pip check
     - python -c "import zipline; print(zipline.__version__)"
-    - conda update --all -y
     - pytest -n 8 tests/
   requires:
     - pytest==6.2.5
@@ -83,7 +78,6 @@ test:
     - parameterized >=0.6.1
     - mock >=2.0.0p
     - testfixtures >=4.1.2
-    - flake8 >=3.9.1
     - matplotlib >=1.5.3
     - responses >=0.9.0
     - pandas-datareader >=0.2.1
