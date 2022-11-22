@@ -24,7 +24,11 @@ requirements:
     - numpy >=1.18 # [py38]
     - numpy >=1.21 # [py39]
     - numpy >=1.23 # [py310]
+    - python {{ python }}
     - cython
+    - toml
+    - pip
+    - setuptools_scm
     - {{ compiler('c') }}
   host:
     - python
