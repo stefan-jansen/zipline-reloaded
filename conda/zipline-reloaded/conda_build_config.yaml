@@ -1,8 +1,22 @@
 CONDA_BUILD_SYSROOT:
   - /Applications/Xcode_13.2.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk # [osx]
 
+numpy:
+  - 1.20
+  - 1.20
+  - 1.21
+
 python:
-  - 3.7
-  - 3.8
-  - 3.9
-  - 3.10
+  - 3.8.* *_cpython
+  - 3.9.* *_cpython
+  - 3.10.* *_cpython
+  -
+python_impl:
+  - cpython
+  - cpython
+  - cpython
+
+zip_keys:
+  - python
+  - numpy
+  - python_impl
