@@ -630,7 +630,7 @@ def vectorized_beta(dependents, independent, allowed_missing, out=None):
     # column may have a different subset of the data dropped due to missing
     # data in the corresponding dependent column.
     # shape: (M,)
-    independent_variances = nanmean(ind_residual ** 2, axis=0)
+    independent_variances = nanmean(ind_residual**2, axis=0)
 
     # shape: (M,)
     np.divide(covariances, independent_variances, out=out)
@@ -696,8 +696,8 @@ def vectorized_pearson_r(dependents, independents, allowed_missing, out=None):
     ind_residual = independents - mean(independents, axis=0)
     dep_residual = dependents - mean(dependents, axis=0)
 
-    ind_variance = mean(ind_residual ** 2, axis=0)
-    dep_variance = mean(dep_residual ** 2, axis=0)
+    ind_variance = mean(ind_residual**2, axis=0)
+    dep_variance = mean(dep_residual**2, axis=0)
 
     covariances = mean(ind_residual * dep_residual, axis=0)
 

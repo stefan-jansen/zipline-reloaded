@@ -138,9 +138,7 @@ class SimulationBlotter(Blotter):
         elif amount > self.max_shares:
             # Arbitrary limit of 100 billion (US) shares will never be
             # exceeded except by a buggy algorithm.
-            raise OverflowError(
-                "Can't order more than %d shares" % self.max_shares
-            )
+            raise OverflowError("Can't order more than %d shares" % self.max_shares)
 
         is_buy = amount > 0
         order = Order(
@@ -271,8 +269,7 @@ class SimulationBlotter(Blotter):
                                     order_amt=order.amount,
                                     order_sym=order.asset.symbol,
                                     order_filled=-1 * order.filled,
-                                    order_failed=-1
-                                    * (order.amount - order.filled),
+                                    order_failed=-1 * (order.amount - order.filled),
                                 )
                             )
                         else:
@@ -289,9 +286,7 @@ class SimulationBlotter(Blotter):
         if self.cancel_policy.should_cancel(event):
             warn = self.cancel_policy.warn_on_cancel
             for asset in copy(self.open_orders):
-                self.cancel_all_orders_for_asset(
-                    asset, warn, relay_status=False
-                )
+                self.cancel_all_orders_for_asset(asset, warn, relay_status=False)
 
     def reject(self, order_id, reason=""):
         """
@@ -395,9 +390,7 @@ class SimulationBlotter(Blotter):
             for asset, asset_orders in self.open_orders.items():
                 slippage = self.slippage_models[type(asset)]
 
-                for order, txn in slippage.simulate(
-                    bar_data, asset, asset_orders
-                ):
+                for order, txn in slippage.simulate(bar_data, asset, asset_orders):
                     commission = self.commission_models[type(asset)]
                     additional_commission = commission.calculate(order, txn)
 

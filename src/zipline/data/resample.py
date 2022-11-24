@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from collections import OrderedDict
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 import numpy as np
 import pandas as pd
@@ -599,7 +599,7 @@ class MinuteResampleSessionBarReader(SessionBarReader):
         return self.trading_calendar.minute_to_session_label(last_dt)
 
 
-class ReindexBarReader(metaclass=ABCMeta):
+class ReindexBarReader(ABC):
     """
     A base class for readers which reindexes results, filling in the additional
     indices with empty data.

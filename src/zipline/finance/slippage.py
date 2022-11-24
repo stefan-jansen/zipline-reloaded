@@ -191,9 +191,7 @@ class SlippageModel(metaclass=FinancialModelMeta):
             txn = None
 
             try:
-                execution_price, execution_volume = self.process_order(
-                    data, order
-                )
+                execution_price, execution_volume = self.process_order(data, order)
 
                 if execution_price is not None:
                     txn = create_transaction(
@@ -332,7 +330,7 @@ class VolumeShareSlippage(SlippageModel):
         # END
 
         simulated_impact = (
-            volume_share ** 2
+            volume_share**2
             * math.copysign(self.price_impact, order.direction)
             * price
         )
@@ -449,9 +447,7 @@ class MarketImpactBase(SlippageModel):
         if not volume:
             return None, None
 
-        txn_volume = int(
-            min(self.get_txn_volume(data, order), abs(order.open_amount))
-        )
+        txn_volume = int(min(self.get_txn_volume(data, order), abs(order.open_amount)))
 
         # If the computed transaction volume is zero or a decimal value, 'int'
         # will round it down to zero. In that case just bail.
@@ -472,9 +468,7 @@ class MarketImpactBase(SlippageModel):
                 volatility=volatility,
             )
 
-        impacted_price = price + math.copysign(
-            simulated_impact, order.direction
-        )
+        impacted_price = price + math.copysign(simulated_impact, order.direction)
 
         if fill_price_worse_than_limit_price(impacted_price, order):
             return None, None
@@ -688,9 +682,7 @@ class FixedBasisPointsSlippage(SlippageModel):
         max_volume = int(self.volume_limit * volume)
 
         price = data.current(order.asset, "close")
-        shares_to_fill = min(
-            abs(order.open_amount), max_volume - self.volume_for_bar
-        )
+        shares_to_fill = min(abs(order.open_amount), max_volume - self.volume_for_bar)
 
         if shares_to_fill == 0:
             raise LiquidityExceeded()

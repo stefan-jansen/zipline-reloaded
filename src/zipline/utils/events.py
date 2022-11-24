@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta, ABC, abstractmethod
 from collections import namedtuple
 import inspect
 import warnings
@@ -227,7 +227,7 @@ class Event(namedtuple("Event", ["rule", "callback"])):
             self.callback(context, data)
 
 
-class EventRule(metaclass=ABCMeta):
+class EventRule(ABC):
     """A rule defining when a scheduled function should execute."""
 
     # Instances of EventRule are assigned a calendar instance when scheduling

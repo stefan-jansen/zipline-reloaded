@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 
 class NoDataOnDate(Exception):
@@ -41,7 +41,7 @@ class NoDataForSid(Exception):
 OHLCV = ("open", "high", "low", "close", "volume")
 
 
-class BarReader(object, metaclass=ABCMeta):
+class BarReader(ABC):
     @property
     @abstractmethod
     def data_frequency(self):

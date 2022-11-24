@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 # Number of days over which to compute rolls when finding the current contract
 # for a volume-rolling contract chain. For more details on why this is needed,
@@ -20,7 +20,7 @@ from abc import ABCMeta, abstractmethod
 ROLL_DAYS_FOR_CURRENT_CONTRACT = 90
 
 
-class RollFinder(object, metaclass=ABCMeta):
+class RollFinder(ABC):
     """
     Abstract base class for calculating when futures contracts are the active
     contract.

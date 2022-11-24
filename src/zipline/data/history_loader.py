@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from abc import (
-    ABCMeta,
+    ABC,
     abstractmethod,
 )
 
@@ -260,7 +260,7 @@ class SlidingWindow:
         return self.current
 
 
-class HistoryLoader(metaclass=ABCMeta):
+class HistoryLoader(ABC):
     """
     Loader for sliding history windows, with support for adjustments.
 

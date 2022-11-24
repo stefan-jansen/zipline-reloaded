@@ -1,4 +1,4 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 from collections import namedtuple
 import hashlib
 from textwrap import dedent
@@ -110,9 +110,7 @@ SHARED_REQUESTS_KWARGS = {
 
 def mask_requests_args(url, validating=False, params_checker=None, **kwargs):
     requests_kwargs = {
-        key: val
-        for (key, val) in kwargs.items()
-        if key in ALLOWED_REQUESTS_KWARGS
+        key: val for (key, val) in kwargs.items() if key in ALLOWED_REQUESTS_KWARGS
     }
     if params_checker is not None:
         url, s_params = params_checker(url)
@@ -133,7 +131,7 @@ def mask_requests_args(url, validating=False, params_checker=None, **kwargs):
     return request_pair(requests_kwargs, url)
 
 
-class PandasCSV(object, metaclass=ABCMeta):
+class PandasCSV(ABC):
     def __init__(
         self,
         pre_func,
@@ -241,9 +239,7 @@ class PandasCSV(object, metaclass=ABCMeta):
 
     def mask_pandas_args(self, kwargs):
         pandas_kwargs = {
-            key: val
-            for (key, val) in kwargs.items()
-            if key in ALLOWED_READ_CSV_KWARGS
+            key: val for (key, val) in kwargs.items() if key in ALLOWED_READ_CSV_KWARGS
         }
         if "usecols" in pandas_kwargs:
             usecols = pandas_kwargs["usecols"]

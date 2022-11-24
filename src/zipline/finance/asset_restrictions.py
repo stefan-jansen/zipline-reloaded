@@ -105,9 +105,7 @@ class _UnionRestrictions(Restrictions):
 
     def is_restricted(self, assets, dt):
         if isinstance(assets, Asset):
-            return any(
-                r.is_restricted(assets, dt) for r in self.sub_restrictions
-            )
+            return any(r.is_restricted(assets, dt) for r in self.sub_restrictions)
 
         return reduce(
             operator.or_,
@@ -167,9 +165,7 @@ class HistoricalRestrictions(Restrictions):
         # A dict mapping each asset to its restrictions, which are sorted by
         # ascending order of effective_date
         self._restrictions_by_asset = {
-            asset: sorted(
-                restrictions_for_asset, key=lambda x: x.effective_date
-            )
+            asset: sorted(restrictions_for_asset, key=lambda x: x.effective_date)
             for asset, restrictions_for_asset in groupby(
                 lambda x: x.asset, restrictions
             ).items()

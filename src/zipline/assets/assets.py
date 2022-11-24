@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from abc import ABCMeta
+from abc import ABC
 import array
 import binascii
 from collections import deque, namedtuple
@@ -1493,7 +1493,7 @@ class AssetFinder:
         return tuple(sids.tolist())
 
 
-class AssetConvertible(metaclass=ABCMeta):
+class AssetConvertible(ABC):
     """
     ABC for types that are convertible to integer-representations of
     Assets.
@@ -1513,7 +1513,7 @@ class NotAssetConvertible(ValueError):
     pass
 
 
-class PricingDataAssociable(metaclass=ABCMeta):
+class PricingDataAssociable(ABC):
     """
     ABC for types that can be associated with pricing data.
 

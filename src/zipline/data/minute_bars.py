@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 import json
 import os
 from glob import glob
@@ -1265,7 +1265,7 @@ class BcolzMinuteBarReader(MinuteBarReader):
         return results
 
 
-class MinuteBarUpdateReader(object, metaclass=ABCMeta):
+class MinuteBarUpdateReader(ABC):
     """
     Abstract base class for minute update readers.
     """

@@ -1,4 +1,4 @@
-from abc import ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 # Consistent error to be thrown in various cases regarding overriding
 # `final` attributes.
@@ -61,7 +61,7 @@ class FinalMeta(type):
         super(FinalMeta, self).__setattr__(name, value)
 
 
-class final(object, metaclass=ABCMeta):
+class final(ABC):
     """
     An attribute that cannot be overridden.
     This is like the final modifier in Java.
