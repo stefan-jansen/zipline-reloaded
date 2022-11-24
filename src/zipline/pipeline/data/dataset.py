@@ -31,7 +31,7 @@ from zipline.utils.string_formatting import bulleted_list
 IsSpecialization = sentinel("IsSpecialization")
 
 
-class Column(object):
+class Column:
     """
     An abstract column of data, not yet associated with a dataset.
     """
@@ -73,7 +73,7 @@ class Column(object):
         )
 
 
-class _BoundColumnDescr(object):
+class _BoundColumnDescr:
     """
     Intermediate class that sits on `DataSet` objects and returns memoized
     `BoundColumn` objects when requested.
@@ -82,9 +82,7 @@ class _BoundColumnDescr(object):
     parent classes.
     """
 
-    def __init__(
-        self, dtype, missing_value, name, doc, metadata, currency_aware
-    ):
+    def __init__(self, dtype, missing_value, name, doc, metadata, currency_aware):
         # Validating and calculating default missing values here guarantees
         # that we fail quickly if the user passes an unsupporte dtype or fails
         # to provide a missing value for a dtype that requires one
@@ -529,9 +527,7 @@ class DataSetMeta(type):
 
     @property
     def columns(self):
-        return frozenset(
-            getattr(self, colname) for colname in self._column_names
-        )
+        return frozenset(getattr(self, colname) for colname in self._column_names)
 
     @property
     def qualname(self):
@@ -716,7 +712,7 @@ class DataSetFamilyLookupError(AttributeError):
         )
 
 
-class _DataSetFamilyColumn(object):
+class _DataSetFamilyColumn:
     """Descriptor used to raise a helpful error when a column is accessed on a
     DataSetFamily instead of on the result of a slice.
 
@@ -759,10 +755,7 @@ class DataSetFamilyMeta(abc.ABCMeta):
 
         if not is_abstract:
             self.extra_dims = extra_dims = OrderedDict(
-                [
-                    (k, frozenset(v))
-                    for k, v in OrderedDict(self.extra_dims).items()
-                ]
+                [(k, frozenset(v)) for k, v in OrderedDict(self.extra_dims).items()]
             )
             if not extra_dims:
                 raise ValueError(
@@ -872,7 +865,7 @@ class DataSetFamily(metaclass=DataSetFamilyMeta):
     _SliceType = DataSetFamilySlice
 
     @type.__call__
-    class extra_dims(object):
+    class extra_dims:
         """OrderedDict[str, frozenset] of dimension name -> unique values
 
         May be defined on subclasses as an iterable of pairs: the

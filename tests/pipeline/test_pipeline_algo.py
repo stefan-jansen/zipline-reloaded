@@ -412,7 +412,7 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
             algo.run()
 
 
-class MockDailyBarSpotReader(object):
+class MockDailyBarSpotReader:
     """
     A BcolzDailyBarReader which returns a constant value for spot price.
     """

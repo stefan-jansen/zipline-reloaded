@@ -205,7 +205,7 @@ def days_and_sids_for_frames(frames):
     return frames[0].index.values, frames[0].columns.values
 
 
-class HDF5DailyBarWriter(object):
+class HDF5DailyBarWriter:
     """
     Class capable of writing daily OHLCV data to disk in a format that
     can be read efficiently by HDF5DailyBarReader.

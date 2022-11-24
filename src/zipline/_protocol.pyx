@@ -32,7 +32,7 @@ from zipline.zipline_warnings import ZiplineDeprecationWarning
 cdef bool _is_iterable(obj):
     return isinstance(obj, Iterable) and not isinstance(obj, str)
 
-cdef class check_parameters(object):
+cdef class check_parameters:
     """
     Asserts that the keywords passed into the wrapped function are included
     in those passed into this decorator. If not, raise a TypeError with a

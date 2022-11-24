@@ -458,11 +458,7 @@ def write_version_info(conn, version_table, version_value):
     conn.execute(sa.insert(version_table, values={"version": version_value}))
 
 
-class _empty(object):
-    columns = ()
-
-
-class AssetDBWriter(object):
+class AssetDBWriter:
     """Class used to write data to an assets db.
 
     Parameters

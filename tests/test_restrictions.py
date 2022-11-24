@@ -224,7 +224,7 @@ class RestrictionsTestCase(WithDataPortal, ZiplineTestCase):
         """
 
         # A mock SecurityList object filled with fake data
-        class SecurityList(object):
+        class SecurityList:
             def __init__(self, assets_by_dt):
                 self.assets_by_dt = assets_by_dt
 

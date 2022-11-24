@@ -83,13 +83,13 @@ def update_namespace(namespace, path, name):
         update_namespace(getattr(namespace, path[0]), path[1:], name)
 
 
-class Namespace(object):
+class Namespace:
     """
     A placeholder object representing a namespace level
     """
 
 
-class Registry(object):
+class Registry:
     """
     Responsible for managing all instances of custom subclasses of a
     given abstract base class - only one instance needs to be created

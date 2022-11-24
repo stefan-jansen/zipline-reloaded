@@ -266,7 +266,7 @@ def alias(attr_name):
 
     Examples
     --------
-    >>> class C(object):
+    >>> class C:
     ...     attr = 1
     ...
     >>> class D(C):

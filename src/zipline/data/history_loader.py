@@ -38,7 +38,7 @@ from zipline.utils.pandas_utils import find_in_sorted_index, normalize_date
 DEFAULT_ASSET_PRICE_DECIMALS = 3
 
 
-class HistoryCompatibleUSEquityAdjustmentReader(object):
+class HistoryCompatibleUSEquityAdjustmentReader:
     def __init__(self, adjustment_reader):
         self._adjustments_reader = adjustment_reader
 
@@ -132,7 +132,7 @@ class HistoryCompatibleUSEquityAdjustmentReader(object):
         return adjs
 
 
-class ContinuousFutureAdjustmentReader(object):
+class ContinuousFutureAdjustmentReader:
     """
     Calculates adjustments for continuous futures, based on the
     close and open of the contracts on the either side of each roll.
@@ -222,7 +222,7 @@ class ContinuousFutureAdjustmentReader(object):
         return adjs
 
 
-class SlidingWindow(object):
+class SlidingWindow:
     """
     Wrapper around an AdjustedArrayWindow which supports monotonically
     increasing (by datetime) requests for a sized window of data.

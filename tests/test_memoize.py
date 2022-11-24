@@ -36,7 +36,7 @@ class TestRememberLast:
     def test_remember_last_method(self):
         call_count = defaultdict(int)
 
-        class clz(object):
+        class clz:
             @remember_last
             def func(self, x):
                 call_count[(self, x)] += 1

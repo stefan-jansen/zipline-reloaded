@@ -240,7 +240,7 @@ class HDF5FXRateReader(implements(FXRateReader)):
         return out.transpose()
 
 
-class HDF5FXRateWriter(object):
+class HDF5FXRateWriter:
     """Writer class for HDF5 files consumed by HDF5FXRateReader."""
 
     def __init__(self, group, date_chunk_size=HDF5_FX_DEFAULT_CHUNK_SIZE):

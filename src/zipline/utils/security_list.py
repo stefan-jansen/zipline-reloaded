@@ -17,7 +17,7 @@ zipline_dir = os.path.dirname(zipline.__file__)
 SECURITY_LISTS_DIR = os.path.join(zipline_dir, "resources", "security_lists")
 
 
-class SecurityList(object):
+class SecurityList:
     def __init__(self, data, current_date_func, asset_finder):
         """
         data: a nested dictionary:
@@ -88,7 +88,7 @@ class SecurityList(object):
             change_func(asset.sid)
 
 
-class SecurityListSet(object):
+class SecurityListSet:
     # provide a cut point to substitute other security
     # list implementations.
     security_list_type = SecurityList

@@ -398,7 +398,7 @@ CORRELATION_METHOD_NOTE = dedent(
 )
 
 
-class summary_funcs(object):
+class summary_funcs:
     """Namespace of functions meant to be used with DailySummary."""
 
     @staticmethod

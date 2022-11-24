@@ -22,7 +22,7 @@ from zipline.errors import (
 )
 
 
-class BenchmarkSource(object):
+class BenchmarkSource:
     def __init__(
         self,
         benchmark_asset,

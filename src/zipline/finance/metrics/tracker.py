@@ -21,7 +21,7 @@ from zipline.utils.exploding_object import NamedExplodingObject
 log = logbook.Logger(__name__)
 
 
-class MetricsTracker(object):
+class MetricsTracker:
     """The algorithm's interface to the registered risk and performance
     metrics.
 

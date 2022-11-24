@@ -140,7 +140,7 @@ class NoBenchmark(ValueError):
         )
 
 
-class TradingAlgorithm(object):
+class TradingAlgorithm:
     """A class that represents a trading strategy and parameters to execute
     the strategy.
 

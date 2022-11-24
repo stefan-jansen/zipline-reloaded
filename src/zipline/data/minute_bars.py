@@ -178,7 +178,7 @@ def convert_cols(cols, scale_factor, sid, invalid_data_behavior):
     return opens, highs, lows, closes, volumes
 
 
-class BcolzMinuteBarMetadata(object):
+class BcolzMinuteBarMetadata:
     """
     Parameters
     ----------
@@ -325,7 +325,7 @@ class BcolzMinuteBarMetadata(object):
             json.dump(metadata, fp)
 
 
-class BcolzMinuteBarWriter(object):
+class BcolzMinuteBarWriter:
     """
     Class capable of writing minute OHLCV data to disk into bcolz format.
 
@@ -1290,7 +1290,7 @@ class MinuteBarUpdateReader(object, metaclass=ABCMeta):
         raise NotImplementedError()
 
 
-class H5MinuteBarUpdateWriter(object):
+class H5MinuteBarUpdateWriter:
     """
     Writer for files containing minute bar updates for consumption by a writer
     for a ``MinuteBarReader`` format.

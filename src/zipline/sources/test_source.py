@@ -82,7 +82,7 @@ def date_gen(start, end, trading_calendar, delta=timedelta(minutes=1), repeats=N
         cur = advance_current(cur)
 
 
-class SpecificEquityTrades(object):
+class SpecificEquityTrades:
     """
     Yields all events in event_list that match the given sid_filter.
     If no event_list is specified, generates an internal stream of events

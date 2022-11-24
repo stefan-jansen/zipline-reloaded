@@ -5,7 +5,7 @@ _ALL_CURRENCIES = {}
 
 
 @total_ordering
-class Currency(object):
+class Currency:
     """A currency identifier, as defined by ISO-4217.
 
     Parameters

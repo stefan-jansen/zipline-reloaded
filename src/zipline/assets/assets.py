@@ -255,7 +255,7 @@ def _encode_continuous_future_sid(root_symbol, offset, roll_style, adjustment_st
 Lifetimes = namedtuple("Lifetimes", "sid start end")
 
 
-class AssetFinder(object):
+class AssetFinder:
     """
     An AssetFinder is an interface to a database of Asset metadata written by
     an ``AssetDBWriter``.

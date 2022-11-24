@@ -279,7 +279,7 @@ cdef class ContinuousFuture:
         return calendar.is_open_on_minute(dt_minute)
 
 
-cdef class ContractNode(object):
+cdef class ContractNode:
 
     cdef readonly object contract
     cdef public object prev
@@ -307,7 +307,7 @@ cdef class ContractNode(object):
         return curr
 
 
-cdef class OrderedContracts(object):
+cdef class OrderedContracts:
     """
     A container for aligned values of a future contract chain, in sorted order
     of their occurrence.

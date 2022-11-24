@@ -176,7 +176,7 @@ _merge_methods = {
 }
 
 
-class AdjustedArray(object):
+class AdjustedArray:
     """
     An array that can be iterated with a variable-length window, and which can
     provide different views on data from different perspectives.

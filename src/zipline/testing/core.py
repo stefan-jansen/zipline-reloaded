@@ -365,7 +365,7 @@ class UnexpectedAttributeAccess(Exception):
     pass
 
 
-class ExplodingObject(object):
+class ExplodingObject:
     """
     Object that will raise an exception on any attribute access.
 
@@ -739,7 +739,7 @@ class FetcherDataPortal(DataPortal):
         return np.arange(minutes_for_window, dtype=np.float64)
 
 
-class tmp_assets_db(object):
+class tmp_assets_db:
     """Create a temporary assets sqlite database.
     This is meant to be used as a context manager.
 
@@ -948,7 +948,7 @@ def subtest(iterator, *_names):
     return dec
 
 
-class MockDailyBarReader(object):
+class MockDailyBarReader:
     def __init__(self, dates):
         self.sessions = pd.DatetimeIndex(dates)
 

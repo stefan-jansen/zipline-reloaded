@@ -171,7 +171,7 @@ class TestPredicates:
         assert "foo" == instance_of((str, int))
 
     def test_instance_of_exact(self):
-        class Foo(object):
+        class Foo:
             pass
 
         class Bar(Foo):

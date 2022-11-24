@@ -79,7 +79,7 @@ def specialize_any_integer(d):
     return out
 
 
-class SQLiteAdjustmentReader(object):
+class SQLiteAdjustmentReader:
     """
     Loads adjustments based on corporate actions from a SQLite database.
 
@@ -339,7 +339,7 @@ class SQLiteAdjustmentReader(object):
         return out
 
 
-class SQLiteAdjustmentWriter(object):
+class SQLiteAdjustmentWriter:
     """
     Writer for data to be read by SQLiteAdjustmentReader
 

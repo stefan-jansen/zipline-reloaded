@@ -25,7 +25,7 @@ log = logbook.Logger("Trading")
 DEFAULT_CAPITAL_BASE = 1e5
 
 
-class SimulationParameters(object):
+class SimulationParameters:
     def __init__(
         self,
         start_session,

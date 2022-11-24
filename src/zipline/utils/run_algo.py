@@ -420,7 +420,7 @@ def run_algorithm(
     )
 
 
-class BenchmarkSpec(object):
+class BenchmarkSpec:
     """
     Helper for different ways we can get benchmark data for the Zipline CLI and
     zipline.utils.run_algo.run_algorithm.

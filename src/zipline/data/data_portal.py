@@ -87,7 +87,7 @@ _DEF_M_HIST_PREFETCH = DEFAULT_MINUTE_HISTORY_PREFETCH
 _DEF_D_HIST_PREFETCH = DEFAULT_DAILY_HISTORY_PREFETCH
 
 
-class DataPortal(object):
+class DataPortal:
     """Interface to all of the data that a zipline simulation needs.
 
     This is used by the simulation runner to answer questions about the data,

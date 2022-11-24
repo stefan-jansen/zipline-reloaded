@@ -124,7 +124,7 @@ def winsorise_uint32(df, invalid_data_behavior, column, *columns):
     return df
 
 
-class BcolzDailyBarWriter(object):
+class BcolzDailyBarWriter:
     """
     Class capable of writing daily OHLCV data to disk in a format that can
     be read efficiently by BcolzDailyOHLCVReader.

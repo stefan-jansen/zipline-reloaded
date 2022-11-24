@@ -171,7 +171,7 @@ def lossless_float_to_int(funcname, func, argname, arg):
     raise TypeError(arg)
 
 
-class EventManager(object):
+class EventManager:
     """Manages a list of Event objects.
     This manages the logic for checking the rules and dispatching to the
     handle_data function of the Events.
@@ -604,7 +604,7 @@ class OncePerDay(StatefulRule):
 # Factory API
 
 
-class date_rules(object):
+class date_rules:
     """
     Factories for date-based :func:`~zipline.api.schedule_function` rules.
 
@@ -689,7 +689,7 @@ class date_rules(object):
         return NDaysBeforeLastTradingDayOfWeek(n=days_offset)
 
 
-class time_rules(object):
+class time_rules:
     """Factories for time-based :func:`~zipline.api.schedule_function` rules.
 
     See Also
@@ -766,7 +766,7 @@ class time_rules(object):
     every_minute = Always
 
 
-class calendars(object):
+class calendars:
     US_EQUITIES = sentinel("US_EQUITIES")
     US_FUTURES = sentinel("US_FUTURES")
 

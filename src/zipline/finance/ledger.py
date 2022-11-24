@@ -34,7 +34,7 @@ from ._finance_ext import (
 log = logbook.Logger("Performance")
 
 
-class PositionTracker(object):
+class PositionTracker:
     """The current state of the positions held.
 
     Parameters
@@ -311,7 +311,7 @@ not_overridden = sentinel(
 )
 
 
-class Ledger(object):
+class Ledger:
     """The ledger tracks all orders and transactions as well as the current
     state of the portfolio and positions.
 

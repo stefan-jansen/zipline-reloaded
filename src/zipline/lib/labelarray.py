@@ -807,7 +807,7 @@ class LabelArray(ndarray):
 
 @instance  # This makes _sortable_sentinel a singleton instance.
 @total_ordering
-class _sortable_sentinel(object):
+class _sortable_sentinel:
     """Dummy object that sorts before any other python object."""
 
     def __eq__(self, other):

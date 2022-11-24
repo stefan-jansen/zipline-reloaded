@@ -83,7 +83,7 @@ class TestBeforeTradingStartTiming(
         assert bts_times == expected_times[:num_sessions]
 
 
-class BeforeTradingStartsOnlyClock(object):
+class BeforeTradingStartsOnlyClock:
     def __init__(self, bts_minute):
         self.bts_minute = bts_minute
 

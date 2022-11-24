@@ -30,7 +30,7 @@ from zipline.gens.sim_engine import (
 log = Logger("Trade Simulation")
 
 
-class AlgorithmSimulator(object):
+class AlgorithmSimulator:
     EMISSION_TO_PERF_KEY_MAP = {"minute": "minute_perf", "daily": "daily_perf"}
 
     def __init__(

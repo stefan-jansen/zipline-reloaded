@@ -23,7 +23,7 @@ class CyclicDependency(Exception):
 SCREEN_NAME = "screen_" + uuid.uuid4().hex
 
 
-class TermGraph(object):
+class TermGraph:
     """
     An abstract representation of Pipeline Term dependencies.
 

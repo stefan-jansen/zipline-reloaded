@@ -102,7 +102,7 @@ def minute_to_session(column, close_locs, data, out):
     return out
 
 
-class DailyHistoryAggregator(object):
+class DailyHistoryAggregator:
     """
     Converts minute pricing data into a daily summary, to be used for the
     last slot in a call to history with a frequency of `1d`.

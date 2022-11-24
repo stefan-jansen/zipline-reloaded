@@ -840,7 +840,7 @@ def coerce_types(**kwargs):
     return preprocess(**valmap(_coerce, kwargs))
 
 
-class error_keywords(object):
+class error_keywords:
     def __init__(self, *args, **kwargs):
         self.messages = kwargs
 
