@@ -286,9 +286,3 @@ class Order(object):
         String representation for this object.
         """
         return "Order(%s)" % self.to_dict().__repr__()
-
-    def __unicode__(self):
-        """
-        Unicode representation for this object.
-        """
-        return str(repr(self))

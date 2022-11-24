@@ -31,7 +31,6 @@ class ZiplineError(Exception):
         msg = self.msg.format(**self.kwargs)
         return msg
 
-    __unicode__ = __str__
     __repr__ = __str__
 
 
