@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from abc import abstractproperty, abstractmethod
+from abc import abstractmethod
 
 from zipline.data.bar_reader import BarReader
 
@@ -25,7 +25,8 @@ class SessionBarReader(BarReader):
     def data_frequency(self):
         return "session"
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def sessions(self):
         """
         Returns

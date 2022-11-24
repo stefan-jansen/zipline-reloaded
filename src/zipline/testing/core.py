@@ -1,4 +1,4 @@
-from abc import ABCMeta, abstractmethod, abstractproperty
+from abc import ABCMeta, abstractmethod
 from contextlib import contextmanager
 import gzip
 from itertools import (
@@ -1406,7 +1406,8 @@ class _TmpBarReader(tmp_dir, metaclass=ABCMeta):
         will be a unique name.
     """
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def _reader_cls(self):
         raise NotImplementedError("_reader")
 

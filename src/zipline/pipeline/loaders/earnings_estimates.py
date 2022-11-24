@@ -1,4 +1,4 @@
-from abc import abstractmethod, abstractproperty
+from abc import abstractmethod
 
 from interface import implements
 import numpy as np
@@ -182,7 +182,8 @@ class EarningsEstimatesLoader(implements(PipelineLoader)):
     ):
         raise NotImplementedError("create_overwrite_for_estimate")
 
-    @abstractproperty
+    @property
+    @abstractmethod
     def searchsorted_side(self):
         return NotImplementedError("searchsorted_side")
 
