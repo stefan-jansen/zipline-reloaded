@@ -51,7 +51,7 @@ jobs:
         run: |
           conda activate recipe
           conda clean --all
-          mamba install -n recipe boa conda-verify -c conda-forge
+          mamba install -n recipe boa conda-verify anaconda-client -c conda-forge
 
       - name: conda build for ${{ matrix.os }} Python ${{ matrix.python }}
         shell: bash -l {0}
