@@ -20,18 +20,18 @@ build:
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
-    - cython                                 # [build_platform != target_platform]
-    - numpy                                  # [build_platform != target_platform]
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-  host:
     - python
+    - cross-python_{{ target_platform }}
+    - cython
     - numpy >=1.16 # [py37]
     - numpy >=1.18 # [py38]
     - numpy >=1.21 # [py39]
     - numpy >=1.23 # [py310]
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
+    - python
+    - numpy
     - cython
     - toml
     - pip
