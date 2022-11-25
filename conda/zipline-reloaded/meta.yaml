@@ -20,8 +20,7 @@ build:
 
 requirements:
   build:
-    - python
-    - cross-python_{{ target_platform }}
+    - python {{ python }}
     - cython
     - numpy >=1.16 # [py37]
     - numpy >=1.18 # [py38]
