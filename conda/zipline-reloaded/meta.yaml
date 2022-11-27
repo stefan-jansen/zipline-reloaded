@@ -73,9 +73,9 @@ requirements:
 test:
   source_files:
     - tests/*
-  commands:
-    - python -c "import zipline; print(zipline.__version__)"
-    - pytest -n 8 tests/
+#  commands:
+#    - python -c "import zipline; print(zipline.__version__)"
+#    - pytest -n 8 tests/
   requires:
     - pytest==6.2.5
     - pytest-cov >=3.0.0
