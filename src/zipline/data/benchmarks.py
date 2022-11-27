@@ -12,11 +12,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import logbook
+import logging
 
 import pandas as pd
 
-log = logbook.Logger(__name__)
+log = logging.getLogger(__name__)
 
 
 def get_benchmark_returns_from_file(filelike):
@@ -33,7 +33,7 @@ def get_benchmark_returns_from_file(filelike):
         2020-01-03 00:00:00+00:00,-0.02
 
     """
-    log.info("Reading benchmark returns from {}", filelike)
+    log.info("Reading benchmark returns from %s", filelike)
 
     df = pd.read_csv(
         filelike,

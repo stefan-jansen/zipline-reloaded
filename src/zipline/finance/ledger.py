@@ -16,7 +16,7 @@ from collections import namedtuple, OrderedDict
 from functools import partial
 from math import isnan
 
-import logbook
+import logging
 import numpy as np
 import pandas as pd
 
@@ -31,7 +31,7 @@ from ._finance_ext import (
     update_position_last_sale_prices,
 )
 
-log = logbook.Logger("Performance")
+log = logging.getLogger("Performance")
 
 
 class PositionTracker:

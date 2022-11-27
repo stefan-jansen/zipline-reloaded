@@ -30,14 +30,14 @@ from zipline.finance import commission, slippage
 # Import exponential moving average from talib wrapper
 try:
     from talib import EMA
-except ImportError:
+except ImportError as exc:
     msg = (
         "Unable to import module TA-lib. Use `pip install TA-lib` to "
         "install. Note: if installation fails, you might need to install "
         "the underlying TA-lib library (more information can be found in "
         "the zipline installation documentation)."
     )
-    raise ImportError(msg)
+    raise ImportError(msg) from exc
 
 
 def initialize(context):
@@ -86,10 +86,15 @@ def handle_data(context, data):
 # this algorithm on quantopian.com
 def analyze(context=None, results=None):
     import matplotlib.pyplot as plt
-    import logbook
+    import logging
 
-    logbook.StderrHandler().push_application()
-    log = logbook.Logger("Algorithm")
+    logging.basicConfig(
+        format="[%(asctime)s-%(levelname)s][%(name)s]\n %(message)s",
+        level=logging.INFO,
+        datefmt="%Y-%m-%dT%H:%M:%S%z",
+    )
+
+    log = logging.getLogger("Algorithm")
 
     fig = plt.figure()
     ax1 = fig.add_subplot(211)

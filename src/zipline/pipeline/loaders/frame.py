@@ -8,18 +8,14 @@ from numpy import (
     ix_,
     zeros,
 )
-from pandas import (
-    DataFrame,
-    DatetimeIndex,
-    Index,
-    Int64Index,
-)
+import pandas as pd
+
 from zipline.lib.adjusted_array import AdjustedArray
 from zipline.lib.adjustment import make_adjustment_from_labels
 from zipline.utils.numpy_utils import as_column
 from .base import PipelineLoader
 
-ADJUSTMENT_COLUMNS = Index(
+ADJUSTMENT_COLUMNS = pd.Index(
     [
         "sid",
         "value",
@@ -68,8 +64,8 @@ class DataFrameLoader(implements(PipelineLoader)):
         self.assets = baseline.columns
 
         if adjustments is None:
-            adjustments = DataFrame(
-                index=DatetimeIndex([]),
+            adjustments = pd.DataFrame(
+                index=pd.DatetimeIndex([]),
                 columns=ADJUSTMENT_COLUMNS,
             )
         else:
@@ -78,9 +74,9 @@ class DataFrameLoader(implements(PipelineLoader)):
             adjustments.sort_values(["apply_date", "sid"], inplace=True)
 
         self.adjustments = adjustments
-        self.adjustment_apply_dates = DatetimeIndex(adjustments.apply_date)
-        self.adjustment_end_dates = DatetimeIndex(adjustments.end_date)
-        self.adjustment_sids = Int64Index(adjustments.sid)
+        self.adjustment_apply_dates = pd.DatetimeIndex(adjustments.apply_date)
+        self.adjustment_end_dates = pd.DatetimeIndex(adjustments.end_date)
+        self.adjustment_sids = pd.Index(adjustments.sid, dtype="int64")
 
     def format_adjustments(self, dates, assets):
         """

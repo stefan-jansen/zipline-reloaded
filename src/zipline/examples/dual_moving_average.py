@@ -70,10 +70,15 @@ def handle_data(context, data):
 # this algorithm on quantopian.com
 def analyze(context=None, results=None):
     import matplotlib.pyplot as plt
-    import logbook
 
-    logbook.StderrHandler().push_application()
-    log = logbook.Logger("Algorithm")
+    import logging
+
+    logging.basicConfig(
+        format="[%(asctime)s-%(levelname)s][%(name)s]\n %(message)s",
+        level=logging.INFO,
+        datefmt="%Y-%m-%dT%H:%M:%S%z",
+    )
+    log = logging.getLogger("Algorithm")
 
     fig = plt.figure()
     ax1 = fig.add_subplot(211)

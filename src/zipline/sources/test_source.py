@@ -74,7 +74,7 @@ def date_gen(start, end, trading_calendar, delta=timedelta(minutes=1), repeats=N
     # during trading hours.
     while cur < end:
         if repeats:
-            for j in range(repeats):
+            for _ in range(repeats):
                 yield cur
         else:
             yield cur

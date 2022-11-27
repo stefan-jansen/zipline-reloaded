@@ -585,14 +585,14 @@ class EarningsEstimatesLoader(implements(PipelineLoader)):
             groups = groupby(
                 lambda col: col_to_datasets[col].num_announcements, col_to_datasets
             )
-        except AttributeError:
+        except AttributeError as exc:
             raise AttributeError(
                 "Datasets loaded via the "
                 "EarningsEstimatesLoader must define a "
                 "`num_announcements` attribute that defines "
                 "how many quarters out the loader should load"
                 " the data relative to `dates`."
-            )
+            ) from exc
         if any(num_qtr < 0 for num_qtr in groups):
             raise ValueError(
                 INVALID_NUM_QTRS_MESSAGE

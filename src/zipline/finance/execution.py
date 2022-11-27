@@ -217,11 +217,11 @@ def check_stoplimit_prices(price, label):
                 "of {}.".format(label, price)
             )
     # This catches arbitrary objects
-    except TypeError:
+    except TypeError as exc:
         raise BadOrderParameters(
             msg="Attempted to place an order with a {} price "
             "of {}.".format(label, type(price))
-        )
+        ) from exc
 
     if price < 0:
         raise BadOrderParameters(

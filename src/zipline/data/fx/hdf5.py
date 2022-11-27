@@ -94,7 +94,7 @@ for column i in a data node is the ith element of /index/dts.
 """
 from interface import implements
 import h5py
-from logbook import Logger
+import logging
 import numpy as np
 import pandas as pd
 
@@ -113,7 +113,7 @@ CURRENCIES = "currencies"
 DTS = "dts"
 RATES = "rates"
 
-log = Logger(__name__)
+log = logging.getLogger(__name__)
 
 
 class HDF5FXRateReader(implements(FXRateReader)):
@@ -195,12 +195,12 @@ class HDF5FXRateReader(implements(FXRateReader)):
 
         try:
             dataset = self._group[DATA][rate][quote][RATES]
-        except KeyError:
+        except KeyError as exc:
             raise ValueError(
                 "FX rates not available for rate={}, quote_currency={}.".format(
                     rate, quote
                 )
-            )
+            ) from exc
 
         # OPTIMIZATION: Column indices correspond to dates, which must be in
         # sorted order. Rather than reading the entire dataset from h5, we can

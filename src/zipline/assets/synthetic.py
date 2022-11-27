@@ -193,6 +193,8 @@ def make_jagged_equity_info(
 
     # Explicitly pass None to disable setting the auto_close_date column.
     if auto_close_delta is not None:
+        # TODO CHECK PerformanceWarning: Non-vectorized DateOffset
+        # being applied to Series or DatetimeIndex
         frame["auto_close_date"] = frame["end_date"] + auto_close_delta
 
     return frame

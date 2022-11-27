@@ -43,7 +43,6 @@ dependencies = [
     'intervaltree >=2.1.0',
     'iso3166 >=2.1.1',
     'iso4217 >=1.6.20180829',
-    'logbook >=1.0',
     'lru-dict >=1.1.4',
     'multipledispatch >=0.6.0',
     'networkx >=2.0',

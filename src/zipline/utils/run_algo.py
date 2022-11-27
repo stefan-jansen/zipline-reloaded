@@ -11,7 +11,7 @@ try:
     PYGMENTS = True
 except ImportError:
     PYGMENTS = False
-import logbook
+import logging
 import pandas as pd
 from toolz import concatv
 from zipline.utils.calendar_utils import get_calendar
@@ -30,7 +30,7 @@ from zipline.errors import SymbolNotFound
 from zipline.algorithm import TradingAlgorithm, NoBenchmark
 from zipline.finance.blotter import Blotter
 
-log = logbook.Logger(__name__)
+log = logging.getLogger(__name__)
 
 
 class _RunAlgoError(click.ClickException, ValueError):
@@ -535,14 +535,14 @@ class BenchmarkSpec:
                 end_date=end_date,
             )
         else:
-            log.warn(
+            log.warning(
                 "No benchmark configured. " "Assuming algorithm calls set_benchmark."
             )
-            log.warn(
+            log.warning(
                 "Pass --benchmark-sid, --benchmark-symbol, or"
                 " --benchmark-file to set a source of benchmark returns."
             )
-            log.warn(
+            log.warning(
                 "Pass --no-benchmark to use a dummy benchmark " "of zero returns.",
             )
             benchmark_sid = None

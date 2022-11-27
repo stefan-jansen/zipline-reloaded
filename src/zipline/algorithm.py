@@ -17,7 +17,7 @@ from collections import namedtuple
 from copy import copy
 import warnings
 from datetime import tzinfo, time
-import logbook
+import logging
 import pytz
 import pandas as pd
 import numpy as np
@@ -127,7 +127,7 @@ from zipline.gens.sim_engine import MinuteSimulationClock
 from zipline.sources.benchmark_source import BenchmarkSource
 from zipline.zipline_warnings import ZiplineDeprecationWarning
 
-log = logbook.Logger("ZiplineLog")
+log = logging.getLogger("ZiplineLog")
 
 # For creating and storing pipeline instances
 AttachedPipeline = namedtuple("AttachedPipeline", "pipe chunks eager")
@@ -760,10 +760,10 @@ class TradingAlgorithm:
         else:
             try:
                 return env[field]
-            except KeyError:
+            except KeyError as exc:
                 raise ValueError(
                     "%r is not a valid field for get_environment" % field,
-                )
+                ) from exc
 
     @api_method
     def fetch_csv(
@@ -1195,7 +1195,7 @@ class TradingAlgorithm:
                 # If we are after the asset's end date or auto close date, warn
                 # the user that they can't place an order for this asset, and
                 # return None.
-                log.warn(
+                log.warning(
                     "Cannot place order for {0}, as it has de-listed. "
                     "Any existing positions for this asset will be "
                     "liquidated on "
@@ -1583,8 +1583,10 @@ class TradingAlgorithm:
             self._symbol_lookup_date = pd.Timestamp(dt).tz_localize("UTC")
         except TypeError:
             self._symbol_lookup_date = pd.Timestamp(dt).tz_convert("UTC")
-        except ValueError:
-            raise UnsupportedDatetimeFormat(input=dt, method="set_symbol_lookup_date")
+        except ValueError as exc:
+            raise UnsupportedDatetimeFormat(
+                input=dt, method="set_symbol_lookup_date"
+            ) from exc
 
     @property
     def data_frequency(self):
@@ -2228,11 +2230,11 @@ class TradingAlgorithm:
         """
         try:
             pipe, chunks, _ = self._pipelines[name]
-        except KeyError:
+        except KeyError as exc:
             raise NoSuchPipeline(
                 name=name,
                 valid=list(self._pipelines.keys()),
-            )
+            ) from exc
         return self._pipeline_output(pipe, chunks, name)
 
     def _pipeline_output(self, pipeline, chunks, name):

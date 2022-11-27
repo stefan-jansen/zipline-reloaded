@@ -413,8 +413,8 @@ class LabelArray(ndarray):
         """
         try:
             value_code = self.reverse_categories[value]
-        except KeyError:
-            raise ValueError("%r is not in LabelArray categories." % value)
+        except KeyError as exc:
+            raise ValueError("%r is not in LabelArray categories." % value) from exc
 
         self.as_int_array()[indexer] = value_code
 

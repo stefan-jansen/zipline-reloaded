@@ -308,7 +308,7 @@ def shift_dates(dates, start_date, end_date, shift):
     """
     try:
         start = dates.get_loc(start_date)
-    except KeyError:
+    except KeyError as exc:
         if start_date < dates[0]:
             raise NoFurtherDataError(
                 msg=(
@@ -318,9 +318,9 @@ def shift_dates(dates, start_date, end_date, shift):
                     query_start=str(start_date),
                     calendar_start=str(dates[0]),
                 )
-            )
+            ) from exc
         else:
-            raise ValueError("Query start %s not in calendar" % start_date)
+            raise ValueError(f"Query start {start_date} not in calendar") from exc
 
     # Make sure that shifting doesn't push us out of the calendar.
     if start < shift:
@@ -334,7 +334,7 @@ def shift_dates(dates, start_date, end_date, shift):
 
     try:
         end = dates.get_loc(end_date)
-    except KeyError:
+    except KeyError as exc:
         if end_date > dates[-1]:
             raise NoFurtherDataError(
                 msg=(
@@ -344,8 +344,8 @@ def shift_dates(dates, start_date, end_date, shift):
                     query_end=end_date,
                     calendar_end=dates[-1],
                 )
-            )
+            ) from exc
         else:
-            raise ValueError("Query end %s not in calendar" % end_date)
+            raise ValueError("Query end %s not in calendar" % end_date) from exc
 
     return dates[start - shift : end - shift + 1]  # +1 to be inclusive

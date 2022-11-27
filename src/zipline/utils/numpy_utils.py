@@ -113,15 +113,17 @@ UNSIGNED_INT_DTYPES_BY_SIZE_BYTES = OrderedDict(
 def int_dtype_with_size_in_bytes(size):
     try:
         return INT_DTYPES_BY_SIZE_BYTES[size]
-    except KeyError:
-        raise ValueError("No integral dtype whose size is %d bytes." % size)
+    except KeyError as exc:
+        raise ValueError("No integral dtype whose size is %d bytes." % size) from exc
 
 
 def unsigned_int_dtype_with_size_in_bytes(size):
     try:
         return UNSIGNED_INT_DTYPES_BY_SIZE_BYTES[size]
-    except KeyError:
-        raise ValueError("No unsigned integral dtype whose size is %d bytes." % size)
+    except KeyError as exc:
+        raise ValueError(
+            "No unsigned integral dtype whose size is %d bytes." % size
+        ) from exc
 
 
 class NoDefaultMissingValue(Exception):
@@ -171,8 +173,10 @@ def default_missing_value_for_dtype(dtype):
     """
     try:
         return _FILLVALUE_DEFAULTS[dtype]
-    except KeyError:
-        raise NoDefaultMissingValue("No default value registered for dtype %s." % dtype)
+    except KeyError as exc:
+        raise NoDefaultMissingValue(
+            "No default value registered for dtype %s." % dtype
+        ) from exc
 
 
 def repeat_first_axis(array, count):

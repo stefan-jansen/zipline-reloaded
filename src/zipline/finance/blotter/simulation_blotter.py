@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from logbook import Logger
+import logging
 from collections import defaultdict
 from copy import copy
 
@@ -33,8 +33,8 @@ from zipline.finance.commission import (
 )
 from zipline.utils.input_validation import expect_types
 
-log = Logger("Blotter")
-warning_logger = Logger("AlgoWarning")
+log = logging.getLogger("Blotter")
+warning_logger = logging.getLogger("AlgoWarning")
 
 
 @register(Blotter, "default")
@@ -194,7 +194,7 @@ class SimulationBlotter(Blotter):
                 # Message appropriately depending on whether there's
                 # been a partial fill or not.
                 if order.filled > 0:
-                    warning_logger.warn(
+                    warning_logger.warning(
                         "Your order for {order_amt} shares of "
                         "{order_sym} has been partially filled. "
                         "{order_filled} shares were successfully "
@@ -208,7 +208,7 @@ class SimulationBlotter(Blotter):
                         )
                     )
                 elif order.filled < 0:
-                    warning_logger.warn(
+                    warning_logger.warning(
                         "Your order for {order_amt} shares of "
                         "{order_sym} has been partially filled. "
                         "{order_filled} shares were successfully "
@@ -222,7 +222,7 @@ class SimulationBlotter(Blotter):
                         )
                     )
                 else:
-                    warning_logger.warn(
+                    warning_logger.warning(
                         "Your order for {order_amt} shares of "
                         "{order_sym} failed to fill by the end of day "
                         "and was canceled.".format(

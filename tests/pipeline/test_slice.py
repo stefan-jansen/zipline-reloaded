@@ -2,7 +2,7 @@
 Tests for slicing pipeline terms.
 """
 from numpy import where
-from pandas import Int64Index, Timestamp
+import pandas as pd
 from pandas.testing import assert_frame_equal
 
 from zipline.assets import Asset, ExchangeInfo
@@ -39,9 +39,9 @@ import pytest
 
 
 class SliceTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
-    sids = ASSET_FINDER_EQUITY_SIDS = Int64Index([1, 2, 3])
-    START_DATE = Timestamp("2015-01-31", tz="UTC")
-    END_DATE = Timestamp("2015-03-01", tz="UTC")
+    sids = ASSET_FINDER_EQUITY_SIDS = pd.Index([1, 2, 3], dtype="int64")
+    START_DATE = pd.Timestamp("2015-01-31", tz="UTC")
+    END_DATE = pd.Timestamp("2015-03-01", tz="UTC")
     ASSET_FINDER_COUNTRY_CODE = "US"
     SEEDED_RANDOM_PIPELINE_DEFAULT_DOMAIN = US_EQUITIES
 

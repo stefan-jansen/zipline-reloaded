@@ -94,13 +94,13 @@ class IDomain(Interface):
         trading_days = self.all_sessions()
         try:
             return trading_days[trading_days.searchsorted(dt)]
-        except IndexError:
+        except IndexError as exc:
             raise ValueError(
                 "Date {} was past the last session for domain {}. "
                 "The last session for this domain is {}.".format(
                     dt.date(), self, trading_days[-1].date()
                 )
-            )
+            ) from exc
 
 
 Domain = implements(IDomain)

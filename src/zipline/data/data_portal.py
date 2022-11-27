@@ -14,7 +14,7 @@
 # limitations under the License.
 from operator import mul
 
-from logbook import Logger
+import logging
 
 import numpy as np
 from numpy import float64, int64, nan
@@ -58,7 +58,7 @@ from zipline.utils.pandas_utils import normalize_date
 from zipline.errors import HistoryWindowStartsBeforeData
 
 
-log = Logger("DataPortal")
+log = logging.getLogger("DataPortal")
 
 BASE_FIELDS = frozenset(
     [
@@ -492,10 +492,10 @@ class DataPortal:
             # an iterable.
             try:
                 iter(assets)
-            except TypeError:
+            except TypeError as exc:
                 raise TypeError(
                     "Unexpected 'assets' value of type {}.".format(type(assets))
-                )
+                ) from exc
 
         session_label = self.trading_calendar.minute_to_session_label(dt)
 

@@ -22,7 +22,7 @@ from lru import LRU
 import bcolz
 from bcolz import ctable
 from intervaltree import IntervalTree
-import logbook
+import logging
 import numpy as np
 import pandas as pd
 from pandas import HDFStore
@@ -42,7 +42,7 @@ from zipline.utils.cli import maybe_show_progress
 from zipline.utils.compat import mappingproxy
 from zipline.utils.memoize import lazyval
 
-logger = logbook.Logger("MinuteBars")
+logger = logging.getLogger("MinuteBars")
 
 US_EQUITIES_MINUTES_PER_DAY = 390
 FUTURES_MINUTES_PER_DAY = 1440
@@ -149,7 +149,7 @@ def convert_cols(cols, scale_factor, sid, invalid_data_behavior):
                 raise
 
             if invalid_data_behavior == "warn":
-                logger.warn(
+                logger.warning(
                     "Values for sid={}, col={} contain some too large for "
                     "uint32 (max={}), filtering them out",
                     sid,
@@ -1053,8 +1053,8 @@ class BcolzMinuteBarReader(MinuteBarReader):
                     rootdir=self._get_carray_path(sid, field),
                     mode="r",
                 )
-            except IOError:
-                raise NoDataForSid("No minute data for sid {}.".format(sid))
+            except IOError as exc:
+                raise NoDataForSid("No minute data for sid {}.".format(sid)) from exc
 
         return carray
 
@@ -1104,8 +1104,8 @@ class BcolzMinuteBarReader(MinuteBarReader):
         else:
             try:
                 minute_pos = self._find_position_of_minute(dt)
-            except ValueError:
-                raise NoDataOnDate()
+            except ValueError as exc:
+                raise NoDataOnDate() from exc
 
             self._last_get_value_dt_value = dt.value
             self._last_get_value_dt_position = minute_pos

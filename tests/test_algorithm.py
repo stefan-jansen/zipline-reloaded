@@ -12,33 +12,28 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import pytest
-import warnings
 import datetime
+import logging
+import warnings
+from copy import deepcopy
 from datetime import timedelta
 from functools import partial
 from textwrap import dedent
-from copy import deepcopy
-
-import logbook
-import toolz
-from logbook import TestHandler, WARNING
-from parameterized import parameterized
-from testfixtures import TempDirectory
 
 import numpy as np
 import pandas as pd
+import pytest
 import pytz
-from zipline.utils.calendar_utils import get_calendar, register_calendar
+import toolz
+from parameterized import parameterized
+from testfixtures import TempDirectory
 
 import zipline.api
+import zipline.testing.fixtures as zf
 from zipline.api import FixedSlippage
-from zipline.assets import Equity, Future, Asset
+from zipline.assets import Asset, Equity, Future
 from zipline.assets.continuous_futures import ContinuousFuture
-from zipline.assets.synthetic import (
-    make_jagged_equity_info,
-    make_simple_equity_info,
-)
+from zipline.assets.synthetic import make_jagged_equity_info, make_simple_equity_info
 from zipline.errors import (
     AccountControlViolation,
     CannotOrderDelistedAsset,
@@ -52,81 +47,80 @@ from zipline.errors import (
     UnsupportedDatetimeFormat,
     ZeroCapitalError,
 )
-
+from zipline.finance.asset_restrictions import (
+    RESTRICTION_STATES,
+    HistoricalRestrictions,
+    Restriction,
+    StaticRestrictions,
+)
 from zipline.finance.commission import PerShare, PerTrade
+from zipline.finance.controls import AssetDateBounds
 from zipline.finance.execution import LimitOrder
 from zipline.finance.order import ORDER_STATUS
 from zipline.finance.trading import SimulationParameters
-from zipline.finance.asset_restrictions import (
-    Restriction,
-    HistoricalRestrictions,
-    StaticRestrictions,
-    RESTRICTION_STATES,
-)
-from zipline.finance.controls import AssetDateBounds
-from zipline.testing import (
-    FakeDataPortal,
-    create_daily_df_for_asset,
-    create_data_portal_from_trade_history,
-    create_minute_df_for_asset,
-    make_test_handler,
-    make_trade_data_for_asset_info,
-    parameter_space,
-    str_to_seconds,
-    to_utc,
-)
-from zipline.testing import RecordBatchBlotter
-import zipline.testing.fixtures as zf
 from zipline.test_algorithms import (
     access_account_in_init,
     access_portfolio_in_init,
     api_algo,
     api_get_environment_algo,
     api_symbol_algo,
+    bad_type_can_trade_assets,
+    bad_type_current_assets,
+    bad_type_current_assets_kwarg,
+    bad_type_current_fields,
+    bad_type_current_fields_kwarg,
+    bad_type_history_assets,
+    bad_type_history_assets_kwarg,
+    bad_type_history_assets_kwarg_list,
+    bad_type_history_bar_count,
+    bad_type_history_bar_count_kwarg,
+    bad_type_history_fields,
+    bad_type_history_fields_kwarg,
+    bad_type_history_frequency,
+    bad_type_history_frequency_kwarg,
+    bad_type_is_stale_assets,
+    call_with_bad_kwargs_current,
+    call_with_bad_kwargs_get_open_orders,
+    call_with_bad_kwargs_history,
+    call_with_good_kwargs_get_open_orders,
+    call_with_kwargs,
+    call_with_no_kwargs_get_open_orders,
+    call_without_kwargs,
+    empty_positions,
     handle_data_api,
     handle_data_noop,
     initialize_api,
     initialize_noop,
+    no_handle_data,
     noop_algo,
     record_float_magic,
     record_variables,
-    call_with_kwargs,
-    call_without_kwargs,
-    call_with_bad_kwargs_current,
-    call_with_bad_kwargs_history,
-    bad_type_history_assets,
-    bad_type_history_fields,
-    bad_type_history_bar_count,
-    bad_type_history_frequency,
-    bad_type_history_assets_kwarg_list,
-    bad_type_current_assets,
-    bad_type_current_fields,
-    bad_type_can_trade_assets,
-    bad_type_is_stale_assets,
-    bad_type_history_assets_kwarg,
-    bad_type_history_fields_kwarg,
-    bad_type_history_bar_count_kwarg,
-    bad_type_history_frequency_kwarg,
-    bad_type_current_assets_kwarg,
-    bad_type_current_fields_kwarg,
-    call_with_bad_kwargs_get_open_orders,
-    call_with_good_kwargs_get_open_orders,
-    call_with_no_kwargs_get_open_orders,
-    empty_positions,
-    no_handle_data,
+)
+from zipline.testing import (
+    FakeDataPortal,
+    RecordBatchBlotter,
+    create_daily_df_for_asset,
+    create_data_portal_from_trade_history,
+    create_minute_df_for_asset,
+    # make_test_handler,
+    make_trade_data_for_asset_info,
+    parameter_space,
+    str_to_seconds,
+    to_utc,
 )
 from zipline.testing.predicates import assert_equal
+from zipline.utils import factory
 from zipline.utils.api_support import ZiplineAPI
+from zipline.utils.calendar_utils import get_calendar, register_calendar
 from zipline.utils.context_tricks import CallbackManager, nop_context
 from zipline.utils.events import (
-    date_rules,
-    time_rules,
     Always,
     ComposedRule,
     Never,
     OncePerDay,
+    date_rules,
+    time_rules,
 )
-from zipline.utils import factory
 from zipline.utils.pandas_utils import PerformanceWarning
 
 # Because test cases appear to reuse some resources.
@@ -2776,6 +2770,10 @@ class TestTradingControls(zf.WithMakeAlgo, zf.ZiplineTestCase):
     SIM_PARAMS_DATA_FREQUENCY = "daily"
     DATA_PORTAL_USE_MINUTE_DATA = True
 
+    @pytest.fixture(autouse=True)
+    def inject_fixtures(self, caplog):
+        self._caplog = caplog
+
     @classmethod
     def init_class_fixtures(cls):
         super(TestTradingControls, cls).init_class_fixtures()
@@ -2928,13 +2926,13 @@ class TestTradingControls(zf.WithMakeAlgo, zf.ZiplineTestCase):
             initialize=initialize,
             handle_data=handle_data,
         )
-        with make_test_handler(self) as log_catcher:
-            self.check_algo_succeeds(algo)
-        logs = [r.message for r in log_catcher.records]
+
+        self.check_algo_succeeds(algo)
+
         assert (
             "Order for 100 shares of Equity(133 [A]) at "
             "2006-01-03 21:00:00+00:00 violates trading constraint "
-            "RestrictedListOrder({})" in logs
+            "RestrictedListOrder({})" in self._caplog.messages
         )
         assert not algo.could_trade
 
@@ -3653,6 +3651,11 @@ class TestOrderCancelation(zf.WithMakeAlgo, zf.ZiplineTestCase):
         """,
     )
 
+    # https://stackoverflow.com/questions/50373916/pytest-to-insert-caplog-fixture-in-test-method
+    @pytest.fixture(autouse=True)
+    def inject_fixtures(self, caplog):
+        self._caplog = caplog
+
     @classmethod
     def make_equity_minute_bar_data(cls):
         asset_minutes = cls.trading_calendar.minutes_for_sessions_in_range(
@@ -3721,85 +3724,78 @@ class TestOrderCancelation(zf.WithMakeAlgo, zf.ZiplineTestCase):
             minute_emission=minute_emission,
         )
 
-        log_catcher = TestHandler()
-        with log_catcher:
-            results = algo.run()
+        results = algo.run()
 
-            for daily_positions in results.positions:
-                assert 1 == len(daily_positions)
-                assert np.copysign(389, direction) == daily_positions[0]["amount"]
-                assert 1 == results.positions[0][0]["sid"]
+        for daily_positions in results.positions:
+            assert 1 == len(daily_positions)
+            assert np.copysign(389, direction) == daily_positions[0]["amount"]
+            assert 1 == results.positions[0][0]["sid"]
 
-            # should be an order on day1, but no more orders afterwards
-            np.testing.assert_array_equal([1, 0, 0], list(map(len, results.orders)))
+        # should be an order on day1, but no more orders afterwards
+        np.testing.assert_array_equal([1, 0, 0], list(map(len, results.orders)))
 
-            # should be 389 txns on day 1, but no more afterwards
-            np.testing.assert_array_equal(
-                [389, 0, 0], list(map(len, results.transactions))
-            )
+        # should be 389 txns on day 1, but no more afterwards
+        np.testing.assert_array_equal([389, 0, 0], list(map(len, results.transactions)))
 
-            the_order = results.orders[0][0]
+        the_order = results.orders[0][0]
 
-            assert ORDER_STATUS.CANCELLED == the_order["status"]
-            assert np.copysign(389, direction) == the_order["filled"]
+        assert ORDER_STATUS.CANCELLED == the_order["status"]
+        assert np.copysign(389, direction) == the_order["filled"]
 
-            warnings = [
-                record for record in log_catcher.records if record.level == WARNING
-            ]
+        with self._caplog.at_level(logging.WARNING):
 
-            assert 1 == len(warnings)
+            assert 1 == len(self._caplog.messages)
 
             if direction == 1:
-                assert (
+                expected = [
                     "Your order for 1000 shares of ASSET1 has been partially "
                     "filled. 389 shares were successfully purchased. "
                     "611 shares were not filled by the end of day and "
-                    "were canceled." == str(warnings[0].message)
-                )
+                    "were canceled."
+                ]
+                assert expected == self._caplog.messages
             elif direction == -1:
-                assert (
+                expected = [
                     "Your order for -1000 shares of ASSET1 has been partially "
                     "filled. 389 shares were successfully sold. "
                     "611 shares were not filled by the end of day and "
-                    "were canceled." == str(warnings[0].message)
-                )
+                    "were canceled."
+                ]
+                assert expected == self._caplog.messages
+            self._caplog.clear()
 
     def test_default_cancelation_policy(self):
         algo = self.prep_algo("")
 
-        log_catcher = TestHandler()
-        with log_catcher:
-            results = algo.run()
+        results = algo.run()
 
-            # order stays open throughout simulation
-            np.testing.assert_array_equal([1, 1, 1], list(map(len, results.orders)))
+        # order stays open throughout simulation
+        np.testing.assert_array_equal([1, 1, 1], list(map(len, results.orders)))
 
-            # one txn per minute.  389 the first day (since no order until the
-            # end of the first minute).  390 on the second day.  221 on the
-            # the last day, sum = 1000.
-            np.testing.assert_array_equal(
-                [389, 390, 221], list(map(len, results.transactions))
-            )
+        # one txn per minute.  389 the first day (since no order until the
+        # end of the first minute).  390 on the second day.  221 on the
+        # the last day, sum = 1000.
+        np.testing.assert_array_equal(
+            [389, 390, 221], list(map(len, results.transactions))
+        )
 
-            assert not log_catcher.has_warnings
+        with self._caplog.at_level(logging.WARNING):
+            assert len(self._caplog.messages) == 0
 
     def test_eod_order_cancel_daily(self):
         # in daily mode, EODCancel does nothing.
         algo = self.prep_algo("set_cancel_policy(cancel_policy.EODCancel())", "daily")
 
-        log_catcher = TestHandler()
-        with log_catcher:
-            results = algo.run()
+        results = algo.run()
 
-            # order stays open throughout simulation
-            np.testing.assert_array_equal([1, 1, 1], list(map(len, results.orders)))
+        # order stays open throughout simulation
+        np.testing.assert_array_equal([1, 1, 1], list(map(len, results.orders)))
 
-            # one txn per day
-            np.testing.assert_array_equal(
-                [0, 1, 1], list(map(len, results.transactions))
-            )
+        # one txn per day
+        np.testing.assert_array_equal([0, 1, 1], list(map(len, results.transactions)))
 
-            assert not log_catcher.has_warnings
+        with self._caplog.at_level(logging.WARNING):
+            assert len(self._caplog.messages) == 0
 
 
 class TestDailyEquityAutoClose(zf.WithMakeAlgo, zf.ZiplineTestCase):
@@ -4368,6 +4364,10 @@ class TestOrderAfterDelist(zf.WithMakeAlgo, zf.ZiplineTestCase):
     # FIXME: Pass a benchmark source here.
     BENCHMARK_SID = None
 
+    @pytest.fixture(autouse=True)
+    def inject_fixtures(self, caplog):
+        self._caplog = caplog
+
     @classmethod
     def make_equity_info(cls):
         return pd.DataFrame.from_dict(
@@ -4442,21 +4442,21 @@ class TestOrderAfterDelist(zf.WithMakeAlgo, zf.ZiplineTestCase):
                 data_frequency="minute",
             ),
         )
-        with make_test_handler(self) as log_catcher:
-            algo.run()
 
-            warnings = [r for r in log_catcher.records if r.level == logbook.WARNING]
+        algo.run()
+
+        with self._caplog.at_level(logging.WARNING):
 
             # one warning per order on the second day
-            assert 6 * 390 == len(warnings)
+            assert 6 * 390 == len(self._caplog.messages)
 
-            for w in warnings:
-                expected_message = (
-                    "Cannot place order for ASSET{sid}, as it has de-listed. "
-                    "Any existing positions for this asset will be liquidated "
-                    "on {date}.".format(sid=sid, date=asset.auto_close_date)
-                )
-                assert expected_message == w.message
+            expected_message = (
+                "Cannot place order for ASSET{sid}, as it has de-listed. "
+                "Any existing positions for this asset will be liquidated "
+                "on {date}.".format(sid=sid, date=asset.auto_close_date)
+            )
+            for w in self._caplog.messages:
+                assert expected_message == w
 
 
 class AlgoInputValidationTestCase(zf.WithMakeAlgo, zf.ZiplineTestCase):

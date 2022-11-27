@@ -36,7 +36,6 @@ from zipline.gens.sim_engine import BAR, SESSION_END
 from zipline.testing.fixtures import (
     WithCreateBarData,
     WithDataPortal,
-    WithLogger,
     WithSimParams,
     ZiplineTestCase,
 )
@@ -44,7 +43,7 @@ from zipline.utils.classproperty import classproperty
 
 
 class BlotterTestCase(
-    WithCreateBarData, WithLogger, WithDataPortal, WithSimParams, ZiplineTestCase
+    WithCreateBarData, WithDataPortal, WithSimParams, ZiplineTestCase
 ):
     START_DATE = pd.Timestamp("2006-01-05", tz="utc")
     END_DATE = pd.Timestamp("2006-01-06", tz="utc")

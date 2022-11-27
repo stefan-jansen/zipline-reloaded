@@ -4,7 +4,6 @@ import sqlite3
 from unittest import TestCase
 import warnings
 
-from logbook import NullHandler, Logger
 import numpy as np
 import pandas as pd
 from pandas.errors import PerformanceWarning
@@ -88,13 +87,13 @@ zipline_dir = Path(zipline.__file__).parent
 class DebugMROMeta(FinalMeta):
     """Metaclass that helps debug MRO resolution errors."""
 
-    def __new__(mcls, name, bases, clsdict):
+    def __new__(cls, name, bases, clsdict):
         try:
-            return super(DebugMROMeta, mcls).__new__(mcls, name, bases, clsdict)
-        except TypeError as e:
-            if "(MRO)" in str(e):
+            return super(DebugMROMeta, cls).__new__(cls, name, bases, clsdict)
+        except TypeError as exc:
+            if "(MRO)" in str(exc):
                 msg = debug_mro_failure(name, bases)
-                raise TypeError(msg)
+                raise TypeError(msg) from exc
             else:
                 raise
 
@@ -305,32 +304,6 @@ class WithDefaultDateBounds(object, metaclass=DebugMROMeta):
 
     START_DATE = pd.Timestamp("2006-01-03", tz="utc")
     END_DATE = pd.Timestamp("2006-12-29", tz="utc")
-
-
-class WithLogger:
-    """
-    ZiplineTestCase mixin providing cls.log_handler as an instance-level
-    fixture.
-
-    After init_instance_fixtures has been called `self.log_handler` will be a
-    new ``logbook.NullHandler``.
-
-    Methods
-    -------
-    make_log_handler() -> logbook.LogHandler
-        A class method which constructs the new log handler object. By default
-        this will construct a ``NullHandler``.
-    """
-
-    make_log_handler = NullHandler
-
-    @classmethod
-    def init_class_fixtures(cls):
-        super(WithLogger, cls).init_class_fixtures()
-        cls.log = Logger()
-        cls.log_handler = cls.enter_class_context(
-            cls.make_log_handler().applicationbound(),
-        )
 
 
 class WithAssetFinder(WithDefaultDateBounds):
@@ -1982,7 +1955,7 @@ class WithCreateBarData(WithDataPortal):
         )
 
 
-class WithMakeAlgo(WithBenchmarkReturns, WithSimParams, WithLogger, WithDataPortal):
+class WithMakeAlgo(WithBenchmarkReturns, WithSimParams, WithDataPortal):
     """
     ZiplineTestCase mixin that provides a ``make_algo`` method.
     """

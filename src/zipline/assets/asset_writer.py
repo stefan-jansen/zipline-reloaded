@@ -821,7 +821,7 @@ class AssetDBWriter:
 
     def _write_df_to_table(self, tbl, df, txn, chunk_size):
         df = df.copy()
-        for column, dtype in df.dtypes.iteritems():
+        for column, dtype in df.dtypes.items():
             if dtype.kind == "M":
                 df[column] = _dt_to_epoch_ns(df[column])
 

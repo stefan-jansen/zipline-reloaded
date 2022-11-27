@@ -2,7 +2,7 @@ from collections import namedtuple
 from errno import ENOENT
 from os import remove
 
-from logbook import Logger
+import logging
 import numpy as np
 from numpy import integer as any_integer
 import pandas as pd
@@ -22,7 +22,7 @@ from zipline.utils.pandas_utils import empty_dataframe
 from zipline.utils.sqlite_utils import group_into_chunks, coerce_string_to_conn
 from ._adjustments import load_adjustments_from_sqlite
 
-log = Logger(__name__)
+log = logging.getLogger(__name__)
 
 SQLITE_ADJUSTMENT_TABLENAMES = frozenset(["splits", "dividends", "mergers"])
 
@@ -298,13 +298,13 @@ class SQLiteAdjustmentReader:
     def get_df_from_table(self, table_name, convert_dates=False):
         try:
             date_cols = self._datetime_int_cols[table_name]
-        except KeyError:
+        except KeyError as exc:
             raise ValueError(
                 "Requested table {} not found.\n"
                 "Available tables: {}\n".format(
                     table_name, self._datetime_int_cols.keys()
                 )
-            )
+            ) from exc
 
         # Dates are stored in second resolution as ints in adj.db tables.
         kwargs = (
@@ -517,22 +517,26 @@ class SQLiteAdjustmentWriter:
 
         non_nan_ratio_mask = ~np.isnan(ratio)
         for ix in np.flatnonzero(~non_nan_ratio_mask):
-            log.warn(
+            log.warning(
                 "Couldn't compute ratio for dividend"
-                " sid={sid}, ex_date={ex_date:%Y-%m-%d}, amount={amount:.3f}",
-                sid=input_sids[ix],
-                ex_date=pd.Timestamp(input_dates[ix]),
-                amount=amount[ix],
+                " sid=%(sid)s, ex_date=%(ex_date)s, amount=%(amount).3f",
+                {
+                    "sid": input_sids[ix],
+                    "ex_date": pd.Timestamp(input_dates[ix]).strftime("%Y-%m-%d"),
+                    "amount": amount[ix],
+                },
             )
 
         positive_ratio_mask = ratio > 0
         for ix in np.flatnonzero(~positive_ratio_mask & non_nan_ratio_mask):
-            log.warn(
+            log.warning(
                 "Dividend ratio <= 0 for dividend"
-                " sid={sid}, ex_date={ex_date:%Y-%m-%d}, amount={amount:.3f}",
-                sid=input_sids[ix],
-                ex_date=pd.Timestamp(input_dates[ix]),
-                amount=amount[ix],
+                " sid=%(sid)s, ex_date=%(ex_date)s, amount=%(amount).3f",
+                {
+                    "sid": input_sids[ix],
+                    "ex_date": pd.Timestamp(input_dates[ix]).strftime("%Y-%m-%d"),
+                    "amount": amount[ix],
+                },
             )
 
         valid_ratio_mask = non_nan_ratio_mask & positive_ratio_mask

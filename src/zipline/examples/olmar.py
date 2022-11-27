@@ -1,17 +1,17 @@
+import logging
 import sys
-import logbook
+
 import numpy as np
 
 from zipline.finance import commission, slippage
 
-zipline_logging = logbook.NestedSetup(
-    [
-        logbook.NullHandler(),
-        logbook.StreamHandler(sys.stdout, level=logbook.INFO),
-        logbook.StreamHandler(sys.stderr, level=logbook.ERROR),
-    ]
-)
-zipline_logging.push_application()
+# zipline_logging = logging.getLogger("zipline_logging")
+# zipline_logging.addHandler(logging.NullHandler())
+# zipline_logging.addHandler(
+#     logging.StreamHandler(sys.stdout).setLevel(logging.INFO),
+# )
+# zipline_logging.addHandler(logging.StreamHandler(sys.stderr).setLevel(logging.ERROR))
+
 
 STOCKS = ["AMD", "CERN", "COST", "DELL", "GPS", "INTC", "MMM"]
 

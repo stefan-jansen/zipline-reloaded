@@ -21,7 +21,7 @@ from numbers import Integral
 from operator import itemgetter, attrgetter
 import struct
 
-from logbook import Logger
+import logging
 import numpy as np
 import pandas as pd
 from pandas import isnull
@@ -77,7 +77,7 @@ from zipline.utils.numpy_utils import as_column
 from zipline.utils.preprocess import preprocess
 from zipline.utils.sqlite_utils import group_into_chunks, coerce_string_to_eng
 
-log = Logger("assets.py")
+log = logging.getLogger("assets.py")
 
 # A set of fields that need to be converted to strings before building an
 # Asset to avoid unicode fields
@@ -789,9 +789,9 @@ class AssetFinder:
         try:
             owners = ownership_map[company_symbol, share_class_symbol]
             assert owners, "empty owners list for %r" % symbol
-        except KeyError:
+        except KeyError as exc:
             # no equity has ever held this symbol
-            raise SymbolNotFound(symbol=symbol)
+            raise SymbolNotFound(symbol=symbol) from exc
 
         if not as_of_date:
             # exactly one equity has ever held this symbol, we may resolve
@@ -848,9 +848,9 @@ class AssetFinder:
         try:
             owners = ownership_map[company_symbol + share_class_symbol]
             assert owners, "empty owners list for %r" % symbol
-        except KeyError:
+        except KeyError as exc:
             # no equity has ever held a symbol matching the fuzzy symbol
-            raise SymbolNotFound(symbol=symbol)
+            raise SymbolNotFound(symbol=symbol) from exc
 
         if not as_of_date:
             if len(owners) == 1:
@@ -1084,9 +1084,9 @@ class AssetFinder:
                 field_name,
                 value,
             )
-        except KeyError:
+        except KeyError as exc:
             # no equity has ever held this value
-            raise ValueNotFoundForField(field=field_name, value=value)
+            raise ValueNotFoundForField(field=field_name, value=value) from exc
 
         if not as_of_date:
             if len(owners) > 1:
@@ -1148,7 +1148,7 @@ class AssetFinder:
                 sid,
             )
         except KeyError:
-            raise NoValueForSid(field=field_name, sid=sid)
+            raise NoValueForSid(field=field_name, sid=sid) from KeyError
 
         if not as_of_date:
             if len(periods) > 1:
@@ -1363,9 +1363,9 @@ class AssetFinder:
                 return matches[0], missing
             except IndexError:
                 if hasattr(obj, "__int__"):
-                    raise SidsNotFound(sids=[obj])
+                    raise SidsNotFound(sids=[obj]) from IndexError
                 else:
-                    raise SymbolNotFound(symbol=obj)
+                    raise SymbolNotFound(symbol=obj) from IndexError
 
         # Interpret input as iterable.
         try:
@@ -1373,7 +1373,7 @@ class AssetFinder:
         except TypeError:
             raise NotAssetConvertible(
                 "Input was not a AssetConvertible " "or iterable of AssetConvertible."
-            )
+            ) from TypeError
 
         for obj in iterator:
             self._lookup_generic_scalar(

@@ -4,7 +4,7 @@ Module for building a complete dataset from local directory with csv files.
 import os
 import sys
 
-import logbook
+import logging
 import numpy as np
 import pandas as pd
 from zipline.utils.calendar_utils import register_calendar_alias
@@ -12,8 +12,9 @@ from zipline.utils.cli import maybe_show_progress
 
 from . import core as bundles
 
-handler = logbook.StreamHandler(sys.stdout, format_string=" | {record.message}")
-logger = logbook.Logger(__name__)
+handler = logging.StreamHandler()
+# handler = logging.StreamHandler(sys.stdout, format_string=" | {record.message}")
+logger = logging.getLogger(__name__)
 logger.handlers.append(handler)
 
 

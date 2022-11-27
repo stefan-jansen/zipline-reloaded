@@ -100,7 +100,7 @@ Sample layout of the full file with multiple countries.
 from functools import partial
 
 import h5py
-import logbook
+import logging
 import numpy as np
 import pandas as pd
 from functools import reduce
@@ -116,7 +116,7 @@ from zipline.utils.memoize import lazyval
 from zipline.utils.numpy_utils import bytes_array_to_native_str_object_array
 from zipline.utils.pandas_utils import check_indexes_all_same
 
-log = logbook.Logger("HDF5DailyBars")
+log = logging.getLogger("HDF5DailyBars")
 
 VERSION = 0
 

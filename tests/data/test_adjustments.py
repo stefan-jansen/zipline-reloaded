@@ -1,4 +1,5 @@
-import logbook
+import logging
+import pytest
 import numpy as np
 import pandas as pd
 
@@ -15,7 +16,6 @@ from zipline.testing.predicates import (
 from zipline.testing.fixtures import (
     WithInstanceTmpDir,
     WithTradingCalendars,
-    WithLogger,
     ZiplineTestCase,
 )
 
@@ -23,9 +23,11 @@ nat = pd.Timestamp("nat")
 
 
 class TestSQLiteAdjustmentsWriter(
-    WithTradingCalendars, WithInstanceTmpDir, WithLogger, ZiplineTestCase
+    WithTradingCalendars, WithInstanceTmpDir, ZiplineTestCase
 ):
-    make_log_handler = logbook.TestHandler
+    @pytest.fixture(autouse=True)
+    def inject_fixtures(self, caplog):
+        self._caplog = caplog
 
     def init_instance_fixtures(self):
         super(TestSQLiteAdjustmentsWriter, self).init_instance_fixtures()
@@ -174,26 +176,30 @@ class TestSQLiteAdjustmentsWriter(
         dividend_ratios.reset_index(drop=True, inplace=True)
         assert_frame_equal(dividend_ratios, expected_dividend_ratios)
 
-        assert self.log_handler.has_warning(
-            "Couldn't compute ratio for dividend sid=2, ex_date=1990-10-18,"
-            " amount=10.000",
-        )
-        assert self.log_handler.has_warning(
-            "Couldn't compute ratio for dividend sid=2, ex_date=1990-10-19,"
-            " amount=0.100",
-        )
-        assert self.log_handler.has_warning(
-            "Couldn't compute ratio for dividend sid=2, ex_date=1990-11-01,"
-            " amount=0.100",
-        )
-        assert self.log_handler.has_warning(
-            "Dividend ratio <= 0 for dividend sid=1, ex_date=1990-10-17,"
-            " amount=0.510",
-        )
-        assert self.log_handler.has_warning(
-            "Dividend ratio <= 0 for dividend sid=1, ex_date=1990-10-18,"
-            " amount=0.400",
-        )
+        with self._caplog.at_level(logging.WARNING):
+            assert (
+                "Couldn't compute ratio for dividend sid=2, ex_date=1990-10-18, amount=10.000"
+                in self._caplog.messages
+            )
+            assert (
+                "Couldn't compute ratio for dividend sid=2, ex_date=1990-10-19, amount=0.100"
+                in self._caplog.messages
+            )
+
+            assert (
+                "Couldn't compute ratio for dividend sid=2, ex_date=1990-11-01, amount=0.100"
+                in self._caplog.messages
+            )
+
+            assert (
+                "Dividend ratio <= 0 for dividend sid=1, ex_date=1990-10-17, amount=0.510"
+                in self._caplog.messages
+            )
+
+            assert (
+                "Dividend ratio <= 0 for dividend sid=1, ex_date=1990-10-18, amount=0.400"
+                in self._caplog.messages
+            )
 
     def _test_identity(self, name):
         sids = np.arange(5)

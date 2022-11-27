@@ -437,8 +437,8 @@ def assert_array_equal(
             verbose=array_verbose,
             err_msg=msg,
         )
-    except AssertionError as e:
-        raise AssertionError("\n".join((str(e), _fmt_path(path))))
+    except AssertionError as exc:
+        raise AssertionError("\n".join((str(exc), _fmt_path(path)))) from exc
 
 
 @assert_equal.register(LabelArray, LabelArray)
@@ -477,10 +477,10 @@ def _register_assert_equal_wrapper(type_, assert_eq):
     def assert_ndframe_equal(result, expected, path=(), msg="", **kwargs):
         try:
             assert_eq(result, expected, **filter_kwargs(assert_eq, kwargs))
-        except AssertionError as e:
+        except AssertionError as exc:
             raise AssertionError(
-                _fmt_msg(msg) + "\n".join((str(e), _fmt_path(path))),
-            )
+                _fmt_msg(msg) + "\n".join((str(exc), _fmt_path(path))),
+            ) from exc
 
     return assert_ndframe_equal
 
@@ -645,5 +645,5 @@ def index_of_first_difference(left, right):
     difflocs = (i for (i, (lc, rc)) in enumerate(zip_longest(left, right)) if lc != rc)
     try:
         return next(difflocs)
-    except StopIteration:
-        raise ValueError("Left was equal to right!")
+    except StopIteration as exc:
+        raise ValueError("Left was equal to right!") from exc

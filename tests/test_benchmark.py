@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import logbook
+import logging
 import numpy as np
 import pandas as pd
 from pandas.testing import assert_series_equal
@@ -42,7 +42,6 @@ from zipline.testing.fixtures import (
     WithTradingCalendars,
     ZiplineTestCase,
 )
-from zipline.testing.core import make_test_handler
 import pytest
 import re
 
@@ -242,6 +241,10 @@ class TestBenchmark(
 
 
 class BenchmarkSpecTestCase(WithTmpDir, WithAssetFinder, ZiplineTestCase):
+    @pytest.fixture(autouse=True)
+    def inject_fixtures(self, caplog):
+        self._caplog = caplog
+
     @classmethod
     def init_class_fixtures(cls):
         super(BenchmarkSpecTestCase, cls).init_class_fixtures()
@@ -256,7 +259,6 @@ class BenchmarkSpecTestCase(WithTmpDir, WithAssetFinder, ZiplineTestCase):
 
     def init_instance_fixtures(self):
         super(BenchmarkSpecTestCase, self).init_instance_fixtures()
-        self.log_handler = self.enter_instance_context(make_test_handler(self))
 
     @classmethod
     def make_equity_info(cls):
@@ -301,13 +303,13 @@ class BenchmarkSpecTestCase(WithTmpDir, WithAssetFinder, ZiplineTestCase):
         assert sid is None
         assert returns is None
 
-        warnings = self.logs_at_level(logbook.WARNING)
         expected = [
             "No benchmark configured. Assuming algorithm calls set_benchmark.",
             "Pass --benchmark-sid, --benchmark-symbol, or --benchmark-file to set a source of benchmark returns.",  # noqa
             "Pass --no-benchmark to use a dummy benchmark of zero returns.",
         ]
-        assert_equal(warnings, expected)
+        with self._caplog.at_level(logging.WARNING):
+            assert_equal(self._caplog.messages, expected)
 
     def test_no_benchmark_explicitly_disabled(self):
         """Test running with no benchmark provided, with no_benchmark flag."""
@@ -323,9 +325,9 @@ class BenchmarkSpecTestCase(WithTmpDir, WithAssetFinder, ZiplineTestCase):
         assert sid is None
         assert_series_equal(returns, self.zero_returns)
 
-        warnings = self.logs_at_level(logbook.WARNING)
         expected = []
-        assert_equal(warnings, expected)
+        with self._caplog.at_level(logging.WARNING):
+            assert_equal(self._caplog.messages, expected)
 
     @parameter_space(case=[("A", 1), ("B", 2)])
     def test_benchmark_symbol(self, case):
@@ -344,9 +346,9 @@ class BenchmarkSpecTestCase(WithTmpDir, WithAssetFinder, ZiplineTestCase):
         assert_equal(sid, expected_sid)
         assert returns is None
 
-        warnings = self.logs_at_level(logbook.WARNING)
         expected = []
-        assert_equal(warnings, expected)
+        with self._caplog.at_level(logging.WARNING):
+            assert_equal(self._caplog.messages, expected)
 
     @parameter_space(input_sid=[1, 2])
     def test_benchmark_sid(self, input_sid):
@@ -363,9 +365,9 @@ class BenchmarkSpecTestCase(WithTmpDir, WithAssetFinder, ZiplineTestCase):
         assert_equal(sid, input_sid)
         assert returns is None
 
-        warnings = self.logs_at_level(logbook.WARNING)
         expected = []
-        assert_equal(warnings, expected)
+        with self._caplog.at_level(logging.WARNING):
+            assert_equal(self._caplog.messages, expected)
 
     def test_benchmark_file(self):
         """Test running with a benchmark file."""
@@ -400,6 +402,6 @@ class BenchmarkSpecTestCase(WithTmpDir, WithAssetFinder, ZiplineTestCase):
 
         assert_series_equal(returns, expected_returns, check_names=False)
 
-        warnings = self.logs_at_level(logbook.WARNING)
         expected = []
-        assert_equal(warnings, expected)
+        with self._caplog.at_level(logging.WARNING):
+            assert_equal(self._caplog.messages, expected)

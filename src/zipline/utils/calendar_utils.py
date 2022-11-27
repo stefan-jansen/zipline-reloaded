@@ -70,9 +70,11 @@ try:
     aliases_to_names = global_calendar_dispatcher.aliases_to_names
     names_to_aliases = global_calendar_dispatcher.names_to_aliases
 
-except ImportError:
+except ImportError as exc:
     if PANDAS_VERSION > "1.2.5":
-        raise ImportError("For pandas >= 1.3 YOU MUST INSTALL exchange-calendars")
+        raise ImportError(
+            "For pandas >= 1.3 YOU MUST INSTALL exchange-calendars"
+        ) from exc
     else:
         from trading_calendars import (
             register_calendar,

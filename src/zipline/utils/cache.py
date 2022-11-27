@@ -149,10 +149,10 @@ class ExpiringCache:
         """
         try:
             return self._cache[key].unwrap(dt)
-        except Expired:
+        except Expired as exc:
             self.cleanup(self._cache[key]._unsafe_get_value())
             del self._cache[key]
-            raise KeyError(key)
+            raise KeyError(key) from exc
 
     def set(self, key, value, expiration_dt):
         """Adds a new key value pair to the cache.
@@ -252,10 +252,10 @@ class dataframe_cache(MutableMapping):
             try:
                 with open(self._keypath(key), "rb") as f:
                     return self.deserialize(f)
-            except IOError as e:
-                if e.errno != errno.ENOENT:
+            except IOError as exc:
+                if exc.errno != errno.ENOENT:
                     raise
-                raise KeyError(key)
+                raise KeyError(key) from exc
 
     def __setitem__(self, key, value):
         with self.lock:
@@ -265,10 +265,10 @@ class dataframe_cache(MutableMapping):
         with self.lock:
             try:
                 os.remove(self._keypath(key))
-            except OSError as e:
-                if e.errno == errno.ENOENT:
+            except OSError as exc:
+                if exc.errno == errno.ENOENT:
                     # raise a keyerror if this directory did not exist
-                    raise KeyError(key)
+                    raise KeyError(key) from exc
                 # reraise the actual oserror otherwise
                 raise
 
