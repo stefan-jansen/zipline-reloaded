@@ -73,10 +73,13 @@ requirements:
 test:
   source_files:
     - tests/*
-#  commands:
-#    - python -c "import zipline; print(zipline.__version__)"
-#    - pytest -n 8 tests/
+  commands:
+    - python -c "import zipline; print(zipline.__version__)"
+    - brew install ta-lib  # [osx]
+    - pytest tests/
   requires:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
     - pytest==6.2.5
     - pytest-cov >=3.0.0
     - pytest-xdist >=2.5.0
