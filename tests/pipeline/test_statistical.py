@@ -293,7 +293,7 @@ class StatisticalBuiltInsTestCase(
             for day in range(num_days):
                 todays_returns = returns_results.iloc[day : day + regression_length]
                 my_asset_returns = todays_returns.iloc[:, my_asset_column]
-                for asset, other_asset_returns in todays_returns.iteritems():
+                for asset, other_asset_returns in todays_returns.items():
                     asset_column = int(asset) - 1
                     expected_regression_results = linregress(
                         y=other_asset_returns,
@@ -801,7 +801,7 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         for day in range(num_days):
             todays_returns_5 = returns_5_results.iloc[day : day + correlation_length]
             todays_returns_10 = returns_10_results.iloc[day : day + correlation_length]
-            for asset, asset_returns_5 in todays_returns_5.iteritems():
+            for asset, asset_returns_5 in todays_returns_5.items():
                 asset_column = int(asset) - 1
                 asset_returns_10 = todays_returns_10[asset]
                 expected_pearson_results[day, asset_column] = pearsonr(
@@ -905,7 +905,7 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         for day in range(num_days):
             todays_returns_5 = returns_5_results.iloc[day : day + regression_length]
             todays_returns_10 = returns_10_results.iloc[day : day + regression_length]
-            for asset, asset_returns_5 in todays_returns_5.iteritems():
+            for asset, asset_returns_5 in todays_returns_5.items():
                 asset_column = int(asset) - 1
                 asset_returns_10 = todays_returns_10[asset]
                 expected_regression_results = linregress(
