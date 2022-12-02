@@ -633,7 +633,7 @@ class ConstantInputTestCase(
             expected_values,
             index=dates,
             columns=assets,
-            dtype=np.float64,
+            # dtype=np.float64,
         )
 
         multiple_outputs = MultipleOutputs()
@@ -961,11 +961,11 @@ class SyntheticBcolzTestCase(
         min_, max_ = index[[0, -1]]
         for asset in df.columns:
             if asset.start_date >= min_:
-                start = index.get_loc(asset.start_date, method="bfill")
+                start = index.get_indexer([asset.start_date], method="bfill")[0]
                 # +1 to overwrite start_date:
                 df.iloc[: start + 1, df.columns.get_loc(asset)] = np.nan
             if asset.end_date <= max_:
-                end = index.get_loc(asset.end_date)
+                end = index.get_indexer([asset.end_date])[0]
                 # +1 to *not* overwrite end_date:
                 df.iloc[end + 1 :, df.columns.get_loc(asset)] = np.nan
 

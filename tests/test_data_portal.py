@@ -20,7 +20,7 @@ import pandas as pd
 
 from zipline.assets import Equity, Future
 from zipline.data.data_portal import HISTORY_FREQUENCIES, OHLCV_FIELDS
-from zipline.data.minute_bars import (
+from zipline.data.bcolz_minute_bars import (
     FUTURES_MINUTES_PER_DAY,
     US_EQUITIES_MINUTES_PER_DAY,
 )
@@ -53,7 +53,7 @@ class DataPortalTestBase(WithDataPortal, WithTradingSessions):
     OHLC_RATIOS_PER_SID = {10001: 100000}
 
     @classmethod
-    def make_root_symbols_info(self):
+    def make_root_symbols_info(cls):
         return pd.DataFrame(
             {
                 "root_symbol": ["BAR", "BUZ"],

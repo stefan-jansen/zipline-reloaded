@@ -236,7 +236,7 @@ def _pricing_iter(csvdir, symbols, metadata, divs_splits, show_progress):
                     range(splits.shape[0], splits.shape[0] + split.shape[0])
                 )
                 split.set_index(index, inplace=True)
-                divs_splits["splits"] = splits.append(split)
+                divs_splits["splits"] = pd.concat([splits, split], axis=0)
 
             if "dividend" in dfr.columns:
                 # ex_date   amount  sid record_date declared_date pay_date
@@ -251,7 +251,7 @@ def _pricing_iter(csvdir, symbols, metadata, divs_splits, show_progress):
                 divs = divs_splits["divs"]
                 ind = pd.Index(range(divs.shape[0], divs.shape[0] + div.shape[0]))
                 div.set_index(ind, inplace=True)
-                divs_splits["divs"] = divs.append(div)
+                divs_splits["divs"] = pd.concat([divs, div], axis=0)
 
             yield sid, dfr
 

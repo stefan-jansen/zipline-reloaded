@@ -14,15 +14,14 @@
 # limitations under the License.
 
 import datetime
-import pandas as pd
+
 import numpy as np
-
-from zipline.utils import factory
-
-from zipline.finance.trading import SimulationParameters
-import zipline.testing.fixtures as zf
+import pandas as pd
+import pytest
 
 from zipline.finance.metrics import _ClassicRiskMetrics as ClassicRiskMetrics
+from zipline.finance.trading import SimulationParameters
+from zipline.utils import factory
 
 RETURNS_BASE = 0.01
 RETURNS = [RETURNS_BASE] * 251
@@ -39,28 +38,33 @@ PERIODS = [
 ]
 
 
-class TestRisk(zf.WithBenchmarkReturns, zf.ZiplineTestCase):
-    def init_instance_fixtures(self):
-        super(TestRisk, self).init_instance_fixtures()
-        self.start_session = pd.Timestamp("2006-01-01", tz="UTC")
-        self.end_session = self.trading_calendar.minute_to_session_label(
-            pd.Timestamp("2006-12-31", tz="UTC"), direction="previous"
-        )
-        self.sim_params = SimulationParameters(
-            start_session=self.start_session,
-            end_session=self.end_session,
-            trading_calendar=self.trading_calendar,
-        )
-        self.algo_returns = factory.create_returns_from_list(RETURNS, self.sim_params)
-        self.benchmark_returns = factory.create_returns_from_list(
-            BENCHMARK, self.sim_params
-        )
-        self.metrics = ClassicRiskMetrics.risk_report(
-            algorithm_returns=self.algo_returns,
-            benchmark_returns=self.benchmark_returns,
-            algorithm_leverages=pd.Series(0.0, index=self.algo_returns.index),
-        )
+@pytest.fixture(scope="class")
+def set_test_risk(request, set_trading_calendar):
+    request.cls.trading_calendar = set_trading_calendar
+    request.cls.start_session = pd.Timestamp("2006-01-01", tz="UTC")
+    request.cls.end_session = request.cls.trading_calendar.minute_to_session_label(
+        pd.Timestamp("2006-12-31", tz="UTC"), direction="previous"
+    )
+    request.cls.sim_params = SimulationParameters(
+        start_session=request.cls.start_session,
+        end_session=request.cls.end_session,
+        trading_calendar=request.cls.trading_calendar,
+    )
+    request.cls.algo_returns = factory.create_returns_from_list(
+        RETURNS, request.cls.sim_params
+    )
+    request.cls.benchmark_returns = factory.create_returns_from_list(
+        BENCHMARK, request.cls.sim_params
+    )
+    request.cls.metrics = ClassicRiskMetrics.risk_report(
+        algorithm_returns=request.cls.algo_returns,
+        benchmark_returns=request.cls.benchmark_returns,
+        algorithm_leverages=pd.Series(0.0, index=request.cls.algo_returns.index),
+    )
 
+
+@pytest.mark.usefixtures("set_test_risk", "with_benchmark_returns")
+class TestRisk:
     def test_factory(self):
         returns = [0.1] * 100
         r_objects = factory.create_returns_from_list(returns, self.sim_params)

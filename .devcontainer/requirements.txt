@@ -28,7 +28,6 @@ iso3166==2.1.1
 iso4217==1.11.20220401
 kiwisolver==1.4.4
 korean-lunar-calendar==0.3.1
-Logbook==1.5.3
 lru-dict==1.1.8
 lxml==4.9.1
 Mako==1.2.4

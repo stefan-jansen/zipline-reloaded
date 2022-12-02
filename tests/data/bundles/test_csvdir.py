@@ -291,8 +291,8 @@ class TestCSVDIRBundle:
         sessions = self.calendar.all_sessions
         actual = bundle.equity_daily_bar_reader.load_raw_arrays(
             self.columns,
-            sessions[sessions.get_loc(self.asset_start, "bfill")],
-            sessions[sessions.get_loc(self.asset_end, "ffill")],
+            sessions[sessions.get_indexer([self.asset_start], "bfill")[0]],
+            sessions[sessions.get_indexer([self.asset_end], "ffill")[0]],
             sids,
         )
 

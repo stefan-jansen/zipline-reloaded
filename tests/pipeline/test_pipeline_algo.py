@@ -1,11 +1,7 @@
 """
 Tests for Algorithms using the Pipeline API.
 """
-from os.path import (
-    dirname,
-    join,
-    realpath,
-)
+from pathlib import Path
 
 from parameterized import parameterized
 import numpy as np
@@ -44,11 +40,9 @@ from zipline.testing.fixtures import (
 from zipline.utils.pandas_utils import normalize_date
 import pytest
 
-TEST_RESOURCE_PATH = join(
-    dirname(dirname(realpath(__file__))),  # zipline_repo/tests
-    "resources",
-    "pipeline_inputs",
-)
+
+# zipline_repo/tests/resources/pipeline_inputs
+TEST_RESOURCE_PATH = Path(__file__).parent.parent / "resources" / "pipeline_inputs"
 
 
 def rolling_vwap(df, length):
@@ -148,7 +142,7 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
                     "sid": cls.split_asset.sid,
                     "value": cls.split_ratio,
                     "kind": MULTIPLY,
-                    "start_date": pd.Timestamp("NaT"),
+                    "start_date": pd.NaT,
                     "end_date": cls.split_date,
                     "apply_date": cls.split_date,
                 }
@@ -447,9 +441,9 @@ class PipelineAlgorithmTestCase(
     @classmethod
     def make_equity_daily_bar_data(cls, country_code, sids):
         resources = {
-            cls.AAPL: join(TEST_RESOURCE_PATH, "AAPL.csv"),
-            cls.MSFT: join(TEST_RESOURCE_PATH, "MSFT.csv"),
-            cls.BRK_A: join(TEST_RESOURCE_PATH, "BRK-A.csv"),
+            cls.AAPL: TEST_RESOURCE_PATH / "AAPL.csv",
+            cls.MSFT: TEST_RESOURCE_PATH / "MSFT.csv",
+            cls.BRK_A: TEST_RESOURCE_PATH / "BRK-A.csv",
         }
         cls.raw_data = raw_data = {
             asset: pd.read_csv(path, parse_dates=["day"]).set_index("day")

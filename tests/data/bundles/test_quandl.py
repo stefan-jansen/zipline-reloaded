@@ -69,7 +69,9 @@ class QuandlBundleTestCase(WithResponses, ZiplineTestCase):
                 yield vs
 
         # the first index our written data will appear in the files on disk
-        start_idx = self.calendar.all_sessions.get_loc(self.start_date, "ffill") + 1
+        start_idx = (
+            self.calendar.all_sessions.get_indexer([self.start_date], "ffill")[0] + 1
+        )
 
         # convert an index into the raw dataframe into an index into the
         # final data
@@ -220,8 +222,8 @@ class QuandlBundleTestCase(WithResponses, ZiplineTestCase):
         sessions = self.calendar.all_sessions
         actual = bundle.equity_daily_bar_reader.load_raw_arrays(
             self.columns,
-            sessions[sessions.get_loc(self.start_date, "bfill")],
-            sessions[sessions.get_loc(self.end_date, "ffill")],
+            sessions[sessions.get_indexer([self.start_date], "bfill")[0]],
+            sessions[sessions.get_indexer([self.end_date], "ffill")[0]],
             sids,
         )
         expected_pricing, expected_adjustments = self._expected_data(

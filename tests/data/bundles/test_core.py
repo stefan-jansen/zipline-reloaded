@@ -337,7 +337,8 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
                     to_bundle_ingest_dirname(ingestions[0]),  # most recent
                     self.environ,
                     version,
-                )
+                ),
+                future=False,
             )
             metadata = sa.MetaData()
             metadata.reflect(eng)
@@ -489,25 +490,19 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
             first
         }, "directory should not have changed (after)"
 
-        assert (
-            self.clean(
-                "bundle",
-                before=self._ts_of_run(first) + _1_ns,
-                environ=self.environ,
-            )
-            == {first}
-        )
+        assert self.clean(
+            "bundle",
+            before=self._ts_of_run(first) + _1_ns,
+            environ=self.environ,
+        ) == {first}
         assert self._list_bundle() == set(), "directory now be empty (before)"
 
         second = self._empty_ingest()
-        assert (
-            self.clean(
-                "bundle",
-                after=self._ts_of_run(second) - _1_ns,
-                environ=self.environ,
-            )
-            == {second}
-        )
+        assert self.clean(
+            "bundle",
+            after=self._ts_of_run(second) - _1_ns,
+            environ=self.environ,
+        ) == {second}
 
         assert self._list_bundle() == set(), "directory now be empty (after)"
 
@@ -523,15 +518,12 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
             sixth,
         }, "larger set of ingestions did no happen correctly"
 
-        assert (
-            self.clean(
-                "bundle",
-                before=self._ts_of_run(fourth),
-                after=self._ts_of_run(fifth),
-                environ=self.environ,
-            )
-            == {third, sixth}
-        )
+        assert self.clean(
+            "bundle",
+            before=self._ts_of_run(fourth),
+            after=self._ts_of_run(fifth),
+            environ=self.environ,
+        ) == {third, sixth}
 
         assert self._list_bundle() == {
             fourth,

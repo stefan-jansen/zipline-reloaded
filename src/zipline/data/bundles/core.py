@@ -12,7 +12,7 @@ from toolz import curry, complement, take
 
 from ..adjustments import SQLiteAdjustmentReader, SQLiteAdjustmentWriter
 from ..bcolz_daily_bars import BcolzDailyBarReader, BcolzDailyBarWriter
-from ..minute_bars import (
+from ..bcolz_minute_bars import (
     BcolzMinuteBarReader,
     BcolzMinuteBarWriter,
 )

@@ -16,31 +16,27 @@
 """
 Tests for the zipline.finance package
 """
+from pathlib import Path
 from datetime import datetime, timedelta
-import os
-
+from functools import partial
 import numpy as np
 import pandas as pd
+import pytest
 import pytz
+import zipline.utils.factory as factory
 from testfixtures import TempDirectory
-
-from zipline.finance.blotter.simulation_blotter import SimulationBlotter
-from zipline.finance.execution import MarketOrder, LimitOrder
-from zipline.finance.metrics import MetricsTracker, load as load_metrics_set
-from zipline.finance.trading import SimulationParameters
-from zipline.data.bcolz_daily_bars import (
-    BcolzDailyBarReader,
-    BcolzDailyBarWriter,
-)
-from zipline.data.minute_bars import BcolzMinuteBarReader
+from zipline.data.bcolz_daily_bars import BcolzDailyBarReader, BcolzDailyBarWriter
 from zipline.data.data_portal import DataPortal
-from zipline.finance.slippage import FixedSlippage, FixedBasisPointsSlippage
+from zipline.data.bcolz_minute_bars import BcolzMinuteBarReader, BcolzMinuteBarWriter
 from zipline.finance.asset_restrictions import NoRestrictions
+from zipline.finance.blotter.simulation_blotter import SimulationBlotter
+from zipline.finance.execution import LimitOrder, MarketOrder
+from zipline.finance.metrics import MetricsTracker
+from zipline.finance.metrics import load as load_metrics_set
+from zipline.finance.slippage import FixedBasisPointsSlippage, FixedSlippage
+from zipline.finance.trading import SimulationParameters
 from zipline.protocol import BarData
 from zipline.testing import write_bcolz_minute_data
-import zipline.testing.fixtures as zf
-import zipline.utils.factory as factory
-import pytest
 
 DEFAULT_TIMEOUT = 15  # seconds
 EXTENDED_TIMEOUT = 90
@@ -48,21 +44,59 @@ EXTENDED_TIMEOUT = 90
 _multiprocess_can_split_ = False
 
 
-class FinanceTestCase(zf.WithAssetFinder, zf.WithTradingCalendars, zf.ZiplineTestCase):
-    ASSET_FINDER_EQUITY_SIDS = 1, 2, 133
-    start = START_DATE = pd.Timestamp("2006-01-01", tz="utc")
-    end = END_DATE = pd.Timestamp("2006-12-31", tz="utc")
+@pytest.fixture(scope="class")
+def set_test_finance(request, with_asset_finder):
+    ASSET_FINDER_COUNTRY_CODE = "??"
 
-    def init_instance_fixtures(self):
-        super(FinanceTestCase, self).init_instance_fixtures()
-        self.zipline_test_config = {"sid": 133}
+    T = partial(pd.Timestamp, tz="UTC")
+
+    START_DATES = [
+        T("2006-01-03", tz="UTC"),
+    ] * 3
+    END_DATES = [
+        T("2006-12-29", tz="UTC"),
+    ] * 3
+
+    equities = pd.DataFrame(
+        list(
+            zip(
+                [1, 2, 133],
+                ["A", "B", "C"],
+                START_DATES,
+                END_DATES,
+                [
+                    "NYSE",
+                ]
+                * 3,
+            )
+        ),
+        columns=["sid", "symbol", "start_date", "end_date", "exchange"],
+    )
+
+    exchange_names = [df["exchange"] for df in (equities,) if df is not None]
+    if exchange_names:
+        exchanges = pd.DataFrame(
+            {
+                "exchange": pd.concat(exchange_names).unique(),
+                "country_code": ASSET_FINDER_COUNTRY_CODE,
+            }
+        )
+
+    request.cls.asset_finder = with_asset_finder(
+        **dict(equities=equities, exchanges=exchanges)
+    )
+
+
+@pytest.mark.usefixtures("set_test_finance", "with_trading_calendars")
+class TestFinance:
+    start = pd.Timestamp("2006-01-01", tz="utc")
+    end = pd.Timestamp("2006-12-31", tz="utc")
 
     # TODO: write tests for short sales
     # TODO: write a test to do massive buying or shorting.
 
     @pytest.mark.timeout(DEFAULT_TIMEOUT)
     def test_partially_filled_orders(self):
-
         # create a scenario where order size and trade size are equal
         # so that orders must be spread out over several trades.
         params = {
@@ -97,7 +131,7 @@ class FinanceTestCase(zf.WithAssetFinder, zf.WithTradingCalendars, zf.ZiplineTes
 
         self.transaction_sim(**params2)
 
-    @pytest.mark.timeout(DEFAULT_TIMEOUT)
+    # @pytest.mark.timeout(DEFAULT_TIMEOUT)
     def test_collapsing_orders(self):
         # create a scenario where order.amount <<< trade.volume
         # to test that several orders can be covered properly by one trade,
@@ -243,7 +277,7 @@ class FinanceTestCase(zf.WithAssetFinder, zf.WithTradingCalendars, zf.ZiplineTes
                     )
                 }
 
-                path = os.path.join(tempdir.path, "testdata.bcolz")
+                path = Path(tempdir.path) / "testdata.bcolz"
                 BcolzDailyBarWriter(
                     path, self.trading_calendar, days[0], days[-1]
                 ).write(assets.items())
@@ -266,10 +300,7 @@ class FinanceTestCase(zf.WithAssetFinder, zf.WithTradingCalendars, zf.ZiplineTes
 
             start_date = sim_params.first_open
 
-            if alternate:
-                alternator = -1
-            else:
-                alternator = 1
+            alternator = -1 if alternate else 1
 
             tracker = MetricsTracker(
                 trading_calendar=self.trading_calendar,
@@ -329,7 +360,7 @@ class FinanceTestCase(zf.WithAssetFinder, zf.WithTradingCalendars, zf.ZiplineTes
             for i in range(order_count):
                 order = order_list[i]
                 assert order.asset == asset1
-                assert order.amount == order_amount * alternator ** i
+                assert order.amount == order_amount * alternator**i
 
             if complete_fill:
                 assert len(transactions) == len(order_list)
@@ -393,7 +424,8 @@ class FinanceTestCase(zf.WithAssetFinder, zf.WithTradingCalendars, zf.ZiplineTes
         assert 2 == asset2_order.asset
 
 
-class SimParamsTestCase(zf.WithTradingCalendars, zf.ZiplineTestCase):
+@pytest.mark.usefixtures("with_trading_calendars")
+class TestSimulationParameters:
     """
     Tests for date management utilities in zipline.finance.trading.
     """

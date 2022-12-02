@@ -21,7 +21,7 @@ from numpy.testing import assert_almost_equal, assert_array_equal
 from unittest import skip
 
 from zipline.data.bar_reader import NoDataForSid, NoDataOnDate
-from zipline.data.minute_bars import (
+from zipline.data.bcolz_minute_bars import (
     BcolzMinuteBarMetadata,
     BcolzMinuteBarWriter,
     BcolzMinuteBarReader,

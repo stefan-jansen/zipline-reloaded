@@ -133,7 +133,7 @@ class DataFrameLoader(implements(PipelineLoader)):
             apply_date, sid, value, kind, start_date, end_date = row
             if apply_date != previous_apply_date:
                 # Get the next apply date if no exact match.
-                row_loc = dates.get_loc(apply_date, method="bfill")
+                row_loc = dates.get_indexer([apply_date], method="bfill")[0]
                 current_date_adjustments = out[row_loc] = []
                 previous_apply_date = apply_date
 

@@ -1,41 +1,32 @@
 from abc import ABCMeta, abstractmethod
 from contextlib import contextmanager
 import gzip
-from itertools import (
-    combinations,
-    count,
-    product,
-)
 import json
 import operator
 import os
-from os.path import abspath, dirname, join, realpath
 import shutil
 import sys
 import tempfile
+from itertools import combinations, count, product
+from os.path import abspath, dirname, join, realpath
 from traceback import format_exception
 
-from mock import patch
-
-from numpy.testing import assert_allclose, assert_array_equal
+import numpy as np
 import pandas as pd
+from mock import patch
+from numpy.testing import assert_allclose, assert_array_equal
 from sqlalchemy import create_engine
 from testfixtures import TempDirectory
 from toolz import concat, curry
-from zipline.utils.calendar_utils import get_calendar
 
-from zipline.assets import AssetFinder, AssetDBWriter
+from zipline.assets import AssetDBWriter, AssetFinder
 from zipline.assets.synthetic import make_simple_equity_info
-from zipline.utils.compat import getargspec, wraps
+from zipline.data.bcolz_daily_bars import BcolzDailyBarReader, BcolzDailyBarWriter
 from zipline.data.data_portal import DataPortal
-from zipline.data.minute_bars import (
+from zipline.data.bcolz_minute_bars import (
+    US_EQUITIES_MINUTES_PER_DAY,
     BcolzMinuteBarReader,
     BcolzMinuteBarWriter,
-    US_EQUITIES_MINUTES_PER_DAY,
-)
-from zipline.data.bcolz_daily_bars import (
-    BcolzDailyBarReader,
-    BcolzDailyBarWriter,
 )
 from zipline.finance.blotter import SimulationBlotter
 from zipline.finance.order import ORDER_STATUS
@@ -46,13 +37,12 @@ from zipline.pipeline.engine import SimplePipelineEngine
 from zipline.pipeline.factors import CustomFactor
 from zipline.pipeline.loaders.testing import make_seeded_random_loader
 from zipline.utils import security_list
+from zipline.utils.calendar_utils import get_calendar
+from zipline.utils.compat import getargspec, wraps
 from zipline.utils.input_validation import expect_dimensions
 from zipline.utils.numpy_utils import as_column, isnat
 from zipline.utils.pandas_utils import timedelta_to_integral_seconds
 from zipline.utils.sentinel import sentinel
-
-import numpy as np
-from numpy import float64
 
 EPOCH = pd.Timestamp(0, tz="UTC")
 
@@ -268,8 +258,8 @@ def make_trade_data_for_asset_info(
     trade_data = {}
     sids = asset_info.index
 
-    price_sid_deltas = np.arange(len(sids), dtype=float64) * price_step_by_sid
-    price_date_deltas = np.arange(len(dates), dtype=float64) * price_step_by_date
+    price_sid_deltas = np.arange(len(sids), dtype=np.float64) * price_step_by_sid
+    price_date_deltas = np.arange(len(dates), dtype=np.float64) * price_step_by_date
     prices = (price_sid_deltas + as_column(price_date_deltas)) + price_start
 
     volume_sid_deltas = np.arange(len(sids)) * volume_step_by_sid
@@ -728,15 +718,6 @@ class FetcherDataPortal(DataPortal):
         # otherwise just return a fixed value
         return int(asset)
 
-    # XXX: These aren't actually the methods that are used by the superclasses,
-    # so these don't do anything, and this class will likely produce unexpected
-    # results for history().
-    def _get_daily_window_for_sid(self, asset, field, days_in_window, extra_slot=True):
-        return np.arange(days_in_window, dtype=np.float64)
-
-    def _get_minute_window_for_asset(self, asset, field, minutes_for_window):
-        return np.arange(minutes_for_window, dtype=np.float64)
-
 
 class tmp_assets_db:
     """Create a temporary assets sqlite database.
@@ -775,7 +756,7 @@ class tmp_assets_db:
         self._eng = None  # set in enter and exit
 
     def __enter__(self):
-        self._eng = eng = create_engine(self._url)
+        self._eng = eng = create_engine(self._url, future=False)
         AssetDBWriter(eng).write(**self._frames)
         return eng
 

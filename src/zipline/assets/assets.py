@@ -12,19 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# import array
+# import binascii
+# import struct
 from abc import ABC
-import array
-import binascii
 from collections import deque, namedtuple
 from functools import partial
 from numbers import Integral
-from operator import itemgetter, attrgetter
-import struct
+from operator import attrgetter, itemgetter
 
 import logging
 import numpy as np
 import pandas as pd
-from pandas import isnull
 import sqlalchemy as sa
 from toolz import (
     compose,
@@ -46,15 +45,25 @@ from zipline.errors import (
     MultipleValuesFoundForField,
     MultipleValuesFoundForSid,
     NoValueForSid,
-    ValueNotFoundForField,
     SameSymbolUsedAcrossCountries,
     SidsNotFound,
     SymbolNotFound,
+    ValueNotFoundForField,
 )
-from . import (
-    Asset,
-    Equity,
-    Future,
+from zipline.utils.functional import invert
+from zipline.utils.memoize import lazyval
+from zipline.utils.numpy_utils import as_column
+from zipline.utils.preprocess import preprocess
+from zipline.utils.sqlite_utils import coerce_string_to_eng, group_into_chunks
+
+from . import Asset, Equity, Future
+from .asset_db_schema import ASSET_DB_VERSION
+from .asset_writer import (
+    SQLITE_MAX_VARIABLE_NUMBER,
+    asset_db_table_names,
+    check_version_info,
+    split_delimited_symbol,
+    symbol_columns,
 )
 from .continuous_futures import (
     ADJUSTMENT_STYLES,
@@ -62,32 +71,19 @@ from .continuous_futures import (
     ContinuousFuture,
     OrderedContracts,
 )
-from .asset_writer import (
-    check_version_info,
-    split_delimited_symbol,
-    asset_db_table_names,
-    symbol_columns,
-    SQLITE_MAX_VARIABLE_NUMBER,
-)
-from .asset_db_schema import ASSET_DB_VERSION
 from .exchange_info import ExchangeInfo
-from zipline.utils.functional import invert
-from zipline.utils.memoize import lazyval
-from zipline.utils.numpy_utils import as_column
-from zipline.utils.preprocess import preprocess
-from zipline.utils.sqlite_utils import group_into_chunks, coerce_string_to_eng
 
 log = logging.getLogger("assets.py")
 
 # A set of fields that need to be converted to strings before building an
 # Asset to avoid unicode fields
-_asset_str_fields = frozenset(
-    {
-        "symbol",
-        "asset_name",
-        "exchange",
-    }
-)
+# _asset_str_fields = frozenset(
+#     {
+#         "symbol",
+#         "asset_name",
+#         "exchange",
+#     }
+# )
 
 # A set of fields that need to be converted to timestamps in UTC
 _asset_timestamp_fields = frozenset(
@@ -219,7 +215,7 @@ def _convert_asset_timestamp_fields(dict_):
     """
     for key in _asset_timestamp_fields & dict_.keys():
         value = pd.Timestamp(dict_[key], tz="UTC")
-        dict_[key] = None if isnull(value) else value
+        dict_[key] = None if pd.isnull(value) else value
     return dict_
 
 
@@ -609,34 +605,30 @@ class AssetFinder:
         data_cols = (cols.sid,) + tuple(cols[name] for name in symbol_columns)
 
         # Also select the max of end_date so that all non-grouped fields take
-        # on the value associated with the max end_date. The SQLite docs say
-        # this:
-        #
-        # When the min() or max() aggregate functions are used in an aggregate
-        # query, all bare columns in the result set take values from the input
-        # row which also contains the minimum or maximum. Only the built-in
-        # min() and max() functions work this way.
-        #
-        # See https://www.sqlite.org/lang_select.html#resultset, for more info.
-        to_select = data_cols + (sa.func.max(cols.end_date),)
-
-        return (
-            sa.select(
-                to_select,
-            )
-            .where(cols.sid.in_(map(int, sid_group)))
-            .group_by(
-                cols.sid,
-            )
+        # on the value associated with the max end_date.
+        # to_select = data_cols + (sa.func.max(cols.end_date),)
+        func_rank = (
+            sa.func.rank()
+            .over(order_by=cols.end_date.desc(), partition_by=cols.sid)
+            .label("rnk")
         )
+        to_select = data_cols + (func_rank,)
+
+        subquery = (
+            sa.select(to_select).where(cols.sid.in_(map(int, sid_group))).subquery("sq")
+        )
+        query = (
+            sa.select(subquery.columns)
+            .filter(subquery.c.rnk == 1)
+            .select_from(subquery)
+        )
+        return query
 
     def _lookup_most_recent_symbols(self, sids):
         return {
             row.sid: {c: row[c] for c in symbol_columns}
             for row in concat(
-                self.engine.execute(
-                    self._select_most_recent_symbols_chunk(sid_group),
-                ).fetchall()
+                self._select_most_recent_symbols_chunk(sid_group).execute().fetchall()
                 for sid_group in partition_all(SQLITE_MAX_VARIABLE_NUMBER, sids)
             )
         }
@@ -1254,7 +1246,10 @@ class AssetFinder:
             return tuple(
                 map(
                     itemgetter("sid"),
-                    sa.select((getattr(self, tblattr).c.sid,)).execute().fetchall(),
+                    sa.select((getattr(self, tblattr).c.sid,))
+                    .order_by(getattr(self, tblattr).c.sid)
+                    .execute()
+                    .fetchall(),
                 )
             )
 
@@ -1372,7 +1367,7 @@ class AssetFinder:
             iterator = iter(obj)
         except TypeError:
             raise NotAssetConvertible(
-                "Input was not a AssetConvertible " "or iterable of AssetConvertible."
+                "Input was not a AssetConvertible or iterable of AssetConvertible."
             ) from TypeError
 
         for obj in iterator:
@@ -1386,13 +1381,17 @@ class AssetFinder:
 
         return matches, missing
 
-    def _compute_asset_lifetimes(self, country_codes):
-        """
-        Compute and cache a recarray of asset lifetimes.
-        """
+    def _compute_asset_lifetimes(self, **kwargs):
+        """Compute and cache a recarray of asset lifetimes"""
         sids = starts = ends = []
         equities_cols = self.equities.c
-        if country_codes:
+        exchanges_cols = self.exchanges.c
+        if len(kwargs) == 1:
+            if "country_codes" in kwargs.keys():
+                condt = exchanges_cols.country_code.in_(kwargs["country_codes"])
+            if "exchange_names" in kwargs.keys():
+                condt = exchanges_cols.exchange.in_(kwargs["exchange_names"])
+
             results = (
                 sa.select(
                     (
@@ -1401,10 +1400,7 @@ class AssetFinder:
                         equities_cols.end_date,
                     )
                 )
-                .where(
-                    (self.exchanges.c.exchange == equities_cols.exchange)
-                    & (self.exchanges.c.country_code.in_(country_codes))
-                )
+                .where((exchanges_cols.exchange == equities_cols.exchange) & (condt))
                 .execute()
                 .fetchall()
             )
@@ -1465,7 +1461,7 @@ class AssetFinder:
         if lifetimes is None:
             self._asset_lifetimes[
                 country_codes
-            ] = lifetimes = self._compute_asset_lifetimes(country_codes)
+            ] = lifetimes = self._compute_asset_lifetimes(country_codes=country_codes)
 
         raw_dates = as_column(dates.asi8)
         if include_start_date:
@@ -1489,7 +1485,22 @@ class AssetFinder:
         tuple[int]
             The sids whose exchanges are in this country.
         """
-        sids = self._compute_asset_lifetimes([country_code]).sid
+        sids = self._compute_asset_lifetimes(country_codes=[country_code]).sid
+        return tuple(sids.tolist())
+
+    def equities_sids_for_exchange_name(self, exchange_name):
+        """Return all of the sids for a given exchange_name.
+
+        Parameters
+        ----------
+        exchange_name : str
+
+        Returns
+        -------
+        tuple[int]
+            The sids whose exchanges are in this country.
+        """
+        sids = self._compute_asset_lifetimes(exchange_names=[exchange_name]).sid
         return tuple(sids.tolist())
 
 
@@ -1514,8 +1525,7 @@ class NotAssetConvertible(ValueError):
 
 
 class PricingDataAssociable(ABC):
-    """
-    ABC for types that can be associated with pricing data.
+    """ABC for types that can be associated with pricing data.
 
     Includes Asset, Future, ContinuousFuture
     """
@@ -1529,8 +1539,7 @@ PricingDataAssociable.register(ContinuousFuture)
 
 
 def was_active(reference_date_value, asset):
-    """
-    Whether or not `asset` was active at the time corresponding to
+    """Whether or not `asset` was active at the time corresponding to
     `reference_date_value`.
 
     Parameters

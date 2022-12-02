@@ -96,12 +96,15 @@ test = [
     'pandas-datareader >=0.2.1',
     'click <8.1.0',
     'coverage',
-    'pytest-rerunfailures'
+    'pytest-rerunfailures',
+    'psycopg2 ==2.9.4',
+    'pytest-postgresql ==3.1.3'
 ]
 dev = [
     'flake8 >=3.9.1',
     'black',
-    'pre-commit >=2.12.1'
+    'pre-commit >=2.12.1',
+    'Cython>=0.29.21,<3',
 
 ]
 docs = [

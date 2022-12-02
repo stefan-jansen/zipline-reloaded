@@ -376,7 +376,7 @@ class DataPortal:
 
             # Append to extra_source_df the reindexed dataframe for the single
             # sid
-            extra_source_df = extra_source_df.append(df)
+            extra_source_df = pd.concat([extra_source_df, df], axis=0)
 
         self._extra_source_df = extra_source_df
 

@@ -497,8 +497,8 @@ class SQLiteAdjustmentWriter:
 
         (close,) = pricing_reader.load_raw_arrays(
             ["close"],
-            pd.Timestamp(dates[0], tz="UTC"),
-            pd.Timestamp(dates[-1], tz="UTC"),
+            pd.Timestamp(dates[0]).tz_localize("UTC"),
+            pd.Timestamp(dates[-1]).tz_localize("UTC"),
             unique_sids,
         )
         date_ix = np.searchsorted(dates, dividends.ex_date.values)

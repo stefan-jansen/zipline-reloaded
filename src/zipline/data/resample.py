@@ -25,7 +25,7 @@ from zipline.data._resample import (
     _minute_to_session_volume,
 )
 from zipline.data.bar_reader import NoDataOnDate
-from zipline.data.minute_bars import MinuteBarReader
+from zipline.data.bcolz_minute_bars import MinuteBarReader
 from zipline.data.session_bars import SessionBarReader
 from zipline.utils.memoize import lazyval
 from zipline.utils.math_utils import nanmax, nanmin
