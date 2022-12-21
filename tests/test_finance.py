@@ -48,13 +48,11 @@ _multiprocess_can_split_ = False
 def set_test_finance(request, with_asset_finder):
     ASSET_FINDER_COUNTRY_CODE = "??"
 
-    T = partial(pd.Timestamp, tz="UTC")
-
     START_DATES = [
-        T("2006-01-03", tz="UTC"),
+        pd.Timestamp("2006-01-03"),
     ] * 3
     END_DATES = [
-        T("2006-12-29", tz="UTC"),
+        pd.Timestamp("2006-12-29"),
     ] * 3
 
     equities = pd.DataFrame(
@@ -89,8 +87,8 @@ def set_test_finance(request, with_asset_finder):
 
 @pytest.mark.usefixtures("set_test_finance", "with_trading_calendars")
 class TestFinance:
-    start = pd.Timestamp("2006-01-01", tz="utc")
-    end = pd.Timestamp("2006-12-31", tz="utc")
+    start = pd.Timestamp("2006-01-01")
+    end = pd.Timestamp("2006-12-31")
 
     # TODO: write tests for short sales
     # TODO: write a test to do massive buying or shorting.
@@ -212,9 +210,11 @@ class TestFinance:
         complete_fill = params.get("complete_fill")
 
         asset1 = self.asset_finder.retrieve_asset(1)
+
         with TempDirectory() as tempdir:
 
             if trade_interval < timedelta(days=1):
+
                 sim_params = factory.create_simulation_parameters(
                     start=self.start, end=self.end, data_frequency="minute"
                 )
@@ -241,8 +241,8 @@ class TestFinance:
                 write_bcolz_minute_data(
                     self.trading_calendar,
                     self.trading_calendar.sessions_in_range(
-                        self.trading_calendar.minute_to_session_label(minutes[0]),
-                        self.trading_calendar.minute_to_session_label(minutes[-1]),
+                        self.trading_calendar.minute_to_session(minutes[0]),
+                        self.trading_calendar.minute_to_session(minutes[-1]),
                     ),
                     tempdir.path,
                     assets.items(),
@@ -318,7 +318,7 @@ class TestFinance:
             if sim_params.data_frequency == "minute":
                 ticks = minutes
             else:
-                ticks = days
+                ticks = days.tz_localize("UTC")
 
             transactions = []
 
@@ -432,8 +432,8 @@ class TestSimulationParameters:
 
     def test_simulation_parameters(self):
         sp = SimulationParameters(
-            start_session=pd.Timestamp("2008-01-01", tz="UTC"),
-            end_session=pd.Timestamp("2008-12-31", tz="UTC"),
+            start_session=pd.Timestamp("2008-01-01"),
+            end_session=pd.Timestamp("2008-12-31"),
             capital_base=100000,
             trading_calendar=self.trading_calendar,
         )
@@ -453,22 +453,22 @@ class TestSimulationParameters:
         #  27 28 29 30 31
 
         params = SimulationParameters(
-            start_session=pd.Timestamp("2007-12-31", tz="UTC"),
-            end_session=pd.Timestamp("2008-01-07", tz="UTC"),
-            capital_base=100000,
+            start_session=pd.Timestamp("2007-12-31"),
+            end_session=pd.Timestamp("2008-01-07"),
+            capital_base=100_000,
             trading_calendar=self.trading_calendar,
         )
 
         expected_trading_days = (
-            datetime(2007, 12, 31, tzinfo=pytz.utc),
+            datetime(2007, 12, 31),
             # Skip new years
             # holidays taken from: http://www.nyse.com/press/1191407641943.html
-            datetime(2008, 1, 2, tzinfo=pytz.utc),
-            datetime(2008, 1, 3, tzinfo=pytz.utc),
-            datetime(2008, 1, 4, tzinfo=pytz.utc),
+            datetime(2008, 1, 2),
+            datetime(2008, 1, 3),
+            datetime(2008, 1, 4),
             # Skip Saturday
             # Skip Sunday
-            datetime(2008, 1, 7, tzinfo=pytz.utc),
+            datetime(2008, 1, 7),
         )
 
         num_expected_trading_days = 5

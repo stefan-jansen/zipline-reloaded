@@ -141,8 +141,7 @@ class HDF5FXRateReader(implements(FXRateReader)):
 
     @classmethod
     def from_path(cls, path, default_rate):
-        """
-        Construct from a file path.
+        """Construct from a file path.
 
         Parameters
         ----------
@@ -190,6 +189,9 @@ class HDF5FXRateReader(implements(FXRateReader)):
 
         check_dts(dts)
 
+        # TODO FIXME TZ MESS
+        if dts.tzinfo is None:
+            dts = dts.tz_localize(self.dts.tzinfo)
         col_ixs = self.dts.searchsorted(dts, side="right") - 1
         row_ixs = self.currencies.get_indexer(bases)
 

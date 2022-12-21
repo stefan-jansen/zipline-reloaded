@@ -100,7 +100,7 @@ def _run(
         trading_calendar = get_calendar("XNYS")
 
     # date parameter validation
-    if trading_calendar.session_distance(start, end) < 1:
+    if trading_calendar.sessions_distance(start, end) < 1:
         raise _RunAlgoError(
             "There are no trading days between %s and %s"
             % (

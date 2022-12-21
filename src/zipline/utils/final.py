@@ -116,9 +116,7 @@ class finalvalue(final):
 
 
 class finaldescriptor(final):
-    """
-    A final wrapper around a descriptor.
-    """
+    """A final wrapper around a descriptor."""
 
     def __get__(self, instance, owner):
         return self._attr.__get__(instance, owner)

@@ -709,7 +709,7 @@ class HDF5DailyBarReader(CurrencyAwareSessionBarReader):
         dt : pd.Timestamp
             The last session for which the reader can provide data.
         """
-        return pd.Timestamp(self.dates[-1], tz="UTC")
+        return pd.Timestamp(self.dates[-1])
 
     @property
     def trading_calendar(self):
@@ -730,7 +730,7 @@ class HDF5DailyBarReader(CurrencyAwareSessionBarReader):
             The first trading day (session) for which the reader can provide
             data.
         """
-        return pd.Timestamp(self.dates[0], tz="UTC")
+        return pd.Timestamp(self.dates[0])
 
     @lazyval
     def sessions(self):
@@ -741,7 +741,7 @@ class HDF5DailyBarReader(CurrencyAwareSessionBarReader):
            All session labels (unioning the range for all assets) which the
            reader can provide.
         """
-        return pd.to_datetime(self.dates, utc=True)
+        return pd.to_datetime(self.dates)
 
     def get_value(self, sid, dt, field):
         """
@@ -792,8 +792,7 @@ class HDF5DailyBarReader(CurrencyAwareSessionBarReader):
         return value
 
     def get_last_traded_dt(self, asset, dt):
-        """
-        Get the latest day on or before ``dt`` in which ``asset`` traded.
+        """Get the latest day on or before ``dt`` in which ``asset`` traded.
 
         If there are no trades on or before ``dt``, returns ``pd.NaT``.
 
@@ -822,11 +821,12 @@ class HDF5DailyBarReader(CurrencyAwareSessionBarReader):
         if len(nonzero_volume_ixs) == 0:
             return pd.NaT
 
-        return pd.Timestamp(self.dates[nonzero_volume_ixs][-1], tz="UTC")
+        return pd.Timestamp(self.dates[nonzero_volume_ixs][-1])
 
 
 class MultiCountryDailyBarReader(CurrencyAwareSessionBarReader):
     """
+
     Parameters
     ---------
     readers : dict[str -> SessionBarReader]
@@ -845,8 +845,7 @@ class MultiCountryDailyBarReader(CurrencyAwareSessionBarReader):
 
     @classmethod
     def from_file(cls, h5_file):
-        """
-        Construct from an h5py.File.
+        """Construct from an h5py.File.
 
         Parameters
         ----------
@@ -901,6 +900,7 @@ class MultiCountryDailyBarReader(CurrencyAwareSessionBarReader):
 
     def load_raw_arrays(self, columns, start_date, end_date, assets):
         """
+
         Parameters
         ----------
         columns : list of str
@@ -931,6 +931,7 @@ class MultiCountryDailyBarReader(CurrencyAwareSessionBarReader):
     @property
     def last_available_dt(self):
         """
+
         Returns
         -------
         dt : pd.Timestamp
@@ -951,6 +952,7 @@ class MultiCountryDailyBarReader(CurrencyAwareSessionBarReader):
     @property
     def first_trading_day(self):
         """
+
         Returns
         -------
         dt : pd.Timestamp
@@ -962,6 +964,7 @@ class MultiCountryDailyBarReader(CurrencyAwareSessionBarReader):
     @property
     def sessions(self):
         """
+
         Returns
         -------
         sessions : DatetimeIndex
@@ -973,12 +976,10 @@ class MultiCountryDailyBarReader(CurrencyAwareSessionBarReader):
                 np.union1d,
                 (reader.dates for reader in self._readers.values()),
             ),
-            utc=True,
         )
 
     def get_value(self, sid, dt, field):
-        """
-        Retrieve the value at the given coordinates.
+        """Retrieve the value at the given coordinates.
 
         Parameters
         ----------
@@ -1012,8 +1013,7 @@ class MultiCountryDailyBarReader(CurrencyAwareSessionBarReader):
         return self._readers[country_code].get_value(sid, dt, field)
 
     def get_last_traded_dt(self, asset, dt):
-        """
-        Get the latest day on or before ``dt`` in which ``asset`` traded.
+        """Get the latest day on or before ``dt`` in which ``asset`` traded.
 
         If there are no trades on or before ``dt``, returns ``pd.NaT``.
 

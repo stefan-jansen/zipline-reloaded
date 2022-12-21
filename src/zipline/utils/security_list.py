@@ -4,7 +4,8 @@ from os import listdir
 import os.path
 
 import pandas as pd
-import pytz
+
+# import pytz
 import zipline
 
 from zipline.errors import SymbolNotFound
@@ -58,7 +59,7 @@ class SecurityList:
 
     def current_securities(self, dt):
         for kd in self._knowledge_dates:
-            if dt < kd:
+            if dt < kd.tz_localize(dt.tzinfo):
                 break
             if kd in self._cache:
                 self._current_set = self._cache[kd]
@@ -114,8 +115,7 @@ class SecurityListSet:
 
 
 def load_from_directory(list_name):
-    """
-    To resolve the symbol in the LEVERAGED_ETF list,
+    """To resolve the symbol in the LEVERAGED_ETF list,
     the date on which the symbol was in effect is needed.
 
     Furthermore, to maintain a point in time record of our own maintenance
@@ -134,11 +134,11 @@ def load_from_directory(list_name):
     data = {}
     dir_path = os.path.join(SECURITY_LISTS_DIR, list_name)
     for kd_name in listdir(dir_path):
-        kd = datetime.strptime(kd_name, DATE_FORMAT).replace(tzinfo=pytz.utc)
+        kd = datetime.strptime(kd_name, DATE_FORMAT)
         data[kd] = {}
         kd_path = os.path.join(dir_path, kd_name)
         for ld_name in listdir(kd_path):
-            ld = datetime.strptime(ld_name, DATE_FORMAT).replace(tzinfo=pytz.utc)
+            ld = datetime.strptime(ld_name, DATE_FORMAT)
             data[kd][ld] = {}
             ld_path = os.path.join(kd_path, ld_name)
             for fname in listdir(ld_path):

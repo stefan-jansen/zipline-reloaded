@@ -54,8 +54,8 @@ with_default_shape = with_defaults(shape=lambda self: self.default_shape)
 class BaseUSEquityPipelineTestCase(
     WithTradingSessions, WithAssetFinder, ZiplineTestCase
 ):
-    START_DATE = pd.Timestamp("2014", tz="UTC")
-    END_DATE = pd.Timestamp("2014-12-31", tz="UTC")
+    START_DATE = pd.Timestamp("2014")
+    END_DATE = pd.Timestamp("2014-12-31")
     ASSET_FINDER_EQUITY_SIDS = list(range(20))
 
     @classmethod

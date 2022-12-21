@@ -351,8 +351,7 @@ class RollingSpearmanOfReturns(RollingSpearman):
 
 
 class RollingLinearRegressionOfReturns(RollingLinearRegression):
-    """
-    Perform an ordinary least-squares regression predicting the returns of all
+    """Perform an ordinary least-squares regression predicting the returns of all
     other assets on the given asset.
 
     Parameters
@@ -467,8 +466,7 @@ class RollingLinearRegressionOfReturns(RollingLinearRegression):
 
 
 class SimpleBeta(CustomFactor, StandardOutputs):
-    """
-    Factor producing the slope of a regression line between each asset's daily
+    """Factor producing the slope of a regression line between each asset's daily
     returns to the daily returns of a single "target" asset.
 
     Parameters
@@ -545,8 +543,7 @@ class SimpleBeta(CustomFactor, StandardOutputs):
 
 
 def vectorized_beta(dependents, independent, allowed_missing, out=None):
-    """
-    Compute slopes of linear regressions between columns of ``dependents`` and
+    """Compute slopes of linear regressions between columns of ``dependents`` and
     ``independent``.
 
     Parameters
@@ -644,8 +641,7 @@ def vectorized_beta(dependents, independent, allowed_missing, out=None):
 
 
 def vectorized_pearson_r(dependents, independents, allowed_missing, out=None):
-    """
-    Compute Pearson's r between columns of ``dependents`` and ``independents``.
+    """Compute Pearson's r between columns of ``dependents`` and ``independents``.
 
     Parameters
     ----------

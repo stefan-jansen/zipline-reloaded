@@ -285,7 +285,7 @@ class ExecutionPlan(TermGraph):
 
         self.domain = domain
 
-        sessions = domain.all_sessions()
+        sessions = domain.sessions()
         for term in terms.values():
             self.set_extra_rows(
                 term,

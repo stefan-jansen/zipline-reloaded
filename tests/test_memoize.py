@@ -1,6 +1,4 @@
-"""
-Tests for zipline.utils.memoize.
-"""
+"""Tests for zipline.utils.memoize."""
 from collections import defaultdict
 import gc
 

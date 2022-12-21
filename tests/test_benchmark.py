@@ -45,8 +45,8 @@ from zipline.utils.run_algo import BenchmarkSpec
 @pytest.fixture(scope="class")
 def set_test_benchmark_spec(request, with_asset_finder):
     ASSET_FINDER_COUNTRY_CODE = "??"
-    START_DATE = pd.Timestamp("2006-01-03", tz="utc")
-    END_DATE = pd.Timestamp("2006-12-29", tz="utc")
+    START_DATE = pd.Timestamp("2006-01-03")
+    END_DATE = pd.Timestamp("2006-12-29")
     request.cls.START_DATE = START_DATE
     request.cls.END_DATE = END_DATE
 
@@ -94,8 +94,8 @@ def set_test_benchmark_spec(request, with_asset_finder):
 class TestBenchmark(
     WithDataPortal, WithSimParams, WithTradingCalendars, ZiplineTestCase
 ):
-    START_DATE = pd.Timestamp("2006-01-03", tz="utc")
-    END_DATE = pd.Timestamp("2006-12-29", tz="utc")
+    START_DATE = pd.Timestamp("2006-01-03")
+    END_DATE = pd.Timestamp("2006-12-29")
 
     @classmethod
     def make_equity_info(cls):
@@ -115,8 +115,8 @@ class TestBenchmark(
                 },
                 3: {
                     "symbol": "C",
-                    "start_date": pd.Timestamp("2006-05-26", tz="utc"),
-                    "end_date": pd.Timestamp("2006-08-09", tz="utc"),
+                    "start_date": pd.Timestamp("2006-05-26"),
+                    "end_date": pd.Timestamp("2006-08-09"),
                     "exchange": "TEST",
                 },
                 4: {
@@ -222,13 +222,13 @@ class TestBenchmark(
     def test_asset_IPOed_same_day(self):
         # gotta get some minute data up in here.
         # add sid 4 for a couple of days
-        minutes = self.trading_calendar.minutes_for_sessions_in_range(
+        minutes = self.trading_calendar.sessions_minutes(
             self.sim_params.sessions[0], self.sim_params.sessions[5]
         )
 
         tmp_reader = tmp_bcolz_equity_minute_bar_reader(
             self.trading_calendar,
-            self.trading_calendar.all_sessions,
+            self.trading_calendar.sessions,
             create_minute_bar_data(minutes, [2]),
         )
         with tmp_reader as reader:
@@ -376,6 +376,7 @@ class TestBenchmarkSpec:
 
     def test_benchmark_file(self, tmp_path, caplog):
         """Test running with a benchmark file."""
+
         csv_file_path = tmp_path / "b.csv"
         with open(csv_file_path, "w") as csv_file:
             csv_file.write(
@@ -398,12 +399,15 @@ class TestBenchmarkSpec:
 
         assert sid is None
 
-        expected_dates = pd.to_datetime(
-            ["2020-01-03", "2020-01-06", "2020-01-07", "2020-01-08", "2020-01-09"],
-            utc=True,
+        expected_returns = pd.Series(
+            {
+                pd.Timestamp("2020-01-03"): -0.1,
+                pd.Timestamp("2020-01-06"): 0.333,
+                pd.Timestamp("2020-01-07"): 0.167,
+                pd.Timestamp("2020-01-08"): 0.143,
+                pd.Timestamp("2020-01-09"): 6.375,
+            }
         )
-        expected_values = [-0.1, 0.333, 0.167, 0.143, 6.375]
-        expected_returns = pd.Series(index=expected_dates, data=expected_values)
 
         assert_series_equal(returns, expected_returns, check_names=False)
 

@@ -466,11 +466,14 @@ class _ClassicRiskMetrics:
         ]
 
         # Benchmark needs to be masked to the same dates as the algo returns
+        benchmark_ret_tzinfo = benchmark_returns.index.tzinfo
         benchmark_returns = benchmark_returns[
-            (benchmark_returns.index >= start_session)
-            & (benchmark_returns.index <= algorithm_returns.index[-1])
+            (benchmark_returns.index >= start_session.tz_localize(benchmark_ret_tzinfo))
+            & (
+                benchmark_returns.index
+                <= algorithm_returns.index[-1].tz_localize(benchmark_ret_tzinfo)
+            )
         ]
-
         benchmark_period_returns = ep.cum_returns(benchmark_returns).iloc[-1]
         algorithm_period_returns = ep.cum_returns(algorithm_returns).iloc[-1]
 
@@ -536,7 +539,7 @@ class _ClassicRiskMetrics:
             return
 
         tzinfo = end_date.tzinfo
-        end_date = end_date.tz_convert(None)
+        end_date = end_date
         for period_timestamp in months:
             period = period_timestamp.tz_localize(None).to_period(
                 freq="%dM" % months_per
@@ -569,7 +572,7 @@ class _ClassicRiskMetrics:
         periods_in_range = partial(
             cls._periods_in_range,
             months=months,
-            end_session=end_session.tz_convert(None),
+            end_session=end_session,
             end_date=end,
             algorithm_returns=algorithm_returns,
             benchmark_returns=benchmark_returns,

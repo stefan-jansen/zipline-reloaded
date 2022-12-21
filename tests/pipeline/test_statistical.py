@@ -1,6 +1,5 @@
-"""
-Tests for statistical pipeline terms.
-"""
+"""Tests for statistical pipeline terms."""
+
 import numpy as np
 import pandas as pd
 from pandas.testing import assert_frame_equal
@@ -51,8 +50,8 @@ import re
 @pytest.fixture(scope="class")
 def set_test_statistical_built_ins(request, with_asset_finder, with_trading_calendars):
     sids = ASSET_FINDER_EQUITY_SIDS = pd.Index([1, 2, 3], dtype="int64")
-    START_DATE = pd.Timestamp("2015-01-31", tz="UTC")
-    END_DATE = pd.Timestamp("2015-03-01", tz="UTC")
+    START_DATE = pd.Timestamp("2015-01-31")
+    END_DATE = pd.Timestamp("2015-03-01")
     ASSET_FINDER_EQUITY_SYMBOLS = ("A", "B", "C")
     ASSET_FINDER_COUNTRY_CODE = "US"
 
@@ -91,12 +90,7 @@ def set_test_statistical_built_ins(request, with_asset_finder, with_trading_cale
         **dict(equities=equities, exchanges=exchanges)
     )
     day = request.cls.trading_calendar.day
-    request.cls.dates = dates = pd.date_range(
-        "2015-02-01",
-        "2015-02-28",
-        freq=day,
-        tz="UTC",
-    )
+    request.cls.dates = dates = pd.date_range("2015-02-01", "2015-02-28", freq=day)
 
     # Using these start and end dates because they are a contigous span of
     # 5 days (Monday - Friday) and they allow for plenty of days to look
@@ -156,10 +150,10 @@ class TestStatisticalBuiltIns:
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("correlation_length", [3, 4])
     def test_correlation_factors(self, returns_length, correlation_length):
-        """
-        Tests for the built-in factors `RollingPearsonOfReturns` and
+        """Tests for the built-in factors `RollingPearsonOfReturns` and
         `RollingSpearmanOfReturns`.
         """
+
         assets = self.assets
         my_asset = self.my_asset
         my_asset_column = self.my_asset_column
@@ -255,9 +249,8 @@ class TestStatisticalBuiltIns:
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("regression_length", [3, 4])
     def test_regression_of_returns_factor(self, returns_length, regression_length):
-        """
-        Tests for the built-in factor `RollingLinearRegressionOfReturns`.
-        """
+        """Tests for the built-in factor `RollingLinearRegressionOfReturns`."""
+
         assets = self.assets
         my_asset = self.my_asset
         my_asset_column = self.my_asset_column
@@ -377,8 +370,7 @@ class TestStatisticalBuiltIns:
             assert beta.params["allowed_missing_count"] == expected
 
     def test_correlation_and_regression_with_bad_asset(self):
-        """
-        Test that `RollingPearsonOfReturns`, `RollingSpearmanOfReturns` and
+        """Test that `RollingPearsonOfReturns`, `RollingSpearmanOfReturns` and
         `RollingLinearRegressionOfReturns` raise the proper exception when
         given a nonexistent target asset.
         """
@@ -510,9 +502,7 @@ class TestStatisticalBuiltIns:
             allowed_missing_percentage=0.5,
         )
         result = repr(beta)
-        expected = "SimpleBeta({}, length=50, allowed_missing=25)".format(
-            self.my_asset,
-        )
+        expected = f"SimpleBeta({self.my_asset}, length=50, allowed_missing=25)"
         assert result == expected
 
     def test_simple_beta_graph_repr(self):
@@ -528,8 +518,8 @@ class TestStatisticalBuiltIns:
 
 class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTestCase):
     sids = ASSET_FINDER_EQUITY_SIDS = pd.Index([1, 2, 3], dtype="int64")
-    START_DATE = pd.Timestamp("2015-01-31", tz="UTC")
-    END_DATE = pd.Timestamp("2015-03-01", tz="UTC")
+    START_DATE = pd.Timestamp("2015-01-31")
+    END_DATE = pd.Timestamp("2015-03-01")
     ASSET_FINDER_COUNTRY_CODE = "US"
     SEEDED_RANDOM_PIPELINE_DEFAULT_DOMAIN = US_EQUITIES
 
@@ -572,11 +562,11 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
 
     @parameter_space(returns_length=[2, 3], correlation_length=[3, 4])
     def test_factor_correlation_methods(self, returns_length, correlation_length):
-        """
-        Ensure that `Factor.pearsonr` and `Factor.spearmanr` are consistent
+        """Ensure that `Factor.pearsonr` and `Factor.spearmanr` are consistent
         with the built-in factors `RollingPearsonOfReturns` and
         `RollingSpearmanOfReturns`.
         """
+
         my_asset = self.my_asset
         start_date = self.pipeline_start_date
         end_date = self.pipeline_end_date
@@ -675,10 +665,10 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
 
     @parameter_space(returns_length=[2, 3], regression_length=[3, 4])
     def test_factor_regression_method(self, returns_length, regression_length):
-        """
-        Ensure that `Factor.linear_regression` is consistent with the built-in
+        """Ensure that `Factor.linear_regression` is consistent with the built-in
         factor `RollingLinearRegressionOfReturns`.
         """
+
         my_asset = self.my_asset
         start_date = self.pipeline_start_date
         end_date = self.pipeline_end_date
@@ -716,8 +706,7 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         assert_frame_equal(regression_results, expected_regression_results)
 
     def test_regression_method_bad_type(self):
-        """
-        Make sure we cannot call the Factor linear regression method on factors
+        """Make sure we cannot call the Factor linear regression method on factors
         or slices that are not of float or int dtype.
         """
         # These are arbitrary for the purpose of this test.
@@ -752,10 +741,10 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
 
     @parameter_space(correlation_length=[2, 3, 4])
     def test_factor_correlation_methods_two_factors(self, correlation_length):
-        """
-        Tests for `Factor.pearsonr` and `Factor.spearmanr` when passed another
+        """Tests for `Factor.pearsonr` and `Factor.spearmanr` when passed another
         2D factor instead of a Slice.
         """
+
         assets = self.assets
         dates = self.dates
         start_date = self.pipeline_start_date
@@ -859,10 +848,10 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
 
     @parameter_space(regression_length=[2, 3, 4])
     def test_factor_regression_method_two_factors(self, regression_length):
-        """
-        Tests for `Factor.linear_regression` when passed another 2D factor
+        """Tests for `Factor.linear_regression` when passed another 2D factor
         instead of a Slice.
         """
+
         assets = self.assets
         dates = self.dates
         start_date = self.pipeline_start_date

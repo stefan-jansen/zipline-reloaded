@@ -17,9 +17,7 @@ from zipline.data.bar_reader import BarReader
 
 
 class SessionBarReader(BarReader):
-    """
-    Reader for OHCLV pricing data at a session frequency.
-    """
+    """Reader for OHCLV pricing data at a session frequency."""
 
     @property
     def data_frequency(self):
@@ -29,6 +27,7 @@ class SessionBarReader(BarReader):
     @abstractmethod
     def sessions(self):
         """
+
         Returns
         -------
         sessions : DatetimeIndex
@@ -40,8 +39,7 @@ class SessionBarReader(BarReader):
 class CurrencyAwareSessionBarReader(SessionBarReader):
     @abstractmethod
     def currency_codes(self, sids):
-        """
-        Get currencies in which prices are quoted for the requested sids.
+        """Get currencies in which prices are quoted for the requested sids.
 
         Assumes that a sid's prices are always quoted in a single currency.
 

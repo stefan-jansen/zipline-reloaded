@@ -26,8 +26,8 @@ from zipline.testing.fixtures import WithMakeAlgo
 def set_test_commission_unit(request, with_asset_finder):
     ASSET_FINDER_COUNTRY_CODE = "??"
 
-    START_DATE = pd.Timestamp("2006-01-03", tz="utc")
-    END_DATE = pd.Timestamp("2006-12-29", tz="utc")
+    START_DATE = pd.Timestamp("2006-01-03")
+    END_DATE = pd.Timestamp("2006-12-29")
 
     equities = pd.DataFrame.from_dict(
         {

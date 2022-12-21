@@ -272,6 +272,8 @@ class AlgorithmSimulator:
 
         def past_auto_close_date(asset):
             acd = asset.auto_close_date
+            if acd is not None:
+                acd = acd.tz_localize(dt.tzinfo)
             return acd is not None and acd <= dt
 
         # Remove positions in any sids that have reached their auto_close date.

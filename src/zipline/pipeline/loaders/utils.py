@@ -60,11 +60,7 @@ def next_event_indexer(
     sid_ixs = all_sids.searchsorted(event_sids)
     # side='right' here ensures that we include the event date itself
     # if it's in all_dates.
-    dt_ixs = all_dates.searchsorted(
-        # pd.to_datetime(event_dates, utc=True), side="right")
-        make_utc_aware(pd.DatetimeIndex(event_dates)),
-        side="right",
-    )
+    dt_ixs = all_dates.searchsorted(pd.DatetimeIndex(event_dates), side="right")
     ts_ixs = data_query_cutoff.searchsorted(
         # pd.to_datetime(event_timestamps, utc=True), side="right"
         make_utc_aware(pd.DatetimeIndex(event_timestamps)),
@@ -278,8 +274,7 @@ def ffill_across_cols(df, columns, name_map):
 
 
 def shift_dates(dates, start_date, end_date, shift):
-    """
-    Shift dates of a pipeline query back by ``shift`` days.
+    """Shift dates of a pipeline query back by ``shift`` days.
 
     Parameters
     ----------

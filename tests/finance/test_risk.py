@@ -41,9 +41,9 @@ PERIODS = [
 @pytest.fixture(scope="class")
 def set_test_risk(request, set_trading_calendar):
     request.cls.trading_calendar = set_trading_calendar
-    request.cls.start_session = pd.Timestamp("2006-01-01", tz="UTC")
-    request.cls.end_session = request.cls.trading_calendar.minute_to_session_label(
-        pd.Timestamp("2006-12-31", tz="UTC"), direction="previous"
+    request.cls.start_session = pd.Timestamp("2006-01-01")
+    request.cls.end_session = request.cls.trading_calendar.minute_to_session(
+        pd.Timestamp("2006-12-31"), direction="previous"
     )
     request.cls.sim_params = SimulationParameters(
         start_session=request.cls.start_session,
@@ -68,14 +68,14 @@ class TestRisk:
     def test_factory(self):
         returns = [0.1] * 100
         r_objects = factory.create_returns_from_list(returns, self.sim_params)
-        assert r_objects.index[-1] <= pd.Timestamp("2006-12-31", tz="UTC")
+        assert r_objects.index[-1] <= pd.Timestamp("2006-12-31")
 
     def test_drawdown(self):
         for period in PERIODS:
             assert all(x["max_drawdown"] == 0 for x in self.metrics[period])
 
     def test_benchmark_returns_06(self):
-        for period, period_len in zip(PERIODS, [1, 3, 6, 12]):
+        for period, _period_len in zip(PERIODS, [1, 3, 6, 12]):
             np.testing.assert_almost_equal(
                 [x["benchmark_period_return"] for x in self.metrics[period]],
                 [
@@ -185,12 +185,10 @@ class TestRisk:
             ] * len(metrics[period])
 
     def test_benchmarkrange(self):
-        start_session = self.trading_calendar.minute_to_session_label(
-            pd.Timestamp("2008-01-01", tz="UTC")
-        )
+        start_session = pd.Timestamp("2008-01-01")
 
-        end_session = self.trading_calendar.minute_to_session_label(
-            pd.Timestamp("2010-01-01", tz="UTC"), direction="previous"
+        end_session = self.trading_calendar.minute_to_session(
+            pd.Timestamp("2010-01-01"), direction="previous"
         )
 
         sim_params = SimulationParameters(
@@ -211,8 +209,8 @@ class TestRisk:
 
     def test_partial_month(self):
 
-        start_session = self.trading_calendar.minute_to_session_label(
-            pd.Timestamp("1993-02-01", tz="UTC")
+        start_session = self.trading_calendar.minute_to_session(
+            pd.Timestamp("1993-02-01")
         )
 
         # 1992 and 1996 were leap years

@@ -80,8 +80,7 @@ def specialize_any_integer(d):
 
 
 class SQLiteAdjustmentReader:
-    """
-    Loads adjustments based on corporate actions from a SQLite database.
+    """Loads adjustments based on corporate actions from a SQLite database.
 
     Expects data written in the format output by `SQLiteAdjustmentWriter`.
 
@@ -150,8 +149,7 @@ class SQLiteAdjustmentReader:
         should_include_dividends,
         adjustment_type,
     ):
-        """
-        Load collection of Adjustment objects from underlying adjustments db.
+        """Load collection of Adjustment objects from underlying adjustments db.
 
         Parameters
         ----------
@@ -175,6 +173,7 @@ class SQLiteAdjustmentReader:
             A dictionary containing price and/or volume adjustment mappings
             from index to adjustment objects to apply at that index.
         """
+        dates = dates.tz_localize("UTC")
         return load_adjustments_from_sqlite(
             self.conn,
             dates,
@@ -218,7 +217,7 @@ class SQLiteAdjustmentReader:
         c.close()
 
         return [
-            [Timestamp(adjustment[0], unit="s", tz="UTC"), adjustment[1]]
+            [Timestamp(adjustment[0], unit="s"), adjustment[1]]
             for adjustment in adjustments_for_sid
         ]
 
@@ -300,15 +299,14 @@ class SQLiteAdjustmentReader:
             date_cols = self._datetime_int_cols[table_name]
         except KeyError as exc:
             raise ValueError(
-                "Requested table {} not found.\n"
-                "Available tables: {}\n".format(
-                    table_name, self._datetime_int_cols.keys()
-                )
+                f"Requested table {table_name} not found.\n"
+                f"Available tables: {self._datetime_int_cols.keys()}\n"
             ) from exc
 
         # Dates are stored in second resolution as ints in adj.db tables.
         kwargs = (
-            {"parse_dates": {col: {"unit": "s", "utc": True} for col in date_cols}}
+            # {"parse_dates": {col: {"unit": "s", "utc": True} for col in date_cols}}
+            {"parse_dates": {col: {"unit": "s"} for col in date_cols}}
             if convert_dates
             else {}
         )
@@ -340,8 +338,7 @@ class SQLiteAdjustmentReader:
 
 
 class SQLiteAdjustmentWriter:
-    """
-    Writer for data to be read by SQLiteAdjustmentReader
+    """Writer for data to be read by SQLiteAdjustmentReader
 
     Parameters
     ----------
@@ -426,11 +423,7 @@ class SQLiteAdjustmentWriter:
     def write_frame(self, tablename, frame):
         if tablename not in SQLITE_ADJUSTMENT_TABLENAMES:
             raise ValueError(
-                "Adjustment table %s not in %s"
-                % (
-                    tablename,
-                    SQLITE_ADJUSTMENT_TABLENAMES,
-                )
+                f"Adjustment table {tablename} not in {SQLITE_ADJUSTMENT_TABLENAMES}"
             )
         if not (frame is None or frame.empty):
             frame = frame.copy()
@@ -448,9 +441,7 @@ class SQLiteAdjustmentWriter:
         )
 
     def write_dividend_payouts(self, frame):
-        """
-        Write dividend payout data to SQLite table `dividend_payouts`.
-        """
+        """Write dividend payout data to SQLite table `dividend_payouts`."""
         return self._write(
             "dividend_payouts",
             SQLITE_DIVIDEND_PAYOUT_COLUMN_DTYPES,
@@ -465,8 +456,7 @@ class SQLiteAdjustmentWriter:
         )
 
     def calc_dividend_ratios(self, dividends):
-        """
-        Calculate the ratios to apply to equities when looking back at pricing
+        """Calculate the ratios to apply to equities when looking back at pricing
         history so that the price is smoothed over the ex_date, when the market
         adjusts to the change in equity value due to upcoming dividend.
 
@@ -497,8 +487,8 @@ class SQLiteAdjustmentWriter:
 
         (close,) = pricing_reader.load_raw_arrays(
             ["close"],
-            pd.Timestamp(dates[0]).tz_localize("UTC"),
-            pd.Timestamp(dates[-1]).tz_localize("UTC"),
+            pd.Timestamp(dates[0]),
+            pd.Timestamp(dates[-1]),
             unique_sids,
         )
         date_ix = np.searchsorted(dates, dividends.ex_date.values)
@@ -606,9 +596,7 @@ class SQLiteAdjustmentWriter:
         self.write_stock_dividend_payouts(stock_dividend_payouts)
 
     def write_dividend_data(self, dividends, stock_dividends=None):
-        """
-        Write both dividend payouts and the derived price adjustment ratios.
-        """
+        """Write both dividend payouts and the derived price adjustment ratios."""
 
         # First write the dividend payouts.
         self._write_dividends(dividends)
@@ -619,8 +607,7 @@ class SQLiteAdjustmentWriter:
         self.write_frame("dividends", dividend_ratios)
 
     def write(self, splits=None, mergers=None, dividends=None, stock_dividends=None):
-        """
-        Writes data to a SQLite file to be read by SQLiteAdjustmentReader.
+        """Writes data to a SQLite file to be read by SQLiteAdjustmentReader.
 
         Parameters
         ----------

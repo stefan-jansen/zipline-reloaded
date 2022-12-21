@@ -30,8 +30,8 @@ TEST_RESOURCE_PATH = join(
 
 class QuandlBundleTestCase(WithResponses, ZiplineTestCase):
     symbols = "AAPL", "BRK_A", "MSFT", "ZEN"
-    start_date = pd.Timestamp("2014-01", tz="utc")
-    end_date = pd.Timestamp("2015-01", tz="utc")
+    start_date = pd.Timestamp("2014-01")
+    end_date = pd.Timestamp("2015-01")
     bundle = bundles["quandl"]
     calendar = get_calendar(bundle.calendar_name)
     api_key = "IamNotaQuandlAPIkey"
@@ -70,7 +70,7 @@ class QuandlBundleTestCase(WithResponses, ZiplineTestCase):
 
         # the first index our written data will appear in the files on disk
         start_idx = (
-            self.calendar.all_sessions.get_indexer([self.start_date], "ffill")[0] + 1
+            self.calendar.sessions.get_indexer([self.start_date], "ffill")[0] + 1
         )
 
         # convert an index into the raw dataframe into an index into the
@@ -219,7 +219,7 @@ class QuandlBundleTestCase(WithResponses, ZiplineTestCase):
         sids = 0, 1, 2, 3
         assert set(bundle.asset_finder.sids) == set(sids)
 
-        sessions = self.calendar.all_sessions
+        sessions = self.calendar.sessions
         actual = bundle.equity_daily_bar_reader.load_raw_arrays(
             self.columns,
             sessions[sessions.get_indexer([self.start_date], "bfill")[0]],

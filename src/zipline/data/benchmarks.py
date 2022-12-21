@@ -20,8 +20,7 @@ log = logging.getLogger(__name__)
 
 
 def get_benchmark_returns_from_file(filelike):
-    """
-    Get a Series of benchmark returns from a file
+    """Get a Series of benchmark returns from a file
 
     Parameters
     ----------
@@ -40,8 +39,8 @@ def get_benchmark_returns_from_file(filelike):
         index_col=["date"],
         parse_dates=["date"],
     )
-    if not df.index.tz:
-        df = df.tz_localize("utc")
+    if df.index.tz is not None:
+        df = df.tz_localize(None)
 
     if "return" not in df.columns:
         raise ValueError(

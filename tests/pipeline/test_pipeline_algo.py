@@ -37,7 +37,6 @@ from zipline.testing.fixtures import (
     WithBcolzEquityDailyBarReaderFromCSVs,
     ZiplineTestCase,
 )
-from zipline.utils.pandas_utils import normalize_date
 import pytest
 
 
@@ -59,9 +58,9 @@ def rolling_vwap(df, length):
 
 
 class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
-    START_DATE = pd.Timestamp("2014-01-01", tz="utc")
-    END_DATE = pd.Timestamp("2014-02-01", tz="utc")
-    dates = pd.date_range(START_DATE, END_DATE, freq=get_calendar("NYSE").day, tz="utc")
+    START_DATE = pd.Timestamp("2014-01-01")
+    END_DATE = pd.Timestamp("2014-02-01")
+    dates = pd.date_range(START_DATE, END_DATE, freq=get_calendar("NYSE").day)
 
     SIM_PARAMS_DATA_FREQUENCY = "daily"
     DATA_PORTAL_USE_MINUTE_DATA = False
@@ -206,9 +205,7 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
         return asset.start_date <= date <= asset.end_date
 
     def test_attach_pipeline_after_initialize(self):
-        """
-        Assert that calling attach_pipeline after initialize raises correctly.
-        """
+        """Assert that calling attach_pipeline after initialize raises correctly."""
 
         def initialize(context):
             pass
@@ -238,9 +235,7 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
             algo.run()
 
     def test_pipeline_output_after_initialize(self):
-        """
-        Assert that calling pipeline_output after initialize raises correctly.
-        """
+        """Assert that calling pipeline_output after initialize raises correctly."""
 
         def initialize(context):
             attach_pipeline(Pipeline(), "test")
@@ -263,9 +258,7 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
             algo.run()
 
     def test_get_output_nonexistent_pipeline(self):
-        """
-        Assert that calling add_pipeline after initialize raises appropriately.
-        """
+        """Assert that calling add_pipeline after initialize raises appropriately."""
 
         def initialize(context):
             attach_pipeline(Pipeline(), "test")
@@ -297,8 +290,7 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
         ]
     )
     def test_assets_appear_on_correct_days(self, test_name, chunks):
-        """
-        Assert that assets appear at correct times during a backtest, with
+        """Assert that assets appear at correct times during a backtest, with
         correctly-adjusted close price values.
         """
 
@@ -324,7 +316,7 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
 
         def handle_data(context, data):
             results = pipeline_output("test")
-            date = get_datetime().normalize()
+            date = self.trading_calendar.minute_to_session(get_datetime())
             for asset in self.assets:
                 # Assets should appear iff they exist today and yesterday.
                 exists_today = self.exists(date, asset)
@@ -347,8 +339,7 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
         algo.run()
 
     def test_multiple_pipelines(self):
-        """
-        Test that we can attach multiple pipelines and access the correct
+        """Test that we can attach multiple pipelines and access the correct
         output based on the pipeline name.
         """
 
@@ -362,7 +353,7 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
         def handle_data(context, data):
             closes = pipeline_output("test_close")
             volumes = pipeline_output("test_volume")
-            date = get_datetime().normalize()
+            date = self.trading_calendar.minute_to_session(get_datetime())
             for asset in self.assets:
                 # Assets should appear iff they exist today and yesterday.
                 exists_today = self.exists(date, asset)
@@ -392,8 +383,7 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
         algo.run()
 
     def test_duplicate_pipeline_names(self):
-        """
-        Test that we raise an error when we try to attach a pipeline with a
+        """Test that we raise an error when we try to attach a pipeline with a
         name that already exists for another attached pipeline.
         """
 
@@ -407,9 +397,7 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
 
 
 class MockDailyBarSpotReader:
-    """
-    A BcolzDailyBarReader which returns a constant value for spot price.
-    """
+    """A BcolzDailyBarReader which returns a constant value for spot price."""
 
     def get_value(self, sid, day, column):
         return 100.0
@@ -426,8 +414,8 @@ class PipelineAlgorithmTestCase(
     BRK_A = 3
     ASSET_FINDER_EQUITY_SIDS = AAPL, MSFT, BRK_A
     ASSET_FINDER_EQUITY_SYMBOLS = "AAPL", "MSFT", "BRK_A"
-    START_DATE = pd.Timestamp("2014", tz="UTC")
-    END_DATE = pd.Timestamp("2015", tz="UTC")
+    START_DATE = pd.Timestamp("2014")
+    END_DATE = pd.Timestamp("2015")
 
     SIM_PARAMS_DATA_FREQUENCY = "daily"
     DATA_PORTAL_USE_MINUTE_DATA = False
@@ -495,8 +483,8 @@ class PipelineAlgorithmTestCase(
             cls.bcolz_equity_daily_bar_reader,
             cls.adjustment_reader,
         )
-        cls.dates = cls.raw_data[cls.AAPL].index.tz_localize("UTC")
-        cls.AAPL_split_date = pd.Timestamp("2014-06-09", tz="UTC")
+        cls.dates = cls.raw_data[cls.AAPL].index  # .tz_localize("UTC")
+        cls.AAPL_split_date = pd.Timestamp("2014-06-09")
         cls.assets = cls.asset_finder.retrieve_all(cls.ASSET_FINDER_EQUITY_SIDS)
 
     def make_algo_kwargs(self, **overrides):
@@ -581,12 +569,7 @@ class PipelineAlgorithmTestCase(
 
         return vwaps
 
-    @parameterized.expand(
-        [
-            (True,),
-            (False,),
-        ]
-    )
+    @parameterized.expand([(True,), (False,)])
     def test_handle_adjustment(self, set_screen):
         AAPL, MSFT, BRK_A = assets = self.assets
 
@@ -613,7 +596,7 @@ class PipelineAlgorithmTestCase(
             attach_pipeline(pipeline, "test")
 
         def handle_data(context, data):
-            today = normalize_date(get_datetime())
+            today = self.trading_calendar.minute_to_session(get_datetime())
             results = pipeline_output("test")
             expect_over_300 = {
                 AAPL: today < self.AAPL_split_date,
@@ -689,15 +672,14 @@ class PipelineAlgorithmTestCase(
         assert count[0] > 0
 
     def test_pipeline_beyond_daily_bars(self):
-        """
-        Ensure that we can run an algo with pipeline beyond the max date
+        """Ensure that we can run an algo with pipeline beyond the max date
         of the daily bars.
         """
 
         # For ensuring we call before_trading_start.
         count = [0]
 
-        current_day = self.trading_calendar.next_session_label(
+        current_day = self.trading_calendar.next_session(
             self.pipeline_loader.raw_price_reader.last_available_dt,
         )
 
@@ -737,8 +719,8 @@ class PipelineAlgorithmTestCase(
 class PipelineSequenceTestCase(WithMakeAlgo, ZiplineTestCase):
 
     # run algorithm for 3 days
-    START_DATE = pd.Timestamp("2014-12-29", tz="utc")
-    END_DATE = pd.Timestamp("2014-12-31", tz="utc")
+    START_DATE = pd.Timestamp("2014-12-29")
+    END_DATE = pd.Timestamp("2014-12-31")
     ASSET_FINDER_COUNTRY_CODE = "US"
 
     def get_pipeline_loader(self):

@@ -13,8 +13,8 @@ from zipline.assets import (
 
 
 DEFAULT_DATE_BOUNDS = {
-    "START_DATE": pd.Timestamp("2006-01-03", tz="utc"),
-    "END_DATE": pd.Timestamp("2006-12-29", tz="utc"),
+    "START_DATE": pd.Timestamp("2006-01-03"),
+    "END_DATE": pd.Timestamp("2006-12-29"),
 }
 
 
@@ -45,8 +45,7 @@ def empty_assets_db(sql_db, request):
 
 @pytest.fixture(scope="class")
 def with_trading_calendars(request):
-    """
-    fixture providing cls.trading_calendar,
+    """fixture providing cls.trading_calendar,
     cls.all_trading_calendars, cls.trading_calendar_for_asset_type as a
     class-level fixture.
 

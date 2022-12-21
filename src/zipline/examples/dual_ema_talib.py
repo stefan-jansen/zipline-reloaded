@@ -140,7 +140,4 @@ def _test_args():
     """Extra arguments to use when zipline's automated tests run this example."""
     import pandas as pd
 
-    return {
-        "start": pd.Timestamp("2014-01-01", tz="utc"),
-        "end": pd.Timestamp("2014-11-01", tz="utc"),
-    }
+    return {"start": pd.Timestamp("2014-01-01"), "end": pd.Timestamp("2014-11-01")}

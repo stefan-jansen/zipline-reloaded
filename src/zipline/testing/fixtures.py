@@ -99,8 +99,7 @@ class DebugMROMeta(FinalMeta):
 
 
 class ZiplineTestCase(TestCase, metaclass=DebugMROMeta):
-    """
-    Shared extensions to core unittest.TestCase.
+    """Shared extensions to core unittest.TestCase.
 
     Overrides the default unittest setUp/tearDown functions with versions that
     use ExitStack to correctly clean up resources, even in the face of
@@ -119,7 +118,7 @@ class ZiplineTestCase(TestCase, metaclass=DebugMROMeta):
 
     @final
     @classmethod
-    def setUpClass(cls):
+    def setup_class(cls):
         # Hold a set of all the "static" attributes on the class. These are
         # things that are not populated after the class was created like
         # methods or other class level attributes.
@@ -134,7 +133,7 @@ class ZiplineTestCase(TestCase, metaclass=DebugMROMeta):
                 " without calling super()."
             )
         except BaseException:  # Clean up even on KeyboardInterrupt
-            cls.tearDownClass()
+            cls.teardown_class()
             raise
 
     @classmethod
@@ -156,7 +155,7 @@ class ZiplineTestCase(TestCase, metaclass=DebugMROMeta):
 
     @final
     @classmethod
-    def tearDownClass(cls):
+    def teardown_class(cls):
         # We need to get this before it's deleted by the loop.
         stack = cls._class_teardown_stack
         for name in set(vars(cls)) - cls._static_class_attributes:
@@ -170,9 +169,8 @@ class ZiplineTestCase(TestCase, metaclass=DebugMROMeta):
     @final
     @classmethod
     def enter_class_context(cls, context_manager):
-        """
-        Enter a context manager to be exited during the tearDownClass
-        """
+        """Enter a context manager to be exited during the tearDownClass"""
+
         if cls._in_setup:
             raise ValueError(
                 "Attempted to enter a class context in init_instance_fixtures."
@@ -183,8 +181,7 @@ class ZiplineTestCase(TestCase, metaclass=DebugMROMeta):
     @final
     @classmethod
     def add_class_callback(cls, callback, *args, **kwargs):
-        """
-        Register a callback to be executed during tearDownClass.
+        """Register a callback to be executed during tearDownClass.
 
         Parameters
         ----------
@@ -231,15 +228,12 @@ class ZiplineTestCase(TestCase, metaclass=DebugMROMeta):
 
     @final
     def enter_instance_context(self, context_manager):
-        """
-        Enter a context manager that should be exited during tearDown.
-        """
+        """Enter a context manager that should be exited during tearDown."""
         return self._instance_teardown_stack.enter_context(context_manager)
 
     @final
     def add_instance_callback(self, callback):
-        """
-        Register a callback to be executed during tearDown.
+        """Register a callback to be executed during tearDown.
 
         Parameters
         ----------
@@ -287,8 +281,7 @@ def alias(attr_name):
 
 
 class WithDefaultDateBounds(object, metaclass=DebugMROMeta):
-    """
-    ZiplineTestCase mixin which makes it possible to synchronize date bounds
+    """ZiplineTestCase mixin which makes it possible to synchronize date bounds
     across fixtures.
 
     This fixture should always be the last fixture in bases of any fixture or
@@ -302,8 +295,8 @@ class WithDefaultDateBounds(object, metaclass=DebugMROMeta):
         dates.
     """
 
-    START_DATE = pd.Timestamp("2006-01-03", tz="utc")
-    END_DATE = pd.Timestamp("2006-12-29", tz="utc")
+    START_DATE = pd.Timestamp("2006-01-03")
+    END_DATE = pd.Timestamp("2006-12-29")
 
 
 class WithAssetFinder(WithDefaultDateBounds):
@@ -582,8 +575,7 @@ class WithBenchmarkReturns(WithDefaultDateBounds, WithTradingCalendars):
 
 
 class WithSimParams(WithDefaultDateBounds):
-    """
-    ZiplineTestCase mixin providing cls.sim_params as a class level fixture.
+    """ZiplineTestCase mixin providing cls.sim_params as a class level fixture.
 
     Attributes
     ----------
@@ -636,8 +628,7 @@ class WithSimParams(WithDefaultDateBounds):
 
 
 class WithTradingSessions(WithDefaultDateBounds, WithTradingCalendars):
-    """
-    ZiplineTestCase mixin providing cls.trading_days, cls.all_trading_sessions
+    """ZiplineTestCase mixin providing cls.trading_days, cls.all_trading_sessions
     as a class-level fixture.
 
     After init_class_fixtures has been called, `cls.all_trading_sessions`
@@ -676,17 +667,22 @@ class WithTradingSessions(WithDefaultDateBounds, WithTradingCalendars):
 
         for cal_str in cls.TRADING_CALENDAR_STRS:
             trading_calendar = cls.trading_calendars[cal_str]
-            sessions = trading_calendar.sessions_in_range(
-                make_utc_aware(cls.DATA_MIN_DAY), make_utc_aware(cls.DATA_MAX_DAY)
-            )
+            DATA_MIN_DAY = cls.DATA_MIN_DAY
+            DATA_MAX_DAY = cls.DATA_MAX_DAY
+
+            if DATA_MIN_DAY.tzinfo is not None:
+                DATA_MIN_DAY = DATA_MIN_DAY.tz_localize(None)
+            if DATA_MAX_DAY.tzinfo is not None:
+                DATA_MAX_DAY = DATA_MAX_DAY.tz_localize(None)
+
+            sessions = trading_calendar.sessions_in_range(DATA_MIN_DAY, DATA_MAX_DAY)
             # Set name for aliasing.
             setattr(cls, "{0}_sessions".format(cal_str.lower()), sessions)
             cls.trading_sessions[cal_str] = sessions
 
 
 class WithTmpDir:
-    """
-    ZiplineTestCase mixing providing cls.tmpdir as a class-level fixture.
+    """ZiplineTestCase mixing providing cls.tmpdir as a class-level fixture.
 
     After init_class_fixtures has been called, `cls.tmpdir` is populated with
     a `testfixtures.TempDirectory` object whose path is `cls.TMP_DIR_PATH`.
@@ -709,8 +705,7 @@ class WithTmpDir:
 
 
 class WithInstanceTmpDir:
-    """
-    ZiplineTestCase mixing providing self.tmpdir as an instance-level fixture.
+    """ZiplineTestCase mixing providing self.tmpdir as an instance-level fixture.
 
     After init_instance_fixtures has been called, `self.tmpdir` is populated
     with a `testfixtures.TempDirectory` object whose path is
@@ -733,8 +728,7 @@ class WithInstanceTmpDir:
 
 
 class WithEquityDailyBarData(WithAssetFinder, WithTradingCalendars):
-    """
-    ZiplineTestCase mixin providing cls.make_equity_daily_bar_data.
+    """ZiplineTestCase mixin providing cls.make_equity_daily_bar_data.
 
     Attributes
     ----------
@@ -846,29 +840,38 @@ class WithEquityDailyBarData(WithAssetFinder, WithTradingCalendars):
         super(WithEquityDailyBarData, cls).init_class_fixtures()
         trading_calendar = cls.trading_calendars[Equity]
 
-        if trading_calendar.is_session(cls.EQUITY_DAILY_BAR_START_DATE):
+        if trading_calendar.is_session(
+            cls.EQUITY_DAILY_BAR_START_DATE.normalize().tz_localize(None)
+        ):
             first_session = cls.EQUITY_DAILY_BAR_START_DATE
         else:
-            first_session = trading_calendar.minute_to_session_label(
+            first_session = trading_calendar.minute_to_session(
                 pd.Timestamp(cls.EQUITY_DAILY_BAR_START_DATE)
             )
 
         if cls.EQUITY_DAILY_BAR_LOOKBACK_DAYS > 0:
             first_session = trading_calendar.sessions_window(
-                first_session, -1 * cls.EQUITY_DAILY_BAR_LOOKBACK_DAYS
+                first_session, -1 * (cls.EQUITY_DAILY_BAR_LOOKBACK_DAYS + 1)
             )[0]
 
+        # TODO FIXME TZ MESS
+        if first_session.tzinfo is not None:
+            first_session = first_session.tz_localize(None)
+
+        EQUITY_DAILY_BAR_END_DATE = cls.EQUITY_DAILY_BAR_END_DATE
+        if EQUITY_DAILY_BAR_END_DATE.tzinfo is not None:
+            EQUITY_DAILY_BAR_END_DATE = cls.EQUITY_DAILY_BAR_END_DATE.tz_localize(None)
+
         days = trading_calendar.sessions_in_range(
-            first_session,
-            cls.EQUITY_DAILY_BAR_END_DATE,
+            first_session.normalize(),
+            EQUITY_DAILY_BAR_END_DATE.normalize(),
         )
 
         cls.equity_daily_bar_days = days
 
 
 class WithFutureDailyBarData(WithAssetFinder, WithTradingCalendars):
-    """
-    ZiplineTestCase mixin providing cls.make_future_daily_bar_data.
+    """ZiplineTestCase mixin providing cls.make_future_daily_bar_data.
 
     Attributes
     ----------
@@ -941,18 +944,18 @@ class WithFutureDailyBarData(WithAssetFinder, WithTradingCalendars):
         super(WithFutureDailyBarData, cls).init_class_fixtures()
         trading_calendar = cls.trading_calendars[Future]
         if cls.FUTURE_DAILY_BAR_USE_FULL_CALENDAR:
-            days = trading_calendar.all_sessions
+            days = trading_calendar.sessions
         else:
             if trading_calendar.is_session(cls.FUTURE_DAILY_BAR_START_DATE):
                 first_session = cls.FUTURE_DAILY_BAR_START_DATE
             else:
-                first_session = trading_calendar.minute_to_session_label(
+                first_session = trading_calendar.minute_to_session(
                     pd.Timestamp(cls.FUTURE_DAILY_BAR_START_DATE)
                 )
 
             if cls.FUTURE_DAILY_BAR_LOOKBACK_DAYS > 0:
                 first_session = trading_calendar.sessions_window(
-                    first_session, -1 * cls.FUTURE_DAILY_BAR_LOOKBACK_DAYS
+                    first_session, -1 * (cls.FUTURE_DAILY_BAR_LOOKBACK_DAYS + 1)
                 )[0]
 
             days = trading_calendar.sessions_in_range(
@@ -964,8 +967,7 @@ class WithFutureDailyBarData(WithAssetFinder, WithTradingCalendars):
 
 
 class WithBcolzEquityDailyBarReader(WithEquityDailyBarData, WithTmpDir):
-    """
-    ZiplineTestCase mixin providing cls.bcolz_daily_bar_path,
+    """ZiplineTestCase mixin providing cls.bcolz_daily_bar_path,
     cls.bcolz_daily_bar_ctable, and cls.bcolz_equity_daily_bar_reader
     class level fixtures.
 
@@ -1064,8 +1066,7 @@ class WithBcolzEquityDailyBarReader(WithEquityDailyBarData, WithTmpDir):
 
 
 class WithBcolzFutureDailyBarReader(WithFutureDailyBarData, WithTmpDir):
-    """
-    ZiplineTestCase mixin providing cls.bcolz_daily_bar_path,
+    """ZiplineTestCase mixin providing cls.bcolz_daily_bar_path,
     cls.bcolz_daily_bar_ctable, and cls.bcolz_future_daily_bar_reader
     class level fixtures.
 
@@ -1163,19 +1164,22 @@ class WithBcolzEquityDailyBarReaderFromCSVs(WithBcolzEquityDailyBarReader):
 
 
 def _trading_days_for_minute_bars(calendar, start_date, end_date, lookback_days):
-    first_session = calendar.minute_to_session_label(start_date)
+    first_session = calendar.minute_to_session(start_date)
 
     if lookback_days > 0:
-        first_session = calendar.sessions_window(first_session, -1 * lookback_days)[0]
+        first_session = calendar.sessions_window(
+            first_session, -1 * (lookback_days + 1)
+        )[0]
 
-    return calendar.sessions_in_range(first_session, end_date)
+    return calendar.sessions_in_range(
+        first_session, end_date.normalize().tz_localize(None)
+    )
 
 
 # TODO_SS: This currently doesn't define any relationship between country_code
 #          and calendar, which would be useful downstream.
 class WithWriteHDF5DailyBars(WithEquityDailyBarData, WithTmpDir):
-    """
-    Fixture class defining the capability of writing HDF5 daily bars to disk.
+    """Fixture class defining the capability of writing HDF5 daily bars to disk.
 
     Uses cls.make_equity_daily_bar_data (inherited from WithEquityDailyBarData)
     to determine the data to write.
@@ -1226,8 +1230,7 @@ class WithWriteHDF5DailyBars(WithEquityDailyBarData, WithTmpDir):
 
 
 class WithHDF5EquityMultiCountryDailyBarReader(WithWriteHDF5DailyBars):
-    """
-    Fixture providing cls.hdf5_daily_bar_path and
+    """Fixture providing cls.hdf5_daily_bar_path and
     cls.hdf5_equity_daily_bar_reader class level fixtures.
 
     After init_class_fixtures has been called:
@@ -1289,8 +1292,7 @@ class WithHDF5EquityMultiCountryDailyBarReader(WithWriteHDF5DailyBars):
 
 
 class WithEquityMinuteBarData(WithAssetFinder, WithTradingCalendars):
-    """
-    ZiplineTestCase mixin providing cls.equity_minute_bar_days.
+    """ZiplineTestCase mixin providing cls.equity_minute_bar_days.
 
     After init_class_fixtures has been called:
     - `cls.equity_minute_bar_days` has the range over which data has been
@@ -1329,7 +1331,7 @@ class WithEquityMinuteBarData(WithAssetFinder, WithTradingCalendars):
     def make_equity_minute_bar_data(cls):
         trading_calendar = cls.trading_calendars[Equity]
         return create_minute_bar_data(
-            trading_calendar.minutes_for_sessions_in_range(
+            trading_calendar.sessions_minutes(
                 cls.equity_minute_bar_days[0],
                 cls.equity_minute_bar_days[-1],
             ),
@@ -1342,15 +1344,14 @@ class WithEquityMinuteBarData(WithAssetFinder, WithTradingCalendars):
         trading_calendar = cls.trading_calendars[Equity]
         cls.equity_minute_bar_days = _trading_days_for_minute_bars(
             trading_calendar,
-            pd.Timestamp(cls.EQUITY_MINUTE_BAR_START_DATE),
-            pd.Timestamp(cls.EQUITY_MINUTE_BAR_END_DATE),
+            cls.EQUITY_MINUTE_BAR_START_DATE,
+            cls.EQUITY_MINUTE_BAR_END_DATE,
             cls.EQUITY_MINUTE_BAR_LOOKBACK_DAYS,
         )
 
 
 class WithFutureMinuteBarData(WithAssetFinder, WithTradingCalendars):
-    """
-    ZiplineTestCase mixin providing cls.future_minute_bar_days.
+    """ZiplineTestCase mixin providing cls.future_minute_bar_days.
 
     After init_class_fixtures has been called:
     - `cls.future_minute_bar_days` has the range over which data has been
@@ -1390,7 +1391,7 @@ class WithFutureMinuteBarData(WithAssetFinder, WithTradingCalendars):
     def make_future_minute_bar_data(cls):
         trading_calendar = get_calendar("us_futures")
         return create_minute_bar_data(
-            trading_calendar.minutes_for_sessions_in_range(
+            trading_calendar.sessions_minutes(
                 cls.future_minute_bar_days[0],
                 cls.future_minute_bar_days[-1],
             ),
@@ -1403,8 +1404,8 @@ class WithFutureMinuteBarData(WithAssetFinder, WithTradingCalendars):
         trading_calendar = get_calendar("us_futures")
         cls.future_minute_bar_days = _trading_days_for_minute_bars(
             trading_calendar,
-            pd.Timestamp(cls.FUTURE_MINUTE_BAR_START_DATE),
-            pd.Timestamp(cls.FUTURE_MINUTE_BAR_END_DATE),
+            cls.FUTURE_MINUTE_BAR_START_DATE,
+            cls.FUTURE_MINUTE_BAR_END_DATE,
             cls.FUTURE_MINUTE_BAR_LOOKBACK_DAYS,
         )
 
@@ -1544,7 +1545,7 @@ class WithConstantEquityMinuteBarData(WithEquityMinuteBarData):
         trading_calendar = cls.trading_calendars[Equity]
 
         sids = cls.asset_finder.equities_sids
-        minutes = trading_calendar.minutes_for_sessions_in_range(
+        minutes = trading_calendar.sessions_minutes(
             cls.equity_minute_bar_days[0],
             cls.equity_minute_bar_days[-1],
         )
@@ -1574,7 +1575,7 @@ class WithConstantFutureMinuteBarData(WithFutureMinuteBarData):
         trading_calendar = cls.trading_calendars[Future]
 
         sids = cls.asset_finder.futures_sids
-        minutes = trading_calendar.minutes_for_sessions_in_range(
+        minutes = trading_calendar.sessions_minutes(
             cls.future_minute_bar_days[0],
             cls.future_minute_bar_days[-1],
         )
@@ -1835,8 +1836,7 @@ class WithDataPortal(
     WithBcolzEquityMinuteBarReader,
     WithBcolzFutureMinuteBarReader,
 ):
-    """
-    ZiplineTestCase mixin providing self.data_portal as an instance level
+    """ZiplineTestCase mixin providing self.data_portal as an instance level
     fixture.
 
     After init_instance_fixtures has been called, `self.data_portal` will be
@@ -1926,8 +1926,7 @@ class WithDataPortal(
 
 
 class WithResponses:
-    """
-    ZiplineTestCase mixin that provides self.responses as an instance
+    """ZiplineTestCase mixin that provides self.responses as an instance
     fixture.
 
     After init_instance_fixtures has been called, `self.responses` will be
@@ -1956,12 +1955,10 @@ class WithCreateBarData(WithDataPortal):
 
 
 class WithMakeAlgo(WithBenchmarkReturns, WithSimParams, WithDataPortal):
-    """
-    ZiplineTestCase mixin that provides a ``make_algo`` method.
-    """
+    """ZiplineTestCase mixin that provides a ``make_algo`` method."""
 
-    START_DATE = pd.Timestamp("2014-12-29", tz="UTC")
-    END_DATE = pd.Timestamp("2015-1-05", tz="UTC")
+    START_DATE = pd.Timestamp("2014-12-29")
+    END_DATE = pd.Timestamp("2015-1-05")
     SIM_PARAMS_DATA_FREQUENCY = "minute"
     DEFAULT_ALGORITHM_CLASS = TradingAlgorithm
 
@@ -1976,8 +1973,7 @@ class WithMakeAlgo(WithBenchmarkReturns, WithSimParams, WithDataPortal):
     def merge_with_inherited_algo_kwargs(
         self, overriding_type, suite_overrides, method_overrides
     ):
-        """
-        Helper for subclasses overriding ``make_algo_kwargs``.
+        """Helper for subclasses overriding ``make_algo_kwargs``.
 
         A common pattern for tests using `WithMakeAlgoKwargs` is that a
         particular test suite has a set of default keywords it wants to use
@@ -2030,9 +2026,7 @@ class WithMakeAlgo(WithBenchmarkReturns, WithSimParams, WithDataPortal):
         return algo_class(**self.make_algo_kwargs(**overrides))
 
     def run_algorithm(self, **overrides):
-        """
-        Create and run an TradingAlgorithm in memory.
-        """
+        """Create and run an TradingAlgorithm in memory."""
         return self.make_algo(**overrides).run()
 
 
@@ -2080,8 +2074,8 @@ class WithFXRates:
 
         cal = get_calendar(cls.FX_RATES_CALENDAR)
         cls.fx_rates_sessions = cal.sessions_in_range(
-            cls.FX_RATES_START_DATE,
-            cls.FX_RATES_END_DATE,
+            cls.FX_RATES_START_DATE.tz_localize(None),
+            cls.FX_RATES_END_DATE.tz_localize(None),
         )
 
         cls.fx_rates = cls.make_fx_rates(
@@ -2097,8 +2091,7 @@ class WithFXRates:
 
     @classmethod
     def make_fx_rates_from_reference(cls, reference):
-        """
-        Helper method for implementing make_fx_rates.
+        """Helper method for implementing make_fx_rates.
 
         Takes a (dates x currencies) DataFrame of "reference" values, which are
         assumed to be the "true" value of each currency in some unknown
@@ -2214,8 +2207,7 @@ class WithFXRates:
 
 
 def fast_get_loc_ffilled(dts, dt):
-    """
-    Equivalent to dts.get_loc(dt, method='ffill'), but with reasonable
+    """Equivalent to dts.get_loc(dt, method='ffill'), but with reasonable
     microperformance.
     """
     ix = dts.searchsorted(dt, side="right") - 1

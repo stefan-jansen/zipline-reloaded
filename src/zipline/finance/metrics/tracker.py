@@ -55,9 +55,14 @@ class MetricsTracker:
 
     @staticmethod
     def _execution_open_and_close(calendar, session):
-        open_, close = calendar.open_and_close_for_session(session)
-        execution_open = calendar.execution_time_from_open(open_)
-        execution_close = calendar.execution_time_from_close(close)
+        if session.tzinfo is not None:
+            session = session.tz_localize(None)
+
+        open_ = calendar.session_first_minute(session)
+        close = calendar.session_close(session)
+
+        execution_open = open_
+        execution_close = close
 
         return execution_open, execution_close
 
@@ -203,8 +208,7 @@ class MetricsTracker:
         )
 
     def handle_minute_close(self, dt, data_portal):
-        """
-        Handles the close of the given minute in minute emission.
+        """Handles the close of the given minute in minute emission.
 
         Parameters
         ----------
@@ -329,8 +333,7 @@ class MetricsTracker:
         return packet
 
     def handle_simulation_end(self, data_portal):
-        """
-        When the simulation is complete, run the full period risk report
+        """When the simulation is complete, run the full period risk report
         and send it out on the results socket.
         """
         log.info(

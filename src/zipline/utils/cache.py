@@ -1,6 +1,4 @@
-"""
-Caching utilities for zipline
-"""
+"""Caching utilities for zipline"""
 from collections.abc import MutableMapping
 import errno
 from functools import partial
@@ -26,8 +24,7 @@ AlwaysExpired = sentinel("AlwaysExpired")
 
 
 class CachedObject:
-    """
-    A simple struct for maintaining a cached object with an expiration date.
+    """A simple struct for maintaining a cached object with an expiration date.
 
     Parameters
     ----------
@@ -87,8 +84,7 @@ class CachedObject:
 
 
 class ExpiringCache:
-    """
-    A cache of multiple CachedObjects, which returns the wrapped the value
+    """A cache of multiple CachedObjects, which returns the wrapped the value
     or raises and deletes the CachedObject if the value has expired.
 
     Parameters

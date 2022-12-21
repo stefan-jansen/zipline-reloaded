@@ -48,8 +48,8 @@ _1_ns = pd.Timedelta(1, unit="ns")
 
 class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestCase):
 
-    START_DATE = pd.Timestamp("2014-01-06", tz="utc")
-    END_DATE = pd.Timestamp("2014-01-10", tz="utc")
+    START_DATE = pd.Timestamp("2014-01-06")
+    END_DATE = pd.Timestamp("2014-01-10")
 
     def init_instance_fixtures(self):
         super(BundleCoreTestCase, self).init_instance_fixtures()
@@ -129,10 +129,7 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
     def test_ingest(self):
         calendar = get_calendar("XNYS")
         sessions = calendar.sessions_in_range(self.START_DATE, self.END_DATE)
-        minutes = calendar.minutes_for_sessions_in_range(
-            self.START_DATE,
-            self.END_DATE,
-        )
+        minutes = calendar.sessions_minutes(self.START_DATE, self.END_DATE)
 
         sids = tuple(range(3))
         equities = make_simple_equity_info(
@@ -382,8 +379,8 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
             @self.register(
                 "bundle",
                 calendar_name="NYSE",
-                start_session=pd.Timestamp("2014", tz="UTC"),
-                end_session=pd.Timestamp("2014", tz="UTC"),
+                start_session=pd.Timestamp("2014"),
+                end_session=pd.Timestamp("2014"),
             )
             def _(
                 environ,

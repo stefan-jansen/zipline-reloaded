@@ -101,8 +101,7 @@ OwnershipPeriod = namedtuple("OwnershipPeriod", "start end sid value")
 
 
 def merge_ownership_periods(mappings):
-    """
-    Given a dict of mappings where the values are lists of
+    """Given a dict of mappings where the values are lists of
     OwnershipPeriod objects, returns a dict with the same structure with
     new OwnershipPeriod objects adjusted so that the periods have no
     gaps.
@@ -127,7 +126,7 @@ def merge_ownership_periods(mappings):
                     # end date be max timestamp
                     [
                         OwnershipPeriod(
-                            pd.Timestamp.max.tz_localize("utc"),
+                            pd.Timestamp.max,
                             None,
                             None,
                             None,
@@ -145,8 +144,11 @@ def _build_ownership_map_from_rows(rows, key_from_row, value_from_row):
     for row in rows:
         mappings.setdefault(key_from_row(row), [],).append(
             OwnershipPeriod(
-                pd.Timestamp(row.start_date, unit="ns", tz="utc"),
-                pd.Timestamp(row.end_date, unit="ns", tz="utc"),
+                # TODO FIX TZ MESS
+                # pd.Timestamp(row.start_date, unit="ns", tz="utc"),
+                # pd.Timestamp(row.end_date, unit="ns", tz="utc"),
+                pd.Timestamp(row.start_date, unit="ns", tz=None),
+                pd.Timestamp(row.end_date, unit="ns", tz=None),
                 row.sid,
                 value_from_row(row),
             ),
@@ -156,9 +158,7 @@ def _build_ownership_map_from_rows(rows, key_from_row, value_from_row):
 
 
 def build_ownership_map(table, key_from_row, value_from_row):
-    """
-    Builds a dict mapping to lists of OwnershipPeriods, from a db table.
-    """
+    """Builds a dict mapping to lists of OwnershipPeriods, from a db table."""
     return _build_ownership_map_from_rows(
         sa.select(table.c).execute().fetchall(),
         key_from_row,
@@ -167,8 +167,7 @@ def build_ownership_map(table, key_from_row, value_from_row):
 
 
 def build_grouped_ownership_map(table, key_from_row, value_from_row, group_key):
-    """
-    Builds a dict mapping group keys to maps of keys to lists of
+    """Builds a dict mapping group keys to maps of keys to lists of
     OwnershipPeriods, from a db table.
     """
     grouped_rows = groupby(
@@ -210,11 +209,11 @@ _filter_equity_kwargs = _filter_kwargs(Equity._kwargnames)
 
 
 def _convert_asset_timestamp_fields(dict_):
-    """
-    Takes in a dict of Asset init args and converts dates to pd.Timestamps
-    """
+    """Takes in a dict of Asset init args and converts dates to pd.Timestamps"""
     for key in _asset_timestamp_fields & dict_.keys():
-        value = pd.Timestamp(dict_[key], tz="UTC")
+        # TODO FIX TZ MESS
+        # value = pd.Timestamp(dict_[key], tz="UTC")
+        value = pd.Timestamp(dict_[key], tz=None)
         dict_[key] = None if pd.isnull(value) else value
     return dict_
 
@@ -252,8 +251,7 @@ Lifetimes = namedtuple("Lifetimes", "sid start end")
 
 
 class AssetFinder:
-    """
-    An AssetFinder is an interface to a database of Asset metadata written by
+    """An AssetFinder is an interface to a database of Asset metadata written by
     an ``AssetDBWriter``.
 
     This class provides methods for looking up assets by unique integer id or
@@ -387,8 +385,7 @@ class AssetFinder:
         )
 
     def lookup_asset_types(self, sids):
-        """
-        Retrieve asset types for a list of sids.
+        """Retrieve asset types for a list of sids.
 
         Parameters
         ----------
@@ -427,8 +424,7 @@ class AssetFinder:
         return found
 
     def group_by_type(self, sids):
-        """
-        Group a list of sids by asset type.
+        """Group a list of sids by asset type.
 
         Parameters
         ----------
@@ -455,8 +451,7 @@ class AssetFinder:
             return self.retrieve_all((sid,), default_none=default_none)[0]
 
     def retrieve_all(self, sids, default_none=False):
-        """
-        Retrieve all assets in `sids`.
+        """Retrieve all assets in `sids`.
 
         Parameters
         ----------
@@ -519,8 +514,7 @@ class AssetFinder:
         return [hits[sid] for sid in sids]
 
     def retrieve_equities(self, sids):
-        """
-        Retrieve Equity objects for a list of sids.
+        """Retrieve Equity objects for a list of sids.
 
         Users generally shouldn't need to this method (instead, they should
         prefer the more general/friendly `retrieve_assets`), but it has a
@@ -545,8 +539,7 @@ class AssetFinder:
         return self.retrieve_equities((sid,))[sid]
 
     def retrieve_futures_contracts(self, sids):
-        """
-        Retrieve Future objects for an iterable of sids.
+        """Retrieve Future objects for an iterable of sids.
 
         Users generally shouldn't need to this method (instead, they should
         prefer the more general/friendly `retrieve_assets`), but it has a
@@ -665,8 +658,7 @@ class AssetFinder:
                 yield _convert_asset_timestamp_fields(mkdict(row))
 
     def _retrieve_assets(self, sids, asset_tbl, asset_type):
-        """
-        Internal function for loading assets from a table.
+        """Internal function for loading assets from a table.
 
         This should be the only method of `AssetFinder` that writes Assets into
         self._asset_cache.
@@ -716,8 +708,7 @@ class AssetFinder:
         return hits
 
     def _lookup_symbol_strict(self, ownership_map, multi_country, symbol, as_of_date):
-        """
-        Resolve a symbol to an asset object without fuzzy matching.
+        """Resolve a symbol to an asset object without fuzzy matching.
 
         Parameters
         ----------
@@ -979,8 +970,7 @@ class AssetFinder:
         )
 
     def lookup_symbols(self, symbols, as_of_date, fuzzy=False, country_code=None):
-        """
-        Lookup a list of equities by symbol.
+        """Lookup a list of equities by symbol.
 
         Equivalent to::
 
@@ -1210,8 +1200,8 @@ class AssetFinder:
     def create_continuous_future(self, root_symbol, offset, roll_style, adjustment):
         if adjustment not in ADJUSTMENT_STYLES:
             raise ValueError(
-                "Invalid adjustment style {!r}. Allowed adjustment styles are "
-                "{}.".format(adjustment, list(ADJUSTMENT_STYLES))
+                f"Invalid adjustment style {adjustment!r}. Allowed adjustment styles are "
+                f"{list(ADJUSTMENT_STYLES)}."
             )
 
         oc = self.get_ordered_contracts(root_symbol)
@@ -1314,8 +1304,7 @@ class AssetFinder:
         raise NotAssetConvertible("Input was %s, not AssetConvertible." % obj)
 
     def lookup_generic(self, obj, as_of_date, country_code):
-        """
-        Convert an object into an Asset or sequence of Assets.
+        """Convert an object into an Asset or sequence of Assets.
 
         This method exists primarily as a convenience for implementing
         user-facing APIs that can handle multiple kinds of input.  It should
@@ -1415,8 +1404,7 @@ class AssetFinder:
         return Lifetimes(sid, start.astype("i8"), end.astype("i8"))
 
     def lifetimes(self, dates, include_start_date, country_codes):
-        """
-        Compute a DataFrame representing asset lifetimes for the specified date
+        """Compute a DataFrame representing asset lifetimes for the specified date
         range.
 
         Parameters
@@ -1560,8 +1548,7 @@ def was_active(reference_date_value, asset):
 
 
 def only_active_assets(reference_date_value, assets):
-    """
-    Filter an iterable of Asset objects down to just assets that were alive at
+    """Filter an iterable of Asset objects down to just assets that were alive at
     the time corresponding to `reference_date_value`.
 
     Parameters

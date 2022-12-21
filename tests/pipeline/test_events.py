@@ -221,7 +221,7 @@ class TestEventIndexer:
         event_dates = events["event_date"].to_numpy()
         event_timestamps = events["timestamp"].to_numpy()
 
-        all_dates = pd.date_range("2014", "2014-01-31", tz="UTC")
+        all_dates = pd.date_range("2014", "2014-01-31")
         all_sids = np.unique(event_sids)
 
         domain = EquitySessionDomain(
@@ -253,8 +253,9 @@ class TestEventIndexer:
         assert len(relevant_events) == 2
 
         ix1, ix2 = relevant_events.index
-        e1, e2 = relevant_events["event_date"].dt.tz_localize("UTC")
-        t1, t2 = relevant_events["timestamp"].dt.tz_localize("UTC")
+
+        e1, e2 = relevant_events["event_date"]
+        t1, t2 = relevant_events["timestamp"]
 
         for date, computed_index in zip(all_dates, indexer):
             # An event is eligible to be the next event if it's between the
@@ -272,8 +273,8 @@ class TestEventIndexer:
 
 
 class EventsLoaderEmptyTestCase(WithAssetFinder, WithTradingSessions, ZiplineTestCase):
-    START_DATE = pd.Timestamp("2014-01-01", tz="utc")
-    END_DATE = pd.Timestamp("2014-01-30", tz="utc")
+    START_DATE = pd.Timestamp("2014-01-01")
+    END_DATE = pd.Timestamp("2014-01-30")
     ASSET_FINDER_COUNTRY_CODE = "US"
 
     @classmethod
@@ -355,8 +356,8 @@ class EventsLoaderEmptyTestCase(WithAssetFinder, WithTradingSessions, ZiplineTes
 
 
 class EventsLoaderTestCase(WithAssetFinder, WithTradingSessions, ZiplineTestCase):
-    START_DATE = pd.Timestamp("2014-01-01", tz="utc")
-    END_DATE = pd.Timestamp("2014-01-30", tz="utc")
+    START_DATE = pd.Timestamp("2014-01-01")
+    END_DATE = pd.Timestamp("2014-01-30")
     ASSET_FINDER_COUNTRY_CODE = "US"
 
     @classmethod
