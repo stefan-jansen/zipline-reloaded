@@ -13,7 +13,7 @@ from traceback import format_exception
 
 import numpy as np
 import pandas as pd
-import mock
+from unittest import mock
 from numpy.testing import assert_allclose, assert_array_equal
 from sqlalchemy import create_engine
 from testfixtures import TempDirectory

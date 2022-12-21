@@ -16,7 +16,7 @@ from parameterized import parameterized
 
 import pandas as pd
 import numpy as np
-import mock
+from unittest import mock
 from zipline.errors import UnsupportedOrderParameters
 from zipline.sources.requests_csv import mask_requests_args
 from zipline.utils import factory

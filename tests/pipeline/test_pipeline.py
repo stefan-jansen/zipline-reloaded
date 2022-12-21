@@ -1,6 +1,6 @@
 """Tests for zipline.pipeline.Pipeline"""
 
-import mock
+from unittest import mock
 
 from zipline.pipeline import Factor, Filter, Pipeline
 from zipline.pipeline.data import Column, DataSet, USEquityPricing

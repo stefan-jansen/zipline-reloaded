@@ -1,7 +1,7 @@
 """
 Tests for zipline.pipeline.loaders.frame.DataFrameLoader.
 """
-import mock
+from unittest import mock
 import numpy as np
 import pandas as pd
 from numpy.testing import assert_array_equal

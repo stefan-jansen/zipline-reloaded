@@ -87,7 +87,6 @@ test = [
     'pytest-xdist >=2.5.0',
     'pytest-timeout >=1.4.2',
     'parameterized >=0.6.1',
-    'mock >=4.0.3',
     'testfixtures >=4.1.2',
     'flake8 >=3.9.1',
     'matplotlib >=1.5.3',
