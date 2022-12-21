@@ -200,13 +200,13 @@ DEFAULT_BUNDLE = "quandl"
 @click.option(
     "-s",
     "--start",
-    type=Date(tz="utc", as_timestamp=True),
+    type=Date(as_timestamp=True),
     help="The start date of the simulation.",
 )
 @click.option(
     "-e",
     "--end",
-    type=Date(tz="utc", as_timestamp=True),
+    type=Date(as_timestamp=True),
     help="The end date of the simulation.",
 )
 @click.option(
