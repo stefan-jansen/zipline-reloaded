@@ -374,14 +374,20 @@ def _make_bundle_core():
 
         calendar = get_calendar(bundle.calendar_name)
 
-        start_session = bundle.start_session
-        end_session = bundle.end_session
+        start_session, start_session_minute = bundle.start_session, bundle.start_session
+        end_session, end_session_minute = bundle.end_session, bundle.end_session
 
         if start_session is None or start_session < calendar.first_session:
             start_session = calendar.first_session
 
         if end_session is None or end_session > calendar.last_session:
             end_session = calendar.last_session
+
+        if start_session_minute is None or start_session_minute < calendar.first_trading_minute:
+            start_session_minute = calendar.first_trading_minute
+
+        if end_session_minute is None or end_session_minute > calendar.last_trading_minute:
+            end_session_minute = calendar.last_trading_minute
 
         if timestamp is None:
             timestamp = pd.Timestamp.utcnow()
@@ -416,8 +422,8 @@ def _make_bundle_core():
                 minute_bar_writer = BcolzMinuteBarWriter(
                     wd.ensure_dir(*minute_equity_relative(name, timestr)),
                     calendar,
-                    start_session,
-                    end_session,
+                    start_session_minute,
+                    end_session_minute,
                     minutes_per_day=bundle.minutes_per_day,
                 )
                 assets_db_path = wd.getpath(*asset_db_relative(name, timestr))
@@ -449,8 +455,8 @@ def _make_bundle_core():
                 daily_bar_writer,
                 adjustment_db_writer,
                 calendar,
-                start_session,
-                end_session,
+                start_session_minute.ceil("d"),
+                end_session_minute.floor("d"),
                 cache,
                 show_progress,
                 pth.data_path([name, timestr], environ=environ),
