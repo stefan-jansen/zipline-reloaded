@@ -59,11 +59,10 @@ dependencies = [
     'six >=1.10.0',
     'sqlalchemy >=1.0.8A, <2',
     'statsmodels >=0.6.1',
-    'ta-lib >=0.4.09',
+    'ta-lib >=0.4.24',
     'tables >=3.4.3',
     'toolz >=0.8.2',
-    'trading-calendars >=1.6.1',
-    'exchange-calendars <=3.3'
+    'exchange-calendars <=3.4'
 ]
 
 [project.urls]
@@ -89,7 +88,7 @@ test = [
     'pytest-xdist >=2.5.0',
     'pytest-timeout >=1.4.2',
     'parameterized >=0.6.1',
-    'mock >=2.0.0p',
+    'mock >=2.0.0',
     'testfixtures >=4.1.2',
     'flake8 >=3.9.1',
     'matplotlib >=1.5.3',
@@ -199,5 +198,5 @@ deps =
     pandas15: pandas>=1.5.0,<1.6
 
 commands =
-    pytest -n 4 --reruns 5 --cov={toxinidir}/src --cov-report term  --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
+    pytest -n logical --reruns 2 --cov={toxinidir}/src --cov-report term  --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
 """
