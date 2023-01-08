@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest , windows-latest, macos-latest ]
-        python: [ 37, 38, 39, '310' ]
+        python: [ 38, 39, '310' ]
         arch: [ auto64 ]
 
     steps:
