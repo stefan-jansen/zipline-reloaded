@@ -43,7 +43,7 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: >
             ./tools/install_talib.sh
           CIBW_BEFORE_TEST_MACOS: 'brew install ta-lib postgresql'
-          CIBW_BEFORE_TEST_LINUS: 'apt -y install postgresql'
+          CIBW_BEFORE_TEST_LINUS: 'apt -y install libpq-dev python3-dev'
           CIBW_ARCHS_LINUX: ${{ matrix.arch }}
           CIBW_ARCHS_MACOS: x86_64 arm64
           CIBW_BUILD: "cp${{ matrix.python }}-*"
