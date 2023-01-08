@@ -138,7 +138,6 @@ testpaths = 'tests'
 addopts = '-v'
 
 [tool.cibuildwheel]
-skip = ["cp37-macosx_arm64", "cp37-macosx_universal2"]
 test-extras = "test"
 test-command = "pytest -n 8 --reruns 5 {package}/tests"
 build-verbosity = 3
@@ -170,7 +169,7 @@ exclude = '''
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py{38,39,310,311}-pandas{12,13,14,15}
+envlist = py{38,39,310}-pandas{12,13,14,15}
 isolated_build = True
 skip_missing_interpreters = True
 minversion = 3.23.0
@@ -180,7 +179,6 @@ python =
     3.8: py38
     3.9: py39
     3.10: py310
-    3.11: py311
 
 [testenv]
 usedevelop = True
