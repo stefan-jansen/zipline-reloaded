@@ -139,7 +139,7 @@ addopts = '-v'
 
 [tool.cibuildwheel]
 test-extras = "test"
-test-command = "pytest -n 8 --reruns 5 {package}/tests"
+test-command = "pytest {package}/tests"
 build-verbosity = 3
 
 [tool.cibuildwheel.macos]
