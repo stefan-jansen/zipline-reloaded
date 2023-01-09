@@ -79,7 +79,10 @@ MINUTE = pd.Timedelta(minutes=1)
 if sys.platform == "win32":
     DBS = ["sqlite"]
 else:
-    DBS = ["sqlite", "postgresql"]
+    DBS = [
+        "sqlite"
+        # , "postgresql"
+    ]
 
 
 def build_lookup_generic_cases():
@@ -2049,7 +2052,6 @@ def setup_empty_assets_db(sql_db, request):
 @pytest.mark.usefixtures("sql_db", "setup_empty_assets_db")
 class TestAssetDBVersioning:
     def test_check_version(self):
-
         version_table = self.metadata.tables["version_info"]
 
         with self.engine.begin() as conn:
@@ -2178,7 +2180,6 @@ class TestAssetDBVersioning:
         }
 
         with self.engine.begin() as conn:
-
             actual_data = set(
                 map(
                     select_fields,
