@@ -31,7 +31,13 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Setup PostgreSQL
-        uses: ikalnytskyi/action-setup-postgres@v4
+      - uses: ikalnytskyi/action-setup-postgres@v4
+        with:
+          username: ci
+          password: test
+          database: test
+          port: 34837
+        id: postgres
 
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
