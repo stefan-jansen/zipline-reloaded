@@ -44,7 +44,10 @@ jobs:
             ./tools/install_talib.sh
           CIBW_BEFORE_TEST_MACOS: brew install ta-lib postgresql
           CIBW_BEFORE_TEST_LINUX: >
-            systemctl start postgresql.service && pg_isready
+            yum install -y postgresql-server postgresql-contrib
+            && postgresql-setup initdb
+            && systemctl start postgresql
+            && pg_isready
           CIBW_ARCHS_LINUX: ${{ matrix.arch }}
           CIBW_ARCHS_MACOS: x86_64 arm64
           CIBW_BUILD: "cp${{ matrix.python }}-*"
