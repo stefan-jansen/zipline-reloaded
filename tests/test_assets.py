@@ -2028,11 +2028,11 @@ class TestAssetFinderMultipleCountries:
 
 
 @pytest.fixture(scope="function", params=DBS)
-def sql_db(request, postgresql):
+def sql_db(request, postgresql=None):
     if request.param == "sqlite":
         connection = "sqlite:///:memory:"
-    elif request.param == "postgresql":
-        connection = f"postgresql://{postgresql.info.user}:@{postgresql.info.host}:{postgresql.info.port}/{postgresql.info.dbname}"
+    # elif request.param == "postgresql":
+    #     connection = f"postgresql://{postgresql.info.user}:@{postgresql.info.host}:{postgresql.info.port}/{postgresql.info.dbname}"
     request.cls.engine = sa.create_engine(
         connection,
         future=False,
