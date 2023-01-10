@@ -1,8 +1,8 @@
 [project]
 name = 'zipline-reloaded'
-version = '2.3'
 description = 'A Pythonic backtester for trading algorithms'
 readme = 'README.md'
+dynamic = ["version"]
 
 authors = [
     { name = 'Quantopian Inc' },
@@ -38,7 +38,7 @@ dependencies = [
     'bottleneck >=1.0.0',
     'click >=4.0.0',
     'empyrical-reloaded >=0.5.7',
-    'h5py >=2.7.1',
+    'h5py >=2.7.1', # currently requires installation from source for Python 3.11
     'intervaltree >=2.1.0',
     'iso3166 >=2.1.1',
     'iso4217 >=1.6.20180829',
@@ -94,8 +94,9 @@ test = [
     'click <8.1.0',
     'coverage',
     'pytest-rerunfailures',
-#    'psycopg2',
-#    'pytest-postgresql ==3.1.3'
+    # the following are required to run tests using PostgreSQL instead of SQLite
+    #    'psycopg2',
+    #    'pytest-postgresql ==3.1.3'
 ]
 dev = [
     'flake8 >=3.9.1',
