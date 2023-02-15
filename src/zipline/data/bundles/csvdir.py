@@ -198,7 +198,6 @@ def _pricing_iter(csvdir, symbols, metadata, divs_splits, show_progress):
         fnames = {
             f.name.split(".")[0]: f.name
             for f in files
-            if f.is_file() and f.name.split(".")[0] in it
         }
 
         for sid, symbol in enumerate(it):
