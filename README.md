@@ -36,8 +36,6 @@ If your system meets the pre-requisites described in the [installation instructi
 pip install zipline-reloaded
 ```
 
-> **Note:** Installation under Python 3.11 requires building `h5py` [from source](https://docs.h5py.org/en/stable/build.html#source-installation) until [wheels become available](https://github.com/h5py/h5py/issues/2146).
-
 Alternatively, if you are using the [Anaconda](https://www.anaconda.com/products/individual) or [miniconda](https://docs.conda.io/en/latest/miniconda.html) distributions, you can use
 
 > **Note:** We are currently working to transition the conda package to [conda-forge](https://conda-forge.org/docs/index.html).
