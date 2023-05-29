@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import talib
 from numpy.random import RandomState
 
 from zipline.lib.adjusted_array import AdjustedArray
@@ -37,6 +36,9 @@ class BollingerBandsTestCase(BaseUSEquityPipelineTestCase):
 
         This uses talib.BBANDS to generate the expected data.
         """
+
+        import talib
+
         lower_cols = []
         middle_cols = []
         upper_cols = []
@@ -199,6 +201,9 @@ class TestFastStochasticOscillator:
         Test the output that is returned from the fast stochastic oscillator
         is the same as that from the ta-lib STOCHF function.
         """
+
+        import talib
+
         window_length = 14
         nassets = 6
         rng = np.random.RandomState(seed=seed)
@@ -560,6 +565,7 @@ class TestRSI:
         ],
     )
     def test_rsi(self, seed_value, expected):
+        pytest.importorskip("talib")
 
         rsi = RSI()
 
@@ -580,6 +586,7 @@ class TestRSI:
         RSI indicator should be 100 in the case of 14 days of positive returns.
         """
 
+        pytest.importorskip("talib")
         rsi = RSI()
 
         today = np.datetime64(1, "ns")
@@ -595,6 +602,8 @@ class TestRSI:
         """
         RSI indicator should be 0 in the case of 14 days of negative returns.
         """
+        pytest.importorskip("talib")
+
         rsi = RSI()
 
         today = np.datetime64(1, "ns")
@@ -612,6 +621,8 @@ class TestRSI:
         RSI indicator should be the same for two price series with the same
         returns, even if the prices are different.
         """
+        pytest.importorskip("talib")
+
         rsi = RSI()
 
         today = np.datetime64(1, "ns")

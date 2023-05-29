@@ -71,6 +71,57 @@ jobs:
           python -VV
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install tox tox-gh-actions
+          python -m pip install ta-lib>=0.4.09
+          python -m pip install .[test]
+
+      - name: Unittests with tox & pytest
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 90
+          max_attempts: 3
+          retry_on: error
+          new_command_on_retry: python -m pip install tox tox-gh-actions .[test]
+          command: tox -e py310-pandas15
+
+      - name: Upload coverage data to Codecov
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: false
+          name: codecov-umbrella
+          verbose: true
+
+  tests_notalib:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.10"]
+
+    steps:
+      - name: Checkout Zipline
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Developer Command Prompt for Microsoft Visual C++
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Install TA-Lib Windows
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          ./tools/install_talib.bat
+
+      - name: Install Zipline
+        run: |
+          python -VV
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install tox tox-gh-actions
+          python -m pip install tox tox-gh-actions
           python -m pip install .[test]
 
       - name: Unittests with tox & pytest

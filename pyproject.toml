@@ -57,7 +57,6 @@ dependencies = [
     'six >=1.10.0',
     'sqlalchemy >=1.0.8A, <2',
     'statsmodels >=0.6.1',
-    'ta-lib >=0.4.09',
     'tables >=3.4.3',
     'toolz >=0.8.2',
     'exchange-calendars >=4.2.4'
