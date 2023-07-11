@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest , windows-latest, macos-latest ]
-        python-version: [ 38, 39, 310, 311 ]
+        python: [ 38, 39, 310, 311 ]
         arch: [ auto64 ]
 
     steps:
@@ -29,7 +29,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ matrix.python }}
 
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
@@ -45,7 +45,7 @@ jobs:
           CIBW_BEFORE_ALL_MACOS: brew install ta-lib
           CIBW_ARCHS_LINUX: ${{ matrix.arch }}
           CIBW_ARCHS_MACOS: x86_64 arm64
-          CIBW_BUILD: "cp${{ matrix.python-version }}-*"
+          CIBW_BUILD: "cp${{ matrix.python }}-*"
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=10.15
 
@@ -58,7 +58,7 @@ jobs:
         if: runner.os == 'Windows'
         uses: pypa/cibuildwheel@v2.14.0
         env:
-          CIBW_BUILD: "cp${{ matrix.python-version }}-win_amd64"
+          CIBW_BUILD: "cp${{ matrix.python }}-win_amd64"
           CIBW_TEST_SKIP: "cp311-win_amd64"
           CIBW_BEFORE_TEST_WINDOWS: >
             call "c:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64 &&
