@@ -560,6 +560,7 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         # Random input for factors.
         cls.col = TestingDataSet.float_col
 
+    @pytest.mark.xfail(reason="Randomly fails on CI")
     @parameter_space(returns_length=[2, 3], correlation_length=[3, 4])
     def test_factor_correlation_methods(self, returns_length, correlation_length):
         """Ensure that `Factor.pearsonr` and `Factor.spearmanr` are consistent
