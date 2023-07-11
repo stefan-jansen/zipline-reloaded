@@ -26,10 +26,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python }}
+#      - name: Setup Python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: ${{ matrix.python }}
 
       - name: Set Xcode version
         uses: maxim-lobanov/setup-xcode@v1
@@ -59,7 +59,6 @@ jobs:
         uses: pypa/cibuildwheel@v2.14.0
         env:
           CIBW_BUILD: "${{ matrix.python }}-win_amd64"
-          #          CIBW_TEST_SKIP: "cp311-win_amd64"
           CIBW_BEFORE_TEST_WINDOWS: >
             call "c:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64 &&
             call ./tools/install_talib.bat
@@ -81,7 +80,7 @@ jobs:
       - uses: actions/setup-python@v4
         name: Install Python
         with:
-          python-version: '3.x'
+          python-version: '3.11'
 
       - name: Build sdist
         run: |
