@@ -154,7 +154,7 @@ archs = ["auto64"]
 skip = "*musllinux*"
 
 [tool.cibuildwheel.windows]
-test-command = "pytest -x --reruns 5 -k 'not daily_returns_is_special_case' {package}/tests"
+test-command = "pytest -k 'not daily_returns_is_special_case_of_returns' --reruns 5 {package}/tests"
 
 [tool.black]
 line-length = 88
