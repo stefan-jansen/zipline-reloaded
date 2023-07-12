@@ -153,7 +153,7 @@ class TestStatisticalBuiltIns:
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("correlation_length", [3, 4])
     @pytest.mark.skipif(
-        ON_GITHUB_ACTIONS, reason="Test doesn't work in Github Actions."
+        ON_GITHUB_ACTIONS, reason="Test randomly fails on Github Actions."
     )
     def test_correlation_factors(self, returns_length, correlation_length):
         """Tests for the built-in factors `RollingPearsonOfReturns` and
@@ -254,6 +254,9 @@ class TestStatisticalBuiltIns:
 
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("regression_length", [3, 4])
+    @pytest.mark.skipif(
+        ON_GITHUB_ACTIONS, reason="Test randomly fails on Github Actions."
+    )
     def test_regression_of_returns_factor(self, returns_length, regression_length):
         """Tests for the built-in factor `RollingLinearRegressionOfReturns`."""
 

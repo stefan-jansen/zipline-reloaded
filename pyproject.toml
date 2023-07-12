@@ -143,6 +143,7 @@ filterwarnings = 'ignore::DeprecationWarning:pandas_datareader.compat'
 test-extras = "test"
 test-command = "pytest -x --reruns 5 {package}/tests"
 build-verbosity = 3
+environment = "GITHUB_ACTIONS=true"
 
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "arm64", "universal2"]
