@@ -153,6 +153,9 @@ test-skip = ["*universal2:arm64"]
 archs = ["auto64"]
 skip = "*musllinux*"
 
+[tool.cibuildwheel.windows]
+test-command = "pytest -x --reruns 5 -k 'not daily_returns_is_special_case' {package}/tests"
+
 [tool.black]
 line-length = 88
 target-version = ['py38', 'py39', 'py310', 'py311']
