@@ -141,7 +141,7 @@ filterwarnings = 'ignore::DeprecationWarning:pandas_datareader.compat'
 
 [tool.cibuildwheel]
 test-extras = "test"
-test-command = "pytest --reruns 5 {package}/tests"
+test-command = "pytest -x --reruns 5 {package}/tests"
 build-verbosity = 3
 
 [tool.cibuildwheel.macos]
