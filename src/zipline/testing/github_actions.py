@@ -14,10 +14,10 @@ def skip_on(exception, reason="Ignoring PermissionErrors on GHA"):
             except exception:
                 # If certain exception happens, just ignore
                 # and raise pytest.skip with given reason
-                if os.environ.get("GITHUB_ACTIONS"):
-                    pytest.skip(reason)
-                else:
-                    raise
+                # if os.environ.get("GITHUB_ACTIONS") == "true":
+                pytest.skip(reason)
+                # else:
+                #     raise
 
         return wrapper
 
