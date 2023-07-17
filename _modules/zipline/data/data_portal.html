@@ -1,188 +1,485 @@
 
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.data.data_portal &#8212; Zipline 2.2.0 documentation</title>
-    
-  <link href="../../../_static/css/theme.css" rel="stylesheet" />
-  <link href="../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
-
-    
-  <link rel="stylesheet"
-    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    
-      
-
-    
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css" />
-    
-  <link rel="preload" as="script" href="../../../_static/js/index.1c5a1a01449ed65a7b51.js">
-
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <link rel="shortcut icon" href="../../../_static/zipline.ico"/>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
-    
-  </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
-
-  <div id="navbar-start">
-    
-    
-<a class="navbar-brand" href="../../../index.html">
-<p class="title">Zipline</p>
-</a>
-
-    
-  </div>
-
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <title>zipline.data.data_portal &#8212; Zipline 3.0 docs</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
-    <div id="navbar-center" class="mr-auto">
-      
-      <div class="navbar-center-item">
-        <ul id="navbar-main-elements" class="navbar-nav">
-    <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../install.html">
-  Installation
- </a>
-</li>
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../beginner-tutorial.html">
-  Tutorial
- </a>
-</li>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../bundles.html">
-  Data
- </a>
-</li>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/zipline/data/data_portal';</script>
+    <link rel="icon" href="../../../_static/zipline.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../trading-calendars.html">
-  Calendars
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../risk-and-perf-metrics.html">
-  Metrics
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../development-guidelines.html">
-  Development
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../api-reference.html">
-  API
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../releases.html">
-  Releases
- </a>
-</li>
-
-    
-    <li class="nav-item">
-        <a class="nav-link nav-external" href="https://ml4trading.io">ML for Trading<i class="fas fa-external-link-alt"></i></a>
-    </li>
-    
-    <li class="nav-item">
-        <a class="nav-link nav-external" href="https://exchange.ml4trading.io">Community<i class="fas fa-external-link-alt"></i></a>
-    </li>
-    
-</ul>
-      </div>
-      
-    </div>
-
-    <div id="navbar-end">
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-        <li class="nav-item">
-          <a class="nav-link" href="https://github.com/stefan-jansen/zipline-reloaded" rel="noopener" target="_blank" title="GitHub">
-            <span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://twitter.com/ml4trading" rel="noopener" target="_blank" title="Twitter">
-            <span><i class="fab fa-twitter-square"></i></span>
-            <label class="sr-only">Twitter</label>
-          </a>
-        </li>
-      </ul>
-      </div>
-      
-    </div>
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
   </div>
-</div>
-    </nav>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
     
+      <div class="navbar-item">
+  
 
-    <div class="container-xl">
-      <div class="row">
-          
-            
-            <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <div class="bd-toc-item active">
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Zipline 3.0 docs</p>
+  
+</a></div>
     
   </div>
-</nav>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
+                        Tutorial
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../bundles.html">
+                        Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../trading-calendars.html">
+                        Calendars
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../risk-and-perf-metrics.html">
+                        Metrics
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../development-guidelines.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../api-reference.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases.html">
+                        Releases
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://ml4trading.io">
+                    ML for Trading
+                  </a>
+                </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
+                    Community
+                  </a>
+                </li>
+                
+                </div>
             </div>
             
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
           
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
 
-          
-          <div class="d-none d-xl-block col-xl-2 bd-toc">
-            
-          </div>
-          
+  
+</div>
 
-          
-          
-            
-          
-          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
-              
-              <div>
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../install.html">
+                        Installation
+                      </a>
+                    </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
+                        Tutorial
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../bundles.html">
+                        Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../trading-calendars.html">
+                        Calendars
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../risk-and-perf-metrics.html">
+                        Metrics
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../development-guidelines.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../api-reference.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases.html">
+                        Releases
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://ml4trading.io">
+                    ML for Trading
+                  </a>
+                </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
+                    Community
+                  </a>
+                </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">zipline.data.data_portal</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <h1>Source code for zipline.data.data_portal</h1><div class="highlight"><pre>
 <span></span><span class="c1">#</span>
 <span class="c1"># Copyright 2016 Quantopian, Inc.</span>
@@ -200,7 +497,7 @@
 <span class="c1"># limitations under the License.</span>
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">mul</span>
 
-<span class="kn">from</span> <span class="nn">logbook</span> <span class="kn">import</span> <span class="n">Logger</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float64</span><span class="p">,</span> <span class="n">int64</span><span class="p">,</span> <span class="n">nan</span>
@@ -240,11 +537,10 @@
 <span class="kn">from</span> <span class="nn">zipline.data.bar_reader</span> <span class="kn">import</span> <span class="n">NoDataOnDate</span>
 
 <span class="kn">from</span> <span class="nn">zipline.utils.memoize</span> <span class="kn">import</span> <span class="n">remember_last</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.pandas_utils</span> <span class="kn">import</span> <span class="n">normalize_date</span>
 <span class="kn">from</span> <span class="nn">zipline.errors</span> <span class="kn">import</span> <span class="n">HistoryWindowStartsBeforeData</span>
 
 
-<span class="n">log</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span><span class="s2">&quot;DataPortal&quot;</span><span class="p">)</span>
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;DataPortal&quot;</span><span class="p">)</span>
 
 <span class="n">BASE_FIELDS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
     <span class="p">[</span>
@@ -273,8 +569,8 @@
 <span class="n">_DEF_D_HIST_PREFETCH</span> <span class="o">=</span> <span class="n">DEFAULT_DAILY_HISTORY_PREFETCH</span>
 
 
-<div class="viewcode-block" id="DataPortal"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal">[docs]</a><span class="k">class</span> <span class="nc">DataPortal</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Interface to all of the data that a zipline simulation needs.</span>
+<div class="viewcode-block" id="DataPortal"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal">[docs]</a><span class="k">class</span> <span class="nc">DataPortal</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface to all of the data that a zipline simulation needs.</span>
 
 <span class="sd">    This is used by the simulation runner to answer questions about the data,</span>
 <span class="sd">    like getting the prices of assets on a given day or to service history</span>
@@ -330,7 +626,6 @@
         <span class="n">minute_history_prefetch_length</span><span class="o">=</span><span class="n">_DEF_M_HIST_PREFETCH</span><span class="p">,</span>
         <span class="n">daily_history_prefetch_length</span><span class="o">=</span><span class="n">_DEF_D_HIST_PREFETCH</span><span class="p">,</span>
     <span class="p">):</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span> <span class="o">=</span> <span class="n">trading_calendar</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">asset_finder</span> <span class="o">=</span> <span class="n">asset_finder</span>
@@ -434,7 +729,7 @@
         <span class="p">}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_daily_aggregator</span> <span class="o">=</span> <span class="n">DailyHistoryAggregator</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">schedule</span><span class="o">.</span><span class="n">market_open</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">first_minutes</span><span class="p">,</span>
             <span class="n">_dispatch_minute_reader</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="p">,</span>
         <span class="p">)</span>
@@ -458,15 +753,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_day</span> <span class="o">=</span> <span class="n">first_trading_day</span>
 
         <span class="c1"># Get the first trading minute</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_minute</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">open_and_close_for_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_day</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_minute</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">session_first_minute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_day</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_day</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="k">else</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="c1"># Store the locs of the first day and first minute</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_day_loc</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">all_sessions</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_day</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">sessions</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_day</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_day</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
@@ -496,8 +791,7 @@
         <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">source_date_index</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;ffill&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DataPortal.handle_extra_source"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal.handle_extra_source">[docs]</a>    <span class="k">def</span> <span class="nf">handle_extra_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_df</span><span class="p">,</span> <span class="n">sim_params</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Extra sources always have a sid column.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extra sources always have a sid column.</span>
 
 <span class="sd">        We expand the given data (by forward filling) to the full range of</span>
 <span class="sd">        the simulation dates, so that lookup is fast during simulation.</span>
@@ -506,7 +800,7 @@
             <span class="k">return</span>
 
         <span class="c1"># Normalize all the dates in the df</span>
-        <span class="n">source_df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">source_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+        <span class="n">source_df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">source_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
         <span class="c1"># source_df&#39;s sid column can either consist of assets we know about</span>
         <span class="c1"># (such as sid(24)) or of assets we don&#39;t know about (such as</span>
@@ -562,7 +856,7 @@
 
             <span class="c1"># Append to extra_source_df the reindexed dataframe for the single</span>
             <span class="c1"># sid</span>
-            <span class="n">extra_source_df</span> <span class="o">=</span> <span class="n">extra_source_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="n">extra_source_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">extra_source_df</span><span class="p">,</span> <span class="n">df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_extra_source_df</span> <span class="o">=</span> <span class="n">extra_source_df</span></div>
 
@@ -570,8 +864,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pricing_readers</span><span class="p">[</span><span class="n">data_frequency</span><span class="p">]</span>
 
 <div class="viewcode-block" id="DataPortal.get_last_traded_dt"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal.get_last_traded_dt">[docs]</a>    <span class="k">def</span> <span class="nf">get_last_traded_dt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">data_frequency</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Given an asset and dt, returns the last traded dt from the viewpoint</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Given an asset and dt, returns the last traded dt from the viewpoint</span>
 <span class="sd">        of the given dt.</span>
 
 <span class="sd">        If there is a trade on the dt, the answer is dt provided.</span>
@@ -580,8 +873,7 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_is_extra_source</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="nb">map</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Internal method that determines if this asset/field combination</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal method that determines if this asset/field combination</span>
 <span class="sd">        represents a fetcher value or a regular OHLCVP lookup.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># If we have an extra source with a column called &quot;price&quot;, only look</span>
@@ -593,7 +885,8 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_fetcher_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
-        <span class="n">day</span> <span class="o">=</span> <span class="n">normalize_date</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+        <span class="c1"># TODO: FIX TZ MESS</span>
+        <span class="n">day</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_augmented_sources_map</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="n">asset</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">day</span><span class="p">,</span> <span class="n">field</span><span class="p">]</span>
@@ -608,7 +901,7 @@
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Invalid column: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">field</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="p">(</span>
-            <span class="n">dt</span> <span class="o">&lt;</span> <span class="n">asset</span><span class="o">.</span><span class="n">start_date</span>
+            <span class="n">dt</span> <span class="o">&lt;</span> <span class="n">asset</span><span class="o">.</span><span class="n">start_date</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">tzinfo</span><span class="p">)</span>
             <span class="ow">or</span> <span class="p">(</span><span class="n">data_frequency</span> <span class="o">==</span> <span class="s2">&quot;daily&quot;</span> <span class="ow">and</span> <span class="n">session_label</span> <span class="o">&gt;</span> <span class="n">asset</span><span class="o">.</span><span class="n">end_date</span><span class="p">)</span>
             <span class="ow">or</span> <span class="p">(</span><span class="n">data_frequency</span> <span class="o">==</span> <span class="s2">&quot;minute&quot;</span> <span class="ow">and</span> <span class="n">session_label</span> <span class="o">&gt;</span> <span class="n">asset</span><span class="o">.</span><span class="n">end_date</span><span class="p">)</span>
         <span class="p">):</span>
@@ -644,8 +937,7 @@
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_minute_spot_value</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DataPortal.get_spot_value"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal.get_spot_value">[docs]</a>    <span class="k">def</span> <span class="nf">get_spot_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">data_frequency</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Public API method that returns a scalar value representing the value</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Public API method that returns a scalar value representing the value</span>
 <span class="sd">        of the desired asset&#39;s field at either the given dt.</span>
 
 <span class="sd">        Parameters</span>
@@ -678,12 +970,12 @@
             <span class="c1"># an iterable.</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="nb">iter</span><span class="p">(</span><span class="n">assets</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                     <span class="s2">&quot;Unexpected &#39;assets&#39; value of type </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">assets</span><span class="p">))</span>
-                <span class="p">)</span>
+                <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
 
-        <span class="n">session_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">minute_to_session_label</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+        <span class="n">session_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">minute_to_session</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">assets_is_scalar</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_single_asset_value</span><span class="p">(</span>
@@ -707,8 +999,7 @@
             <span class="p">]</span></div>
 
 <div class="viewcode-block" id="DataPortal.get_scalar_asset_spot_value"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal.get_scalar_asset_spot_value">[docs]</a>    <span class="k">def</span> <span class="nf">get_scalar_asset_spot_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">data_frequency</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Public API method that returns a scalar value representing the value</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Public API method that returns a scalar value representing the value</span>
 <span class="sd">        of the desired asset&#39;s field at either the given dt.</span>
 
 <span class="sd">        Parameters</span>
@@ -735,7 +1026,7 @@
 <span class="sd">            &#39;last_traded&#39; the value will be a Timestamp.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_single_asset_value</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">minute_to_session_label</span><span class="p">(</span><span class="n">dt</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">minute_to_session</span><span class="p">(</span><span class="n">dt</span><span class="p">),</span>
             <span class="n">asset</span><span class="p">,</span>
             <span class="n">field</span><span class="p">,</span>
             <span class="n">dt</span><span class="p">,</span>
@@ -743,8 +1034,7 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataPortal.get_adjustments"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal.get_adjustments">[docs]</a>    <span class="k">def</span> <span class="nf">get_adjustments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">perspective_dt</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a list of adjustments between the dt and perspective_dt for the</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of adjustments between the dt and perspective_dt for the</span>
 <span class="sd">        given field and list of assets</span>
 
 <span class="sd">        Parameters</span>
@@ -778,9 +1068,9 @@
                 <span class="n">asset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_splits_dict</span><span class="p">,</span> <span class="s2">&quot;SPLITS&quot;</span>
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">adj_dt</span><span class="p">,</span> <span class="n">adj</span> <span class="ow">in</span> <span class="n">split_adjustments</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">dt</span> <span class="o">&lt;</span> <span class="n">adj_dt</span> <span class="o">&lt;=</span> <span class="n">perspective_dt</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">dt</span> <span class="o">&lt;</span> <span class="n">adj_dt</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">tzinfo</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">perspective_dt</span><span class="p">:</span>
                     <span class="n">adjustments_for_asset</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">split_adj_factor</span><span class="p">(</span><span class="n">adj</span><span class="p">))</span>
-                <span class="k">elif</span> <span class="n">adj_dt</span> <span class="o">&gt;</span> <span class="n">perspective_dt</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="n">adj_dt</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">tzinfo</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">perspective_dt</span><span class="p">:</span>
                     <span class="k">break</span>
 
             <span class="k">if</span> <span class="n">field</span> <span class="o">!=</span> <span class="s2">&quot;volume&quot;</span><span class="p">:</span>
@@ -799,9 +1089,9 @@
                     <span class="s2">&quot;DIVIDENDS&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">for</span> <span class="n">adj_dt</span><span class="p">,</span> <span class="n">adj</span> <span class="ow">in</span> <span class="n">dividend_adjustments</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">dt</span> <span class="o">&lt;</span> <span class="n">adj_dt</span> <span class="o">&lt;=</span> <span class="n">perspective_dt</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">dt</span> <span class="o">&lt;</span> <span class="n">adj_dt</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">tzinfo</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">perspective_dt</span><span class="p">:</span>
                         <span class="n">adjustments_for_asset</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">adj</span><span class="p">)</span>
-                    <span class="k">elif</span> <span class="n">adj_dt</span> <span class="o">&gt;</span> <span class="n">perspective_dt</span><span class="p">:</span>
+                    <span class="k">elif</span> <span class="n">adj_dt</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">tzinfo</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">perspective_dt</span><span class="p">:</span>
                         <span class="k">break</span>
 
             <span class="n">ratio</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">adjustments_for_asset</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
@@ -812,8 +1102,7 @@
 <div class="viewcode-block" id="DataPortal.get_adjusted_value"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal.get_adjusted_value">[docs]</a>    <span class="k">def</span> <span class="nf">get_adjusted_value</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">perspective_dt</span><span class="p">,</span> <span class="n">data_frequency</span><span class="p">,</span> <span class="n">spot_value</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a scalar value representing the value</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a scalar value representing the value</span>
 <span class="sd">        of the desired asset&#39;s field at the given dt with adjustments applied.</span>
 
 <span class="sd">        Parameters</span>
@@ -937,7 +1226,7 @@
 
     <span class="nd">@remember_last</span>
     <span class="k">def</span> <span class="nf">_get_days_for_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">bar_count</span><span class="p">):</span>
-        <span class="n">tds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">all_sessions</span>
+        <span class="n">tds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">sessions</span>
         <span class="n">end_loc</span> <span class="o">=</span> <span class="n">tds</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">end_date</span><span class="p">)</span>
         <span class="n">start_loc</span> <span class="o">=</span> <span class="n">end_loc</span> <span class="o">-</span> <span class="n">bar_count</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">start_loc</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_day_loc</span><span class="p">:</span>
@@ -951,11 +1240,10 @@
     <span class="k">def</span> <span class="nf">_get_history_daily_window</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">end_dt</span><span class="p">,</span> <span class="n">bar_count</span><span class="p">,</span> <span class="n">field_to_use</span><span class="p">,</span> <span class="n">data_frequency</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Internal method that returns a dataframe containing history bars</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal method that returns a dataframe containing history bars</span>
 <span class="sd">        of daily frequency for the given sids.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">minute_to_session_label</span><span class="p">(</span><span class="n">end_dt</span><span class="p">)</span>
+        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">minute_to_session</span><span class="p">(</span><span class="n">end_dt</span><span class="p">)</span>
         <span class="n">days_for_window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_days_for_window</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">bar_count</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">assets</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -1007,13 +1295,13 @@
         <span class="n">cal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span>
 
         <span class="n">first_trading_minute_loc</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">cal</span><span class="o">.</span><span class="n">all_minutes</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_minute</span><span class="p">)</span>
+            <span class="n">cal</span><span class="o">.</span><span class="n">minutes</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_minute</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_first_trading_minute</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
 
-        <span class="n">suggested_start_day</span> <span class="o">=</span> <span class="n">cal</span><span class="o">.</span><span class="n">minute_to_session_label</span><span class="p">(</span>
-            <span class="n">cal</span><span class="o">.</span><span class="n">all_minutes</span><span class="p">[</span><span class="n">first_trading_minute_loc</span> <span class="o">+</span> <span class="n">bar_count</span><span class="p">]</span> <span class="o">+</span> <span class="n">cal</span><span class="o">.</span><span class="n">day</span>
+        <span class="n">suggested_start_day</span> <span class="o">=</span> <span class="n">cal</span><span class="o">.</span><span class="n">minute_to_session</span><span class="p">(</span>
+            <span class="n">cal</span><span class="o">.</span><span class="n">minutes</span><span class="p">[</span><span class="n">first_trading_minute_loc</span> <span class="o">+</span> <span class="n">bar_count</span><span class="p">]</span> <span class="o">+</span> <span class="n">cal</span><span class="o">.</span><span class="n">day</span>
         <span class="p">)</span>
 
         <span class="k">raise</span> <span class="n">HistoryWindowStartsBeforeData</span><span class="p">(</span>
@@ -1023,8 +1311,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_history_minute_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">end_dt</span><span class="p">,</span> <span class="n">bar_count</span><span class="p">,</span> <span class="n">field_to_use</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Internal method that returns a dataframe containing history bars</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal method that returns a dataframe containing history bars</span>
 <span class="sd">        of minute frequency for the given sids.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># get all the minutes for this window</span>
@@ -1049,8 +1336,7 @@
 <div class="viewcode-block" id="DataPortal.get_history_window"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal.get_history_window">[docs]</a>    <span class="k">def</span> <span class="nf">get_history_window</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">end_dt</span><span class="p">,</span> <span class="n">bar_count</span><span class="p">,</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">data_frequency</span><span class="p">,</span> <span class="n">ffill</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Public API method that returns a dataframe containing the requested</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Public API method that returns a dataframe containing the requested</span>
 <span class="sd">        history window.  Data is fully adjusted.</span>
 
 <span class="sd">        Parameters</span>
@@ -1080,10 +1366,10 @@
 <span class="sd">        A dataframe containing the requested data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">field</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">OHLCVP_FIELDS</span> <span class="ow">and</span> <span class="n">field</span> <span class="o">!=</span> <span class="s2">&quot;sid&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid field: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">field</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid field: </span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">bar_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;bar_count must be &gt;= 1, but got </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bar_count</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;bar_count must be &gt;= 1, but got </span><span class="si">{</span><span class="n">bar_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">frequency</span> <span class="o">==</span> <span class="s2">&quot;1d&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">field</span> <span class="o">==</span> <span class="s2">&quot;price&quot;</span><span class="p">:</span>
@@ -1100,7 +1386,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_history_minute_window</span><span class="p">(</span><span class="n">assets</span><span class="p">,</span> <span class="n">end_dt</span><span class="p">,</span> <span class="n">bar_count</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid frequency: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">frequency</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid frequency: </span><span class="si">{</span><span class="n">frequency</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="c1"># forward-fill price</span>
         <span class="k">if</span> <span class="n">field</span> <span class="o">==</span> <span class="s2">&quot;price&quot;</span><span class="p">:</span>
@@ -1152,15 +1438,17 @@
             <span class="c1"># end_date.</span>
             <span class="n">normed_index</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">history_end</span> <span class="o">&gt;=</span> <span class="n">asset</span><span class="o">.</span><span class="n">end_date</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">history_end</span> <span class="o">&gt;=</span> <span class="n">asset</span><span class="o">.</span><span class="n">end_date</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="n">history_end</span><span class="o">.</span><span class="n">tzinfo</span><span class="p">):</span>
                     <span class="c1"># if the window extends past the asset&#39;s end date, set</span>
                     <span class="c1"># all post-end-date values to NaN in that asset&#39;s series</span>
-                    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">normed_index</span> <span class="o">&gt;</span> <span class="n">asset</span><span class="o">.</span><span class="n">end_date</span><span class="p">,</span> <span class="n">asset</span><span class="p">]</span> <span class="o">=</span> <span class="n">nan</span>
+                    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                        <span class="n">normed_index</span> <span class="o">&gt;</span> <span class="n">asset</span><span class="o">.</span><span class="n">end_date</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="n">normed_index</span><span class="o">.</span><span class="n">tz</span><span class="p">),</span>
+                        <span class="n">asset</span><span class="p">,</span>
+                    <span class="p">]</span> <span class="o">=</span> <span class="n">nan</span>
         <span class="k">return</span> <span class="n">df</span></div>
 
     <span class="k">def</span> <span class="nf">_get_minute_window_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">minutes_for_window</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Internal method that gets a window of adjusted minute data for an asset</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal method that gets a window of adjusted minute data for an asset</span>
 <span class="sd">        and specified date range.  Used to support the history API method for</span>
 <span class="sd">        minute bars.</span>
 
@@ -1187,8 +1475,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_daily_window_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">days_in_window</span><span class="p">,</span> <span class="n">extra_slot</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Internal method that gets a window of adjusted daily data for a sid</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal method that gets a window of adjusted daily data for a sid</span>
 <span class="sd">        and specified date range.  Used to support the history API method for</span>
 <span class="sd">        daily bars.</span>
 
@@ -1242,8 +1529,7 @@
         <span class="k">return</span> <span class="n">return_array</span>
 
     <span class="k">def</span> <span class="nf">_get_adjustment_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">adjustments_dict</span><span class="p">,</span> <span class="n">table_name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Internal method that returns a list of adjustments for the given sid.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal method that returns a list of adjustments for the given sid.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1277,8 +1563,7 @@
         <span class="k">return</span> <span class="n">adjustments</span>
 
 <div class="viewcode-block" id="DataPortal.get_splits"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal.get_splits">[docs]</a>    <span class="k">def</span> <span class="nf">get_splits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns any splits for the given sids and the given dt.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns any splits for the given sids and the given dt.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1312,8 +1597,7 @@
         <span class="k">return</span> <span class="n">splits</span></div>
 
 <div class="viewcode-block" id="DataPortal.get_stock_dividends"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal.get_stock_dividends">[docs]</a>    <span class="k">def</span> <span class="nf">get_stock_dividends</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">trading_days</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns all the stock dividends for a specific sid that occur</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns all the stock dividends for a specific sid that occur</span>
 <span class="sd">        in the given trading range.</span>
 
 <span class="sd">        Parameters</span>
@@ -1373,8 +1657,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="DataPortal.get_fetcher_assets"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal.get_fetcher_assets">[docs]</a>    <span class="k">def</span> <span class="nf">get_fetcher_assets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a list of assets for the current date, as defined by the</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of assets for the current date, as defined by the</span>
 <span class="sd">        fetcher data.</span>
 
 <span class="sd">        Returns</span>
@@ -1386,7 +1669,8 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extra_source_df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
 
-        <span class="n">day</span> <span class="o">=</span> <span class="n">normalize_date</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+        <span class="c1"># TODO: FIX THIS TZ MESS!</span>
+        <span class="n">day</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">day</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extra_source_df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
             <span class="n">assets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extra_source_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">day</span><span class="p">][</span><span class="s2">&quot;sid&quot;</span><span class="p">]</span>
@@ -1399,8 +1683,7 @@
             <span class="k">return</span> <span class="p">[</span><span class="n">assets</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">assets</span><span class="p">,</span> <span class="n">Asset</span><span class="p">)</span> <span class="k">else</span> <span class="p">[]</span></div>
 
 <div class="viewcode-block" id="DataPortal.get_current_future_chain"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.data_portal.DataPortal.get_current_future_chain">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_future_chain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">continuous_future</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves the future chain for the contract at the given `dt` according</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the future chain for the contract at the given `dt` according</span>
 <span class="sd">        the `continuous_future` specification.</span>
 
 <span class="sd">        Returns</span>
@@ -1412,7 +1695,7 @@
 <span class="sd">            is the next upcoming contract and so on.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_roll_finders</span><span class="p">[</span><span class="n">continuous_future</span><span class="o">.</span><span class="n">roll_style</span><span class="p">]</span>
-        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">minute_to_session_label</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trading_calendar</span><span class="o">.</span><span class="n">minute_to_session</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
         <span class="n">contract_center</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">get_contract_center</span><span class="p">(</span>
             <span class="n">continuous_future</span><span class="o">.</span><span class="n">root_symbol</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">continuous_future</span><span class="o">.</span><span class="n">offset</span>
         <span class="p">)</span>
@@ -1434,48 +1717,74 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_adjustment_reader</span></div>
 </pre></div>
 
-              </div>
+                </article>
               
               
-              <div class='prev-next-bottom'>
-                
-
-              </div>
               
-          </main>
-          
-
-      </div>
-    </div>
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
   
-  <script src="../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
   
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script>
-                        window.ga = window.ga || function () {
-                            (ga.q = ga.q || []).push(arguments) };
-                        ga.l = +new Date;
-                        ga('create', 'UA-74956955-3', 'auto');
-                        ga('set', 'anonymizeIp', true);
-                        ga('send', 'pageview');
-                    </script>
-<footer class="footer mt-5 mt-md-0">
-  <div class="container">
-    
-    <div class="footer-item">
-      <p class="copyright">
-    &copy; Copyright 2020, Quantopian Inc..<br/>
-</p>
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
     </div>
-    
-    <div class="footer-item">
-      <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
-</p>
-    </div>
-    
   </div>
-</footer>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2020, Quantopian Inc..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
   </body>
 </html>

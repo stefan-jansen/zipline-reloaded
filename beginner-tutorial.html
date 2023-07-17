@@ -1,267 +1,491 @@
 
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tutorial &#8212; Zipline 2.2.0 documentation</title>
-    
-  <link href="_static/css/theme.css" rel="stylesheet" />
-  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    <title>Tutorial &#8212; Zipline 3.0 docs</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-      
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/basic.css" />
-    
-  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <link rel="shortcut icon" href="_static/zipline.ico"/>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'beginner-tutorial';</script>
+    <link rel="icon" href="_static/zipline.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Data" href="bundles.html" />
     <link rel="prev" title="Installation" href="install.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
-
-  <div id="navbar-start">
-    
-    
-<a class="navbar-brand" href="index.html">
-<p class="title">Zipline</p>
-</a>
-
-    
-  </div>
-
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
   
-  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
-    <div id="navbar-center" class="mr-auto">
-      
-      <div class="navbar-center-item">
-        <ul id="navbar-main-elements" class="navbar-nav">
-    <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="install.html">
-  Installation
- </a>
-</li>
-
-<li class="toctree-l1 current active nav-item">
- <a class="current reference internal nav-link" href="#">
-  Tutorial
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="bundles.html">
-  Data
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="trading-calendars.html">
-  Calendars
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="risk-and-perf-metrics.html">
-  Metrics
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="development-guidelines.html">
-  Development
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="api-reference.html">
-  API
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="releases.html">
-  Releases
- </a>
-</li>
-
-    
-    <li class="nav-item">
-        <a class="nav-link nav-external" href="https://ml4trading.io">ML for Trading<i class="fas fa-external-link-alt"></i></a>
-    </li>
-    
-    <li class="nav-item">
-        <a class="nav-link nav-external" href="https://exchange.ml4trading.io">Community<i class="fas fa-external-link-alt"></i></a>
-    </li>
-    
-</ul>
-      </div>
-      
-    </div>
-
-    <div id="navbar-end">
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-        <li class="nav-item">
-          <a class="nav-link" href="https://github.com/stefan-jansen/zipline-reloaded" rel="noopener" target="_blank" title="GitHub">
-            <span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://twitter.com/ml4trading" rel="noopener" target="_blank" title="Twitter">
-            <span><i class="fab fa-twitter-square"></i></span>
-            <label class="sr-only">Twitter</label>
-          </a>
-        </li>
-      </ul>
-      </div>
-      
-    </div>
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
   </div>
-</div>
-    </nav>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
     
+      <div class="navbar-item">
+  
 
-    <div class="container-xl">
-      <div class="row">
-          
-            
-            <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <div class="bd-toc-item active">
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Zipline 3.0 docs</p>
+  
+</a></div>
     
   </div>
-</nav>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Tutorial
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="bundles.html">
+                        Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="trading-calendars.html">
+                        Calendars
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="risk-and-perf-metrics.html">
+                        Metrics
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="development-guidelines.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="api-reference.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="releases.html">
+                        Releases
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://ml4trading.io">
+                    ML for Trading
+                  </a>
+                </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
+                    Community
+                  </a>
+                </li>
+                
+                </div>
             </div>
             
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
           
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
 
-          
-          <div class="d-none d-xl-block col-xl-2 bd-toc">
-            
-              
-              <div class="toc-item">
-                
-<div class="tocsection onthispage pt-5 pb-3">
-    <i class="fas fa-list"></i> On this page
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
 
-<nav id="bd-toc-nav">
-    <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-to-construct-an-algorithm">
-   How to construct an algorithm
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#a-simple-example">
-     A simple example
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-to-run-the-algorithm">
-   How to run the algorithm
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#ingesting-data">
-     Ingesting Data
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#command-line-interface">
-     Command Line Interface
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#jupyter-notebook">
-     Jupyter Notebook
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#ide-via-run-algorithm">
-     IDE via
-     <code class="xref py py-func docutils literal notranslate">
-      <span class="pre">
-       run_algorithm()
-      </span>
-     </code>
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-to-use-historical-prices-a-dual-moving-average-cross-over-example">
-   How to use historical prices: a dual Moving Average Cross-Over example
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#conclusions">
-     Conclusions
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
 
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Tutorial
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="bundles.html">
+                        Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="trading-calendars.html">
+                        Calendars
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="risk-and-perf-metrics.html">
+                        Metrics
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="development-guidelines.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="api-reference.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="releases.html">
+                        Releases
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://ml4trading.io">
+                    ML for Trading
+                  </a>
+                </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
+                    Community
+                  </a>
+                </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Tutorial</li>
+  </ul>
 </nav>
-              </div>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
               
-              <div class="toc-item">
+              
+              
                 
-              </div>
-              
-            
-          </div>
-          
-
-          
-          
-            
-          
-          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
-              
-              <div>
-                
-  <div class="section" id="tutorial">
-<span id="id1"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="tutorial">
+<span id="id1"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this heading">#</a></h1>
 <p>Zipline is an <a class="reference external" href="https://github.com/stefan-jansen/zipline-reloaded">open-source</a> algorithmic trading simulator written in
 Python.</p>
 <p>Some benefits include:</p>
@@ -274,8 +498,8 @@ common risk calculations (Sharpe) can be computed efficiently while executing a 
 </ul>
 <p>This tutorial assumes that you have Zipline correctly installed, see the
 <a class="reference internal" href="install.html#install"><span class="std std-ref">Installation</span></a> instructions if you haven’t done so yet.</p>
-<div class="section" id="how-to-construct-an-algorithm">
-<h2>How to construct an algorithm<a class="headerlink" href="#how-to-construct-an-algorithm" title="Permalink to this headline">¶</a></h2>
+<section id="how-to-construct-an-algorithm">
+<h2>How to construct an algorithm<a class="headerlink" href="#how-to-construct-an-algorithm" title="Permalink to this heading">#</a></h2>
 <p>Every Zipline algorithm consists of two functions you have to define:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">initialize(context)</span></code></p></li>
@@ -290,10 +514,10 @@ need to access from one algorithm iteration to the next.</p>
 the same <code class="docutils literal notranslate"><span class="pre">context</span></code> variable and an event-frame called <code class="docutils literal notranslate"><span class="pre">data</span></code>
 containing the current trading bar with open, high, low, and close
 (OHLC) prices as well as volume for each stock in your universe.</p>
-<div class="section" id="a-simple-example">
-<h3>A simple example<a class="headerlink" href="#a-simple-example" title="Permalink to this headline">¶</a></h3>
+<section id="a-simple-example">
+<h3>A simple example<a class="headerlink" href="#a-simple-example" title="Permalink to this heading">#</a></h3>
 <p>Let’s take a look at a very simple algorithm from the
-<a class="reference external" href="https://github.com/stefan-jansen/zipline-reloaded/tree/main/zipline/examples">zipline/examples</a> directory,
+<a class="reference external" href="https://github.com/stefan-jansen/zipline-reloaded/tree/main/src/zipline/examples">zipline/examples</a> directory,
 <code class="docutils literal notranslate"><span class="pre">buyapple.py</span></code>. Each period, which is a trading day, it orders 10 shares of the Apple stock and records the price.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">zipline.examples</span> <span class="kn">import</span> <span class="n">buyapple</span>
 </pre></div>
@@ -323,30 +547,30 @@ finished running you will have access to each variable value you tracked
 with <a class="reference internal" href="api-reference.html#zipline.api.record" title="zipline.api.record"><code class="xref py py-func docutils literal notranslate"><span class="pre">record()</span></code></a> under the name you provided (we will see this
 further below). You also see how we can access the current price data of the
 AAPL stock in the <code class="docutils literal notranslate"><span class="pre">data</span></code> event frame.</p>
-</div>
-</div>
-<div class="section" id="how-to-run-the-algorithm">
-<h2>How to run the algorithm<a class="headerlink" href="#how-to-run-the-algorithm" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="how-to-run-the-algorithm">
+<h2>How to run the algorithm<a class="headerlink" href="#how-to-run-the-algorithm" title="Permalink to this heading">#</a></h2>
 <p>To now test this algorithm on financial data, Zipline provides three interfaces:
 1. the command line via the <code class="docutils literal notranslate"><span class="pre">zipline</span></code> command,
 2. the <code class="docutils literal notranslate"><span class="pre">Jupyter</span> <span class="pre">Notebook</span></code> via the <code class="docutils literal notranslate"><span class="pre">zipline</span></code> magic, and
 3. the <a class="reference internal" href="api-reference.html#zipline.run_algorithm" title="zipline.run_algorithm"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_algorithm()</span></code></a> to execute your algo like any Python script, for example in your IDE.</p>
 <p>Before we can run any algorithms, we need some data.</p>
-<div class="section" id="ingesting-data">
-<h3>Ingesting Data<a class="headerlink" href="#ingesting-data" title="Permalink to this headline">¶</a></h3>
+<section id="ingesting-data">
+<h3>Ingesting Data<a class="headerlink" href="#ingesting-data" title="Permalink to this heading">#</a></h3>
 <p>If you haven’t ingested data yet, then run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ zipline ingest -b &lt;bundle&gt;
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>zipline<span class="w"> </span>ingest<span class="w"> </span>-b<span class="w"> </span>&lt;bundle&gt;
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">&lt;bundle&gt;</span></code> is the name of the bundle to ingest. You can use the default <cite>quandl</cite> for now to work with
 the <a class="reference external" href="https://www.quandl.com/databases/WIKIP/documentation?anchor=companies">Quandl WIKI price data</a>. Check out
 the <a class="reference internal" href="bundles.html#ingesting-data"><span class="std std-ref">ingesting data</span></a> section for more detail on how to obtain other new data.</p>
-</div>
-<div class="section" id="command-line-interface">
-<h3>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="command-line-interface">
+<h3>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Permalink to this heading">#</a></h3>
 <p>After you installed Zipline you should be able to execute the following
 from your command line (e.g. <code class="docutils literal notranslate"><span class="pre">cmd.exe</span></code> on Windows, the Terminal app on OSX, or e.g. the bash shell on Linux):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ zipline run --help
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>zipline<span class="w"> </span>run<span class="w"> </span>--help
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span> <span class="n">zipline</span> <span class="n">run</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span>
@@ -410,7 +634,7 @@ supply the command line args all the time (see the .conf files in the examples
 directory).</p>
 <p>Thus, to execute our algorithm from above and save the results to
 <code class="docutils literal notranslate"><span class="pre">buyapple_out.pickle</span></code>, we call <code class="docutils literal notranslate"><span class="pre">zipline</span> <span class="pre">run</span></code> as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>zipline run -f ../zipline/examples/buyapple.py --start <span class="m">2016</span>-1-1 --end <span class="m">2018</span>-1-1 -o buyapple_out.pickle --no-benchmark
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>zipline<span class="w"> </span>run<span class="w"> </span>-f<span class="w"> </span>../zipline/examples/buyapple.py<span class="w"> </span>--start<span class="w"> </span><span class="m">2016</span>-1-1<span class="w"> </span>--end<span class="w"> </span><span class="m">2018</span>-1-1<span class="w"> </span>-o<span class="w"> </span>buyapple_out.pickle<span class="w"> </span>--no-benchmark
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">AAPL</span>
@@ -723,9 +947,9 @@ AAPL stock price.</p>
 <p>As you can see, our algorithm performance as assessed by the
 <code class="docutils literal notranslate"><span class="pre">portfolio_value</span></code> closely matches that of the AAPL stock price. This
 is not surprising as our algorithm only bought AAPL every chance it got.</p>
-</div>
-<div class="section" id="jupyter-notebook">
-<h3>Jupyter Notebook<a class="headerlink" href="#jupyter-notebook" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="jupyter-notebook">
+<h3>Jupyter Notebook<a class="headerlink" href="#jupyter-notebook" title="Permalink to this heading">#</a></h3>
 <p>The <a class="reference external" href="https://jupyter.org/">Jupyter Notebook</a> is a very
 powerful browser-based interface to a Python interpreter (this tutorial
 was written in it). As it is a very popular interface for many
@@ -750,7 +974,7 @@ magic.</p>
 
 <span class="k">def</span> <span class="nf">handle_data</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="n">order</span><span class="p">(</span><span class="n">symbol</span><span class="p">(</span><span class="s1">&#39;AAPL&#39;</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span>
-    <span class="n">record</span><span class="p">(</span><span class="n">AAPL</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">symbol</span><span class="p">(</span><span class="s1">&#39;AAPL&#39;</span><span class="p">)]</span><span class="o">.</span><span class="n">price</span><span class="p">)</span>
+    <span class="n">record</span><span class="p">(</span><span class="n">AAPL</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="n">symbol</span><span class="p">(</span><span class="s1">&#39;AAPL&#39;</span><span class="p">),</span> <span class="s2">&quot;price&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Note that we did not have to specify an input file as above since the
@@ -1014,9 +1238,9 @@ space and contain the performance <code class="docutils literal notranslate"><sp
    </tr>
  </tbody>
 </table>
-</div></div>
-<div class="section" id="ide-via-run-algorithm">
-<h3>IDE via <a class="reference internal" href="api-reference.html#zipline.run_algorithm" title="zipline.run_algorithm"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_algorithm()</span></code></a><a class="headerlink" href="#ide-via-run-algorithm" title="Permalink to this headline">¶</a></h3>
+</div></section>
+<section id="ide-via-run-algorithm">
+<h3>IDE via <a class="reference internal" href="api-reference.html#zipline.run_algorithm" title="zipline.run_algorithm"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_algorithm()</span></code></a><a class="headerlink" href="#ide-via-run-algorithm" title="Permalink to this heading">#</a></h3>
 <p>To execute an algorithm like a Python script in your favorite IDE, use the <a class="reference internal" href="api-reference.html#zipline.run_algorithm" title="zipline.run_algorithm"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_algorithm()</span></code></a> (see <a class="reference internal" href="api-reference.html#api-reference"><span class="std std-ref">API Reference</span></a>).</p>
 <p>To adapt the <code class="docutils literal notranslate"><span class="pre">buyapple.py</span></code> example from above (see <code class="docutils literal notranslate"><span class="pre">buyapple_ide.py</span></code> in the same directory), simply add the following:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">zipline</span> <span class="kn">import</span> <span class="n">run_algorithm</span>
@@ -1050,10 +1274,10 @@ download from the <a class="reference external" href="https://fred.stlouisfed.or
 (available for the last 10 years).</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">result</span></code> return value contains the same <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> as in the previous example. Instead of defining
 an <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> function as part of the algorithm, you can apply your preferred logic to this <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
-</div>
-</div>
-<div class="section" id="how-to-use-historical-prices-a-dual-moving-average-cross-over-example">
-<h2>How to use historical prices: a dual Moving Average Cross-Over example<a class="headerlink" href="#how-to-use-historical-prices-a-dual-moving-average-cross-over-example" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="how-to-use-historical-prices-a-dual-moving-average-cross-over-example">
+<h2>How to use historical prices: a dual Moving Average Cross-Over example<a class="headerlink" href="#how-to-use-historical-prices-a-dual-moving-average-cross-over-example" title="Permalink to this heading">#</a></h2>
 <p>The Dual Moving Average (DMA) is a classic momentum strategy. It’s
 probably not used by any serious trader anymore but is still very
 instructive. The basic idea is that we compute two rolling or moving
@@ -1147,66 +1371,144 @@ the <code class="docutils literal notranslate"><span class="pre">scikit-learn</s
 functions like it can make order management and portfolio rebalancing
 much easier. See the <a class="reference internal" href="api-reference.html#api-reference"><span class="std std-ref">API Reference</span></a> for
 more details.</p>
-<div class="section" id="conclusions">
-<h3>Conclusions<a class="headerlink" href="#conclusions" title="Permalink to this headline">¶</a></h3>
+<section id="conclusions">
+<h3>Conclusions<a class="headerlink" href="#conclusions" title="Permalink to this heading">#</a></h3>
 <p>We hope that this tutorial gave you a little insight into the
 architecture, API, and features of <code class="docutils literal notranslate"><span class="pre">zipline</span></code>. For next steps, check
 out some of the
-<a class="reference external" href="https://github.com/stefan-jansen/zipline-reloaded/tree/main/zipline/examples">examples</a>.</p>
+<a class="reference external" href="https://github.com/stefan-jansen/zipline-reloaded/tree/main/src/zipline/examples">examples</a>.</p>
 <p>Feel free to ask questions on <a class="reference external" href="https://groups.google.com/forum/#!forum/zipline">our mailing
 list</a>, report
 problems on our <a class="reference external" href="https://github.com/stefan-jansen/zipline-reloaded/issues?state=open">GitHub issue
 tracker</a>,
 or <a class="reference external" href="https://exchange.ml4trading.io">get involved</a>.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
-              </div>
+                </article>
               
               
-              <div class='prev-next-bottom'>
-                
-    <a class='left-prev' id="prev-link" href="install.html" title="previous page">Installation</a>
-    <a class='right-next' id="next-link" href="bundles.html" title="next page">Data</a>
-
-              </div>
               
-          </main>
-          
-
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="install.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Installation</p>
       </div>
-    </div>
+    </a>
+    <a class="right-next"
+       href="bundles.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
   
-  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+</div>
 
-  
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script>
-                        window.ga = window.ga || function () {
-                            (ga.q = ga.q || []).push(arguments) };
-                        ga.l = +new Date;
-                        ga('create', 'UA-74956955-3', 'auto');
-                        ga('set', 'anonymizeIp', true);
-                        ga('send', 'pageview');
-                    </script>
-<footer class="footer mt-5 mt-md-0">
-  <div class="container">
-    
-    <div class="footer-item">
-      <p class="copyright">
-    &copy; Copyright 2020, Quantopian Inc..<br/>
-</p>
-    </div>
-    
-    <div class="footer-item">
-      <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
-</p>
-    </div>
-    
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
   </div>
-</footer>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-construct-an-algorithm">How to construct an algorithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-simple-example">A simple example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-run-the-algorithm">How to run the algorithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ingesting-data">Ingesting Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-interface">Command Line Interface</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-notebook">Jupyter Notebook</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ide-via-run-algorithm">IDE via <code class="xref py py-func docutils literal notranslate"><span class="pre">run_algorithm()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-historical-prices-a-dual-moving-average-cross-over-example">How to use historical prices: a dual Moving Average Cross-Over example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/beginner-tutorial.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2020, Quantopian Inc..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
   </body>
 </html>

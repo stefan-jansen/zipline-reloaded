@@ -1,199 +1,495 @@
 
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.data.adjustments &#8212; Zipline 2.2.0 documentation</title>
-    
-  <link href="../../../_static/css/theme.css" rel="stylesheet" />
-  <link href="../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
-
-    
-  <link rel="stylesheet"
-    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    
-      
-
-    
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css" />
-    
-  <link rel="preload" as="script" href="../../../_static/js/index.1c5a1a01449ed65a7b51.js">
-
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <link rel="shortcut icon" href="../../../_static/zipline.ico"/>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
-    
-  </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
-
-  <div id="navbar-start">
-    
-    
-<a class="navbar-brand" href="../../../index.html">
-<p class="title">Zipline</p>
-</a>
-
-    
-  </div>
-
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <title>zipline.data.adjustments &#8212; Zipline 3.0 docs</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
-    <div id="navbar-center" class="mr-auto">
-      
-      <div class="navbar-center-item">
-        <ul id="navbar-main-elements" class="navbar-nav">
-    <li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../install.html">
-  Installation
- </a>
-</li>
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../beginner-tutorial.html">
-  Tutorial
- </a>
-</li>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../bundles.html">
-  Data
- </a>
-</li>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/zipline/data/adjustments';</script>
+    <link rel="icon" href="../../../_static/zipline.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../trading-calendars.html">
-  Calendars
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../risk-and-perf-metrics.html">
-  Metrics
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../development-guidelines.html">
-  Development
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../api-reference.html">
-  API
- </a>
-</li>
-
-<li class="toctree-l1 nav-item">
- <a class="reference internal nav-link" href="../../../releases.html">
-  Releases
- </a>
-</li>
-
-    
-    <li class="nav-item">
-        <a class="nav-link nav-external" href="https://ml4trading.io">ML for Trading<i class="fas fa-external-link-alt"></i></a>
-    </li>
-    
-    <li class="nav-item">
-        <a class="nav-link nav-external" href="https://exchange.ml4trading.io">Community<i class="fas fa-external-link-alt"></i></a>
-    </li>
-    
-</ul>
-      </div>
-      
-    </div>
-
-    <div id="navbar-end">
-      
-      <div class="navbar-end-item">
-        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-        <li class="nav-item">
-          <a class="nav-link" href="https://github.com/stefan-jansen/zipline-reloaded" rel="noopener" target="_blank" title="GitHub">
-            <span><i class="fab fa-github-square"></i></span>
-            <label class="sr-only">GitHub</label>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://twitter.com/ml4trading" rel="noopener" target="_blank" title="Twitter">
-            <span><i class="fab fa-twitter-square"></i></span>
-            <label class="sr-only">Twitter</label>
-          </a>
-        </li>
-      </ul>
-      </div>
-      
-    </div>
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
   </div>
-</div>
-    </nav>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
     
+      <div class="navbar-item">
+  
 
-    <div class="container-xl">
-      <div class="row">
-          
-            
-            <!-- Only show if we have sidebars configured, else just a small margin  -->
-            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <div class="bd-toc-item active">
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Zipline 3.0 docs</p>
+  
+</a></div>
     
   </div>
-</nav>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../install.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
+                        Tutorial
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../bundles.html">
+                        Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../trading-calendars.html">
+                        Calendars
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../risk-and-perf-metrics.html">
+                        Metrics
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../development-guidelines.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../api-reference.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases.html">
+                        Releases
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://ml4trading.io">
+                    ML for Trading
+                  </a>
+                </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
+                    Community
+                  </a>
+                </li>
+                
+                </div>
             </div>
             
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
           
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
 
-          
-          <div class="d-none d-xl-block col-xl-2 bd-toc">
-            
-          </div>
-          
+  
+</div>
 
-          
-          
-            
-          
-          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
-              
-              <div>
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../install.html">
+                        Installation
+                      </a>
+                    </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
+                        Tutorial
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../bundles.html">
+                        Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../trading-calendars.html">
+                        Calendars
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../risk-and-perf-metrics.html">
+                        Metrics
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../development-guidelines.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../api-reference.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../releases.html">
+                        Releases
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://ml4trading.io">
+                    ML for Trading
+                  </a>
+                </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
+                    Community
+                  </a>
+                </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
+            <label class="sr-only">Twitter</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">zipline.data.adjustments</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <h1>Source code for zipline.data.adjustments</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
 <span class="kn">from</span> <span class="nn">errno</span> <span class="kn">import</span> <span class="n">ENOENT</span>
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">remove</span>
 
-<span class="kn">from</span> <span class="nn">logbook</span> <span class="kn">import</span> <span class="n">Logger</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">integer</span> <span class="k">as</span> <span class="n">any_integer</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">Timestamp</span>
-<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">integer</span> <span class="k">as</span> <span class="n">any_integer</span>
 
 <span class="kn">from</span> <span class="nn">zipline.utils.functional</span> <span class="kn">import</span> <span class="n">keysorted</span>
 <span class="kn">from</span> <span class="nn">zipline.utils.input_validation</span> <span class="kn">import</span> <span class="n">preprocess</span>
@@ -205,10 +501,11 @@
     <span class="n">uint64_dtype</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">zipline.utils.pandas_utils</span> <span class="kn">import</span> <span class="n">empty_dataframe</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.sqlite_utils</span> <span class="kn">import</span> <span class="n">group_into_chunks</span><span class="p">,</span> <span class="n">coerce_string_to_conn</span>
+<span class="kn">from</span> <span class="nn">zipline.utils.sqlite_utils</span> <span class="kn">import</span> <span class="n">coerce_string_to_conn</span><span class="p">,</span> <span class="n">group_into_chunks</span>
+
 <span class="kn">from</span> <span class="nn">._adjustments</span> <span class="kn">import</span> <span class="n">load_adjustments_from_sqlite</span>
 
-<span class="n">log</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">SQLITE_ADJUSTMENT_TABLENAMES</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">([</span><span class="s2">&quot;splits&quot;</span><span class="p">,</span> <span class="s2">&quot;dividends&quot;</span><span class="p">,</span> <span class="s2">&quot;mergers&quot;</span><span class="p">])</span>
 
@@ -265,9 +562,8 @@
     <span class="k">return</span> <span class="n">out</span>
 
 
-<div class="viewcode-block" id="SQLiteAdjustmentReader"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.adjustments.SQLiteAdjustmentReader">[docs]</a><span class="k">class</span> <span class="nc">SQLiteAdjustmentReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Loads adjustments based on corporate actions from a SQLite database.</span>
+<div class="viewcode-block" id="SQLiteAdjustmentReader"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.adjustments.SQLiteAdjustmentReader">[docs]</a><span class="k">class</span> <span class="nc">SQLiteAdjustmentReader</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loads adjustments based on corporate actions from a SQLite database.</span>
 
 <span class="sd">    Expects data written in the format output by `SQLiteAdjustmentWriter`.</span>
 
@@ -336,8 +632,7 @@
         <span class="n">should_include_dividends</span><span class="p">,</span>
         <span class="n">adjustment_type</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Load collection of Adjustment objects from underlying adjustments db.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load collection of Adjustment objects from underlying adjustments db.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -361,6 +656,7 @@
 <span class="sd">            A dictionary containing price and/or volume adjustment mappings</span>
 <span class="sd">            from index to adjustment objects to apply at that index.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dates</span> <span class="o">=</span> <span class="n">dates</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="s2">&quot;UTC&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">load_adjustments_from_sqlite</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span>
             <span class="n">dates</span><span class="p">,</span>
@@ -404,7 +700,7 @@
         <span class="n">c</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="p">[</span>
-            <span class="p">[</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">adjustment</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">),</span> <span class="n">adjustment</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">adjustment</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">),</span> <span class="n">adjustment</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
             <span class="k">for</span> <span class="n">adjustment</span> <span class="ow">in</span> <span class="n">adjustments_for_sid</span>
         <span class="p">]</span>
 
@@ -424,7 +720,7 @@
                 <span class="n">div</span> <span class="o">=</span> <span class="n">Dividend</span><span class="p">(</span>
                     <span class="n">asset_finder</span><span class="o">.</span><span class="n">retrieve_asset</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
                     <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                    <span class="n">Timestamp</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">),</span>
+                    <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">),</span>
                 <span class="p">)</span>
                 <span class="n">divs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">div</span><span class="p">)</span>
         <span class="n">c</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -451,7 +747,7 @@
                     <span class="n">asset_finder</span><span class="o">.</span><span class="n">retrieve_asset</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>  <span class="c1"># asset</span>
                     <span class="n">asset_finder</span><span class="o">.</span><span class="n">retrieve_asset</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>  <span class="c1"># payment_asset</span>
                     <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-                    <span class="n">Timestamp</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">),</span>
+                    <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">),</span>
                 <span class="p">)</span>
                 <span class="n">stock_divs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stock_div</span><span class="p">)</span>
         <span class="n">c</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -459,7 +755,7 @@
         <span class="k">return</span> <span class="n">stock_divs</span>
 
 <div class="viewcode-block" id="SQLiteAdjustmentReader.unpack_db_to_component_dfs"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.adjustments.SQLiteAdjustmentReader.unpack_db_to_component_dfs">[docs]</a>    <span class="k">def</span> <span class="nf">unpack_db_to_component_dfs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">convert_dates</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns the set of known tables in the adjustments file in DataFrame</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the set of known tables in the adjustments file in DataFrame</span>
 <span class="sd">        form.</span>
 
 <span class="sd">        Parameters</span>
@@ -484,23 +780,22 @@
     <span class="k">def</span> <span class="nf">get_df_from_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">convert_dates</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">date_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datetime_int_cols</span><span class="p">[</span><span class="n">table_name</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Requested table </span><span class="si">{}</span><span class="s2"> not found.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;Available tables: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datetime_int_cols</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
+                <span class="sa">f</span><span class="s2">&quot;Requested table </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2"> not found.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Available tables: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_datetime_int_cols</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
 
         <span class="c1"># Dates are stored in second resolution as ints in adj.db tables.</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;parse_dates&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;utc&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">date_cols</span><span class="p">}}</span>
+            <span class="c1"># {&quot;parse_dates&quot;: {col: {&quot;unit&quot;: &quot;s&quot;, &quot;utc&quot;: True} for col in date_cols}}</span>
+            <span class="p">{</span><span class="s2">&quot;parse_dates&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="s2">&quot;s&quot;</span><span class="p">}</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">date_cols</span><span class="p">}}</span>
             <span class="k">if</span> <span class="n">convert_dates</span>
             <span class="k">else</span> <span class="p">{}</span>
         <span class="p">)</span>
 
         <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
-            <span class="s1">&#39;select * from &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table_name</span><span class="p">),</span>
+            <span class="sa">f</span><span class="s2">&quot;select * from </span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span>
             <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
@@ -515,7 +810,7 @@
         <span class="k">return</span> <span class="n">result</span>
 
     <span class="k">def</span> <span class="nf">_df_dtypes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">convert_dates</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get dtypes to use when unpacking sqlite tables as dataframes.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get dtypes to use when unpacking sqlite tables as dataframes.&quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_table_dtypes</span><span class="p">[</span><span class="n">table_name</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">convert_dates</span><span class="p">:</span>
             <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -525,9 +820,8 @@
         <span class="k">return</span> <span class="n">out</span></div>
 
 
-<div class="viewcode-block" id="SQLiteAdjustmentWriter"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.adjustments.SQLiteAdjustmentWriter">[docs]</a><span class="k">class</span> <span class="nc">SQLiteAdjustmentWriter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Writer for data to be read by SQLiteAdjustmentReader</span>
+<div class="viewcode-block" id="SQLiteAdjustmentWriter"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.adjustments.SQLiteAdjustmentWriter">[docs]</a><span class="k">class</span> <span class="nc">SQLiteAdjustmentWriter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Writer for data to be read by SQLiteAdjustmentReader</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -612,11 +906,7 @@
     <span class="k">def</span> <span class="nf">write_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tablename</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">tablename</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">SQLITE_ADJUSTMENT_TABLENAMES</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Adjustment table </span><span class="si">%s</span><span class="s2"> not in </span><span class="si">%s</span><span class="s2">&quot;</span>
-                <span class="o">%</span> <span class="p">(</span>
-                    <span class="n">tablename</span><span class="p">,</span>
-                    <span class="n">SQLITE_ADJUSTMENT_TABLENAMES</span><span class="p">,</span>
-                <span class="p">)</span>
+                <span class="sa">f</span><span class="s2">&quot;Adjustment table </span><span class="si">{</span><span class="n">tablename</span><span class="si">}</span><span class="s2"> not in </span><span class="si">{</span><span class="n">SQLITE_ADJUSTMENT_TABLENAMES</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">frame</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">frame</span><span class="o">.</span><span class="n">empty</span><span class="p">):</span>
             <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -634,9 +924,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="SQLiteAdjustmentWriter.write_dividend_payouts"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.adjustments.SQLiteAdjustmentWriter.write_dividend_payouts">[docs]</a>    <span class="k">def</span> <span class="nf">write_dividend_payouts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Write dividend payout data to SQLite table `dividend_payouts`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write dividend payout data to SQLite table `dividend_payouts`.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_write</span><span class="p">(</span>
             <span class="s2">&quot;dividend_payouts&quot;</span><span class="p">,</span>
             <span class="n">SQLITE_DIVIDEND_PAYOUT_COLUMN_DTYPES</span><span class="p">,</span>
@@ -651,8 +939,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="SQLiteAdjustmentWriter.calc_dividend_ratios"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.adjustments.SQLiteAdjustmentWriter.calc_dividend_ratios">[docs]</a>    <span class="k">def</span> <span class="nf">calc_dividend_ratios</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dividends</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the ratios to apply to equities when looking back at pricing</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the ratios to apply to equities when looking back at pricing</span>
 <span class="sd">        history so that the price is smoothed over the ex_date, when the market</span>
 <span class="sd">        adjusts to the change in equity value due to upcoming dividend.</span>
 
@@ -683,8 +970,8 @@
 
         <span class="p">(</span><span class="n">close</span><span class="p">,)</span> <span class="o">=</span> <span class="n">pricing_reader</span><span class="o">.</span><span class="n">load_raw_arrays</span><span class="p">(</span>
             <span class="p">[</span><span class="s2">&quot;close&quot;</span><span class="p">],</span>
-            <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">),</span>
-            <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">tz</span><span class="o">=</span><span class="s2">&quot;UTC&quot;</span><span class="p">),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
             <span class="n">unique_sids</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">date_ix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">dividends</span><span class="o">.</span><span class="n">ex_date</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
@@ -703,22 +990,26 @@
 
         <span class="n">non_nan_ratio_mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="o">~</span><span class="n">non_nan_ratio_mask</span><span class="p">):</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                 <span class="s2">&quot;Couldn&#39;t compute ratio for dividend&quot;</span>
-                <span class="s2">&quot; sid=</span><span class="si">{sid}</span><span class="s2">, ex_date={ex_date:%Y-%m-</span><span class="si">%d</span><span class="s2">}, amount=</span><span class="si">{amount:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="n">sid</span><span class="o">=</span><span class="n">input_sids</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span>
-                <span class="n">ex_date</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">input_dates</span><span class="p">[</span><span class="n">ix</span><span class="p">]),</span>
-                <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span>
+                <span class="s2">&quot; sid=</span><span class="si">%(sid)s</span><span class="s2">, ex_date=</span><span class="si">%(ex_date)s</span><span class="s2">, amount=</span><span class="si">%(amount).3f</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;sid&quot;</span><span class="p">:</span> <span class="n">input_sids</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span>
+                    <span class="s2">&quot;ex_date&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">input_dates</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">),</span>
+                    <span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="n">amount</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span>
+                <span class="p">},</span>
             <span class="p">)</span>
 
         <span class="n">positive_ratio_mask</span> <span class="o">=</span> <span class="n">ratio</span> <span class="o">&gt;</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="o">~</span><span class="n">positive_ratio_mask</span> <span class="o">&amp;</span> <span class="n">non_nan_ratio_mask</span><span class="p">):</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                 <span class="s2">&quot;Dividend ratio &lt;= 0 for dividend&quot;</span>
-                <span class="s2">&quot; sid=</span><span class="si">{sid}</span><span class="s2">, ex_date={ex_date:%Y-%m-</span><span class="si">%d</span><span class="s2">}, amount=</span><span class="si">{amount:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="n">sid</span><span class="o">=</span><span class="n">input_sids</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span>
-                <span class="n">ex_date</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">input_dates</span><span class="p">[</span><span class="n">ix</span><span class="p">]),</span>
-                <span class="n">amount</span><span class="o">=</span><span class="n">amount</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span>
+                <span class="s2">&quot; sid=</span><span class="si">%(sid)s</span><span class="s2">, ex_date=</span><span class="si">%(ex_date)s</span><span class="s2">, amount=</span><span class="si">%(amount).3f</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;sid&quot;</span><span class="p">:</span> <span class="n">input_sids</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span>
+                    <span class="s2">&quot;ex_date&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">input_dates</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">),</span>
+                    <span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="n">amount</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span>
+                <span class="p">},</span>
             <span class="p">)</span>
 
         <span class="n">valid_ratio_mask</span> <span class="o">=</span> <span class="n">non_nan_ratio_mask</span> <span class="o">&amp;</span> <span class="n">positive_ratio_mask</span>
@@ -788,9 +1079,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">write_stock_dividend_payouts</span><span class="p">(</span><span class="n">stock_dividend_payouts</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SQLiteAdjustmentWriter.write_dividend_data"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.adjustments.SQLiteAdjustmentWriter.write_dividend_data">[docs]</a>    <span class="k">def</span> <span class="nf">write_dividend_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dividends</span><span class="p">,</span> <span class="n">stock_dividends</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Write both dividend payouts and the derived price adjustment ratios.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write both dividend payouts and the derived price adjustment ratios.&quot;&quot;&quot;</span>
 
         <span class="c1"># First write the dividend payouts.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_write_dividends</span><span class="p">(</span><span class="n">dividends</span><span class="p">)</span>
@@ -801,8 +1090,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">write_frame</span><span class="p">(</span><span class="s2">&quot;dividends&quot;</span><span class="p">,</span> <span class="n">dividend_ratios</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SQLiteAdjustmentWriter.write"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.adjustments.SQLiteAdjustmentWriter.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">splits</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mergers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dividends</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stock_dividends</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Writes data to a SQLite file to be read by SQLiteAdjustmentReader.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Writes data to a SQLite file to be read by SQLiteAdjustmentReader.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -912,48 +1200,74 @@
         <span class="p">)</span></div></div>
 </pre></div>
 
-              </div>
+                </article>
               
               
-              <div class='prev-next-bottom'>
-                
-
-              </div>
               
-          </main>
-          
-
-      </div>
-    </div>
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
   
-  <script src="../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
-
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
   
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script>
-                        window.ga = window.ga || function () {
-                            (ga.q = ga.q || []).push(arguments) };
-                        ga.l = +new Date;
-                        ga('create', 'UA-74956955-3', 'auto');
-                        ga('set', 'anonymizeIp', true);
-                        ga('send', 'pageview');
-                    </script>
-<footer class="footer mt-5 mt-md-0">
-  <div class="container">
-    
-    <div class="footer-item">
-      <p class="copyright">
-    &copy; Copyright 2020, Quantopian Inc..<br/>
-</p>
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
     </div>
-    
-    <div class="footer-item">
-      <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.1.2.<br/>
-</p>
-    </div>
-    
   </div>
-</footer>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2020, Quantopian Inc..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
   </body>
 </html>
