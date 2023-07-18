@@ -17,6 +17,7 @@ import os
 import sqlite3
 
 import sqlalchemy as sa
+from sqlalchemy.pool import NullPool
 
 from .input_validation import coerce_string
 
@@ -42,7 +43,7 @@ def check_and_create_connection(path, require_exists):
 def check_and_create_engine(path, require_exists):
     if require_exists:
         verify_sqlite_path_exists(path)
-    return sa.create_engine("sqlite:///" + path)
+    return sa.create_engine("sqlite:///" + path, poolclass=NullPool)
 
 
 def coerce_string_to_conn(require_exists):
