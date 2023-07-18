@@ -148,7 +148,6 @@ Once ``conda`` has been set up you can install Zipline from the ``conda-forge`` 
 
 See `here <https://github.com/conda-forge/zipline-reloaded-feedstock>`_ for the latest installation details.
 
-
 .. _managing-conda-environments:
 
 Managing ``conda`` environments
