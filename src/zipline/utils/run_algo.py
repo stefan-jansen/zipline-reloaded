@@ -176,13 +176,8 @@ def _run(
         bundle_data.adjustment_reader,
     )
 
-    def choose_loader(column):
-        if column in USEquityPricing.columns:
-            return pipeline_loader
-        try:
-            return custom_loader.get(column)
-        except KeyError:
-            raise ValueError("No PipelineLoader registered for column %s." % column)
+    def choose_loader(_column):
+        return pipeline_loader
 
     if isinstance(metrics_set, str):
         try:
