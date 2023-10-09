@@ -627,7 +627,7 @@ class BcolzMinuteBarWriter:
             table.attrs[k] = v
 
     def write(self, data, show_progress=False, invalid_data_behavior="warn"):
-        """Write a stream of minute data.
+        """Append a stream of minute data to the existing file.
 
         Parameters
         ----------
