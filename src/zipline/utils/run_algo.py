@@ -180,7 +180,7 @@ def _run(
         if column in USEquityPricing.columns:
             return pipeline_loader
         try:
-            return custom_loader.get(column)
+            return custom_loader(column, bundle_data)
         except KeyError:
             raise ValueError("No PipelineLoader registered for column %s." % column)
 
