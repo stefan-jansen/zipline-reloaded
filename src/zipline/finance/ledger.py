@@ -417,11 +417,11 @@ class Ledger:
         # make daily_returns hold the partial returns, this saves many
         # metrics from doing a concat and copying all of the previous
         # returns
-        self.daily_returns_array[session_ix] = self.todays_returns
+        self.daily_returns_array.iloc[session_ix] = self.todays_returns
 
     def end_of_session(self, session_ix):
         # save the daily returns time-series
-        self.daily_returns_series[session_ix] = self.todays_returns
+        self.daily_returns_series.iloc[session_ix] = self.todays_returns
 
     def sync_last_sale_prices(self, dt, data_portal, handle_non_market_minutes=False):
         self.position_tracker.sync_last_sale_prices(
