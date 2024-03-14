@@ -35,9 +35,8 @@ class SimulationParameters:
         data_frequency="daily",
         arena="backtest",
     ):
-
-        assert type(start_session) == pd.Timestamp
-        assert type(end_session) == pd.Timestamp
+        assert type(start_session) is pd.Timestamp
+        assert type(end_session) is pd.Timestamp
 
         assert trading_calendar is not None, "Must pass in trading calendar!"
         assert start_session <= end_session, "Period start falls after period end."

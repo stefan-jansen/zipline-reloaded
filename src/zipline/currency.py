@@ -61,7 +61,7 @@ class Currency:
         return self._name
 
     def __eq__(self, other):
-        if type(self) != type(other):
+        if type(self) is not type(other):
             return NotImplemented
         return self.code == other.code
 

@@ -42,7 +42,7 @@ def create_simulation_parameters(
 
     if start is None:
         start = pd.Timestamp(f"{year}-01-01", tz="UTC")
-    elif type(start) == datetime:
+    elif type(start) is datetime:
         start = pd.Timestamp(start)
 
     if end is None:
@@ -51,7 +51,7 @@ def create_simulation_parameters(
             end = trading_calendar.sessions[start_index + num_days - 1]
         else:
             end = pd.Timestamp(f"{year}-12-31", tz="UTC")
-    elif type(end) == datetime:
+    elif type(end) is datetime:
         end = pd.Timestamp(end)
 
     sim_params = SimulationParameters(
