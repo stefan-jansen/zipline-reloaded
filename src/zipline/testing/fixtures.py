@@ -1017,7 +1017,6 @@ class WithBcolzEquityDailyBarReader(WithEquityDailyBarData, WithTmpDir):
 
     BCOLZ_DAILY_BAR_PATH = "daily_equity_pricing.bcolz"
     BCOLZ_DAILY_BAR_READ_ALL_THRESHOLD = None
-    BCOLZ_DAILY_BAR_COUNTRY_CODE = None
     EQUITY_DAILY_BAR_SOURCE_FROM_MINUTE = False
     # allows WithBcolzEquityDailyBarReaderFromCSVs to call the
     # `write_csvs`method without needing to reimplement `init_class_fixtures`

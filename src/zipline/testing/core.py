@@ -293,7 +293,7 @@ def check_allclose(actual, desired, rtol=1e-07, atol=0, err_msg="", verbose=True
     --------
     np.assert_allclose
     """
-    if type(actual) != type(desired):
+    if type(actual) is not type(desired):
         raise AssertionError("%s != %s" % (type(actual), type(desired)))
     return assert_allclose(
         actual,
@@ -313,7 +313,7 @@ def check_arrays(x, y, err_msg="", verbose=True, check_dtypes=True):
     --------
     np.assert_array_equal
     """
-    assert type(x) == type(y), "{x} != {y}".format(x=type(x), y=type(y))
+    assert type(x) is type(y), "{x} != {y}".format(x=type(x), y=type(y))
     assert x.dtype == y.dtype, "{x.dtype} != {y.dtype}".format(x=x, y=y)
 
     if isinstance(x, LabelArray):
