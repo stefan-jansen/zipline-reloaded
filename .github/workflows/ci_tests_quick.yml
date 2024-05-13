@@ -58,6 +58,12 @@ jobs:
         run: |
           brew install ta-lib
 
+      - name: Install HDF5 macOS
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: |
+          brew install hdf5
+          brew install c-blosc
+
       - name: Developer Command Prompt for Microsoft Visual C++
         uses: ilammy/msvc-dev-cmd@v1
 
