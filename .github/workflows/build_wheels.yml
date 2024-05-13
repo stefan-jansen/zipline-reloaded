@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout zipline
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -39,7 +39,7 @@ jobs:
 
       - name: Wheels macOS / Linux
         if: runner.os != 'Windows'
-        uses: pypa/cibuildwheel@v2.14.1
+        uses: pypa/cibuildwheel@v2.16.2
         env:
           CIBW_BEFORE_ALL_LINUX: ./tools/install_talib.sh
           CIBW_BEFORE_ALL_MACOS: brew install ta-lib
@@ -56,7 +56,7 @@ jobs:
 
       - name: Wheels Windows
         if: runner.os == 'Windows'
-        uses: pypa/cibuildwheel@v2.14.1
+        uses: pypa/cibuildwheel@v2.16.2
         env:
           CIBW_BUILD: "${{ matrix.python }}-win_amd64"
           CIBW_BEFORE_TEST_WINDOWS: >
@@ -73,7 +73,7 @@ jobs:
     name: Build source distribution
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
