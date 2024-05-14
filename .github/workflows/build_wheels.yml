@@ -47,6 +47,7 @@ jobs:
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=10.15
           CIBW_BEFORE_TEST: pip install -U setuptools
+          CIBW_TEST_COMMAND_MACOS: python -m pytest -v {project}/tests
 
       - name: Install MSVC amd64
         if: runner.os == 'Windows'
