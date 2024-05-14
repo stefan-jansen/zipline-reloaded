@@ -46,6 +46,7 @@ jobs:
           CIBW_BUILD: "${{ matrix.python }}-*"
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=10.15
+          CIBW_BEFORE_TEST: pip install -U setuptools
 
       - name: Install MSVC amd64
         if: runner.os == 'Windows'
@@ -58,6 +59,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.18.0
         env:
           CIBW_BUILD: "${{ matrix.python }}-win_amd64"
+          CIBW_BEFORE_TEST: pip install -U setuptools
           CIBW_BEFORE_TEST_WINDOWS: >
             call "c:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64 &&
             call ./tools/install_talib.bat
