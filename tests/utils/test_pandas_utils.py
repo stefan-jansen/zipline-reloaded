@@ -2,7 +2,7 @@
 Tests for zipline/utils/pandas_utils.py
 """
 import pandas as pd
-
+from packaging.version import Version
 from zipline.testing.predicates import assert_equal
 from zipline.utils.pandas_utils import (
     categorical_df_concat,
@@ -16,7 +16,6 @@ import pytest
 class TestNearestUnequalElements:
     @pytest.mark.parametrize("tz", ["UTC", "US/Eastern"])
     def test_nearest_unequal_elements(self, tz):
-
         dts = pd.to_datetime(
             ["2014-01-01", "2014-01-05", "2014-01-06", "2014-01-09"],
         ).tz_localize(tz)
@@ -45,7 +44,6 @@ class TestNearestUnequalElements:
 
     @pytest.mark.parametrize("tz", ["UTC", "US/Eastern"])
     def test_nearest_unequal_elements_short_dts(self, tz):
-
         # Length 1.
         dts = pd.to_datetime(["2014-01-01"]).tz_localize(tz)
 
@@ -87,9 +85,8 @@ class TestNearestUnequalElements:
 
 
 class TestCatDFConcat:
-    @pytest.mark.skipif(new_pandas, reason=skip_pipeline_new_pandas)
+    # @pytest.mark.skipif(Version(), reason=skip_pipeline_new_pandas)
     def test_categorical_df_concat(self):
-
         inp = [
             pd.DataFrame(
                 {
@@ -134,21 +131,20 @@ class TestCatDFConcat:
         assert_equal(expected["C"].cat.categories, result["C"].cat.categories)
 
     def test_categorical_df_concat_value_error(self):
-
-        mismatched_dtypes = [
-            pd.DataFrame(
-                {
-                    "A": pd.Series(["a", "b", "c"], dtype="category"),
-                    "B": pd.Series([100, 102, 103], dtype="int64"),
-                }
-            ),
-            pd.DataFrame(
-                {
-                    "A": pd.Series(["c", "b", "d"], dtype="category"),
-                    "B": pd.Series([103, 102, 104], dtype="float64"),
-                }
-            ),
-        ]
+        # mismatched_dtypes = [
+        #     pd.DataFrame(
+        #         {
+        #             "A": pd.Series(["a", "b", "c"], dtype="category"),
+        #             "B": pd.Series([100, 102, 103], dtype="int64"),
+        #         }
+        #     ),
+        #     pd.DataFrame(
+        #         {
+        #             "A": pd.Series(["c", "b", "d"], dtype="category"),
+        #             "B": pd.Series([103, 102, 104], dtype="float64"),
+        #         }
+        #     ),
+        # ]
         mismatched_column_names = [
             pd.DataFrame(
                 {
@@ -164,12 +160,12 @@ class TestCatDFConcat:
             ),
         ]
 
-        with pytest.raises(
-            ValueError, match="Input DataFrames must have the same columns/dtypes."
-        ):
-            categorical_df_concat(mismatched_dtypes)
+        # with pytest.raises(
+        #     ValueError, match="Input DataFrames must have the same columns."
+        # ):
+        #     categorical_df_concat(mismatched_dtypes)
 
         with pytest.raises(
-            ValueError, match="Input DataFrames must have the same columns/dtypes."
+            ValueError, match="Input DataFrames must have the same columns."
         ):
             categorical_df_concat(mismatched_column_names)

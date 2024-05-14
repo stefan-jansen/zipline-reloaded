@@ -1,6 +1,6 @@
 from datetime import timedelta
 from functools import partial
-
+from packaging.version import Version
 import itertools
 from parameterized import parameterized
 import numpy as np
@@ -238,6 +238,11 @@ class WithOneDayPipeline(WithEstimates):
             end_date=pd.Timestamp("2015-01-15"),
         )
 
+        # type changes to datatime[ns] in pandas 2.0.0
+        if Version(pd.__version__) >= Version("2"):
+            self.expected_out.event_date = self.expected_out.event_date.astype(
+                "datetime64[ns]"
+            )
         assert_frame_equal(
             results.sort_index(axis=1), self.expected_out.sort_index(axis=1)
         )
@@ -660,7 +665,6 @@ class PreviousEstimate(WithEstimatesTimeZero, ZiplineTestCase):
         return PreviousEarningsEstimatesLoader(events, columns)
 
     def get_expected_estimate(self, q1_knowledge, q2_knowledge, comparable_date):
-
         # The expected estimate will be for q2 if the last thing
         # we've seen is that the release date already happened.
         # Otherwise, it'll be for q1, as long as the release date

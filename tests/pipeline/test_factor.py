@@ -5,7 +5,6 @@ import re
 from functools import partial
 from itertools import product
 from unittest import skipIf
-
 import numpy as np
 import pandas as pd
 import pytest
@@ -14,7 +13,7 @@ from numpy.random import randn, seed
 from parameterized import parameterized
 from scipy.stats.mstats import winsorize as scipy_winsorize
 from toolz import compose
-
+from packaging.version import Version
 from zipline.errors import BadPercentileBounds, UnknownRankMethod
 from zipline.lib.labelarray import LabelArray
 from zipline.lib.normalize import naive_grouped_rowwise_apply as grouped_apply
@@ -40,6 +39,12 @@ from zipline.utils.numpy_utils import (
 from zipline.utils.pandas_utils import new_pandas, skip_pipeline_new_pandas
 
 from .base import BaseUSEquityPipelineTestCase
+
+pandas_two_point_two = False
+if Version(pd.__version__) >= Version("2.2"):
+    # pandas 2.2.0 has a bug in qcut that causes it to return a Series with
+    # the wrong dtype when labels=False.
+    pandas_two_point_two = True
 
 
 class F(Factor):
@@ -1466,6 +1471,8 @@ class FactorTestCase(BaseUSEquityPipelineTestCase):
             mask=self.build_mask(self.ones_mask(shape=shape)),
         )
 
+    # skip until https://github.com/pandas-dev/pandas/issues/58240 fixed
+    @skipIf(pandas_two_point_two, "pd.qcut has a bug in pandas 2.2")
     def test_quantiles_uneven_buckets(self):
         permute = partial(permute_rows, 5)
         shape = (5, 5)

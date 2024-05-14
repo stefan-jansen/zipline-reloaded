@@ -1455,7 +1455,19 @@ class TradingAlgorithm:
             The current simulation datetime converted to ``tz``.
         """
         dt = self.datetime
-        assert dt.tzinfo == timezone.utc, "Algorithm should have a utc datetime"
+        from packaging.version import Version
+        import pytz
+
+        if Version(pd.__version__) < Version("2.0.0"):
+            assert (
+                dt.tzinfo == pytz.utc
+            ), f"Algorithm should have a pytc utc datetime, {dt.tzinfo}"
+        else:
+            assert (
+                dt.tzinfo == timezone.utc
+            ), f"Algorithm should have a timezone.utc datetime, {dt.tzinfo}"
+
+        # assert dt.tzinfo == timezone.utc, "Algorithm should have a utc datetime"
         if tz is not None:
             dt = dt.astimezone(tz)
         return dt

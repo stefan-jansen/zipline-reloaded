@@ -17,6 +17,7 @@
 
 from parameterized import parameterized
 import sys
+from packaging.version import Version
 import numpy as np
 from numpy.testing import (
     assert_allclose,
@@ -473,6 +474,9 @@ class USEquityPricingLoaderTestCase(WithAdjustmentReader, ZiplineTestCase):
     @parameterized.expand([(True,), (False,)])
     @pytest.mark.skipif(sys.platform == "win32", reason="does not run on windows")
     def test_load_adjustments_to_df(self, convert_dts):
+        if Version(pd.__version__) < Version("2.0") and not convert_dts:
+            pytest.skip("pandas < 2.0 behaves differently datetime64[s]")
+
         reader = self.adjustment_reader
         adjustment_dfs = reader.unpack_db_to_component_dfs(convert_dates=convert_dts)
 
