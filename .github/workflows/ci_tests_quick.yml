@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
@@ -32,6 +32,7 @@ jobs:
         uses: py-actions/flake8@v2
 
   tests:
+    name: Unit Tests for ${{ matrix.python-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -44,30 +45,26 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install TA-Lib Linux
+      - name: Install TA-Lib
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           sudo ./tools/install_talib.sh
 
-      - name: Install TA-Lib macOS
+      - name: Install TA-Lib HDF5 c-blosc
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
           brew install ta-lib
-
-      - name: Install HDF5 macOS
-        if: ${{ matrix.os == 'macos-latest' }}
-        run: |
           brew install hdf5
           brew install c-blosc
 
       - name: Developer Command Prompt for Microsoft Visual C++
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Install TA-Lib Windows
+      - name: Install TA-Lib
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           ./tools/install_talib.bat
