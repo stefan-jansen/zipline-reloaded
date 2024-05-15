@@ -47,6 +47,7 @@ jobs:
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=10.15
           CIBW_TEST_COMMAND: python -c 'import zipline; print(zipline.__version__)'
+          ACTIONS_RUNNER_DEBUG: true
 
       - name: Install MSVC amd64
         if: runner.os == 'Windows'
