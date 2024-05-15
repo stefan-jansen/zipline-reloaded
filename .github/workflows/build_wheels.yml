@@ -12,7 +12,7 @@ on:
 
 jobs:
   build_wheels:
-    name: Wheels for ${{ matrix.python }} on ${{ matrix.os }}
+    name: On ${{ matrix.os }} | ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -47,10 +47,7 @@ jobs:
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=10.15
           CIBW_BEFORE_TEST: pip install -U setuptools
-          CIBW_TEST_COMMAND_MACOS: python -m pytest -v {project}/tests
-          CIBW_BEFORE_TEST_MACOS: >
-            python -c "import zipline" &&
-            python -m pytest -v ${{ github.workspace }}/tests
+          CIBW_TEST_COMMAND_MACOS: python -m pytest -v ${{ github.workspace }}/tests
 
       - name: Install MSVC amd64
         if: runner.os == 'Windows'
