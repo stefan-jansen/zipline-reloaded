@@ -38,7 +38,7 @@ jobs:
 
       - name: Wheels macOS / Linux
         if: runner.os != 'Windows'
-        uses: pypa/cibuildwheel@v2.16.2
+        uses: pypa/cibuildwheel@v2.18.0
         env:
           CIBW_BEFORE_ALL_LINUX: ./tools/install_talib.sh
           CIBW_BEFORE_ALL_MACOS: brew install ta-lib
@@ -50,6 +50,8 @@ jobs:
           CIBW_BEFORE_TEST: pip install -U setuptools
           CIBW_TEST_COMMAND_MACOS: python -m pytest -v {project}/tests
           CIBW_BEFORE_TEST_MACOS: >
+            export TA_INCLUDE_PATH="$(brew --prefix ta-lib)/include" &&
+            export TA_LIBRARY_PATH="$(brew --prefix ta-lib)/lib" &&
             pip install -U setuptools ta-lib &&
             python -c "import talib" &&
             python -c "import zipline" &&
