@@ -17,7 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest , windows-latest, macos-latest ]
+#        os: [ ubuntu-latest , windows-latest, macos-latest ]
+        os: [  macos-latest ]
         python: [ "cp39", "cp310", "cp311", "cp312" ]
         arch: [ auto64 ]
 
@@ -48,6 +49,13 @@ jobs:
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=10.15
           CIBW_BEFORE_TEST: pip install -U setuptools
           CIBW_TEST_COMMAND_MACOS: python -m pytest -v {project}/tests
+          CIBW_BEFORE_TEST_MACOS: >
+            pip install -U setuptools &&
+            pwd &&
+            echo ${{ github.workspace }} &&
+            python -c "import talib" &&
+            python -c "import zipline" &&
+            python -m pytest -v ${{ github.workspace }}/tests
 
       - name: Install MSVC amd64
         if: runner.os == 'Windows'
