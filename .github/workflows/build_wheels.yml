@@ -17,6 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+#        os: [ macos-latest, ubuntu-latest, windows-latest ]
+#        python: [ cp39, cp310, cp311 , cp312 ]
         os: [ macos-latest ]
         python: [ cp310 ]
         arch: [ auto64 ]
@@ -46,7 +48,7 @@ jobs:
           CIBW_BUILD: "${{ matrix.python }}-*"
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=10.15
-          CIBW_TEST_COMMAND_MACOS: ''
+          CIBW_TEST_COMMAND_MACOS: pytest {package}/tests/
           ACTIONS_RUNNER_DEBUG: true
 
       - name: Install MSVC amd64
