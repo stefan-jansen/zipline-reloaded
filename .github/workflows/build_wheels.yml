@@ -50,7 +50,7 @@ jobs:
           CIBW_BEFORE_TEST: pip install -U setuptools
           CIBW_TEST_COMMAND_MACOS: python -m pytest -v {project}/tests
           CIBW_BEFORE_TEST_MACOS: >
-            pip install -U setuptools &&
+            pip install -U setuptools ta-lib &&
             pwd &&
             echo ${{ github.workspace }} &&
             python -c "import talib" &&
