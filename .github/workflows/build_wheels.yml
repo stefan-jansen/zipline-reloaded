@@ -17,10 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-#        os: [ macos-latest, ubuntu-latest, windows-latest ]
-#        python: [ cp39, cp310, cp311 , cp312 ]
-        os: [ macos-latest ]
-        python: [ cp310 ]
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
+        python: [ cp39, cp310, cp311 , cp312 ]
         arch: [ auto64 ]
 
     steps:
@@ -48,8 +46,7 @@ jobs:
           CIBW_BUILD: "${{ matrix.python }}-*"
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=10.15
-          CIBW_TEST_COMMAND_MACOS: pytest {package}/tests/
-          ACTIONS_RUNNER_DEBUG: true
+          CIBW_TEST_COMMAND_MACOS: ''
 
       - name: Install MSVC amd64
         if: runner.os == 'Windows'
@@ -112,7 +109,7 @@ jobs:
           merge-multiple: true
 
       - name: Publish to testpypi
-        if: ${{ github.event.inputs.target  == 'TESTPYPI2' }}
+        if: ${{ github.event.inputs.target  == 'TESTPYPI' }}
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
