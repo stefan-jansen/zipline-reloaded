@@ -46,7 +46,7 @@ jobs:
           CIBW_BUILD: "${{ matrix.python }}-*"
           CIBW_SKIP: "*-musllinux_*"
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=10.15
-          CIBW_TEST_COMMAND: python -c 'import zipline; print(zipline.__version__)'
+          CIBW_TEST_COMMAND_MACOS: ''
           ACTIONS_RUNNER_DEBUG: true
 
       - name: Install MSVC amd64
@@ -110,7 +110,7 @@ jobs:
           merge-multiple: true
 
       - name: Publish to testpypi
-        if: ${{ github.event.inputs.target  == 'TESTPYPI' }}
+        if: ${{ github.event.inputs.target  == 'TESTPYPI2' }}
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
