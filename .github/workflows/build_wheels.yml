@@ -50,9 +50,10 @@ jobs:
           CIBW_BEFORE_TEST: pip install -U setuptools
           CIBW_TEST_COMMAND_MACOS: python -m pytest -v {project}/tests
           CIBW_BEFORE_TEST_MACOS: >
+            brew install ta-lib &&
             export TA_INCLUDE_PATH="$(brew --prefix ta-lib)/include" &&
             export TA_LIBRARY_PATH="$(brew --prefix ta-lib)/lib" &&
-            pip install -U setuptools ta-lib &&
+            pip install -U ta-lib &&
             python -c "import talib" &&
             python -c "import zipline" &&
             python -m pytest -v ${{ github.workspace }}/tests
