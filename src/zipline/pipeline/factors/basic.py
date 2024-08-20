@@ -157,7 +157,7 @@ class MaxDrawdown(SingleInputMixin, CustomFactor):
 
     def compute(self, today, assets, out, data):
         drawdowns = fmax.accumulate(data, axis=0) - data
-        drawdowns[isnan(drawdowns)] = NINF
+        drawdowns[isnan(drawdowns)] = -np.inf
         drawdown_ends = nanargmax(drawdowns, axis=0)
 
         # TODO: Accelerate this loop in Cython or Numba.

@@ -500,7 +500,7 @@ class MarketImpactBase(SlippageModel):
             except HistoryWindowStartsBeforeData:
                 # If there is not enough data to do a full history call, return
                 # values as if there was no data.
-                return 0, np.NaN
+                return 0, np.nan
 
             # Exclude the first value of the percent change array because it is
             # always just NaN.
