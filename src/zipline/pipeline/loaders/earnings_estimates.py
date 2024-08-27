@@ -702,7 +702,7 @@ class EarningsEstimatesLoader(implements(PipelineLoader)):
         ffill_across_cols(last_per_qtr, columns, self.name_map)
         # Stack quarter and sid into the index.
         stacked_last_per_qtr = last_per_qtr.stack(
-            [SID_FIELD_NAME, NORMALIZED_QUARTERS],
+            [SID_FIELD_NAME, NORMALIZED_QUARTERS], future_stack=True,
         )
         # Set date index name for ease of reference
         stacked_last_per_qtr.index.set_names(

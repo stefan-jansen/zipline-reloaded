@@ -2666,7 +2666,7 @@ class PreviousWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase
             .set_index(SID_FIELD_NAME, append=True)
             .unstack(SID_FIELD_NAME)
             .reindex(cls.trading_days)
-            .stack(SID_FIELD_NAME, dropna=False)
+            .stack(SID_FIELD_NAME, future_stack=True)
         )
 
         split_adjusted_at_end_boundary = (
@@ -2733,7 +2733,7 @@ class PreviousWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase
             .set_index(SID_FIELD_NAME, append=True)
             .unstack(SID_FIELD_NAME)
             .reindex(cls.trading_days)
-            .stack(SID_FIELD_NAME, dropna=False)
+            .stack(SID_FIELD_NAME, future_stack=True)
         )
 
         split_adjusted_before_start_boundary = split_adjusted_at_start_boundary
@@ -2812,7 +2812,7 @@ class NextWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase):
             .set_index(SID_FIELD_NAME, append=True)
             .unstack(SID_FIELD_NAME)
             .reindex(cls.trading_days)
-            .stack(SID_FIELD_NAME, dropna=False)
+            .stack(SID_FIELD_NAME, future_stack=True)
         )
 
         split_adjusted_at_end_boundary = (
@@ -2867,7 +2867,7 @@ class NextWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase):
             .set_index(SID_FIELD_NAME, append=True)
             .unstack(SID_FIELD_NAME)
             .reindex(cls.trading_days)
-            .stack(SID_FIELD_NAME, dropna=False)
+            .stack(SID_FIELD_NAME, future_stack=True)
         )
 
         split_adjusted_before_start_boundary = split_adjusted_at_start_boundary
