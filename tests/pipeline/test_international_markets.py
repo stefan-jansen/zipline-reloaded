@@ -128,7 +128,10 @@ class WithInternationalDailyBarData(zf.WithAssetFinder):
 
             bar_data = cls.daily_bar_data[name]
             df = (
-                pd.concat(bar_data, keys=bar_data.keys()).stack(future_stack=True).unstack(0).swaplevel()
+                pd.concat(bar_data, keys=bar_data.keys())
+                .stack(future_stack=True)
+                .unstack(0)
+                .swaplevel()
             )
             frames = {
                 field: frame.reset_index(level=0, drop=True)
