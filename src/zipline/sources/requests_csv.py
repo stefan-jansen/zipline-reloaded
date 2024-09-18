@@ -410,7 +410,7 @@ class PandasCSV(ABC):
             # the dt column is dropped. So, we need to manually copy
             # dt into the event.
             event.dt = dt
-            for k, v in series.iteritems():
+            for k, v in series.items():
                 # convert numpy integer types to
                 # int. This assumes we are on a 64bit
                 # platform that will not lose information

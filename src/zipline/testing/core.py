@@ -1287,13 +1287,13 @@ def patch_os_environment(remove=None, **values):
     remove = remove or []
     for key in remove:
         old_values[key] = os.environ.pop(key)
-    for key, value in values.iteritems():
+    for key, value in values.items():
         old_values[key] = os.getenv(key)
         os.environ[key] = value
     try:
         yield
     finally:
-        for old_key, old_value in old_values.iteritems():
+        for old_key, old_value in old_values.items():
             if old_value is None:
                 # Value was not present when we entered, so del it out if it's
                 # still present.
