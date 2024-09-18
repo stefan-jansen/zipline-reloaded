@@ -179,7 +179,7 @@ class TestBenchmark(
         # compare all the fields except the first one, for which we don't have
         # data in manually_calculated
         for idx, day in enumerate(days_to_use[1:]):
-            assert source.get_value(day) == manually_calculated[idx + 1]
+            assert source.get_value(day) == manually_calculated.iloc[idx + 1]
 
         # compare a slice of the data
         assert_series_equal(
@@ -263,7 +263,7 @@ class TestBenchmark(
             )[2].pct_change()
 
             for idx, day in enumerate(days_to_use[1:]):
-                assert source.get_value(day) == manually_calculated[idx + 1]
+                assert source.get_value(day) == manually_calculated.iloc[idx + 1]
 
     def test_no_stock_dividends_allowed(self):
         # try to use sid(4) as benchmark, should blow up due to the presence
