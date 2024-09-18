@@ -565,7 +565,8 @@ class _ClassicRiskMetrics:
             start=start_session,
             # Ensure we have at least one month
             end=end - datetime.timedelta(days=1),
-            freq="M",
+            # FutureWarning: 'M' is deprecated and will be removed in a future version, please use 'ME' instead.
+            freq="ME",
             tz="utc",
         )
 

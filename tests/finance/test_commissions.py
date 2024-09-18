@@ -441,8 +441,8 @@ class CommissionAlgorithmTests(WithMakeAlgo, ZiplineTestCase):
         # The capital used is only -1.0 (the commission cost) because no
         # capital is actually spent to enter into a long position on a futures
         # contract.
-        assert results.orders[1][0]["commission"] == 1.0
-        assert results.capital_used[1] == -1.0
+        assert results.orders.iloc[1][0]["commission"] == 1.0
+        assert results.capital_used.iloc[1] == -1.0
 
     def test_per_share_no_minimum(self):
         results = self.get_results(
@@ -487,9 +487,9 @@ class CommissionAlgorithmTests(WithMakeAlgo, ZiplineTestCase):
         )
 
         # commissions should be 8, 10, 15
-        assert 8 == results.orders[1][0]["commission"]
-        assert 10 == results.orders[2][0]["commission"]
-        assert 15 == results.orders[3][0]["commission"]
+        assert 8 == results.orders.iloc[1][0]["commission"]
+        assert 10 == results.orders.iloc[2][0]["commission"]
+        assert 15 == results.orders.iloc[3][0]["commission"]
 
         self.verify_capital_used(results, [-1008, -1002, -1005])
 
@@ -503,9 +503,9 @@ class CommissionAlgorithmTests(WithMakeAlgo, ZiplineTestCase):
         )
 
         # commissions should be 12, 12, 15
-        assert 12 == results.orders[1][0]["commission"]
-        assert 12 == results.orders[2][0]["commission"]
-        assert 15 == results.orders[3][0]["commission"]
+        assert 12 == results.orders.iloc[1][0]["commission"]
+        assert 12 == results.orders.iloc[2][0]["commission"]
+        assert 15 == results.orders.iloc[3][0]["commission"]
 
         self.verify_capital_used(results, [-1012, -1000, -1003])
 
@@ -519,9 +519,9 @@ class CommissionAlgorithmTests(WithMakeAlgo, ZiplineTestCase):
         )
 
         # commissions should be 18, 18, 18
-        assert 18 == results.orders[1][0]["commission"]
-        assert 18 == results.orders[2][0]["commission"]
-        assert 18 == results.orders[3][0]["commission"]
+        assert 18 == results.orders.iloc[1][0]["commission"]
+        assert 18 == results.orders.iloc[2][0]["commission"]
+        assert 18 == results.orders.iloc[3][0]["commission"]
 
         self.verify_capital_used(results, [-1018, -1000, -1000])
 
@@ -549,8 +549,8 @@ class CommissionAlgorithmTests(WithMakeAlgo, ZiplineTestCase):
             ),
         )
 
-        assert results.orders[1][0]["commission"] == expected_commission
-        assert results.capital_used[1] == -expected_commission
+        assert results.orders.iloc[1][0]["commission"] == expected_commission
+        assert results.capital_used.iloc[1] == -expected_commission
 
     def test_per_dollar(self):
         results = self.get_results(
@@ -583,6 +583,7 @@ class CommissionAlgorithmTests(WithMakeAlgo, ZiplineTestCase):
             )
 
     def verify_capital_used(self, results, values):
-        assert values[0] == results.capital_used[1]
-        assert values[1] == results.capital_used[2]
-        assert values[2] == results.capital_used[3]
+        # assert values[0] == results.capital_used.iloc[1]
+        # assert values[1] == results.capital_used.iloc[2]
+        # assert values[2] == results.capital_used.iloc[3]
+        assert values == results.capital_used[1:4].tolist()

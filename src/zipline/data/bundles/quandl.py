@@ -103,7 +103,7 @@ def gen_asset_metadata(data, show_progress):
     if show_progress:
         log.info("Generating asset metadata.")
 
-    data = data.groupby(by="symbol").agg({"date": [np.min, np.max]})
+    data = data.groupby(by="symbol").agg({"date": ["min", "max"]})
     data.reset_index(inplace=True)
     data["start_date"] = data.date[np.min.__name__]
     data["end_date"] = data.date[np.max.__name__]

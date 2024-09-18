@@ -138,7 +138,7 @@ class TestConstantPrice(
             )
 
         nan_then_zero = pd.Series(0.0, index=self.closes)
-        nan_then_zero[0] = float("nan")
+        nan_then_zero.iloc[0] = float("nan")
         nan_then_zero_fields = (
             "algo_volatility",
             "benchmark_volatility",
@@ -667,7 +667,7 @@ class TestConstantPrice(
                 )
 
         nan_then_zero = pd.Series(0.0, index=self.closes)
-        nan_then_zero[0] = float("nan")
+        nan_then_zero.iloc[0] = float("nan")
         nan_then_zero_fields = (
             "algo_volatility",
             "benchmark_volatility",
@@ -727,7 +727,7 @@ class TestConstantPrice(
             check_names=False,
         )
 
-        expected_cash[0] += cash_modifier
+        expected_cash.iloc[0] += cash_modifier
         assert_equal(
             perf["ending_cash"],
             expected_cash,
@@ -736,7 +736,7 @@ class TestConstantPrice(
 
         # we purchased one share on the first day
         expected_capital_used = pd.Series(0.0, index=self.closes)
-        expected_capital_used[0] += cash_modifier
+        expected_capital_used.iloc[0] += cash_modifier
 
         assert_equal(
             perf["capital_used"],
@@ -760,7 +760,7 @@ class TestConstantPrice(
 
         # we don't start with any positions; the first day has no starting
         # exposure
-        expected_position_exposure[0] = 0
+        expected_position_exposure.iloc[0] = 0
         for field in "starting_value", "starting_exposure":
             # for equities, position value and position exposure are the same
             assert_equal(
@@ -883,8 +883,8 @@ class TestConstantPrice(
             cash_modifier,
             index=self.trading_minutes,
         )
-        expected_portfolio_capital_used[0] = 0.0
-        expected_capital_used[0] = 0
+        expected_portfolio_capital_used.iloc[0] = 0.0
+        expected_capital_used.iloc[0] = 0
         assert_equal(
             portfolio_snapshots["cash_flow"],
             expected_portfolio_capital_used,
@@ -1670,7 +1670,7 @@ class TestFixedReturns(WithMakeAlgo, ZiplineTestCase):
             # we sold one share on the first day
             cash_modifier = +expected_fill_price
 
-        expected_cash[1:] += cash_modifier
+        expected_cash.iloc[1:] += cash_modifier
 
         assert_equal(
             perf["starting_cash"],
@@ -1678,7 +1678,7 @@ class TestFixedReturns(WithMakeAlgo, ZiplineTestCase):
             check_names=False,
         )
 
-        expected_cash[0] += cash_modifier
+        expected_cash.iloc[0] += cash_modifier
         assert_equal(
             perf["ending_cash"],
             expected_cash,
@@ -1687,7 +1687,7 @@ class TestFixedReturns(WithMakeAlgo, ZiplineTestCase):
 
         # we purchased one share on the first day
         expected_capital_used = pd.Series(0.0, index=self.equity_closes)
-        expected_capital_used[0] += cash_modifier
+        expected_capital_used.iloc[0] += cash_modifier
 
         assert_equal(
             perf["capital_used"],
@@ -1707,7 +1707,7 @@ class TestFixedReturns(WithMakeAlgo, ZiplineTestCase):
         # we don't start with any positions; the first day has no starting
         # exposure
         expected_starting_exposure = expected_exposure.shift(1)
-        expected_starting_exposure[0] = 0.0
+        expected_starting_exposure.iloc[0] = 0.0
         for field in "starting_value", "starting_exposure":
             # for equities, position value and position exposure are the same
             assert_equal(
@@ -1815,8 +1815,8 @@ class TestFixedReturns(WithMakeAlgo, ZiplineTestCase):
             cash_modifier,
             index=self.equity_minutes,
         )
-        expected_portfolio_capital_used[0] = 0.0
-        expected_capital_used[0] = 0
+        expected_portfolio_capital_used.iloc[0] = 0.0
+        expected_capital_used.iloc[0] = 0
         assert_equal(
             portfolio_snapshots["cash_flow"],
             expected_portfolio_capital_used,

@@ -292,7 +292,7 @@ class BenchmarkSource:
             first_day_return = (first_close - first_open) / first_open
 
             returns = benchmark_series.pct_change()[:]
-            returns[0] = first_day_return
+            returns.iloc[0] = first_day_return
             return returns, returns
         else:
             raise ValueError(

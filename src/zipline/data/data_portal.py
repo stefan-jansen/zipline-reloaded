@@ -348,7 +348,9 @@ class DataPortal:
         group_names = grouped_by_sid.groups.keys()
         group_dict = {}
         for group_name in group_names:
-            group_dict[group_name] = grouped_by_sid.get_group(group_name)
+            # FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas.
+            # Pass `(name,)` instead of `name` to silence this warning.
+            group_dict[group_name] = grouped_by_sid.get_group((group_name,))
 
         # This will be the dataframe which we query to get fetcher assets at
         # any given time. Get's overwritten every time there's a new fetcher
@@ -948,7 +950,7 @@ class DataPortal:
             df.iloc[0, assets_with_leading_nan] = np.array(
                 initial_values, dtype=np.float64
             )
-            df.fillna(method="ffill", inplace=True)
+            df.ffill(inplace=True)
 
             # forward-filling will incorrectly produce values after the end of
             # an asset's lifetime, so write NaNs back over the asset's

@@ -417,7 +417,8 @@ class Ledger:
         # make daily_returns hold the partial returns, this saves many
         # metrics from doing a concat and copying all of the previous
         # returns
-        self.daily_returns_array.iloc[session_ix] = self.todays_returns
+        # AttributeError: 'numpy.ndarray' object has no attribute 'iloc'
+        self.daily_returns_array[session_ix] = self.todays_returns
 
     def end_of_session(self, session_ix):
         # save the daily returns time-series

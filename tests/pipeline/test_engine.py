@@ -256,7 +256,7 @@ class ConstantInputTestCase(
         #  (i.e. start and end dates are the same) we should accurately get
         # data for the day prior.
         result = self.engine.run_pipeline(p, self.dates[1], self.dates[1])
-        assert result["f"][0] == 1.0
+        assert result["f"].iloc[0] == 1.0
 
     def test_screen(self):
         asset_ids = np.array(self.asset_ids)

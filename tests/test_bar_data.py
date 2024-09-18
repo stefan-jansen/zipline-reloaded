@@ -1078,6 +1078,7 @@ class TestDailyBarData(
                 assert 5 == bar_data.current(asset, "price")
 
     def test_after_assets_dead(self):
+        print("Hello World")
         session = self.END_DATE
 
         bar_data = self.create_bardata(
