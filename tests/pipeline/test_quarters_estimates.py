@@ -833,28 +833,29 @@ class PreviousEstimateMultipleQuarters(WithEstimateMultipleQuarters, ZiplineTest
     def fill_expected_out(cls, expected):
         # Fill columns for 1 Q out
         for raw_name in cls.columns.values():
-            expected[raw_name + "1"].loc[
-                pd.Timestamp(
-                    "2015-01-12",
-                ) : pd.Timestamp("2015-01-19")
+            expected.loc[
+                pd.Timestamp("2015-01-12") : pd.Timestamp("2015-01-19"),
+                raw_name + "1"
             ] = cls.events[raw_name].iloc[0]
-            expected[raw_name + "1"].loc[pd.Timestamp("2015-01-20") :] = cls.events[
+            expected.loc[pd.Timestamp("2015-01-20") :, raw_name + "1"] = cls.events[
                 raw_name
             ].iloc[1]
 
         # Fill columns for 2 Q out
         for col_name in ["estimate", "event_date"]:
-            expected[col_name + "2"].loc[pd.Timestamp("2015-01-20") :] = cls.events[
+            expected.loc[pd.Timestamp("2015-01-20") :, col_name + "2"] = cls.events[
                 col_name
             ].iloc[0]
-        expected[FISCAL_QUARTER_FIELD_NAME + "2"].loc[
-            pd.Timestamp("2015-01-12") : pd.Timestamp("2015-01-20")
+        expected.loc[
+            pd.Timestamp("2015-01-12") : pd.Timestamp("2015-01-20"),
+            FISCAL_QUARTER_FIELD_NAME + "2"
         ] = 4
-        expected[FISCAL_YEAR_FIELD_NAME + "2"].loc[
-            pd.Timestamp("2015-01-12") : pd.Timestamp("2015-01-20")
+        expected.loc[
+            pd.Timestamp("2015-01-12") : pd.Timestamp("2015-01-20"),
+            FISCAL_YEAR_FIELD_NAME + "2"
         ] = 2014
-        expected[FISCAL_QUARTER_FIELD_NAME + "2"].loc[pd.Timestamp("2015-01-20") :] = 1
-        expected[FISCAL_YEAR_FIELD_NAME + "2"].loc[pd.Timestamp("2015-01-20") :] = 2015
+        expected.loc[pd.Timestamp("2015-01-20") :, FISCAL_QUARTER_FIELD_NAME + "2"] = 1
+        expected.loc[pd.Timestamp("2015-01-20") :, FISCAL_YEAR_FIELD_NAME + "2"] = 2015
         return expected
 
 
@@ -2666,7 +2667,7 @@ class PreviousWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase
             .set_index(SID_FIELD_NAME, append=True)
             .unstack(SID_FIELD_NAME)
             .reindex(cls.trading_days)
-            .stack(SID_FIELD_NAME, dropna=False)
+            .stack(SID_FIELD_NAME, future_stack=True)
         )
 
         split_adjusted_at_end_boundary = (
@@ -2733,7 +2734,7 @@ class PreviousWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase
             .set_index(SID_FIELD_NAME, append=True)
             .unstack(SID_FIELD_NAME)
             .reindex(cls.trading_days)
-            .stack(SID_FIELD_NAME, dropna=False)
+            .stack(SID_FIELD_NAME, future_stack=True)
         )
 
         split_adjusted_before_start_boundary = split_adjusted_at_start_boundary
@@ -2812,7 +2813,7 @@ class NextWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase):
             .set_index(SID_FIELD_NAME, append=True)
             .unstack(SID_FIELD_NAME)
             .reindex(cls.trading_days)
-            .stack(SID_FIELD_NAME, dropna=False)
+            .stack(SID_FIELD_NAME, future_stack=True)
         )
 
         split_adjusted_at_end_boundary = (
@@ -2867,7 +2868,7 @@ class NextWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase):
             .set_index(SID_FIELD_NAME, append=True)
             .unstack(SID_FIELD_NAME)
             .reindex(cls.trading_days)
-            .stack(SID_FIELD_NAME, dropna=False)
+            .stack(SID_FIELD_NAME, future_stack=True)
         )
 
         split_adjusted_before_start_boundary = split_adjusted_at_start_boundary
