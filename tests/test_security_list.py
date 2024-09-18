@@ -4,6 +4,7 @@ from parameterized import parameterized
 
 from zipline.algorithm import TradingAlgorithm
 from zipline.errors import TradingControlViolation
+from zipline.finance.asset_restrictions import SecurityListRestrictions
 from zipline.testing import (
     add_security_data,
     security_list_copy,
@@ -53,7 +54,7 @@ class RestrictedAlgoWithoutCheck(TradingAlgorithm):
 class RestrictedAlgoWithoutCheckSetDoNotOrderList(TradingAlgorithm):
     def initialize(self, symbol):
         self.rl = SecurityListSet(self.get_datetime, self.asset_finder)
-        self.set_do_not_order_list(self.rl.leveraged_etf_list)
+        self.set_asset_restrictions(SecurityListRestrictions(self.rl.leveraged_etf_list))
         self.order_count = 0
         self.sid = self.symbol(symbol)
 
