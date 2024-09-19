@@ -245,7 +245,7 @@ def handle_data(context, data):
             """
         )
 
-        assert results["cpi"][-1] == 203.1
+        assert results["cpi"].iloc[-1] == 203.1
 
     def test_algo_fetch_csv(self):
         self.responses.add(
@@ -276,9 +276,9 @@ def handle_data(context, data):
         """
         )
 
-        assert 5 == results["signal"][-1]
-        assert 50 == results["scaled"][-1]
-        assert 24 == results["price"][-1]  # fake value
+        assert 5 == results["signal"].iloc[-1]
+        assert 50 == results["scaled"].iloc[-1]
+        assert 24 == results["price"].iloc[-1]  # fake value
 
     def test_algo_fetch_csv_with_extra_symbols(self):
         self.responses.add(
@@ -309,9 +309,9 @@ def handle_data(context, data):
             """
         )
 
-        assert 5 == results["signal"][-1]
-        assert 50 == results["scaled"][-1]
-        assert 24 == results["price"][-1]  # fake value
+        assert 5 == results["signal"].iloc[-1]
+        assert 50 == results["scaled"].iloc[-1]
+        assert 24 == results["price"].iloc[-1]  # fake value
 
     @parameterized.expand(
         [
@@ -372,7 +372,7 @@ from zipline.api import fetch_csv, record, sid
 
 def rename_col(df):
     df = df.rename(columns={'New York 15:00': 'price'})
-    df = df.fillna(method='ffill')
+    df = df.ffill()
     return df[['price', 'sid']]
 
 def initialize(context):

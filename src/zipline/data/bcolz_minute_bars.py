@@ -964,8 +964,8 @@ class BcolzMinuteBarReader(MinuteBarReader):
         market_closes = self._market_closes.values.astype("datetime64[m]")
         minutes_per_day = (market_closes - market_opens).astype(np.int64)
         early_indices = np.where(minutes_per_day != self._minutes_per_day - 1)[0]
-        early_opens = self._market_opens[early_indices]
-        early_closes = self._market_closes[early_indices]
+        early_opens = self._market_opens.iloc[early_indices]
+        early_closes = self._market_closes.iloc[early_indices]
         minutes = [
             (market_open, early_close)
             for market_open, early_close in zip(early_opens, early_closes)
