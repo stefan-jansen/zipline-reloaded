@@ -11,12 +11,13 @@ from numpy import (
     full,
     isnan,
     log,
-    NINF,
+    # NINF,
     sqrt,
     sum as np_sum,
     unique,
     errstate as np_errstate,
 )
+import numpy as np
 
 from zipline.pipeline.data import EquityPricing
 from zipline.utils.input_validation import expect_types
@@ -157,7 +158,7 @@ class MaxDrawdown(SingleInputMixin, CustomFactor):
 
     def compute(self, today, assets, out, data):
         drawdowns = fmax.accumulate(data, axis=0) - data
-        drawdowns[isnan(drawdowns)] = NINF
+        drawdowns[isnan(drawdowns)] = -np.inf
         drawdown_ends = nanargmax(drawdowns, axis=0)
 
         # TODO: Accelerate this loop in Cython or Numba.

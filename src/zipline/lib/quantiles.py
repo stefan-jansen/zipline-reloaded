@@ -1,7 +1,8 @@
 """
 Algorithms for computing quantiles on numpy arrays.
 """
-from numpy.lib import apply_along_axis
+# from numpy.lib import apply_along_axis
+from numpy import apply_along_axis
 from pandas import qcut
 
 
