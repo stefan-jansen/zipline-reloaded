@@ -5,12 +5,22 @@ from toolz import merge
 from zipline.utils.calendar_utils import register_calendar, get_calendar
 
 from zipline import run_algorithm
+from packaging.version import Version
+
+# talib is not yet compatible with numpy 2.0
+import numpy
+
+NUMPY2 = Version(numpy.__version__) >= Version("2.0.0")
+if not NUMPY2:
+    import talib
 
 
 # These are used by test_examples.py to discover the examples to run.
 def load_example_modules():
     example_modules = {}
     for f in os.listdir(os.path.dirname(__file__)):
+        if NUMPY2 and f == "dual_ema_talib.py":
+            continue
         if not f.endswith(".py") or f == "__init__.py" or f == "buyapple_ide.py":
             continue
         modname = f[: -len(".py")]

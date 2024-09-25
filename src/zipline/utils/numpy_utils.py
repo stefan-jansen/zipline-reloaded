@@ -414,10 +414,17 @@ def ignore_nanwarnings():
     Helper for building a WarningContext that ignores warnings from numpy's
     nanfunctions.
     """
+    from packaging.version import Version
+
+    NUMPY2 = Version(np.__version__) >= Version("2.0.0")
+    if NUMPY2:
+        module = "numpy.lib._nanfunctions_impl"
+    else:
+        module = "numpy.lib.nanfunctions"
     return WarningContext(
         (
             ("ignore",),
-            {"category": RuntimeWarning, "module": "numpy.lib.nanfunctions"},
+            {"category": RuntimeWarning, "module": module},
         )
     )
 

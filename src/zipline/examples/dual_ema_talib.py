@@ -38,6 +38,13 @@ except ImportError as exc:
         "the zipline installation documentation)."
     )
     raise ImportError(msg) from exc
+except ValueError as e:
+    if len(e.args) > 0 and e.args[0].startswith("numpy.dtype size changed"):
+        msg = (
+            "TA-lib failed to import. This is likely due to lack of Numpy 2.0 compatibility. "
+            "Please check your versions and possibly downgrade NumPy."
+        )
+        raise ImportError(msg) from e
 
 
 def initialize(context):
