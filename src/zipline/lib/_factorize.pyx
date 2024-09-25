@@ -5,16 +5,12 @@ from cpython cimport Py_LT
 from libc.math cimport log
 cimport numpy as np
 import numpy as np
-np.import_array()
+
 
 from zipline.utils.numpy_utils import unsigned_int_dtype_with_size_in_bytes
 
-np.import_array()
-
-
 cdef inline double log2(double d):
     return log(d) / log(2);
-
 
 cpdef inline smallest_uint_that_can_hold(Py_ssize_t maxval):
     """Choose the smallest numpy unsigned int dtype that can hold ``maxval``.
@@ -32,13 +28,11 @@ cpdef inline smallest_uint_that_can_hold(Py_ssize_t maxval):
             _int_sizes[int(np.ceil(log2(maxval) / 8))]
         )
 
-
 ctypedef fused unsigned_integral:
     np.uint8_t
     np.uint16_t
     np.uint32_t
     np.uint64_t
-
 
 cdef class _NoneFirstSortKey:
     """Box to sort ``None`` to the front of the categories list.
@@ -51,12 +45,11 @@ cdef class _NoneFirstSortKey:
     def __richcmp__(_NoneFirstSortKey self, _NoneFirstSortKey other, int op):
         if op == Py_LT:
             return (
-                self.value is None or
-                (other.value is not None and self.value < other.value)
+                    self.value is None or
+                    (other.value is not None and self.value < other.value)
             )
 
         return NotImplemented
-
 
 cdef factorize_strings_known_impl(np.ndarray[object] values,
                                   Py_ssize_t nvalues,
@@ -77,7 +70,6 @@ cdef factorize_strings_known_impl(np.ndarray[object] values,
         codes[i] = reverse_categories.get(values[i], missing_code)
 
     return codes, np.asarray(categories, dtype=object), reverse_categories
-
 
 cpdef factorize_strings_known_categories(np.ndarray[object] values,
                                          list categories,
@@ -133,7 +125,6 @@ cpdef factorize_strings_known_categories(np.ndarray[object] values,
     else:
         raise ValueError('ncategories larger than uint64')
 
-
 cdef factorize_strings_impl(np.ndarray[object] values,
                             object missing_value,
                             bint sort,
@@ -181,9 +172,7 @@ cdef factorize_strings_impl(np.ndarray[object] values,
 
     return codes, categories_array, reverse_categories
 
-
 cdef list _int_sizes = [1, 1, 2, 4, 4, 8, 8, 8, 8]
-
 
 cpdef factorize_strings(np.ndarray[object] values,
                         object missing_value,

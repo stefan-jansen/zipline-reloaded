@@ -5,7 +5,9 @@ import errno
 from functools import partial
 import os
 import pickle
-from distutils import dir_util
+
+# from distutils import dir_util
+from shutil import copytree
 from shutil import rmtree, move
 from tempfile import mkdtemp, NamedTemporaryFile
 
@@ -371,7 +373,7 @@ class working_dir:
 
     def _commit(self):
         """Sync the temporary directory to the final path."""
-        dir_util.copy_tree(self.path, self._final_path)
+        copytree(src=self.path, dst=self._final_path, dirs_exist_ok=True)
 
     def __enter__(self):
         return self

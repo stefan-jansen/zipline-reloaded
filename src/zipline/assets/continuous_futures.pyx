@@ -26,15 +26,14 @@ from cpython.object cimport (
     Py_GT,
     Py_LT,
 )
-from cpython cimport bool
-import numpy; numpy.import_array()
+# from cpython cimport bool
 from functools import partial
 
 from numpy import array, empty, iinfo
 from numpy cimport int64_t, int64_t
 from pandas import Timestamp
 from zipline.utils.calendar_utils import get_calendar
-import warnings
+# import warnings
 
 
 def delivery_predicate(codes, contract):
@@ -257,7 +256,7 @@ cdef class ContinuousFuture:
 
     def is_exchange_open(self, dt_minute):
         """
-        
+
         Parameters
         ----------
         dt_minute: pd.Timestamp (UTC, tz-aware)

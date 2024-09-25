@@ -1,5 +1,4 @@
 from numpy cimport ndarray, int64_t
-import numpy; numpy.import_array()
 from numpy import searchsorted
 from cpython cimport bool
 cimport cython
