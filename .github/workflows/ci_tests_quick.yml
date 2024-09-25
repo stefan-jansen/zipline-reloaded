@@ -17,9 +17,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: psf/black@stable
         with:
-          options: "--check --diff"
+          options: "--diff"
           src: "./src ./tests"
-          use_pyproject: true
+          version: '~22.1'
 
   flake8-lint:
     name: Lint Check
