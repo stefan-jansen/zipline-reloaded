@@ -69,6 +69,7 @@ jobs:
       - name: Store artifacts
         uses: actions/upload-artifact@v4
         with:
+          overwrite: true
           path: ./wheelhouse/*.whl
 
   build_sdist:
@@ -93,6 +94,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
+          overwrite: true
           path: dist/*.tar.gz
 
   upload_pypi:
