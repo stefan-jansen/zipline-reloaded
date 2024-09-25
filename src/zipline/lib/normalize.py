@@ -40,7 +40,7 @@ def naive_grouped_rowwise_apply(data, group_labels, func, func_args=(), out=None
     if out is None:
         out = np.empty_like(data)
 
-    for (row, label_row, out_row) in zip(data, group_labels, out):
+    for row, label_row, out_row in zip(data, group_labels, out):
         for label in np.unique(label_row):
             locs = label_row == label
             out_row[locs] = func(row[locs], *func_args)

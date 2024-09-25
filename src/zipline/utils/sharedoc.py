@@ -2,6 +2,7 @@
 Shared docstrings for parameters that should be documented identically
 across different functions.
 """
+
 import re
 from textwrap import dedent
 from toolz import curry

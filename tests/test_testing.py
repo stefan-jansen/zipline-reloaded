@@ -1,6 +1,7 @@
 """
 Tests for our testing utilities.
 """
+
 from itertools import product
 from unittest import TestCase
 

@@ -219,11 +219,11 @@ class DataPortal:
                 self.asset_finder,
                 aligned_future_session_reader,
             )
-            aligned_session_readers[
-                ContinuousFuture
-            ] = ContinuousFutureSessionBarReader(
-                aligned_future_session_reader,
-                self._roll_finders,
+            aligned_session_readers[ContinuousFuture] = (
+                ContinuousFutureSessionBarReader(
+                    aligned_future_session_reader,
+                    self._roll_finders,
+                )
             )
 
         _dispatch_minute_reader = AssetDispatchMinuteBarReader(
@@ -1073,9 +1073,9 @@ class DataPortal:
         try:
             adjustments = adjustments_dict[sid]
         except KeyError:
-            adjustments = adjustments_dict[
-                sid
-            ] = self._adjustment_reader.get_adjustments_for_sid(table_name, sid)
+            adjustments = adjustments_dict[sid] = (
+                self._adjustment_reader.get_adjustments_for_sid(table_name, sid)
+            )
 
         return adjustments
 

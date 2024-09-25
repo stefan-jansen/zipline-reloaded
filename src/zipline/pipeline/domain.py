@@ -14,6 +14,7 @@ Currently, this means that a domain defines two things:
    the future, we expect to expand this functionality to include more general
    concepts.
 """
+
 import datetime
 from textwrap import dedent
 

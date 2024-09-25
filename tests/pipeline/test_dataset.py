@@ -1,5 +1,6 @@
 """Tests for the zipline.pipeline.data.DataSet and related functionality.
 """
+
 import string
 from textwrap import dedent
 

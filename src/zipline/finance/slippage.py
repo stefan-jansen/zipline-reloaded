@@ -321,9 +321,7 @@ class VolumeShareSlippage(SlippageModel):
         # END
 
         simulated_impact = (
-            volume_share**2
-            * math.copysign(self.price_impact, order.direction)
-            * price
+            volume_share**2 * math.copysign(self.price_impact, order.direction) * price
         )
         impacted_price = price + simulated_impact
 

@@ -158,9 +158,10 @@ def security_list_copy():
             shutil.copytree(
                 os.path.join(old_dir, subdir), os.path.join(new_dir, subdir)
             )
-            with mock.patch.object(
-                security_list, "SECURITY_LISTS_DIR", new_dir
-            ), mock.patch.object(security_list, "using_copy", True, create=True):
+            with (
+                mock.patch.object(security_list, "SECURITY_LISTS_DIR", new_dir),
+                mock.patch.object(security_list, "using_copy", True, create=True),
+            ):
                 yield
     finally:
         shutil.rmtree(new_dir, True)

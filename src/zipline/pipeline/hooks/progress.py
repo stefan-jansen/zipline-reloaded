@@ -1,5 +1,6 @@
 """Pipeline hooks for tracking and displaying progress.
 """
+
 from collections import namedtuple
 import time
 

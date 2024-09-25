@@ -1,6 +1,7 @@
 """
 factor.py
 """
+
 import numpy as np
 from operator import attrgetter
 from numbers import Number

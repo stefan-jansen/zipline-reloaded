@@ -1,5 +1,6 @@
 """Simple common factors.
 """
+
 from numbers import Number
 from numpy import (
     arange,
@@ -436,9 +437,7 @@ class ExponentialWeightedMovingStdDev(_ExponentialWeightedFactor):
         variance = average((data - mean) ** 2, axis=0, weights=weights)
 
         squared_weight_sum = np_sum(weights) ** 2
-        bias_correction = squared_weight_sum / (
-            squared_weight_sum - np_sum(weights**2)
-        )
+        bias_correction = squared_weight_sum / (squared_weight_sum - np_sum(weights**2))
         out[:] = sqrt(variance * bias_correction)
 
 

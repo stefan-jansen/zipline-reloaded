@@ -1,4 +1,5 @@
 """ Utilities for working with numpy arrays."""
+
 from collections import OrderedDict
 from datetime import datetime
 from warnings import catch_warnings, filterwarnings

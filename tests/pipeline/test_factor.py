@@ -1,6 +1,7 @@
 """
 Tests for Factor terms.
 """
+
 import re
 from functools import partial
 from itertools import product

@@ -1,6 +1,7 @@
 """
 Tests for Term.
 """
+
 from collections import Counter
 from itertools import product
 

@@ -308,6 +308,7 @@ class InvalidOrderAlgorithm(TradingAlgorithm):
 ##############################
 # Quantopian style algorithms
 
+
 # Noop algo
 def initialize_noop(context):
     pass

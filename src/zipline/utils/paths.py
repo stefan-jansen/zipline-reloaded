@@ -4,6 +4,7 @@ Canonical path locations for zipline data.
 Paths are rooted at $ZIPLINE_ROOT if that environment variable is set.
 Otherwise default to expanduser(~/.zipline)
 """
+
 import os
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Optional, List

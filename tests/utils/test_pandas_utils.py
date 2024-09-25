@@ -1,6 +1,7 @@
 """
 Tests for zipline/utils/pandas_utils.py
 """
+
 import pandas as pd
 from packaging.version import Version
 from zipline.testing.predicates import assert_equal

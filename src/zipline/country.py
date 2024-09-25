@@ -1,5 +1,6 @@
 """Canonical definitions of country code constants.
 """
+
 from iso3166 import countries_by_name
 
 

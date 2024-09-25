@@ -1,6 +1,7 @@
 """
 filter.py
 """
+
 from itertools import chain
 from operator import attrgetter
 

@@ -18,6 +18,7 @@ STOCKS = ["AMD", "CERN", "COST", "DELL", "GPS", "INTC", "MMM"]
 
 # On-Line Portfolio Moving Average Reversion
 
+
 # More info can be found in the corresponding paper:
 # http://icml.cc/2012/papers/168.pdf
 def initialize(algo, eps=1, window_length=5):

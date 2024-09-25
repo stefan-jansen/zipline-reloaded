@@ -1,6 +1,7 @@
 """
 Tests for zipline.pipeline.loaders.frame.DataFrameLoader.
 """
+
 from unittest import mock
 import numpy as np
 import pandas as pd

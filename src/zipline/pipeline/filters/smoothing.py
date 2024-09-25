@@ -4,6 +4,7 @@ Filters that apply smoothing operations on other filters.
 These are generally useful for controlling/minimizing turnover on existing
 Filters.
 """
+
 from .filter import CustomFilter
 
 

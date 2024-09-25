@@ -1,6 +1,7 @@
 """
 Utilities for validating inputs to user-facing API functions.
 """
+
 import sys
 from textwrap import dedent
 from types import CodeType

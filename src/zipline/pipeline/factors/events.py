@@ -2,6 +2,7 @@
 Factors describing information about event data (e.g. earnings
 announcements, acquisitions, dividends, etc.).
 """
+
 from numpy import newaxis
 from zipline.utils.numpy_utils import (
     NaTD,

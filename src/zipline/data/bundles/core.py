@@ -391,9 +391,10 @@ def _make_bundle_core():
         cachepath = cache_path(name, environ=environ)
         pth.ensure_directory(pth.data_path([name, timestr], environ=environ))
         pth.ensure_directory(cachepath)
-        with dataframe_cache(
-            cachepath, clean_on_failure=False
-        ) as cache, ExitStack() as stack:
+        with (
+            dataframe_cache(cachepath, clean_on_failure=False) as cache,
+            ExitStack() as stack,
+        ):
             # we use `cleanup_on_failure=False` so that we don't purge the
             # cache directory if the load fails in the middle
             if bundle.create_writers:

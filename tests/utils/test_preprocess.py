@@ -1,6 +1,7 @@
 """
 Tests for zipline.utils.validate.
 """
+
 from operator import attrgetter
 from types import FunctionType
 

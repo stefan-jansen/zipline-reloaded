@@ -23,7 +23,11 @@ def required_event_fields(next_value_columns, previous_value_columns):
     ``next_value_columns`` and ``previous_value_columns``.
     """
     # These metadata columns are used to align event indexers.
-    return {TS_FIELD_NAME, SID_FIELD_NAME, EVENT_DATE_FIELD_NAME,}.union(
+    return {
+        TS_FIELD_NAME,
+        SID_FIELD_NAME,
+        EVENT_DATE_FIELD_NAME,
+    }.union(
         # We also expect any of the field names that our loadable columns
         # are mapped to.
         next_value_columns.values(),

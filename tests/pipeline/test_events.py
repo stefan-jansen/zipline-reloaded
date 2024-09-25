@@ -1,6 +1,7 @@
 """
 Tests for setting up an EventsLoader.
 """
+
 import re
 from datetime import time
 from itertools import product

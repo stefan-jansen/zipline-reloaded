@@ -1,6 +1,7 @@
 """
 Tests for chunked adjustments.
 """
+
 from collections import namedtuple
 from itertools import chain, product, zip_longest
 from string import ascii_lowercase, ascii_uppercase
