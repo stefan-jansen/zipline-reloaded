@@ -15,6 +15,7 @@
 
 cimport cython
 cimport numpy as np
+import numpy; numpy.import_array()
 import numpy as np
 import pandas as pd
 from cpython cimport bool

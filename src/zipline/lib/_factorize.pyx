@@ -5,6 +5,7 @@ from cpython cimport Py_LT
 from libc.math cimport log
 cimport numpy as np
 import numpy as np
+np.import_array()
 
 from zipline.utils.numpy_utils import unsigned_int_dtype_with_size_in_bytes
 

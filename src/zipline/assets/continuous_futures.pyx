@@ -27,7 +27,7 @@ from cpython.object cimport (
     Py_LT,
 )
 from cpython cimport bool
-
+import numpy; numpy.import_array()
 from functools import partial
 
 from numpy import array, empty, iinfo

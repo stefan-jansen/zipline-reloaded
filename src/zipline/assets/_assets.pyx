@@ -33,6 +33,7 @@ import numpy as np
 from numpy cimport int64_t
 import warnings
 cimport numpy as np
+import numpy; numpy.import_array()
 
 from zipline.utils.calendar_utils import get_calendar
 

@@ -32,7 +32,7 @@ from numpy cimport (
     uint8_t,
 )
 from numpy.math cimport NAN
-
+import numpy; numpy.import_array()
 ctypedef object carray_t
 ctypedef object ctable_t
 ctypedef object Timestamp_t

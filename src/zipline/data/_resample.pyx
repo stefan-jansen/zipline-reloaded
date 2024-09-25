@@ -14,6 +14,7 @@
 from cython cimport boundscheck, wraparound
 from numpy import finfo, float64, nan, isnan
 from numpy cimport intp_t, float64_t, uint32_t
+import numpy; numpy.import_array()
 
 @boundscheck(False)
 @wraparound(False)

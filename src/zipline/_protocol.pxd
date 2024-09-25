@@ -1,5 +1,5 @@
 cimport numpy as np
-
+import numpy; numpy.import_array()
 from zipline.assets._assets cimport Asset
 
 

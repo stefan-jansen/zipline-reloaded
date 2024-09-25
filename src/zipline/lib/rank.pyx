@@ -3,7 +3,7 @@ Functions for ranking and sorting.
 """
 cimport cython
 cimport numpy as np
-
+import numpy; numpy.import_array()
 import numpy as np
 from cpython cimport bool
 from scipy.stats import rankdata

@@ -25,6 +25,8 @@ from numpy import (
     zeros,
 )
 from numpy cimport float64_t, int64_t, ndarray
+import numpy
+numpy.import_array()
 from pandas import Timestamp
 
 ctypedef object Timestamp_t
