@@ -1,6 +1,7 @@
 """
 Module for building a complete dataset from local directory with csv files.
 """
+
 import os
 import sys
 

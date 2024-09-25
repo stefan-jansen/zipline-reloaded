@@ -1,6 +1,7 @@
 """
 NumericalExpression term.
 """
+
 import re
 from itertools import chain
 from numbers import Number

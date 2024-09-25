@@ -1,6 +1,7 @@
 """
 Module for building a complete daily dataset from Quandl's WIKI dataset.
 """
+
 from io import BytesIO
 import tarfile
 from zipfile import ZipFile

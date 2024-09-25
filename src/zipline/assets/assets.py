@@ -142,7 +142,10 @@ def merge_ownership_periods(mappings):
 def _build_ownership_map_from_rows(rows, key_from_row, value_from_row):
     mappings = {}
     for row in rows:
-        mappings.setdefault(key_from_row(row), [],).append(
+        mappings.setdefault(
+            key_from_row(row),
+            [],
+        ).append(
             OwnershipPeriod(
                 # TODO FIX TZ MESS
                 # pd.Timestamp(row.start_date, unit="ns", tz="utc"),
@@ -1451,9 +1454,9 @@ class AssetFinder:
 
         lifetimes = self._asset_lifetimes.get(country_codes)
         if lifetimes is None:
-            self._asset_lifetimes[
-                country_codes
-            ] = lifetimes = self._compute_asset_lifetimes(country_codes=country_codes)
+            self._asset_lifetimes[country_codes] = lifetimes = (
+                self._compute_asset_lifetimes(country_codes=country_codes)
+            )
 
         raw_dates = as_column(dates.asi8)
         if include_start_date:

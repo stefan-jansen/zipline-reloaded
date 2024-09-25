@@ -1,6 +1,7 @@
 """
 Dataset representing OHLCV data.
 """
+
 from zipline.utils.numpy_utils import float64_dtype, categorical_dtype
 
 from ..domain import US_EQUITIES

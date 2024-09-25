@@ -1,6 +1,7 @@
 """
 Tests BoundColumn attributes and methods.
 """
+
 import operator
 from unittest import skipIf
 

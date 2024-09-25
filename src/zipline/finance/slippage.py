@@ -269,7 +269,6 @@ class VolumeShareSlippage(SlippageModel):
         volume_limit=DEFAULT_EQUITY_VOLUME_SLIPPAGE_BAR_LIMIT,
         price_impact=0.1,
     ):
-
         super(VolumeShareSlippage, self).__init__()
 
         self.volume_limit = volume_limit
@@ -322,9 +321,7 @@ class VolumeShareSlippage(SlippageModel):
         # END
 
         simulated_impact = (
-            volume_share**2
-            * math.copysign(self.price_impact, order.direction)
-            * price
+            volume_share**2 * math.copysign(self.price_impact, order.direction) * price
         )
         impacted_price = price + simulated_impact
 
@@ -500,7 +497,7 @@ class MarketImpactBase(SlippageModel):
             except HistoryWindowStartsBeforeData:
                 # If there is not enough data to do a full history call, return
                 # values as if there was no data.
-                return 0, np.NaN
+                return 0, np.nan
 
             # Exclude the first value of the percent change array because it is
             # always just NaN.

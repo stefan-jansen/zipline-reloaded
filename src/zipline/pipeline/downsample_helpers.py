@@ -1,6 +1,7 @@
 """
 Helpers for downsampling code.
 """
+
 from toolz import compose
 from operator import attrgetter, methodcaller
 

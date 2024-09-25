@@ -840,7 +840,7 @@ class VolatilityVolumeShareTestCase(
         # Make the first month's worth of data NaN to simulate cases where a
         # futures contract does not exist yet.
         asset_start_date = cls.ASSET_START_DATE.tz_localize(data[0][1].index.tzinfo)
-        data[0][1].loc[:asset_start_date] = np.NaN
+        data[0][1].loc[:asset_start_date] = np.nan
         return data
 
     def test_calculate_impact_buy(self):

@@ -1,6 +1,7 @@
 """
 Tools for memoization of function results.
 """
+
 from collections.abc import Sequence
 from collections import OrderedDict, namedtuple
 from itertools import compress

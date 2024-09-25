@@ -334,9 +334,9 @@ class TestStatisticalBuiltIns:
                         x=my_asset_returns,
                     )
                     for i, output in enumerate(outputs):
-                        expected_output_results[output][
-                            day, asset_column
-                        ] = expected_regression_results[i]
+                        expected_output_results[output][day, asset_column] = (
+                            expected_regression_results[i]
+                        )
 
             for output in outputs:
                 output_result = output_results[output]
@@ -947,9 +947,9 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
                     x=asset_returns_10,
                 )
                 for i, output in enumerate(outputs):
-                    expected_output_results[output][
-                        day, asset_column
-                    ] = expected_regression_results[i]
+                    expected_output_results[output][day, asset_column] = (
+                        expected_regression_results[i]
+                    )
 
         for output in outputs:
             output_result = output_results[output]

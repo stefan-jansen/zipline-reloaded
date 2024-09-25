@@ -1,6 +1,7 @@
 """
 Tests for filter terms.
 """
+
 from functools import partial
 from itertools import product
 from operator import and_

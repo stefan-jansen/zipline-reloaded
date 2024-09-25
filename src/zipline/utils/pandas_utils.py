@@ -1,6 +1,7 @@
 """
 Utilities for working with pandas objects.
 """
+
 from contextlib import contextmanager
 from copy import deepcopy
 from itertools import product

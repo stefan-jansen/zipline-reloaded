@@ -1,6 +1,7 @@
 """
 Dependency-Graph representation of Pipeline API terms.
 """
+
 import uuid
 
 import networkx as nx

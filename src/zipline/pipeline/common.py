@@ -1,6 +1,7 @@
 """
 Common constants for Pipeline.
 """
+
 AD_FIELD_NAME = "asof_date"
 ANNOUNCEMENT_FIELD_NAME = "announcement_date"
 CASH_FIELD_NAME = "cash"

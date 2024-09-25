@@ -616,7 +616,7 @@ class HDF5DailyBarReader(CurrencyAwareSessionBarReader):
         """
         assets = np.array(assets)
         sid_selector = self.sids.searchsorted(assets)
-        unknown = np.in1d(assets, self.sids, invert=True)
+        unknown = np.isin(assets, self.sids, invert=True)
         sid_selector[unknown] = -1
         return sid_selector
 

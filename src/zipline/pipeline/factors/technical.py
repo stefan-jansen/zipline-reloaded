@@ -2,6 +2,7 @@
 Technical Analysis Factors
 --------------------------
 """
+
 from numpy import (
     abs,
     average,

@@ -1,6 +1,7 @@
 """
 Tools for visualizing dependencies between Terms.
 """
+
 from contextlib import contextmanager
 import errno
 from functools import partial

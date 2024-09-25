@@ -2,6 +2,7 @@
 A simple Pipeline algorithm that longs the top 3 stocks by RSI and shorts
 the bottom 3 each day.
 """
+
 from zipline.api import (
     attach_pipeline,
     date_rules,

@@ -933,10 +933,10 @@ class WithVaryingNumEstimates(WithEstimates):
 class PreviousVaryingNumEstimates(WithVaryingNumEstimates, ZiplineTestCase):
     def assert_compute(self, estimate, today):
         if today == pd.Timestamp("2015-01-13"):
-            assert_array_equal(estimate[:, 0], np.array([np.NaN, np.NaN, 12]))
-            assert_array_equal(estimate[:, 1], np.array([np.NaN, 12, 12]))
+            assert_array_equal(estimate[:, 0], np.array([np.nan, np.nan, 12]))
+            assert_array_equal(estimate[:, 1], np.array([np.nan, 12, 12]))
         else:
-            assert_array_equal(estimate[:, 0], np.array([np.NaN, 12, 12]))
+            assert_array_equal(estimate[:, 0], np.array([np.nan, 12, 12]))
             assert_array_equal(estimate[:, 1], np.array([12, 12, 12]))
 
     @classmethod
@@ -948,10 +948,10 @@ class NextVaryingNumEstimates(WithVaryingNumEstimates, ZiplineTestCase):
     def assert_compute(self, estimate, today):
         if today == pd.Timestamp("2015-01-13"):
             assert_array_equal(estimate[:, 0], np.array([11, 12, 12]))
-            assert_array_equal(estimate[:, 1], np.array([np.NaN, np.NaN, 21]))
+            assert_array_equal(estimate[:, 1], np.array([np.nan, np.nan, 21]))
         else:
-            assert_array_equal(estimate[:, 0], np.array([np.NaN, 21, 21]))
-            assert_array_equal(estimate[:, 1], np.array([np.NaN, 21, 21]))
+            assert_array_equal(estimate[:, 0], np.array([np.nan, 21, 21]))
+            assert_array_equal(estimate[:, 1], np.array([np.nan, 21, 21]))
 
     @classmethod
     def make_loader(cls, events, columns):
@@ -1154,9 +1154,9 @@ class PreviousEstimateWindows(WithEstimateWindows, ZiplineTestCase):
                     [
                         cls.create_expected_df_for_factor_compute(
                             [
-                                (0, np.NaN, cls.window_test_start_date),
-                                (10, np.NaN, cls.window_test_start_date),
-                                (20, np.NaN, cls.window_test_start_date),
+                                (0, np.nan, cls.window_test_start_date),
+                                (10, np.nan, cls.window_test_start_date),
+                                (20, np.nan, cls.window_test_start_date),
                             ],
                             end_date,
                         )
@@ -1166,7 +1166,7 @@ class PreviousEstimateWindows(WithEstimateWindows, ZiplineTestCase):
                 cls.create_expected_df_for_factor_compute(
                     [
                         (0, 101, pd.Timestamp("2015-01-20")),
-                        (10, np.NaN, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
                         (20, 121, pd.Timestamp("2015-01-20")),
                     ],
                     pd.Timestamp("2015-01-20"),
@@ -1174,7 +1174,7 @@ class PreviousEstimateWindows(WithEstimateWindows, ZiplineTestCase):
                 cls.create_expected_df_for_factor_compute(
                     [
                         (0, 101, pd.Timestamp("2015-01-20")),
-                        (10, np.NaN, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
                         (20, 121, pd.Timestamp("2015-01-20")),
                     ],
                     pd.Timestamp("2015-01-21"),
@@ -1220,9 +1220,9 @@ class PreviousEstimateWindows(WithEstimateWindows, ZiplineTestCase):
             [
                 cls.create_expected_df_for_factor_compute(
                     [
-                        (0, np.NaN, cls.window_test_start_date),
-                        (10, np.NaN, cls.window_test_start_date),
-                        (20, np.NaN, cls.window_test_start_date),
+                        (0, np.nan, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
+                        (20, np.nan, cls.window_test_start_date),
                     ],
                     end_date,
                 )
@@ -1235,7 +1235,7 @@ class PreviousEstimateWindows(WithEstimateWindows, ZiplineTestCase):
                 cls.create_expected_df_for_factor_compute(
                     [
                         (0, 101, pd.Timestamp("2015-02-10")),
-                        (10, np.NaN, pd.Timestamp("2015-02-05")),
+                        (10, np.nan, pd.Timestamp("2015-02-05")),
                         (20, 121, pd.Timestamp("2015-02-10")),
                     ],
                     pd.Timestamp("2015-02-10"),
@@ -1324,7 +1324,7 @@ class NextEstimateWindows(WithEstimateWindows, ZiplineTestCase):
                         cls.create_expected_df_for_factor_compute(
                             [
                                 (0, 200, pd.Timestamp("2015-01-12")),
-                                (10, np.NaN, cls.window_test_start_date),
+                                (10, np.nan, cls.window_test_start_date),
                                 (20, 220, cls.window_test_start_date),
                                 (20, 221, pd.Timestamp("2015-01-17")),
                             ],
@@ -1337,7 +1337,7 @@ class NextEstimateWindows(WithEstimateWindows, ZiplineTestCase):
                     [
                         (0, 200, pd.Timestamp("2015-01-12")),
                         (0, 201, pd.Timestamp("2015-02-10")),
-                        (10, np.NaN, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
                         (20, 220, cls.window_test_start_date),
                         (20, 221, pd.Timestamp("2015-01-17")),
                     ],
@@ -1350,8 +1350,8 @@ class NextEstimateWindows(WithEstimateWindows, ZiplineTestCase):
             [
                 cls.create_expected_df_for_factor_compute(
                     [
-                        (0, np.NaN, cls.window_test_start_date),
-                        (10, np.NaN, cls.window_test_start_date),
+                        (0, np.nan, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
                         (20, 220, cls.window_test_start_date),
                     ],
                     end_date,
@@ -1362,7 +1362,7 @@ class NextEstimateWindows(WithEstimateWindows, ZiplineTestCase):
                 cls.create_expected_df_for_factor_compute(
                     [
                         (0, 200, pd.Timestamp("2015-01-12")),
-                        (10, np.NaN, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
                         (20, 220, cls.window_test_start_date),
                     ],
                     end_date,
@@ -1373,7 +1373,7 @@ class NextEstimateWindows(WithEstimateWindows, ZiplineTestCase):
                 cls.create_expected_df_for_factor_compute(
                     [
                         (0, 200, pd.Timestamp("2015-01-12")),
-                        (10, np.NaN, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
                         (20, 220, cls.window_test_start_date),
                         (20, 221, pd.Timestamp("2015-01-17")),
                     ],
@@ -1383,9 +1383,9 @@ class NextEstimateWindows(WithEstimateWindows, ZiplineTestCase):
             + [
                 cls.create_expected_df_for_factor_compute(
                     [
-                        (0, np.NaN, cls.window_test_start_date),
-                        (10, np.NaN, cls.window_test_start_date),
-                        (20, np.NaN, cls.window_test_start_date),
+                        (0, np.nan, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
+                        (20, np.nan, cls.window_test_start_date),
                     ],
                     end_date,
                 )
@@ -1633,9 +1633,9 @@ class PreviousWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase
                     [
                         cls.create_expected_df_for_factor_compute(
                             [
-                                (0, np.NaN, cls.window_test_start_date),
-                                (10, np.NaN, cls.window_test_start_date),
-                                (20, np.NaN, cls.window_test_start_date),
+                                (0, np.nan, cls.window_test_start_date),
+                                (10, np.nan, cls.window_test_start_date),
+                                (20, np.nan, cls.window_test_start_date),
                                 # Undo all adjustments that haven't happened yet.
                                 (30, 131 * 1 / 10, pd.Timestamp("2015-01-09")),
                                 (40, 140.0, pd.Timestamp("2015-01-09")),
@@ -1648,9 +1648,9 @@ class PreviousWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase
                 ),
                 cls.create_expected_df_for_factor_compute(
                     [
-                        (0, np.NaN, cls.window_test_start_date),
-                        (10, np.NaN, cls.window_test_start_date),
-                        (20, np.NaN, cls.window_test_start_date),
+                        (0, np.nan, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
+                        (20, np.nan, cls.window_test_start_date),
                         (30, 131, pd.Timestamp("2015-01-09")),
                         (40, 140.0, pd.Timestamp("2015-01-09")),
                         (50, 150.0 * 1 / 16, pd.Timestamp("2015-01-09")),
@@ -1659,9 +1659,9 @@ class PreviousWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase
                 ),
                 cls.create_expected_df_for_factor_compute(
                     [
-                        (0, np.NaN, cls.window_test_start_date),
-                        (10, np.NaN, cls.window_test_start_date),
-                        (20, np.NaN, cls.window_test_start_date),
+                        (0, np.nan, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
+                        (20, np.nan, cls.window_test_start_date),
                         (30, 131, pd.Timestamp("2015-01-09")),
                         (40, 140.0, pd.Timestamp("2015-01-09")),
                         (50, 150.0, pd.Timestamp("2015-01-09")),
@@ -1672,9 +1672,9 @@ class PreviousWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase
                     [
                         cls.create_expected_df_for_factor_compute(
                             [
-                                (0, np.NaN, cls.window_test_start_date),
-                                (10, np.NaN, cls.window_test_start_date),
-                                (20, np.NaN, cls.window_test_start_date),
+                                (0, np.nan, cls.window_test_start_date),
+                                (10, np.nan, cls.window_test_start_date),
+                                (20, np.nan, cls.window_test_start_date),
                                 (30, 131 * 11, pd.Timestamp("2015-01-09")),
                                 (40, 140.0, pd.Timestamp("2015-01-09")),
                                 (50, 150.0, pd.Timestamp("2015-01-09")),
@@ -1689,7 +1689,7 @@ class PreviousWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase
                         cls.create_expected_df_for_factor_compute(
                             [
                                 (0, 101, pd.Timestamp("2015-01-20")),
-                                (10, np.NaN, cls.window_test_start_date),
+                                (10, np.nan, cls.window_test_start_date),
                                 (20, 121 * 0.7 * 0.8, pd.Timestamp("2015-01-20")),
                                 (30, 231, pd.Timestamp("2015-01-20")),
                                 (40, 140.0 * 13, pd.Timestamp("2015-01-09")),
@@ -1766,10 +1766,10 @@ class PreviousWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase
             [
                 cls.create_expected_df_for_factor_compute(
                     [
-                        (0, np.NaN, cls.window_test_start_date),
-                        (10, np.NaN, cls.window_test_start_date),
-                        (20, np.NaN, cls.window_test_start_date),
-                        (30, np.NaN, cls.window_test_start_date),
+                        (0, np.nan, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
+                        (20, np.nan, cls.window_test_start_date),
+                        (30, np.nan, cls.window_test_start_date),
                     ],
                     end_date,
                 )
@@ -1778,9 +1778,9 @@ class PreviousWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase
             + [
                 cls.create_expected_df_for_factor_compute(
                     [
-                        (0, np.NaN, cls.window_test_start_date),
-                        (10, np.NaN, cls.window_test_start_date),
-                        (20, np.NaN, cls.window_test_start_date),
+                        (0, np.nan, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
+                        (20, np.nan, cls.window_test_start_date),
                         (30, 131 * 11 * 12, pd.Timestamp("2015-01-20")),
                     ],
                     end_date,
@@ -1794,7 +1794,7 @@ class PreviousWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase
                 cls.create_expected_df_for_factor_compute(
                     [
                         (0, 101 * 7, pd.Timestamp("2015-02-10")),
-                        (10, np.NaN, pd.Timestamp("2015-02-05")),
+                        (10, np.nan, pd.Timestamp("2015-02-05")),
                         (20, 121 * 0.7 * 0.8 * 0.9, pd.Timestamp("2015-02-10")),
                         (30, 131 * 11 * 12, pd.Timestamp("2015-01-20")),
                         (40, 140.0 * 13 * 14, pd.Timestamp("2015-02-10")),
@@ -1843,7 +1843,7 @@ class NextWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase):
                         (20, 120 * 5 / 3, cls.window_test_start_date),
                         (20, 121 * 5 / 3, pd.Timestamp("2015-01-07")),
                         (30, 230 * 1 / 10, cls.window_test_start_date),
-                        (40, np.NaN, pd.Timestamp("2015-01-10")),
+                        (40, np.nan, pd.Timestamp("2015-01-10")),
                         (50, 250.0 * 1 / 15 * 1 / 16, pd.Timestamp("2015-01-12")),
                     ],
                     pd.Timestamp("2015-01-12"),
@@ -1856,7 +1856,7 @@ class NextWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase):
                         (20, 120, cls.window_test_start_date),
                         (20, 121, pd.Timestamp("2015-01-07")),
                         (30, 230, cls.window_test_start_date),
-                        (40, np.NaN, pd.Timestamp("2015-01-10")),
+                        (40, np.nan, pd.Timestamp("2015-01-10")),
                         (50, 250.0 * 1 / 16, pd.Timestamp("2015-01-12")),
                     ],
                     pd.Timestamp("2015-01-13"),
@@ -1869,7 +1869,7 @@ class NextWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase):
                         (20, 120, cls.window_test_start_date),
                         (20, 121, pd.Timestamp("2015-01-07")),
                         (30, 230, cls.window_test_start_date),
-                        (40, np.NaN, pd.Timestamp("2015-01-10")),
+                        (40, np.nan, pd.Timestamp("2015-01-10")),
                         (50, 250.0, pd.Timestamp("2015-01-12")),
                     ],
                     pd.Timestamp("2015-01-14"),
@@ -1970,7 +1970,7 @@ class NextWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase):
                         cls.create_expected_df_for_factor_compute(
                             [
                                 (0, 200 * 5 * 6 * 7, pd.Timestamp("2015-01-12")),
-                                (10, np.NaN, cls.window_test_start_date),
+                                (10, np.nan, cls.window_test_start_date),
                                 (20, 220 * 0.7 * 0.8 * 0.9, cls.window_test_start_date),
                                 (20, 221 * 0.8 * 0.9, pd.Timestamp("2015-01-17")),
                                 (40, 240 * 13 * 14, pd.Timestamp("2015-01-15")),
@@ -1985,7 +1985,7 @@ class NextWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase):
                     [
                         (0, 200 * 5 * 6 * 7, pd.Timestamp("2015-01-12")),
                         (0, 201, pd.Timestamp("2015-02-10")),
-                        (10, np.NaN, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
                         (20, 220 * 0.7 * 0.8 * 0.9, cls.window_test_start_date),
                         (20, 221 * 0.8 * 0.9, pd.Timestamp("2015-01-17")),
                         (40, 240 * 13 * 14, pd.Timestamp("2015-01-15")),
@@ -2000,12 +2000,12 @@ class NextWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase):
             [
                 cls.create_expected_df_for_factor_compute(
                     [
-                        (0, np.NaN, cls.window_test_start_date),
-                        (10, np.NaN, cls.window_test_start_date),
+                        (0, np.nan, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
                         (20, 220 * 5 / 3, cls.window_test_start_date),
                         (30, 230 * 1 / 10, cls.window_test_start_date),
-                        (40, np.NaN, cls.window_test_start_date),
-                        (50, np.NaN, cls.window_test_start_date),
+                        (40, np.nan, cls.window_test_start_date),
+                        (50, np.nan, cls.window_test_start_date),
                     ],
                     pd.Timestamp("2015-01-09"),
                 )
@@ -2014,10 +2014,10 @@ class NextWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase):
                 cls.create_expected_df_for_factor_compute(
                     [
                         (0, 200 * 1 / 4, pd.Timestamp("2015-01-12")),
-                        (10, np.NaN, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
                         (20, 220 * 5 / 3, cls.window_test_start_date),
-                        (30, np.NaN, cls.window_test_start_date),
-                        (40, np.NaN, cls.window_test_start_date),
+                        (30, np.nan, cls.window_test_start_date),
+                        (40, np.nan, cls.window_test_start_date),
                     ],
                     pd.Timestamp("2015-01-12"),
                 )
@@ -2026,10 +2026,10 @@ class NextWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase):
                 cls.create_expected_df_for_factor_compute(
                     [
                         (0, 200, pd.Timestamp("2015-01-12")),
-                        (10, np.NaN, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
                         (20, 220, cls.window_test_start_date),
-                        (30, np.NaN, cls.window_test_start_date),
-                        (40, np.NaN, cls.window_test_start_date),
+                        (30, np.nan, cls.window_test_start_date),
+                        (40, np.nan, cls.window_test_start_date),
                     ],
                     end_date,
                 )
@@ -2039,10 +2039,10 @@ class NextWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase):
                 cls.create_expected_df_for_factor_compute(
                     [
                         (0, 200 * 5, pd.Timestamp("2015-01-12")),
-                        (10, np.NaN, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
                         (20, 220 * 0.7, cls.window_test_start_date),
-                        (30, np.NaN, cls.window_test_start_date),
-                        (40, np.NaN, cls.window_test_start_date),
+                        (30, np.nan, cls.window_test_start_date),
+                        (40, np.nan, cls.window_test_start_date),
                     ],
                     end_date,
                 )
@@ -2052,11 +2052,11 @@ class NextWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase):
                 cls.create_expected_df_for_factor_compute(
                     [
                         (0, 200 * 5 * 6, pd.Timestamp("2015-01-12")),
-                        (10, np.NaN, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
                         (20, 220 * 0.7 * 0.8, cls.window_test_start_date),
                         (20, 221 * 0.8, pd.Timestamp("2015-01-17")),
-                        (30, np.NaN, cls.window_test_start_date),
-                        (40, np.NaN, cls.window_test_start_date),
+                        (30, np.nan, cls.window_test_start_date),
+                        (40, np.nan, cls.window_test_start_date),
                     ],
                     pd.Timestamp("2015-01-20"),
                 )
@@ -2064,11 +2064,11 @@ class NextWithSplitAdjustedWindows(WithSplitAdjustedWindows, ZiplineTestCase):
             + [
                 cls.create_expected_df_for_factor_compute(
                     [
-                        (0, np.NaN, cls.window_test_start_date),
-                        (10, np.NaN, cls.window_test_start_date),
-                        (20, np.NaN, cls.window_test_start_date),
-                        (30, np.NaN, cls.window_test_start_date),
-                        (40, np.NaN, cls.window_test_start_date),
+                        (0, np.nan, cls.window_test_start_date),
+                        (10, np.nan, cls.window_test_start_date),
+                        (20, np.nan, cls.window_test_start_date),
+                        (30, np.nan, cls.window_test_start_date),
+                        (40, np.nan, cls.window_test_start_date),
                     ],
                     end_date,
                 )
@@ -2281,35 +2281,35 @@ class PreviousWithSplitAdjustedMultipleEstimateColumns(
     def make_expected_timelines_1q_out(cls):
         return {
             pd.Timestamp("2015-01-06"): {
-                "estimate1": np.array([[np.NaN, np.NaN]] * 3),
-                "estimate2": np.array([[np.NaN, np.NaN]] * 3),
+                "estimate1": np.array([[np.nan, np.nan]] * 3),
+                "estimate2": np.array([[np.nan, np.nan]] * 3),
             },
             pd.Timestamp("2015-01-07"): {
-                "estimate1": np.array([[np.NaN, np.NaN]] * 3),
-                "estimate2": np.array([[np.NaN, np.NaN]] * 3),
+                "estimate1": np.array([[np.nan, np.nan]] * 3),
+                "estimate2": np.array([[np.nan, np.nan]] * 3),
             },
             pd.Timestamp("2015-01-08"): {
-                "estimate1": np.array([[np.NaN, np.NaN]] * 2 + [[np.NaN, 1110.0]]),
-                "estimate2": np.array([[np.NaN, np.NaN]] * 2 + [[np.NaN, 2110.0]]),
+                "estimate1": np.array([[np.nan, np.nan]] * 2 + [[np.nan, 1110.0]]),
+                "estimate2": np.array([[np.nan, np.nan]] * 2 + [[np.nan, 2110.0]]),
             },
             pd.Timestamp("2015-01-09"): {
                 "estimate1": np.array(
-                    [[np.NaN, np.NaN]]
-                    + [[np.NaN, 1110.0 * 4]]
+                    [[np.nan, np.nan]]
+                    + [[np.nan, 1110.0 * 4]]
                     + [[1100 * 3.0, 1110.0 * 4]]
                 ),
                 "estimate2": np.array(
-                    [[np.NaN, np.NaN]]
-                    + [[np.NaN, 2110.0 * 4]]
+                    [[np.nan, np.nan]]
+                    + [[np.nan, 2110.0 * 4]]
                     + [[2100 * 3.0, 2110.0 * 4]]
                 ),
             },
             pd.Timestamp("2015-01-12"): {
                 "estimate1": np.array(
-                    [[np.NaN, np.NaN]] * 2 + [[1200 * 3.0, 1210.0 * 4]]
+                    [[np.nan, np.nan]] * 2 + [[1200 * 3.0, 1210.0 * 4]]
                 ),
                 "estimate2": np.array(
-                    [[np.NaN, np.NaN]] * 2 + [[2200 * 3.0, 2210.0 * 4]]
+                    [[np.nan, np.nan]] * 2 + [[2200 * 3.0, 2210.0 * 4]]
                 ),
             },
         }
@@ -2317,13 +2317,13 @@ class PreviousWithSplitAdjustedMultipleEstimateColumns(
     @classmethod
     def make_expected_timelines_2q_out(cls):
         return {
-            pd.Timestamp("2015-01-06"): {"estimate2": np.array([[np.NaN, np.NaN]] * 3)},
-            pd.Timestamp("2015-01-07"): {"estimate2": np.array([[np.NaN, np.NaN]] * 3)},
-            pd.Timestamp("2015-01-08"): {"estimate2": np.array([[np.NaN, np.NaN]] * 3)},
-            pd.Timestamp("2015-01-09"): {"estimate2": np.array([[np.NaN, np.NaN]] * 3)},
+            pd.Timestamp("2015-01-06"): {"estimate2": np.array([[np.nan, np.nan]] * 3)},
+            pd.Timestamp("2015-01-07"): {"estimate2": np.array([[np.nan, np.nan]] * 3)},
+            pd.Timestamp("2015-01-08"): {"estimate2": np.array([[np.nan, np.nan]] * 3)},
+            pd.Timestamp("2015-01-09"): {"estimate2": np.array([[np.nan, np.nan]] * 3)},
             pd.Timestamp("2015-01-12"): {
                 "estimate2": np.array(
-                    [[np.NaN, np.NaN]] * 2 + [[2100 * 3.0, 2110.0 * 4]]
+                    [[np.nan, np.nan]] * 2 + [[2100 * 3.0, 2110.0 * 4]]
                 )
             },
         }
@@ -2347,10 +2347,10 @@ class NextWithSplitAdjustedMultipleEstimateColumns(
         return {
             pd.Timestamp("2015-01-06"): {
                 "estimate1": np.array(
-                    [[np.NaN, np.NaN]] + [[1100.0 * 1 / 0.3, 1110.0 * 1 / 0.4]] * 2
+                    [[np.nan, np.nan]] + [[1100.0 * 1 / 0.3, 1110.0 * 1 / 0.4]] * 2
                 ),
                 "estimate2": np.array(
-                    [[np.NaN, np.NaN]] + [[2100.0 * 1 / 0.3, 2110.0 * 1 / 0.4]] * 2
+                    [[np.nan, np.nan]] + [[2100.0 * 1 / 0.3, 2110.0 * 1 / 0.4]] * 2
                 ),
             },
             pd.Timestamp("2015-01-07"): {
@@ -2366,8 +2366,8 @@ class NextWithSplitAdjustedMultipleEstimateColumns(
                 "estimate2": np.array([[2100 * 3.0, 2210.0 * 4]] * 3),
             },
             pd.Timestamp("2015-01-12"): {
-                "estimate1": np.array([[1200 * 3.0, np.NaN]] * 3),
-                "estimate2": np.array([[2200 * 3.0, np.NaN]] * 3),
+                "estimate1": np.array([[1200 * 3.0, np.nan]] * 3),
+                "estimate2": np.array([[2200 * 3.0, np.nan]] * 3),
             },
         }
 
@@ -2376,15 +2376,15 @@ class NextWithSplitAdjustedMultipleEstimateColumns(
         return {
             pd.Timestamp("2015-01-06"): {
                 "estimate2": np.array(
-                    [[np.NaN, np.NaN]] + [[2200 * 1 / 0.3, 2210.0 * 1 / 0.4]] * 2
+                    [[np.nan, np.nan]] + [[2200 * 1 / 0.3, 2210.0 * 1 / 0.4]] * 2
                 )
             },
             pd.Timestamp("2015-01-07"): {"estimate2": np.array([[2200.0, 2210.0]] * 3)},
             pd.Timestamp("2015-01-08"): {"estimate2": np.array([[2200, 2210.0]] * 3)},
             pd.Timestamp("2015-01-09"): {
-                "estimate2": np.array([[2200 * 3.0, np.NaN]] * 3)
+                "estimate2": np.array([[2200 * 3.0, np.nan]] * 3)
             },
-            pd.Timestamp("2015-01-12"): {"estimate2": np.array([[np.NaN, np.NaN]] * 3)},
+            pd.Timestamp("2015-01-12"): {"estimate2": np.array([[np.nan, np.nan]] * 3)},
         }
 
 
@@ -2608,7 +2608,7 @@ class PreviousWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase
                     pd.DataFrame(
                         {
                             SID_FIELD_NAME: cls.s0,
-                            "estimate": np.NaN,
+                            "estimate": np.nan,
                         },
                         index=pd.date_range(
                             cls.test_start_date,
@@ -2633,11 +2633,11 @@ class PreviousWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase
                         index=pd.date_range(cls.test_start_date, cls.test_end_date),
                     ),
                     pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s2, "estimate": np.NaN},
+                        {SID_FIELD_NAME: cls.s2, "estimate": np.nan},
                         index=pd.date_range(cls.test_start_date, cls.test_end_date),
                     ),
                     pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s3, "estimate": np.NaN},
+                        {SID_FIELD_NAME: cls.s3, "estimate": np.nan},
                         index=pd.date_range(
                             cls.test_start_date,
                             cls.test_end_date - timedelta(1),
@@ -2648,7 +2648,7 @@ class PreviousWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase
                         index=pd.date_range(cls.test_end_date, cls.test_end_date),
                     ),
                     pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s4, "estimate": np.NaN},
+                        {SID_FIELD_NAME: cls.s4, "estimate": np.nan},
                         index=pd.date_range(
                             cls.test_start_date,
                             cls.test_end_date - timedelta(2),
@@ -2675,7 +2675,7 @@ class PreviousWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase
                     pd.DataFrame(
                         {
                             SID_FIELD_NAME: cls.s0,
-                            "estimate": np.NaN,
+                            "estimate": np.nan,
                         },
                         index=pd.date_range(
                             cls.test_start_date,
@@ -2700,11 +2700,11 @@ class PreviousWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase
                         index=pd.date_range(cls.test_start_date, cls.test_end_date),
                     ),
                     pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s2, "estimate": np.NaN},
+                        {SID_FIELD_NAME: cls.s2, "estimate": np.nan},
                         index=pd.date_range(cls.test_start_date, cls.test_end_date),
                     ),
                     pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s3, "estimate": np.NaN},
+                        {SID_FIELD_NAME: cls.s3, "estimate": np.nan},
                         index=pd.date_range(
                             cls.test_start_date,
                             cls.test_end_date - timedelta(1),
@@ -2715,7 +2715,7 @@ class PreviousWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase
                         index=pd.date_range(cls.test_end_date, cls.test_end_date),
                     ),
                     pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s4, "estimate": np.NaN},
+                        {SID_FIELD_NAME: cls.s4, "estimate": np.nan},
                         index=pd.date_range(
                             cls.test_start_date,
                             cls.test_end_date - timedelta(2),

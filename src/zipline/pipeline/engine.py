@@ -55,6 +55,7 @@ implements the following algorithm for executing pipelines:
    into "narrow" format, with output labels dictated by the Pipeline's
    screen. This logic lives in SimplePipelineEngine._to_narrow.
 """
+
 from abc import ABC, abstractmethod
 from functools import partial
 

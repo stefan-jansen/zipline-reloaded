@@ -1,5 +1,6 @@
 """Simple common factors.
 """
+
 from numbers import Number
 from numpy import (
     arange,
@@ -30,7 +31,7 @@ from zipline.utils.math_utils import (
 )
 from zipline.utils.numpy_utils import (
     float64_dtype,
-    ignore_nanwarnings,
+    # ignore_nanwarnings,
 )
 
 from .factor import CustomFactor
@@ -114,7 +115,7 @@ class SimpleMovingAverage(SingleInputMixin, CustomFactor):
     # numpy's nan functions throw warnings when passed an array containing only
     # nans, but they still returns the desired value (nan), so we ignore the
     # warning.
-    ctx = ignore_nanwarnings()
+    # ctx = ignore_nanwarnings()
 
     def compute(self, today, assets, out, data):
         out[:] = nanmean(data, axis=0)
@@ -154,7 +155,7 @@ class MaxDrawdown(SingleInputMixin, CustomFactor):
     **Default Window Length:** None
     """
 
-    ctx = ignore_nanwarnings()
+    # ctx = ignore_nanwarnings()
 
     def compute(self, today, assets, out, data):
         drawdowns = fmax.accumulate(data, axis=0) - data
@@ -436,9 +437,7 @@ class ExponentialWeightedMovingStdDev(_ExponentialWeightedFactor):
         variance = average((data - mean) ** 2, axis=0, weights=weights)
 
         squared_weight_sum = np_sum(weights) ** 2
-        bias_correction = squared_weight_sum / (
-            squared_weight_sum - np_sum(weights**2)
-        )
+        bias_correction = squared_weight_sum / (squared_weight_sum - np_sum(weights**2))
         out[:] = sqrt(variance * bias_correction)
 
 
@@ -454,7 +453,7 @@ class LinearWeightedMovingAverage(SingleInputMixin, CustomFactor):
     # numpy's nan functions throw warnings when passed an array containing only
     # nans, but they still returns the desired value (nan), so we ignore the
     # warning.
-    ctx = ignore_nanwarnings()
+    # ctx = ignore_nanwarnings()
 
     def compute(self, today, assets, out, data):
         ndays = data.shape[0]

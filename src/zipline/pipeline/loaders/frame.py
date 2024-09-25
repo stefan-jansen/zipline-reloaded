@@ -1,6 +1,7 @@
 """
 PipelineLoader accepting a DataFrame as input.
 """
+
 from functools import partial
 
 from interface import implements

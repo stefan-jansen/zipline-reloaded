@@ -1,6 +1,7 @@
 """
 Tests for Algorithms using the Pipeline API.
 """
+
 from pathlib import Path
 
 from parameterized import parameterized

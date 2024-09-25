@@ -1,4 +1,5 @@
 """Caching utilities for zipline"""
+
 from collections.abc import MutableMapping
 import errno
 from functools import partial

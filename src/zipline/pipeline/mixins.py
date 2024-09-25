@@ -4,6 +4,7 @@ Mixins classes for use with Filters and Factors.
 The mixin classes inherit from Term to ensure they appear before
 Term in the MRO of any class using the mixin
 """
+
 from abc import abstractmethod
 
 from numpy import (

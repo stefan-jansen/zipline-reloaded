@@ -1,6 +1,7 @@
 """
 An ndarray subclass for working with arrays of strings.
 """
+
 from functools import partial, total_ordering
 from operator import eq, ne
 import re

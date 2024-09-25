@@ -213,17 +213,19 @@ def _run(
             blotter=blotter,
             benchmark_returns=benchmark_returns,
             benchmark_sid=benchmark_sid,
-            **{
-                "initialize": initialize,
-                "handle_data": handle_data,
-                "before_trading_start": before_trading_start,
-                "analyze": analyze,
-            }
-            if algotext is None
-            else {
-                "algo_filename": getattr(algofile, "name", "<algorithm>"),
-                "script": algotext,
-            },
+            **(
+                {
+                    "initialize": initialize,
+                    "handle_data": handle_data,
+                    "before_trading_start": before_trading_start,
+                    "analyze": analyze,
+                }
+                if algotext is None
+                else {
+                    "algo_filename": getattr(algofile, "name", "<algorithm>"),
+                    "script": algotext,
+                }
+            ),
         ).run()
     except NoBenchmark:
         raise _RunAlgoError(

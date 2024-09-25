@@ -3,6 +3,7 @@ Construction of sentinel objects.
 
 Sentinel objects are used when you only care to check for object identity.
 """
+
 import sys
 from textwrap import dedent
 

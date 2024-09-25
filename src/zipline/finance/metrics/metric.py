@@ -77,15 +77,15 @@ class DailyLedgerField:
 
     def end_of_bar(self, packet, ledger, dt, session_ix, data_portal):
         field = self._packet_field
-        packet["cumulative_perf"][field] = packet["minute_perf"][
-            field
-        ] = self._get_ledger_field(ledger)
+        packet["cumulative_perf"][field] = packet["minute_perf"][field] = (
+            self._get_ledger_field(ledger)
+        )
 
     def end_of_session(self, packet, ledger, session, session_ix, data_portal):
         field = self._packet_field
-        packet["cumulative_perf"][field] = packet["daily_perf"][
-            field
-        ] = self._get_ledger_field(ledger)
+        packet["cumulative_perf"][field] = packet["daily_perf"][field] = (
+            self._get_ledger_field(ledger)
+        )
 
 
 class StartOfPeriodLedgerField:

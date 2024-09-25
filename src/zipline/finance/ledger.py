@@ -417,7 +417,12 @@ class Ledger:
         # make daily_returns hold the partial returns, this saves many
         # metrics from doing a concat and copying all of the previous
         # returns
-        self.daily_returns_array.iloc[session_ix] = self.todays_returns
+        if isinstance(self.daily_returns_array, np.ndarray):
+            self.daily_returns_array[session_ix] = self.todays_returns
+        elif isinstance(self.daily_returns_array, pd.Series):
+            self.daily_returns_array.iloc[session_ix] = self.todays_returns
+        else:
+            raise ValueError("Unknown daily returns array type")
 
     def end_of_session(self, session_ix):
         # save the daily returns time-series
@@ -433,7 +438,6 @@ class Ledger:
 
     @staticmethod
     def _calculate_payout(multiplier, amount, old_price, price):
-
         return (price - old_price) * multiplier * amount
 
     def _cash_flow(self, amount):

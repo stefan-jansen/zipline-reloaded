@@ -1,6 +1,7 @@
 """
 Quick and dirty script to generate test case inputs.
 """
+
 from pathlib import Path
 from pandas_datareader.data import DataReader
 

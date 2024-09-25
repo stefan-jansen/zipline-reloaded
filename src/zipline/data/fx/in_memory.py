@@ -1,4 +1,5 @@
 """Interface and definitions for foreign exchange rate readers."""
+
 from interface import implements
 import numpy as np
 

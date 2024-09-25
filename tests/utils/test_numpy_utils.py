@@ -1,6 +1,7 @@
 """
 Tests for zipline.utils.numpy_utils.
 """
+
 from datetime import datetime
 import pytest
 

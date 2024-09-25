@@ -1452,9 +1452,9 @@ class WithBcolzEquityMinuteBarReader(WithEquityMinuteBarData, WithTmpDir):
     @classmethod
     def init_class_fixtures(cls):
         super(WithBcolzEquityMinuteBarReader, cls).init_class_fixtures()
-        cls.bcolz_equity_minute_bar_path = (
-            p
-        ) = cls.make_bcolz_equity_minute_bar_rootdir_path()
+        cls.bcolz_equity_minute_bar_path = p = (
+            cls.make_bcolz_equity_minute_bar_rootdir_path()
+        )
         days = cls.equity_minute_bar_days
 
         writer = BcolzMinuteBarWriter(
@@ -1514,9 +1514,9 @@ class WithBcolzFutureMinuteBarReader(WithFutureMinuteBarData, WithTmpDir):
     def init_class_fixtures(cls):
         super(WithBcolzFutureMinuteBarReader, cls).init_class_fixtures()
         trading_calendar = get_calendar("us_futures")
-        cls.bcolz_future_minute_bar_path = (
-            p
-        ) = cls.make_bcolz_future_minute_bar_rootdir_path()
+        cls.bcolz_future_minute_bar_path = p = (
+            cls.make_bcolz_future_minute_bar_rootdir_path()
+        )
         days = cls.future_minute_bar_days
 
         writer = BcolzMinuteBarWriter(

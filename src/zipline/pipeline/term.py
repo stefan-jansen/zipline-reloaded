@@ -1,6 +1,7 @@
 """
 Base class for Filters, Factors and Classifiers
 """
+
 from abc import ABC, abstractmethod
 from bisect import insort
 from collections.abc import Mapping

@@ -289,18 +289,18 @@ class HistoryLoader(ABC):
         self._reader = reader
         self._adjustment_readers = {}
         if equity_adjustment_reader is not None:
-            self._adjustment_readers[
-                Equity
-            ] = HistoryCompatibleUSEquityAdjustmentReader(equity_adjustment_reader)
+            self._adjustment_readers[Equity] = (
+                HistoryCompatibleUSEquityAdjustmentReader(equity_adjustment_reader)
+            )
         if roll_finders:
-            self._adjustment_readers[
-                ContinuousFuture
-            ] = ContinuousFutureAdjustmentReader(
-                trading_calendar,
-                asset_finder,
-                reader,
-                roll_finders,
-                self._frequency,
+            self._adjustment_readers[ContinuousFuture] = (
+                ContinuousFutureAdjustmentReader(
+                    trading_calendar,
+                    asset_finder,
+                    reader,
+                    roll_finders,
+                    self._frequency,
+                )
             )
         self._window_blocks = {
             field: ExpiringCache(LRU(sid_cache_size)) for field in self.FIELDS

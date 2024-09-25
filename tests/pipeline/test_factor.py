@@ -1,6 +1,7 @@
 """
 Tests for Factor terms.
 """
+
 import re
 from functools import partial
 from itertools import product
@@ -13,7 +14,6 @@ from numpy.random import randn, seed
 from parameterized import parameterized
 from scipy.stats.mstats import winsorize as scipy_winsorize
 from toolz import compose
-from packaging.version import Version
 from zipline.errors import BadPercentileBounds, UnknownRankMethod
 from zipline.lib.labelarray import LabelArray
 from zipline.lib.normalize import naive_grouped_rowwise_apply as grouped_apply
@@ -39,6 +39,9 @@ from zipline.utils.numpy_utils import (
 from zipline.utils.pandas_utils import new_pandas, skip_pipeline_new_pandas
 
 from .base import BaseUSEquityPipelineTestCase
+from packaging.version import Version
+
+NUMPY2 = Version(np.__version__) >= Version("2.0.0")
 
 pandas_two_point_two = False
 if Version(pd.__version__) >= Version("2.2"):
@@ -1731,7 +1734,9 @@ class TestSpecialCases(WithUSEquityPricingPipelineEngine, ZiplineTestCase):
 
 
 class SummaryTestCase(BaseUSEquityPipelineTestCase, ZiplineTestCase):
-    @pytest.mark.filterwarnings("ignore", module=np.lib.nanfunctions)
+    @pytest.mark.filterwarnings(
+        "ignore", module=np.lib._nanfunctions_impl if NUMPY2 else np.lib.nanfunctions
+    )
     @parameter_space(
         seed=[1, 2, 3],
         mask=[
@@ -1814,7 +1819,9 @@ class SummaryTestCase(BaseUSEquityPipelineTestCase, ZiplineTestCase):
         assert_equal(result["demean"], result["alt_demean"])
         assert_equal(result["zscore"], result["alt_zscore"])
 
-    @pytest.mark.filterwarnings("ignore", module=np.lib.nanfunctions)
+    @pytest.mark.filterwarnings(
+        "ignore", module=np.lib._nanfunctions_impl if NUMPY2 else np.lib.nanfunctions
+    )
     @parameter_space(
         seed=[100, 200, 300],
         mask=[
@@ -1849,7 +1856,9 @@ class SummaryTestCase(BaseUSEquityPipelineTestCase, ZiplineTestCase):
             mask=self.build_mask(np.ones(shape)),
         )
 
-    @pytest.mark.filterwarnings("ignore", module=np.lib.nanfunctions)
+    @pytest.mark.filterwarnings(
+        "ignore", module=np.lib._nanfunctions_impl if NUMPY2 else np.lib.nanfunctions
+    )
     @parameter_space(
         seed=[40, 41, 42],
         mask=[

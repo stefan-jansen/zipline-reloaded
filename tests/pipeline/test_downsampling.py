@@ -1,6 +1,7 @@
 """
 Tests for Downsampled Filters/Factors/Classifiers
 """
+
 from functools import partial
 
 import pandas as pd
