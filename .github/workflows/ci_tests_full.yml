@@ -18,7 +18,7 @@ jobs:
         with:
           options: "--diff"
           src: "./src ./tests"
-          version: '~22.1'
+          version: '24.1'
 
   flake8-lint:
     name: Lint Check
