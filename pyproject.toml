@@ -102,7 +102,7 @@ test = [
 
 dev = [
     'flake8 >=3.9.1',
-    'black',
+    'black >=24.0b1',
     'pre-commit >=2.12.1',
     'Cython>=0.29.21',
     'ruff'
