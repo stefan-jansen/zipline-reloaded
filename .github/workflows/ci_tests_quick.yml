@@ -19,7 +19,7 @@ jobs:
         with:
           options: "--check --diff"
           src: "./src ./tests"
-          version: "~=22.0"
+          version: "~=24.0"
 
   flake8-lint:
     name: Lint Check
