@@ -948,7 +948,7 @@ class DataPortal:
             df.iloc[0, assets_with_leading_nan] = np.array(
                 initial_values, dtype=np.float64
             )
-            df.fillna(method="ffill", inplace=True)
+            df.ffill(inplace=True)
 
             # forward-filling will incorrectly produce values after the end of
             # an asset's lifetime, so write NaNs back over the asset's
