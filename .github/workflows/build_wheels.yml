@@ -23,7 +23,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest , windows-latest, macos-latest ]
-        python: [ "cp39", "cp310", "cp311", "cp312" ]
+#        python: [ "cp39", "cp310", "cp311", "cp312" ]
+        python: [ "cp311"]
         arch: [ auto64 ]
 
     steps:
@@ -114,7 +115,7 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}
-          packages-dir: artifiacts/
+          packages-dir: artifacts/
       - name: Publish to PyPI - Test
         if: ${{ github.event.inputs.target  == 'TESTPYPI' }}
         uses: pypa/gh-action-pypi-publish@release/v1
@@ -124,3 +125,4 @@ jobs:
           repository-url: https://test.pypi.org/legacy/
           skip-existing: true
           verbose: true
+          packages-dir: artifacts/
