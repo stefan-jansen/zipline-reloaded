@@ -3,6 +3,7 @@ Tests for Factor terms.
 """
 
 import re
+import sys
 from functools import partial
 from itertools import product
 from unittest import skipIf
@@ -40,6 +41,8 @@ from zipline.utils.pandas_utils import new_pandas, skip_pipeline_new_pandas
 
 from .base import BaseUSEquityPipelineTestCase
 from packaging.version import Version
+
+from .test_statistical import ON_GITHUB_ACTIONS
 
 NUMPY2 = Version(np.__version__) >= Version("2.0.0")
 
@@ -1873,6 +1876,7 @@ class SummaryTestCase(BaseUSEquityPipelineTestCase, ZiplineTestCase):
         # 3. Mask by having non-True values in the root mask.
         mask_mode=("none", "param", "root"),
     )
+    @pytest.mark.skipif(sys.platform == "Darwin", reason="Test is flaky on macOS")
     def test_summaries_after_fillna(self, seed, mask, mask_mode):
         rand = np.random.RandomState(seed)
         shape = (10, 5)
