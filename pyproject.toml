@@ -154,7 +154,7 @@ environment = "GITHUB_ACTIONS=true"
 
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "arm64", "universal2"]
-test-skip = ["*universal2:arm64"]
+test-skip = "*-macosx_arm64 *-macosx_universal2:arm64"
 
 [tool.cibuildwheel.linux]
 archs = ["auto64"]

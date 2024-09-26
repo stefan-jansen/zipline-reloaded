@@ -1876,7 +1876,6 @@ class SummaryTestCase(BaseUSEquityPipelineTestCase, ZiplineTestCase):
         # 3. Mask by having non-True values in the root mask.
         mask_mode=("none", "param", "root"),
     )
-    @pytest.mark.skipif(sys.platform == "darwin", reason="Test is flaky on macOS")
     def test_summaries_after_fillna(self, seed, mask, mask_mode):
         rand = np.random.RandomState(seed)
         shape = (10, 5)
