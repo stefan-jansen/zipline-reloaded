@@ -16,7 +16,7 @@ from collections.abc import Iterable
 from collections import namedtuple
 from copy import copy
 import warnings
-from datetime import tzinfo, time, timezone
+from datetime import tzinfo, time, timezone, timedelta, date, datetime
 import logging
 import pytz
 import pandas as pd
@@ -518,11 +518,18 @@ class TradingAlgorithm:
                 execution_closes = market_closes
                 execution_opens = market_closes
 
-        # FIXME generalize these values
+        # Default to 8:45am if trading_calendar doesn't have valid open_time
+        before_trading_time = time(8,45)
+        for open_time in self.trading_calendar.open_times:
+            if open_time[0] is None and open_time[1] is not None:
+                opentime = datetime.combine(date(1,1,1), open_time[1])
+                before_trading_time = (opentime - timedelta(minutes=45)).time()
+                break
+
         before_trading_start_minutes = days_at_time(
             self.sim_params.sessions,
-            time(8, 45),
-            "US/Eastern",
+            before_trading_time,
+            str(self.trading_calendar.tz),
             day_offset=0,
         )
 
