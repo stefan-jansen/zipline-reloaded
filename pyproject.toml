@@ -151,10 +151,10 @@ test-extras = "test"
 test-command = "pytest -x --reruns 5 {project}/tests"
 build-verbosity = 3
 environment = "GITHUB_ACTIONS=true"
+skip = "cp39-macosx_arm64 cp39-macosx_universal2:arm64"
 
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "arm64", "universal2"]
-test-skip = "*-macosx_arm64 *-macosx_universal2:arm64"
 
 [tool.cibuildwheel.linux]
 archs = ["auto64"]
