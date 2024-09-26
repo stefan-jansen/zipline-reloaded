@@ -7,7 +7,7 @@ on:
         type: choice
         description: 'Package Index'
         required: true
-        default: 'PYPI'
+        default: 'TESTPYPI'
         options: [ 'TESTPYPI', 'PYPI' ]
       version:
         type: string
@@ -45,8 +45,8 @@ jobs:
         if: runner.os != 'Windows'
         uses: pypa/cibuildwheel@v2.21.1
         env:
-          CIBW_BEFORE_ALL_LINUX: ./tools/install_talib.sh
-          CIBW_BEFORE_ALL_MACOS: brew install ta-lib
+#          CIBW_BEFORE_ALL_LINUX: ./tools/install_talib.sh
+#          CIBW_BEFORE_ALL_MACOS: brew install ta-lib
           CIBW_ARCHS_LINUX: ${{ matrix.arch }}
           CIBW_ARCHS_MACOS: x86_64 arm64
           CIBW_BUILD: "${{ matrix.python }}-*"
@@ -63,14 +63,13 @@ jobs:
         uses: pypa/cibuildwheel@v2.21.1
         env:
           CIBW_BUILD: "${{ matrix.python }}-win_amd64"
-          CIBW_BEFORE_TEST_WINDOWS: >
-            call "c:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64 &&
-            call ./tools/install_talib.bat
+#          CIBW_BEFORE_TEST_WINDOWS: >
+#            call "c:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64 &&
+#            call ./tools/install_talib.bat
 
       - name: Store artifacts
         uses: actions/upload-artifact@v4
         with:
-          overwrite: true
           name: my-artifact-${{ matrix.os }}-${{ matrix.python }}-${{ matrix.arch }}
           path: ./wheelhouse/*.whl
 
@@ -92,8 +91,8 @@ jobs:
         run: |
           pip install -U pip setuptools build
           python -m build --sdist
-
-      - uses: actions/upload-artifact@v4
+      - name: upload sdist
+        uses: actions/upload-artifact@v4
         with:
           name: my-artifact-sdist
           path: ./dist/*.tar.gz
@@ -105,7 +104,7 @@ jobs:
       - name: Download All Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: my-artifact-*
+          pattern: my-artifact-*
           path: artifacts/
       - name: Display structure of downloaded files
         run: ls -R artifacts
