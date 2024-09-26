@@ -70,6 +70,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           overwrite: true
+          name: my-artifact-${{ matrix.runs-on }}
           path: ./wheelhouse/*.whl
 
   build_sdist:
@@ -101,11 +102,13 @@ jobs:
     needs: [ build_wheels, build_sdist ]
     runs-on: ubuntu-latest
     steps:
+      - name: Download All Artifacts
       - uses: actions/download-artifact@v4
         with:
-          name: artifact
-          path: dist
-
+          path: ./wheelhouse
+          pattern: my-artifact-*
+          merge-multiple: true
+      - run: ls -R my-artifact
       - name: Publish to PyPI
         if: ${{ github.event.inputs.target  == 'PYPI' }}
         uses: pypa/gh-action-pypi-publish@release/v1
