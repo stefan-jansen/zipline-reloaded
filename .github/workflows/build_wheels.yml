@@ -87,7 +87,6 @@ jobs:
         name: Install Python
         with:
           python-version: '3.11'
-
       - name: Build sdist
         run: |
           pip install -U pip setuptools build
@@ -103,7 +102,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download All Artifacts
-      - uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4
         with:
           path: ./wheelhouse
           pattern: my-artifact-*
