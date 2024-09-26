@@ -70,7 +70,7 @@ jobs:
       - name: Store artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: my-artifact-${{ matrix.os }}-${{ matrix.python }}-${{ matrix.arch }}
+          name: my-artifact-${{ matrix.os }}-${{ matrix.python }}-${{ matrix.arch }}.whl
           path: ./wheelhouse/*.whl
 
   build_sdist:
@@ -106,6 +106,7 @@ jobs:
         with:
           pattern: my-artifact-*
           path: artifacts/
+          merge-multiple: true
       - name: Display structure of downloaded files
         run: ls -R artifacts
       - name: Publish to PyPI
