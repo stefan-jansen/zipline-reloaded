@@ -107,7 +107,6 @@ jobs:
           path: ./wheelhouse
           pattern: my-artifact-*
           merge-multiple: true
-      - run: ls -R my-artifact
       - name: Publish to PyPI
         if: ${{ github.event.inputs.target  == 'PYPI' }}
         uses: pypa/gh-action-pypi-publish@release/v1

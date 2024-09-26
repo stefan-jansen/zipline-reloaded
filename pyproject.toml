@@ -167,7 +167,7 @@ test-skip = ["*"]
 
 [tool.black]
 line-length = 88
-target-version = ['py39', 'py39', 'py310', 'py311', 'py312']
+target-version = ['py39', 'py310', 'py311', 'py312']
 exclude = '''
 (
     asv_bench/env
@@ -183,7 +183,6 @@ exclude = '''
 
 [tool.ruff.lint]
 select = ["NPY201"]
-
 
 [tool.tox]
 legacy_tox_ini = """
