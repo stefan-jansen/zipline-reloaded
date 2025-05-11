@@ -31,7 +31,7 @@ from numpy cimport (
     uint32_t,
     uint8_t,
 )
-from numpy.math cimport NAN
+from libc.math cimport NAN
 ctypedef object carray_t
 ctypedef object ctable_t
 ctypedef object Timestamp_t
