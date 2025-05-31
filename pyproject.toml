@@ -1,174 +1,187 @@
 [project]
-name = 'zipline-reloaded'
-description = 'A Pythonic backtester for trading algorithms'
-readme = 'README.md'
-dynamic = ["version"]
+    name        = 'zipline-reloaded'
+    description = 'A Pythonic backtester for trading algorithms'
+    readme      = 'README.md'
+    dynamic     = ["version"]
 
-authors = [
-    { name = 'Quantopian Inc' },
-    { email = 'pm@ml4trading.io' }
-]
-maintainers = [
-    { name = 'Stefan Jansen' },
-    { email = 'pm@ml4trading.io' }
-]
+    authors = [
+        { name = 'Quantopian Inc' },
+        { email = 'pm@ml4trading.io' },
+    ]
+    maintainers = [
+        { name = 'Stefan Jansen' },
+        { email = 'pm@ml4trading.io' },
+    ]
 
-classifiers = [
-    'Development Status :: 4 - Beta',
-    'License :: OSI Approved :: Apache Software License',
-    'Natural Language :: English',
-    'Programming Language :: Python',
-    'Programming Language :: Python :: 3.9',
-    'Programming Language :: Python :: 3.10',
-    'Programming Language :: Python :: 3.11',
-    'Programming Language :: Python :: 3.12',
-    'Operating System :: OS Independent',
-    'Intended Audience :: Science/Research',
-    'Topic :: Office/Business :: Financial :: Investment',
-    'Topic :: Scientific/Engineering :: Information Analysis',
-    'Topic :: System :: Distributed Computing'
-]
+    classifiers = [
+        'Development Status :: 4 - Beta',
+        'License :: OSI Approved :: Apache Software License',
+        'Natural Language :: English',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Operating System :: OS Independent',
+        'Intended Audience :: Science/Research',
+        'Topic :: Office/Business :: Financial :: Investment',
+        'Topic :: Scientific/Engineering :: Information Analysis',
+        'Topic :: System :: Distributed Computing',
+    ]
 
-license = { file = "LICENSE" }
+    license = { file = "LICENSE" }
 
-requires-python = '>=3.9'
-dependencies = [
-    "numpy>=1.23.5, <2; python_version<'3.10'",
-    "numpy>=1.23.5; python_version<'3.12'",
-    "numpy>=1.26.0; python_version>='3.12'",
-    "pandas >=1.3.0,<3.0",
-    'alembic >=0.7.7',
-    'bcolz-zipline >=1.2.6',
-    'bottleneck >=1.0.0',
-    'click >=4.0.0',
-    'empyrical-reloaded >=0.5.7',
-    'h5py >=2.7.1', # currently requires installation from source for Python 3.11
-    'intervaltree >=2.1.0',
-    'iso3166 >=2.1.1',
-    'iso4217 >=1.6.20180829',
-    'lru-dict >=1.1.4',
-    'multipledispatch >=0.6.0',
-    'networkx >=2.0',
-    'numexpr >=2.6.1',
-    'patsy >=0.4.0',
-    'python-dateutil >=2.4.2',
-    'python-interface >=1.5.3',
-    'pytz >=2018.5',
-    'requests >=2.9.1',
-    'scipy >=0.17.1',
-    'six >=1.10.0',
-    'sqlalchemy >=2',
-    'statsmodels >=0.6.1',
-    # ta-lib is not available for Numpy 2.0 => optional
-    #    'ta-lib >=0.4.09',
-    'tables >=3.4.3',
-    'toolz >=0.8.2',
-    'exchange-calendars >=4.2.4'
-]
+    requires-python = '>=3.9'
+    dependencies = [
+        "numpy>=1.23.5, <2; python_version<'3.10'",
+        "numpy>=1.23.5; python_version<'3.12'",
+        "numpy>=1.26.0; python_version>='3.12'",
+        "pandas >=1.3.0,<3.0",
+        'alembic >=0.7.7',
+        'bcolz-zipline >=1.2.6',
+        'bottleneck >=1.0.0',
+        'click >=4.0.0',
+        'empyrical-reloaded >=0.5.7',
+        'h5py >=2.7.1',                             # currently requires installation from source for Python 3.11
+        'intervaltree >=2.1.0',
+        'iso3166 >=2.1.1',
+        'iso4217 >=1.6.20180829',
+        'lru-dict >=1.1.4',
+        'multipledispatch >=0.6.0',
+        'networkx >=2.0',
+        'numexpr >=2.6.1',
+        'patsy >=0.4.0',
+        'python-dateutil >=2.4.2',
+        'python-interface >=1.5.3',
+        'pytz >=2018.5',
+        'requests >=2.9.1',
+        'scipy >=0.17.1',
+        'six >=1.10.0',
+        'sqlalchemy >=2',
+        'statsmodels >=0.6.1',
+        # ta-lib is not available for Numpy 2.0 => optional
+        #    'ta-lib >=0.4.09',
+        'tables >=3.4.3',
+        'toolz >=0.8.2',
+        'exchange-calendars >=4.2.4',
+    ]
 
 [project.urls]
-homepage = 'https://ml4trading.io'
-repository = 'https://github.com/stefan-jansen/zipline-reloaded'
-documentation = 'https://zipline.ml4trading.io'
+    homepage      = 'https://ml4trading.io'
+    repository    = 'https://github.com/stefan-jansen/zipline-reloaded'
+    documentation = 'https://zipline.ml4trading.io'
 
 [build-system]
-requires = [
-    'setuptools>=42.0.0',
-    "setuptools_scm[toml]>=6.2",
-    'wheel>=0.36.0',
-    'Cython>=0.29.21',
-    #    'Cython>=3',
-    'numpy>=2.0.0rc1 ; python_version>"3.9"',
-    'numpy<2.0 ; python_version<="3.9"'
-    #    'oldest-supported-numpy; python_version>="3.9"',
-]
-build-backend = 'setuptools.build_meta'
+    requires = [
+        'setuptools>=42.0.0',
+        "setuptools_scm[toml]>=6.2",
+        'wheel>=0.36.0',
+        'Cython>=0.29.21',
+        #    'Cython>=3',
+        'numpy>=2.0.0rc1 ; python_version>"3.9"',
+        'numpy<2.0 ; python_version<="3.9"',
+        #    'oldest-supported-numpy; python_version>="3.9"',
+    ]
+    build-backend = 'setuptools.build_meta'
 
 [project.optional-dependencies]
-test = [
-    'tox',
-    'pytest>=7.2.0',
-    'pytest-cov >=3.0.0',
-    'pytest-xdist >=2.5.0',
-    'pytest-timeout >=1.4.2',
-    'parameterized >=0.6.1',
-    'testfixtures >=4.1.2',
-    'flake8 >=3.9.1',
-    'matplotlib >=1.5.3',
-    'responses >=0.9.0',
-    'pandas-datareader >=0.2.1',
-#    'click <8.1.0',
-    'click',
-    'coverage',
-    'pytest-rerunfailures',
-]
+    test = [
+        'tox',
+        'pytest>=7.2.0',
+        'pytest-cov >=3.0.0',
+        'pytest-xdist >=2.5.0',
+        'pytest-timeout >=1.4.2',
+        'parameterized >=0.6.1',
+        'testfixtures >=4.1.2',
+        'flake8 >=3.9.1',
+        'matplotlib >=1.5.3',
+        'responses >=0.9.0',
+        'pandas-datareader >=0.2.1',
+        #    'click <8.1.0',
+        'click',
+        'coverage',
+        'pytest-rerunfailures',
+    ]
 
-dev = [
-    'flake8 >=3.9.1',
-    'black >=24.0b1',
-    'pre-commit >=2.12.1',
-    'Cython>=0.29.21',
-    'ruff'
-]
+    dev = [
+        'pre-commit >=2.12.1',
+        'Cython>=0.29.21',
+        'ruff>=0.11.12',
+        'mypy>=1.10.0',
+    ]
 
-docs = [
-    'Cython',
-    'Sphinx >=1.3.2',
-    'numpydoc >=0.5.0',
-    'sphinx-autobuild >=0.6.0',
-    'pydata-sphinx-theme',
-    'sphinx_markdown_tables',
-    'm2r2'
-]
+    docs = [
+        'Cython',
+        'Sphinx >=1.3.2',
+        'numpydoc >=0.5.0',
+        'sphinx-autobuild >=0.6.0',
+        'pydata-sphinx-theme',
+        'sphinx_markdown_tables',
+        'm2r2',
+    ]
 
 [project.scripts]
-zipline = 'zipline.__main__:main'
+    zipline = 'zipline.__main__:main'
 
 [tool.setuptools]
-include-package-data = true
-zip-safe = false
+    include-package-data = true
+    zip-safe             = false
 
 [tool.setuptools.packages.find]
-where = ['src']
-exclude = ['tests*']
+    where   = ['src']
+    exclude = ['tests*']
 
 [tool.setuptools_scm]
-write_to = "src/zipline/_version.py"
-version_scheme = 'guess-next-dev'
-local_scheme = 'dirty-tag'
+    write_to       = "src/zipline/_version.py"
+    version_scheme = 'guess-next-dev'
+    local_scheme   = 'dirty-tag'
 
 [tool.setuptools.package-data]
-"*" = ["*.pyi", "*.pyx", "*.pxi", "*.pxd"]
+    "*" = [
+        "*.pyi",
+        "*.pyx",
+        "*.pxi",
+        "*.pxd",
+    ]
 
 [tool.pytest.ini_options]
-pythonpath = ['.']
-testpaths = 'tests'
-addopts = '-v'
-filterwarnings = 'ignore::DeprecationWarning:pandas_datareader.compat'
+    pythonpath     = ['.']
+    testpaths      = 'tests'
+    addopts        = '-v'
+    filterwarnings = 'ignore::DeprecationWarning:pandas_datareader.compat'
 
 [tool.cibuildwheel]
-test-extras = "test"
-test-command = "pytest -x --reruns 5 {project}/tests"
-build-verbosity = 3
-environment = "GITHUB_ACTIONS=true"
-skip = "cp39-macosx_arm64 cp39-macosx_universal2:arm64"
+    test-extras     = "test"
+    test-command    = "pytest -x --reruns 5 {project}/tests"
+    build-verbosity = 3
+    environment     = "GITHUB_ACTIONS=true"
+    skip            = "cp39-macosx_arm64 cp39-macosx_universal2:arm64"
 
 [tool.cibuildwheel.macos]
-archs = ["x86_64", "arm64", "universal2"]
-test-skip = "cp39* *-macosx_arm64 *-macosx_universal2:arm64"
+    archs = [
+        "x86_64",
+        "arm64",
+        "universal2",
+    ]
+    test-skip = "cp39* *-macosx_arm64 *-macosx_universal2:arm64"
 
 [tool.cibuildwheel.linux]
-archs = ["auto64"]
-skip = "*musllinux*"
+    archs = ["auto64"]
+    skip  = "*musllinux*"
 
 [tool.cibuildwheel.windows]
-test-command = 'pytest -k "not daily_returns_is_special_case_of_returns" --reruns 5 {package}/tests'
-test-skip = ["*"]
+    test-command = 'pytest -k "not daily_returns_is_special_case_of_returns" --reruns 5 {package}/tests'
+    test-skip    = ["*"]
 
 [tool.black]
-line-length = 88
-target-version = ['py39', 'py310', 'py311', 'py312']
-exclude = '''
+    line-length = 88
+    target-version = [
+        'py39',
+        'py310',
+        'py311',
+        'py312',
+    ]
+    exclude = '''
 (
     asv_bench/env
   | \.egg
@@ -181,11 +194,57 @@ exclude = '''
 )
 '''
 
+[tool.ruff]
+    line-length    = 88
+    target-version = "py312"
+
 [tool.ruff.lint]
-select = ["NPY201"]
+    select = [
+        "E",
+        "W",
+        "F",
+        "I",
+        "N",
+        "D",
+        "UP",
+        "ANN",
+        "S",
+        "BLE",
+        "B",
+        "A",
+        "C4",
+        "ISC",
+        "T20",
+        "PYI",
+        "PT",
+        "Q",
+        "SIM",
+        "TID",
+        "ARG",
+        "RUF",
+        "NPY201",
+    ]
+    ignore = [
+        "ANN101",
+        "ANN102",
+        "ANN204",
+        "D203",
+        "D212",
+        "D213",
+        "D415",
+    ]
+
+[tool.ruff.lint.pydocstyle]
+    convention = "google"
+
+[tool.ruff.format]
+    quote-style               = "double"
+    indent-style              = "space"
+    skip-magic-trailing-comma = false
+    line-ending               = "auto"
 
 [tool.tox]
-legacy_tox_ini = """
+    legacy_tox_ini = """
 [tox]
 envlist =
     py39-pandas{13,14,15}-numpy1
