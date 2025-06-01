@@ -148,7 +148,9 @@
     pythonpath     = ['.']
     testpaths      = 'tests'
     addopts        = '-v'
-    filterwarnings = 'ignore::DeprecationWarning:pandas_datareader.compat'
+    filterwarnings = [
+        'ignore::DeprecationWarning:pandas_datareader.compat',
+    ]
 
 [tool.cibuildwheel]
     test-extras     = "test"
