@@ -23,10 +23,10 @@
    pytest -n auto --reruns 5 --strict-markers --disable-warnings -q
    ```
 
-2. Static analysis must pass:
+2. Static analysis must pass [this is a medium term goal since we just added ruff and there is a large number of errors at this point]:
 
    ```bash
-   ruff .
+   ruff check src/
    ```
 
 3. You may iterate with a narrower environment, but the primary check above must remain green:
@@ -37,21 +37,19 @@
 
 ## Coding conventions
 
-* Follow Black formatting (line length = 88) and Ruff rules from `pyproject.toml`.
-* Do **not** add broad warning filters. If a third-party package raises unavoidable warnings, mark them locally with `pytest.warns`.
-* Keep public API behaviour unchanged; update or add tests to validate fixes.
-* Commit messages: `<scope>: <brief description>`.
+- Follow ruff formatting rules from `pyproject.toml`.
+- Do **not** add broad warning filters. If a third-party package raises unavoidable warnings, mark them locally with `pytest.warns`.
+- Keep public API behaviour unchanged; update or add tests to validate fixes.
+- Commit messages: `<scope>: <brief description>`.
 
 ## Recommended workflow
 
-1. Run the full suite once to reproduce failures: `pytest -n auto`.
+1. Run the full suite once to reproduce failures: `pytest -n auto --reruns 5 --strict-markers --disable-warnings -q`.
 2. Use `pytest --lf` or target a single failing module while iterating.
 3. Replace deprecated NumPy or pandas APIs instead of suppressing warnings.
 4. Group related changes in a single commit; keep patches focused.
 
 ## References
 
-* The full tox matrix is defined in `[tool.tox]` inside `pyproject.toml`.
-* CI installation and test commands are documented in `.github/workflows/`.
-
-```
+- The full tox matrix is defined in `[tool.tox]` inside `pyproject.toml`.
+- CI installation and test commands are documented in `.github/workflows/`.
