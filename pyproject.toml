@@ -225,8 +225,6 @@
         "NPY201",
     ]
     ignore = [
-        "ANN101",
-        "ANN102",
         "ANN204",
         "D203",
         "D212",
@@ -242,6 +240,17 @@
     indent-style              = "space"
     skip-magic-trailing-comma = false
     line-ending               = "auto"
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/**/*.py" = [
+    # at least this three should be fine in tests:
+    "S101", # asserts allowed in tests...
+    "ARG", # Unused function args -> fixtures nevertheless are functionally relevant...
+    "FBT", # Don't care about booleans as positional arguments in tests, e.g. via @pytest.mark.parametrize()
+    # The below are debateable
+    "PLR2004", # Magic value used in comparison, ...
+    "S311", # Standard pseudo-random generators are not suitable for cryptographic purposes
+]
 
 [tool.tox]
     legacy_tox_ini = """

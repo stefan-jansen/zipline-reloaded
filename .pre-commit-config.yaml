@@ -21,7 +21,7 @@ repos:
     rev: 'v1.10.0'  # Use the latest stable version
     hooks:
       - id: mypy
-        args: [--strict] # Add any mypy arguments you need
+        args: [--strict, --ignore-missing-imports] # Add any mypy arguments you need
         additional_dependencies: [
           # Add any types-* packages or plugins mypy needs
           # e.g., types-requests, numpy, pandas, types-pytz, types-python-dateutil
