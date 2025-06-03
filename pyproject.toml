@@ -258,14 +258,13 @@
     legacy_tox_ini = """
 [tox]
 envlist =
-    py39-pandas{13,14,15}-numpy1
-    py310-pandas{13,14,15,20,21,22}-numpy1
-    py311-pandas{13,14,15,20,21,22}-numpy1
-    py312-pandas{13,14,15,20,21,22}-numpy1
-    py39-pandas222-numpy2
-    py310-pandas222-numpy2
-    py311-pandas222-numpy2
-    py312-pandas222-numpy2
+    py310-pandas{15,20,21,22}-numpy1
+    py311-pandas{15,20,21,22}-numpy1
+    py312-pandas{15,20,21,22}-numpy1
+    py310-pandas222-numpy2{0,1,2}
+    py311-pandas222-numpy2{0,1,2}
+    py312-pandas222-numpy2{0,1,2}
+    py313-pandas222-numpy2{2}
 
 isolated_build = True
 skip_missing_interpreters = True
@@ -276,6 +275,7 @@ python =
     3.10: py310
     3.11: py311
     3.12: py312
+    3.13: py313
 
 [testenv]
 usedevelop = True
@@ -291,8 +291,10 @@ deps =
     pandas22: pandas>=2.2,<2.3
     pandas222: pandas>=2.2.2,<2.3
     numpy1: numpy>=1.23.5,<2.0
-    numpy2: numpy>=2.0,<2.1
+    numpy20: numpy>=2.0,<2.1
+    numpy21: numpy>=2.1,<2.2
+    numpy22: numpy>=2.2,<2.3
 
 commands =
-    pytest -n 4 --reruns 5 --cov={toxinidir}/src --cov-report term  --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
+    pytest -n auto --reruns 5 --cov={toxinidir}/src --cov-report term  --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
 """
