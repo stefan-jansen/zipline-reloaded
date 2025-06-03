@@ -155,10 +155,9 @@
 
 [tool.cibuildwheel]
     test-extras     = "test"
-    test-command    = "pytest -n auto --reruns 5 {project}/tests"
+    test-command    = "pytest -n auto --reruns 5 --dist=loadgroup --strict-markers --disable-warnings {project}/tests"
     build-verbosity = 3
     environment     = "GITHUB_ACTIONS=true"
-    skip            = "cp39-macosx_arm64 cp39-macosx_universal2:arm64"
 
 [tool.cibuildwheel.macos]
     archs = [
@@ -166,7 +165,6 @@
         "arm64",
         "universal2",
     ]
-    test-skip = "cp39* *-macosx_arm64 *-macosx_universal2:arm64"
 
 [tool.cibuildwheel.linux]
     archs = ["auto64"]
@@ -179,10 +177,9 @@
 [tool.black]
     line-length = 88
     target-version = [
-        'py39',
         'py310',
         'py311',
-        'py312',
+        'py312'
     ]
     exclude = '''
 (
