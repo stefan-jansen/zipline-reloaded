@@ -101,7 +101,7 @@
         'click',
         'coverage',
         'pytest-rerunfailures',
-        'cython'
+        'Cython>=0.29.21,<3.2.0'
     ]
 
     dev = [
