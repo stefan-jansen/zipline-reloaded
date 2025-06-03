@@ -101,6 +101,7 @@
         'click',
         'coverage',
         'pytest-rerunfailures',
+        'cython'
     ]
 
     dev = [
