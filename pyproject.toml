@@ -155,7 +155,7 @@
 
 [tool.cibuildwheel]
     test-extras     = "test"
-    test-command    = "pytest -x --reruns 5 {project}/tests"
+    test-command    = "pytest -n auto --reruns 5 {project}/tests"
     build-verbosity = 3
     environment     = "GITHUB_ACTIONS=true"
     skip            = "cp39-macosx_arm64 cp39-macosx_universal2:arm64"
