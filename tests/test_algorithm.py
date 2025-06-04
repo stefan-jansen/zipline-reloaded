@@ -1621,31 +1621,35 @@ class TestAlgoScript(zf.WithMakeAlgo, zf.ZiplineTestCase):
                 self.sim_params,
                 {0: trades},
             )
+            # Build the script without mixing f-strings and dedent
+            script_template = dedent(
+                """
+                from zipline.api import *
+                def initialize(context):
+                    model = slippage.VolumeShareSlippage(
+                        volume_limit=.3,
+                        price_impact=0.05
+                    )
+                    set_slippage(model)
+                    {commission_line}
+                    context.count = 2
+                    context.incr = 0
+
+                def handle_data(context, data):
+                    if context.incr < context.count:
+                        # order small lots to be sure the
+                        # order will fill in a single transaction
+                        order(sid(0), 5000)
+                    record(price=data.current(sid(0), "price"))
+                    record(volume=data.current(sid(0), "volume"))
+                    record(incr=context.incr)
+                    context.incr += 1
+            """
+            ).strip()
+
             test_algo = self.make_algo(
                 data_portal=data_portal,
-                script=dedent(
-                    f"""from zipline.api import *
-                        def initialize(context):
-                            model = slippage.VolumeShareSlippage(
-                                volume_limit=.3,
-                                price_impact=0.05
-                            )
-                            set_slippage(model)
-                            {commission_line}  # noqa: E272, E222, E241, E202
-                            context.count = 2
-                            context.incr = 0
-
-                        def handle_data(context, data):
-                            if context.incr < context.count:
-                                # order small lots to be sure the
-                                # order will fill in a single transaction
-                                order(sid(0), 5000)
-                            record(price=data.current(sid(0), "price"))
-                            record(volume=data.current(sid(0), "volume"))
-                            record(incr=context.incr)
-                            context.incr += 1
-                            """
-                ),
+                script=script_template.format(commission_line=commission_line),
             )
             results = test_algo.run()
 
@@ -1847,21 +1851,26 @@ class TestAlgoScript(zf.WithMakeAlgo, zf.ZiplineTestCase):
 
         # order_value and order_percent should blow up
         for order_str in ["order_value", "order_percent"]:
+            # Build the script without mixing f-strings and dedent
+            script_template = dedent(
+                """
+                from zipline.api import order_percent, order_value, sid
+
+                def initialize(context):
+                    pass
+
+                def handle_data(context, data):
+                    {order_str}(sid(0), 10)
+            """
+            ).strip()
+
             test_algo = self.make_algo(
-                script=dedent(
-                    f"""from zipline.api import order_percent, order_value, sid
-
-                        def initialize(context):
-                            pass
-
-                        def handle_data(context, data):
-                            {order_str}(sid(0), 10)  """  # noqa: E272, E241, E271
-                ),
+                script=script_template.format(order_str=order_str),
                 sim_params=params,
             )
 
-        with pytest.raises(CannotOrderDelistedAsset):
-            test_algo.run()
+            with pytest.raises(CannotOrderDelistedAsset):
+                test_algo.run()
 
     def test_portfolio_in_init(self):
         """Test that accessing portfolio in init doesn't break."""
