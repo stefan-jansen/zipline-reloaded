@@ -1,18 +1,48 @@
 # cython: embedsignature=True
 from cpython cimport Py_EQ
 
-# cimport cython
+# ------------------------------------------------------------------
+# Imports
+# ------------------------------------------------------------------
 from pandas import isnull, Timestamp
 cimport numpy as np
 from numpy cimport float64_t, uint8_t, int64_t
 from numpy import asarray, datetime64, float64, int64, bool_, uint8
 
+# NB: we do **not** redeclare anything that already lives in
+#     adjustment.pxd – that avoids the redeclare warnings.
+#     The .pxd provides:
+#         * cpdef enum AdjustmentKind { MULTIPLY, ADD, OVERWRITE }
+#         * fused    column_type
+#         * declarations of the Adjustment classes
+#         * the signature for make_adjustment_from_indices_fused()
+# ------------------------------------------------------------------
+from .adjustment cimport AdjustmentKind      # brings in the C enum
+# column_type, Int64Index_t, DatetimeIndex_t, Timestamp_t, Adjustment
+# are also available automatically from the .pxd.
+
 from zipline.utils.compat import unicode
 
 
+# ------------------------------------------------------------------
+# Expose the enum members as Python-level attributes *once*.
+# The enum in the .pxd gives us compile-time constants, but they’re
+# not automatically inserted into the module dict.  We add them
+# dynamically so pure-Python code (and tests) can access them.
+# ------------------------------------------------------------------
+import sys as _sys
+_mod_dict = _sys.modules[__name__].__dict__
+_mod_dict.setdefault('ADD',       int(AdjustmentKind.ADD))
+_mod_dict.setdefault('MULTIPLY',  int(AdjustmentKind.MULTIPLY))
+_mod_dict.setdefault('OVERWRITE', int(AdjustmentKind.OVERWRITE))
+
+# ------------------------------------------------------------------
+# Human-readable names for error messages.
+# (Uses the Python attributes we just inserted.)
+# ------------------------------------------------------------------
 ADJUSTMENT_KIND_NAMES = {
-    MULTIPLY: 'MULTIPLY',
-    ADD: 'ADD',
+    MULTIPLY:  'MULTIPLY',
+    ADD:       'ADD',
     OVERWRITE: 'OVERWRITE',
 }
 
