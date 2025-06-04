@@ -148,14 +148,13 @@
 [tool.pytest.ini_options]
     pythonpath     = ['.']
     testpaths      = 'tests'
-    addopts        = '-v'
     filterwarnings = [
         'ignore::DeprecationWarning:pandas_datareader.compat',
     ]
 
 [tool.cibuildwheel]
     test-extras     = "test"
-    test-command    = "pytest -n auto --reruns 5 --dist=loadgroup --strict-markers --disable-warnings {project}/tests"
+    test-command    = "pytest -n auto --reruns 5 --dist=loadgroup --strict-markers --disable-warnings -q {project}/tests"
     build-verbosity = 3
     environment     = "GITHUB_ACTIONS=true"
 
