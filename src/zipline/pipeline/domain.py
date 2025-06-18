@@ -18,7 +18,12 @@ Currently, this means that a domain defines two things:
 import datetime
 from textwrap import dedent
 
-from zipline.utils.interface import default, implements, Interface
+from zipline.utils.interface import (
+    default,
+    implements,
+    Interface,
+    create_implementation,
+)
 import numpy as np
 import pandas as pd
 import pytz
@@ -96,7 +101,7 @@ class IDomain(Interface):
             ) from exc
 
 
-Domain = implements(IDomain)
+Domain = create_implementation(IDomain)
 Domain.__doc__ = """A domain represents a set of labels for the arrays computed by a Pipeline.
 
 A domain defines two things:
