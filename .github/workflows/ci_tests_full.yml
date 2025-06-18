@@ -35,7 +35,6 @@ jobs:
   tests:
     name: Unit Tests for ${{ matrix.python-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 120
     strategy:
       fail-fast: false
       matrix:
@@ -81,18 +80,8 @@ jobs:
       - name: Unittests with tox & pytest
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 100
-          max_attempts: 2
+          timeout_minutes: 90
+          max_attempts: 3
           retry_on: error
-          new_command_on_retry: |
-            python -m pip install --upgrade pip setuptools wheel
-            python -m pip install tox tox-gh-actions
-            python -m pip install .[test]
+          new_command_on_retry: python -m pip install tox tox-gh-actions .[test]
           command: tox
-
-      - name: Upload coverage reports
-        if: success() && matrix.python-version == '3.12' && matrix.os == 'ubuntu-latest'
-        uses: codecov/codecov-action@v3
-        with:
-          file: ./tmp/coverage.xml
-          fail_ci_if_error: false
