@@ -257,13 +257,13 @@
     legacy_tox_ini = """
 [tox]
 envlist =
-    py310-pandas{15,20,21,22}-numpy1
-    py311-pandas{15,20,21,22}-numpy1
-    py312-pandas{15,20,21,22}-numpy1
-    py310-pandas222-numpy2{0,1,2}
-    py311-pandas222-numpy2{0,1,2}
-    py312-pandas222-numpy2{0,1,2}
-    py313-pandas222-numpy2{2}
+    py310-pandas{15,20,21,22,23}-numpy1
+    py311-pandas{15,20,21,22,23}-numpy1
+    py312-pandas{15,20,21,22,23}-numpy1
+    py310-pandas{222,23}-numpy2{0,1,2}
+    py311-pandas{222,23}-numpy2{0,1,2}
+    py312-pandas{222,23}-numpy2{0,1,2}
+    py313-pandas{222,23}-numpy2{2}
 
 isolated_build = True
 skip_missing_interpreters = True
@@ -289,6 +289,7 @@ deps =
     pandas21: pandas>=2.1,<2.2
     pandas22: pandas>=2.2,<2.3
     pandas222: pandas>=2.2.2,<2.3
+    pandas23: pandas>=2.3,<2.4
     numpy1: numpy>=1.23.5,<2.0
     numpy20: numpy>=2.0,<2.1
     numpy21: numpy>=2.1,<2.2
