@@ -84,7 +84,7 @@ jobs:
           timeout_minutes: 90
           max_attempts: 3
           retry_on: error
-          new_command_on_retry: python -m pip install tox tox-gh-actions .[test]
+          on_retry_command: python -m pip install tox tox-gh-actions .[test]
           command: tox -e py312-pandas222-numpy20
 
       - name: Upload coverage data to Codecov
