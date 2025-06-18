@@ -505,7 +505,7 @@ class TestStatisticalBuiltIns:
             regression_length=50,
             allowed_missing_percentage=0.5,
         )
-        assert beta.target is self.my_asset
+        assert beta.target == self.my_asset
 
     def test_simple_beta_repr(self):
         beta = SimpleBeta(

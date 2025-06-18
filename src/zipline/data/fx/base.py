@@ -1,4 +1,4 @@
-from interface import default, Interface
+from zipline.utils.interface import default, Interface
 
 import numpy as np
 import pandas as pd

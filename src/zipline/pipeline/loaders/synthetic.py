@@ -1,6 +1,6 @@
 """Synthetic data loaders for testing."""
 
-from interface import implements
+from zipline.utils.interface import implements
 import numpy as np
 
 from numpy.random import RandomState

@@ -1,4 +1,4 @@
-from interface import implements
+from zipline.utils.interface import implements
 
 from .base import FXRateReader
 

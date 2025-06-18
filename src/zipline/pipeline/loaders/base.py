@@ -2,7 +2,7 @@
 Base class for Pipeline API data loaders.
 """
 
-from interface import default, Interface
+from zipline.utils.interface import default, Interface
 
 
 class PipelineLoader(Interface):

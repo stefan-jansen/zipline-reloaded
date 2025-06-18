@@ -2,7 +2,7 @@ from collections import namedtuple
 
 from .iface import PipelineHooks, PIPELINE_HOOKS_CONTEXT_MANAGERS
 
-from interface import implements
+from zipline.utils.interface import implements
 
 from zipline.utils.compat import contextmanager, wraps
 
