@@ -169,11 +169,9 @@
 
 [tool.cibuildwheel.linux]
     archs = ["auto64"]
-    skip  = "*musllinux*"
 
 [tool.cibuildwheel.windows]
     test-command = 'pytest -k "not daily_returns_is_special_case_of_returns" --reruns 5 {package}/tests'
-    test-skip    = ["*"]
 
 [tool.black]
     line-length = 88
@@ -297,4 +295,29 @@ deps =
 
 commands =
     pytest -n auto --reruns 5 --cov={toxinidir}/src --cov-report term  --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
+
+# Special configuration for Python 3.13 to handle interface compatibility
+[testenv:py313-pandas222-numpy22]
+usedevelop = True
+setenv =
+    MPLBACKEND = Agg
+changedir = tmp
+extras = test
+deps =
+    pandas>=2.2.2,<2.3
+    numpy>=2.2,<2.3
+commands =
+    pytest -n 2 --reruns 2 --timeout=300 --cov={toxinidir}/src --cov-report term --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
+
+[testenv:py313-pandas23-numpy22]
+usedevelop = True
+setenv =
+    MPLBACKEND = Agg
+changedir = tmp
+extras = test
+deps =
+    pandas>=2.3,<2.4
+    numpy>=2.2,<2.3
+commands =
+    pytest -n 2 --reruns 2 --timeout=300 --cov={toxinidir}/src --cov-report term --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
 """

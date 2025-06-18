@@ -10,6 +10,7 @@ from typing import Any, Callable, TypeVar, Type
 import functools
 import warnings
 import threading
+import weakref
 
 __all__ = [
     "Interface",
@@ -23,6 +24,10 @@ T = TypeVar("T")
 
 # Thread-local storage to prevent issues in multi-threaded environments
 _local = threading.local()
+# Global lock for thread-safe operations
+_global_lock = threading.RLock()
+# Cache for created base classes to avoid recreation
+_base_class_cache = weakref.WeakValueDictionary()
 
 
 class DefaultProperty(property):
@@ -58,16 +63,44 @@ class Interface:
                 elif isinstance(method, property) and not name.startswith("_"):
                     cls._interface_methods.add(name)
                     cls._signatures.add(name)
-        except RuntimeError:
+        except (RuntimeError, AttributeError):
             # Handle case where dict changes during iteration
             pass
+
+
+def _copy_default_methods(target_class, interfaces):
+    """
+    Safely copy default methods from interfaces to target class.
+
+    Parameters
+    ----------
+    target_class : type
+        The class to copy methods to.
+    interfaces : tuple
+        The interfaces to copy methods from.
+    """
+    with _global_lock:
+        for interface in interfaces:
+            try:
+                for name, method in interface.__dict__.items():
+                    if hasattr(method, "_is_default_implementation") and not hasattr(
+                        target_class, name
+                    ):
+                        try:
+                            setattr(target_class, name, method)
+                        except (AttributeError, TypeError):
+                            # Some classes don't allow attribute assignment
+                            pass
+            except (AttributeError, RuntimeError):
+                # Handle edge cases during class creation
+                pass
 
 
 def create_implementation(interface: Type[Interface]) -> Type:
     """
     Create a class that implements the given interface.
 
-    This is used for the pattern: Domain = implements(IDomain)
+    This is used for the pattern: Domain = create_implementation(IDomain)
 
     Parameters
     ----------
@@ -88,13 +121,7 @@ def create_implementation(interface: Type[Interface]) -> Type:
             super().__init__()
 
     # Copy all default methods from the interface
-    try:
-        for name, method in interface.__dict__.items():
-            if hasattr(method, "_is_default_implementation"):
-                setattr(ImplementationClass, name, method)
-    except (AttributeError, RuntimeError):
-        # Handle edge cases during class creation
-        pass
+    _copy_default_methods(ImplementationClass, (interface,))
 
     # Mark this class as implementing the interface
     ImplementationClass._implements = {interface}
@@ -120,41 +147,35 @@ def implements(*interfaces: Type[Interface]):
         A base class that implements the interfaces.
     """
 
-    # Create a base class for inheritance
-    class ImplementsBase:
-        """Base class for classes that implement interfaces."""
+    # Create a cache key for this combination of interfaces
+    cache_key = tuple(sorted(id(iface) for iface in interfaces))
 
-        def __init_subclass__(cls, **kwargs):
-            super().__init_subclass__(**kwargs)
-            # Store which interfaces this class implements
-            if not hasattr(cls, "_implements"):
-                cls._implements = set()
-            cls._implements.update(interfaces)
+    with _global_lock:
+        # Check if we already have a base class for this combination
+        if cache_key in _base_class_cache:
+            return _base_class_cache[cache_key]
 
-            # Copy default methods from all interfaces to the implementing class
-            for interface in interfaces:
-                try:
-                    for name, method in interface.__dict__.items():
-                        if hasattr(method, "_is_default_implementation"):
-                            # Only copy if the class doesn't already define this method
-                            if not hasattr(cls, name):
-                                setattr(cls, name, method)
-                except (AttributeError, RuntimeError):
-                    # Handle edge cases during class creation
-                    pass
+        # Create a base class for inheritance
+        class ImplementsBase:
+            """Base class for classes that implement interfaces."""
 
-    # Copy default methods from all interfaces to the base class itself
-    # This ensures that classes inheriting from implements(Interface) get the default methods
-    for interface in interfaces:
-        try:
-            for name, method in interface.__dict__.items():
-                if hasattr(method, "_is_default_implementation"):
-                    setattr(ImplementsBase, name, method)
-        except (AttributeError, RuntimeError):
-            # Handle edge cases during class creation
-            pass
+            def __init_subclass__(cls, **kwargs):
+                super().__init_subclass__(**kwargs)
+                # Store which interfaces this class implements
+                if not hasattr(cls, "_implements"):
+                    cls._implements = set()
+                cls._implements.update(interfaces)
 
-    return ImplementsBase
+                # Copy default methods from all interfaces to the implementing class
+                _copy_default_methods(cls, interfaces)
+
+        # Copy default methods from all interfaces to the base class itself
+        _copy_default_methods(ImplementsBase, interfaces)
+
+        # Cache the base class
+        _base_class_cache[cache_key] = ImplementsBase
+
+        return ImplementsBase
 
 
 def implements_decorator(*interfaces: Type[Interface]):
@@ -180,6 +201,10 @@ def implements_decorator(*interfaces: Type[Interface]):
         if not hasattr(cls, "_implements"):
             cls._implements = set()
         cls._implements.update(interfaces)
+
+        # Copy default methods from interfaces
+        _copy_default_methods(cls, interfaces)
+
         return cls
 
     return decorator
