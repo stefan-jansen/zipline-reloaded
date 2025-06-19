@@ -78,10 +78,4 @@ jobs:
           python -m pip install .[test]
 
       - name: Unittests with tox & pytest
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 90
-          max_attempts: 3
-          retry_on: error
-          new_command_on_retry: python -m pip install tox tox-gh-actions .[test]
-          command: tox
+        run: tox
