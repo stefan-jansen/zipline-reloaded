@@ -153,6 +153,24 @@
     filterwarnings = [
         'ignore::DeprecationWarning:pandas_datareader.compat',
     ]
+    # Python 3.13 specific timeout to prevent hanging
+    timeout = 300
+    timeout_method = "thread"
+    addopts = [
+        "--strict-markers",
+        "--disable-warnings",
+        "-v",                 # Verbose output
+        "--tb=short",         # Shorter traceback format
+        "--durations=20",     # Show 20 slowest tests
+        "--maxfail=50",       # Stop after 50 failures to prevent endless reruns
+        "--ff",               # Run failed tests first
+    ]
+    # Add markers for better test organization
+    markers = [
+        "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+        "integration: marks tests as integration tests",
+        "unit: marks tests as unit tests",
+    ]
 
 [tool.cibuildwheel]
     test-extras     = "test"
@@ -295,5 +313,63 @@ deps =
     numpy22: numpy>=2.2,<2.3
 
 commands =
-    pytest -n auto --reruns 5 --dist=loadgroup --strict-markers --disable-warnings --cov={toxinidir}/src --cov-report term  --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=30 --cov={toxinidir}/src --cov-report term  --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
+
+# Python 3.13 specific configuration to avoid hanging issues
+[testenv:py313-pandas222-numpy22]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+    PYTHONHASHSEED = 0
+    PYTHONFAULTHANDLER = 1
+    PYTHONUNBUFFERED = 1
+    PYTEST_CURRENT_TEST = 1
+commands =
+    # Disable coverage for Python 3.13 to avoid hanging and coverage bugs
+    pytest -n 1 --reruns 1 --dist=no --strict-markers --disable-warnings -v --tb=short --maxfail=10 --timeout=300 --durations=10 {toxinidir}/tests
+
+[testenv:py313-pandas23-numpy22]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+    PYTHONHASHSEED = 0
+    PYTHONFAULTHANDLER = 1
+    PYTHONUNBUFFERED = 1
+    PYTEST_CURRENT_TEST = 1
+commands =
+    # Disable coverage for Python 3.13 to avoid hanging and coverage bugs
+    pytest -n 1 --reruns 1 --dist=no --strict-markers --disable-warnings -v --tb=short --maxfail=10 --timeout=300 --durations=10 {toxinidir}/tests
+
+# Special configuration for problematic Python 3.10-3.12 environments with coverage issues
+[testenv:py310-pandas15-numpy1]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+commands =
+    # Disable coverage for pandas 1.5 to avoid coverage IndexError bugs
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
+
+[testenv:py311-pandas15-numpy1]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+commands =
+    # Disable coverage for pandas 1.5 to avoid coverage IndexError bugs
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
+
+[testenv:py310-pandas20-numpy1]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+commands =
+    # Disable coverage for pandas 2.0 to avoid coverage IndexError bugs
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
+
+[testenv:py311-pandas20-numpy1]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+commands =
+    # Disable coverage for pandas 2.0 to avoid coverage IndexError bugs
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
 """

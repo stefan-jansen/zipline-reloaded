@@ -35,6 +35,7 @@ jobs:
   tests:
     name: Unit Tests for ${{ matrix.python-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 180  # 3 hours max per job
     strategy:
       fail-fast: false
       matrix:
@@ -77,5 +78,31 @@ jobs:
           python -m pip install tox tox-gh-actions
           python -m pip install .[test]
 
+      - name: Debug Environment (Python 3.13)
+        if: ${{ matrix.python-version == '3.13' }}
+        run: |
+          echo "=== Python 3.13 Debug Info ==="
+          python -c "import sys; print(f'Python: {sys.version}')"
+          python -c "import multiprocessing as mp; print(f'MP start method: {mp.get_start_method()}')"
+          python -c "import pytest; print(f'Pytest: {pytest.__version__}')"
+          python -c "import coverage; print(f'Coverage: {coverage.__version__}')"
+          echo "=== System Info ==="
+          uname -a
+          nproc
+          free -h
+          echo "=== Environment Variables ==="
+          env | grep -E '(GITHUB|CI|TOX|PYTEST)' || true
+
       - name: Unittests with tox & pytest
-        run: tox
+        env:
+          # Add debugging environment variables
+          PYTEST_CURRENT_TEST: 1
+          PYTHONFAULTHANDLER: 1
+          PYTHONUNBUFFERED: 1
+          # CI detection for test configuration
+          GITHUB_ACTIONS: true
+          CI: true
+        run: |
+          echo "=== Starting tests for Python ${{ matrix.python-version }} on ${{ matrix.os }} ==="
+          echo "Timestamp: $(date)"
+          tox -v
