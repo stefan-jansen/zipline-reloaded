@@ -49,6 +49,7 @@ from zipline.utils.numpy_utils import (
 )
 import pytest
 import re
+from tests.conftest import ON_WINDOWS_CI, ON_LINUX_CI
 
 # More robust CI detection
 ON_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS") == "true"
@@ -58,14 +59,8 @@ ON_CI = (
     or os.getenv("CONTINUOUS_INTEGRATION") == "true"
     or os.getenv("TF_BUILD") == "True"  # Azure DevOps
 )
-ON_LINUX_CI = ON_CI and platform.system() == "Linux"
-ON_WINDOWS_CI = ON_CI and platform.system() == "Windows"
-
 # Additional skip condition for timezone-sensitive tests
-SKIP_TIMEZONE_SENSITIVE = ON_CI or platform.system() in (  # Skip on any CI environment
-    "Windows",
-    "Linux",
-)  # Known problematic platforms
+SKIP_TIMEZONE_SENSITIVE = ON_WINDOWS_CI or ON_LINUX_CI
 
 
 @pytest.fixture(scope="class")

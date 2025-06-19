@@ -1,4 +1,6 @@
 import warnings
+import sys
+import os
 import pandas as pd
 import pytest
 from zipline.utils.calendar_utils import get_calendar
@@ -11,6 +13,11 @@ from zipline.assets import (
     Future,
 )
 
+
+ON_GHA = os.getenv("GHA") == "true"
+# Windows CI specific detection
+ON_WINDOWS_CI = sys.platform == "win32" and ON_GHA
+ON_LINUX_CI = sys.platform == "linux" and ON_GHA
 
 DEFAULT_DATE_BOUNDS = {
     "START_DATE": pd.Timestamp("2006-01-03"),

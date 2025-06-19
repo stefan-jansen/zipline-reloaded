@@ -1,5 +1,4 @@
 import os
-import platform
 import pytest
 import re
 
@@ -10,7 +9,7 @@ import sqlalchemy as sa
 from toolz import valmap
 import toolz.curried.operator as op
 from zipline.utils.calendar_utils import TradingCalendar, get_calendar
-
+from tests.conftest import ON_WINDOWS_CI
 from zipline.assets import ASSET_DB_VERSION
 
 from zipline.assets.asset_writer import check_version_info
@@ -46,13 +45,6 @@ from zipline.utils.functional import apply
 import zipline.utils.paths as pth
 
 _1_ns = pd.Timedelta(1, unit="ns")
-
-# Windows CI specific detection
-ON_WINDOWS_CI = platform.system() == "Windows" and (
-    os.getenv("GITHUB_ACTIONS") == "true"
-    or os.getenv("CI") == "true"
-    or os.getenv("CONTINUOUS_INTEGRATION") == "true"
-)
 
 
 class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestCase):

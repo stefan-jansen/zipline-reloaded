@@ -278,6 +278,7 @@ python =
 usedevelop = True
 setenv =
     MPLBACKEND = Agg
+    GHA = $GITHUB_ACTIONS
 
 changedir = tmp
 extras = test

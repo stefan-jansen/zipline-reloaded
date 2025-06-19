@@ -21,7 +21,7 @@ from zipline.testing.fixtures import (
     ZiplineTestCase,
     WithResponses,
 )
-
+from tests.conftest import ON_WINDOWS_CI
 from zipline.utils.functional import apply
 from zipline.testing.github_actions import skip_on
 import pytest
@@ -29,13 +29,6 @@ import pytest
 TEST_RESOURCE_PATH = join(
     dirname(dirname(dirname(realpath(__file__)))),
     "resources",  # zipline_repo/tests
-)
-
-# Windows CI specific detection
-ON_WINDOWS_CI = platform.system() == "Windows" and (
-    os.getenv("GITHUB_ACTIONS") == "true"
-    or os.getenv("CI") == "true"
-    or os.getenv("CONTINUOUS_INTEGRATION") == "true"
 )
 
 
