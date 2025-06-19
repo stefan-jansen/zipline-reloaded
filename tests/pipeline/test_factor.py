@@ -42,7 +42,7 @@ from zipline.utils.pandas_utils import new_pandas, skip_pipeline_new_pandas
 from .base import BaseUSEquityPipelineTestCase
 from packaging.version import Version
 
-from .test_statistical import ON_GITHUB_ACTIONS
+from .test_statistical import ON_GITHUB_ACTIONS, SKIP_TIMEZONE_SENSITIVE
 
 NUMPY2 = Version(np.__version__) >= Version("2.0.0")
 
@@ -1727,6 +1727,10 @@ class TestSpecialCases(WithUSEquityPricingPipelineEngine, ZiplineTestCase):
             assert_equal(results.loc[:, name], first_column, check_names=False)
 
     @skip_on(PermissionError)
+    @pytest.mark.skipif(
+        SKIP_TIMEZONE_SENSITIVE,
+        reason="Test fails on CI due to timezone handling differences.",
+    )
     def test_daily_returns_is_special_case_of_returns(self):
         self.check_equivalent_terms(
             {

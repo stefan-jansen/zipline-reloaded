@@ -169,11 +169,9 @@
 
 [tool.cibuildwheel.linux]
     archs = ["auto64"]
-    skip  = "*musllinux*"
 
 [tool.cibuildwheel.windows]
-    test-command = 'pytest -k "not daily_returns_is_special_case_of_returns" --reruns 5 {package}/tests'
-    test-skip    = ["*"]
+    test-command = 'pytest -k "not daily_returns_is_special_case_of_returns" --reruns 5 --dist=loadgroup --strict-markers --disable-warnings{package}/tests'
 
 [tool.black]
     line-length = 88
