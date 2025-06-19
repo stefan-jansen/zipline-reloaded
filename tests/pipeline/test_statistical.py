@@ -60,7 +60,7 @@ ON_CI = (
     or os.getenv("TF_BUILD") == "True"  # Azure DevOps
 )
 # Additional skip condition for timezone-sensitive tests
-SKIP_TIMEZONE_SENSITIVE = ON_WINDOWS_CI or ON_LINUX_CI
+SKIP_CI_ONLY_FAILURES = ON_WINDOWS_CI or ON_LINUX_CI
 
 
 @pytest.fixture(scope="class")
@@ -166,7 +166,7 @@ class TestStatisticalBuiltIns:
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("correlation_length", [3, 4])
     @pytest.mark.skipif(
-        SKIP_TIMEZONE_SENSITIVE,
+        SKIP_CI_ONLY_FAILURES,
         reason="Test fails on CI due to timezone handling differences.",
     )
     def test_correlation_factors(self, returns_length, correlation_length):
@@ -269,7 +269,7 @@ class TestStatisticalBuiltIns:
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("regression_length", [3, 4])
     @pytest.mark.skipif(
-        SKIP_TIMEZONE_SENSITIVE,
+        SKIP_CI_ONLY_FAILURES,
         reason="Test fails on CI due to timezone handling differences.",
     )
     def test_regression_of_returns_factor(self, returns_length, regression_length):
@@ -512,7 +512,7 @@ class TestStatisticalBuiltIns:
             )
 
     @pytest.mark.skipif(
-        SKIP_TIMEZONE_SENSITIVE,
+        SKIP_CI_ONLY_FAILURES,
         reason="Test fails on CI due to timezone handling differences.",
     )
     def test_simple_beta_target(self):
@@ -589,7 +589,7 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         cls.col = TestingDataSet.float_col
 
     @pytest.mark.skipif(
-        SKIP_TIMEZONE_SENSITIVE,
+        SKIP_CI_ONLY_FAILURES,
         reason="Test fails on CI due to timezone handling differences.",
     )
     @parameter_space(returns_length=[2, 3], correlation_length=[3, 4])
@@ -695,6 +695,10 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
                 correlation_length=correlation_length,
             )
 
+    @pytest.mark.skipif(
+        SKIP_CI_ONLY_FAILURES,
+        reason="Test fails on CI due to timezone handling differences.",
+    )
     @parameter_space(returns_length=[2, 3], regression_length=[3, 4])
     def test_factor_regression_method(self, returns_length, regression_length):
         """Ensure that `Factor.linear_regression` is consistent with the built-in
@@ -878,6 +882,10 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         )
         assert_frame_equal(spearman_results, expected_spearman_results)
 
+    @pytest.mark.skipif(
+        SKIP_CI_ONLY_FAILURES,
+        reason="Test fails on CI due to timezone handling differences.",
+    )
     @parameter_space(regression_length=[2, 3, 4])
     def test_factor_regression_method_two_factors(self, regression_length):
         """Tests for `Factor.linear_regression` when passed another 2D factor

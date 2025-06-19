@@ -278,7 +278,7 @@ python =
 usedevelop = True
 setenv =
     MPLBACKEND = Agg
-    GHA = $GITHUB_ACTIONS
+    GHA = {env:GITHUB_ACTIONS:false}
 
 changedir = tmp
 extras = test

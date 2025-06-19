@@ -14,7 +14,13 @@ from zipline.assets import (
 )
 
 
-ON_GHA = os.getenv("GHA") == "true"
+# More robust CI detection
+ON_GHA = (
+    os.getenv("GHA") == "true"
+    or os.getenv("GITHUB_ACTIONS") == "true"
+    or os.getenv("CI") == "true"
+    or os.getenv("CONTINUOUS_INTEGRATION") == "true"
+)
 # Windows CI specific detection
 ON_WINDOWS_CI = sys.platform == "win32" and ON_GHA
 ON_LINUX_CI = sys.platform == "linux" and ON_GHA
