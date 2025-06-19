@@ -93,7 +93,7 @@ Each column of the array contains exchange rates for a given date. The label
 for column i in a data node is the ith element of /index/dts.
 """
 
-from interface import implements
+from zipline.utils.interface import implements
 import h5py
 import logging
 import numpy as np

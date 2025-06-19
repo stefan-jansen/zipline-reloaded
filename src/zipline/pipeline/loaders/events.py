@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from interface import implements
+from zipline.utils.interface import implements
 from toolz import groupby, merge
 
 from .base import PipelineLoader
@@ -134,8 +134,9 @@ class EventsLoader(implements(PipelineLoader)):
                 return "previous"
 
             raise ValueError(
-                "{c} not found in next_value_columns "
-                "or previous_value_columns".format(c=c)
+                "{c} not found in next_value_columns or previous_value_columns".format(
+                    c=c
+                )
             )
 
         groups = groupby(next_or_previous, requested_columns)

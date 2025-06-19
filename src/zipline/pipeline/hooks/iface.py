@@ -1,6 +1,6 @@
 from zipline.utils.compat import contextmanager as _contextmanager
 
-from interface import Interface
+from zipline.utils.interface import Interface
 
 
 # Keep track of which methods of PipelineHooks are contextmanagers. Used by

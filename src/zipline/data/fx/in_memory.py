@@ -1,6 +1,6 @@
 """Interface and definitions for foreign exchange rate readers."""
 
-from interface import implements
+from zipline.utils.interface import implements
 import numpy as np
 
 from .base import FXRateReader, DEFAULT_FX_RATE

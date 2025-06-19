@@ -4,7 +4,7 @@ PipelineLoader accepting a DataFrame as input.
 
 from functools import partial
 
-from interface import implements
+from zipline.utils.interface import implements
 import numpy as np
 import pandas as pd
 

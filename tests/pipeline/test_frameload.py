@@ -9,12 +9,10 @@ from numpy.testing import assert_array_equal
 from zipline.utils.calendar_utils import get_calendar
 
 from zipline.lib.adjustment import (
-    ADD,
+    AdjustmentKind,
     Float64Add,
     Float64Multiply,
     Float64Overwrite,
-    MULTIPLY,
-    OVERWRITE,
 )
 from zipline.pipeline.data import USEquityPricing
 from zipline.pipeline.domain import US_EQUITIES
@@ -104,7 +102,7 @@ class TestDataFrameLoader:
                 "end_date": self.dates[15],
                 "apply_date": self.dates[16],
                 "value": 0.5,
-                "kind": MULTIPLY,
+                "kind": AdjustmentKind.MULTIPLY,
             },
             {
                 "sid": 2,
@@ -112,7 +110,7 @@ class TestDataFrameLoader:
                 "end_date": self.dates[15],
                 "apply_date": self.dates[16],
                 "value": 1.0,
-                "kind": ADD,
+                "kind": AdjustmentKind.ADD,
             },
             {
                 "sid": 2,
@@ -120,7 +118,7 @@ class TestDataFrameLoader:
                 "end_date": self.dates[16],
                 "apply_date": self.dates[17],
                 "value": 1.0,
-                "kind": ADD,
+                "kind": AdjustmentKind.ADD,
             },
             {
                 "sid": 3,
@@ -128,7 +126,7 @@ class TestDataFrameLoader:
                 "end_date": self.dates[17],
                 "apply_date": self.dates[18],
                 "value": 99.0,
-                "kind": OVERWRITE,
+                "kind": AdjustmentKind.OVERWRITE,
             },
         ]
 
@@ -140,7 +138,7 @@ class TestDataFrameLoader:
                 "end_date": self.dates[17],
                 "apply_date": self.dates[18],
                 "value": -9999.0,
-                "kind": OVERWRITE,
+                "kind": AdjustmentKind.OVERWRITE,
             },
             {  # Sid Unknown
                 "sid": 9999,
@@ -148,7 +146,7 @@ class TestDataFrameLoader:
                 "end_date": self.dates[17],
                 "apply_date": self.dates[18],
                 "value": -9999.0,
-                "kind": OVERWRITE,
+                "kind": AdjustmentKind.OVERWRITE,
             },
             {  # Date Not Requested
                 "sid": 2,
@@ -156,7 +154,7 @@ class TestDataFrameLoader:
                 "end_date": self.dates[2],
                 "apply_date": self.dates[3],
                 "value": -9999.0,
-                "kind": OVERWRITE,
+                "kind": AdjustmentKind.OVERWRITE,
             },
             {  # Date Before Known Data
                 "sid": 2,
@@ -164,7 +162,7 @@ class TestDataFrameLoader:
                 "end_date": self.dates[0] - self.trading_day,
                 "apply_date": self.dates[0] - self.trading_day,
                 "value": -9999.0,
-                "kind": OVERWRITE,
+                "kind": AdjustmentKind.OVERWRITE,
             },
             {  # Date After Known Data
                 "sid": 2,
@@ -172,7 +170,7 @@ class TestDataFrameLoader:
                 "end_date": self.dates[-1] + (2 * self.trading_day),
                 "apply_date": self.dates[-1] + (3 * self.trading_day),
                 "value": -9999.0,
-                "kind": OVERWRITE,
+                "kind": AdjustmentKind.OVERWRITE,
             },
         ]
 

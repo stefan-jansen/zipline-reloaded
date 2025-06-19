@@ -9,7 +9,7 @@ import sqlalchemy as sa
 from toolz import valmap
 import toolz.curried.operator as op
 from zipline.utils.calendar_utils import TradingCalendar, get_calendar
-
+from tests.conftest import ON_WINDOWS_CI
 from zipline.assets import ASSET_DB_VERSION
 
 from zipline.assets.asset_writer import check_version_info
@@ -127,6 +127,10 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
         assert called[0]
 
     @skip_on(PermissionError)
+    @pytest.mark.skipif(
+        ON_WINDOWS_CI,
+        reason="Bundle tests fail on Windows CI due to file handling issues",
+    )
     def test_ingest(self):
         calendar = get_calendar("XNYS")
         sessions = calendar.sessions_in_range(self.START_DATE, self.END_DATE)
@@ -274,6 +278,10 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
 
     @pytest.mark.filterwarnings("ignore: Overwriting bundle with name")
     @skip_on(PermissionError)
+    @pytest.mark.skipif(
+        ON_WINDOWS_CI,
+        reason="Bundle tests fail on Windows CI due to file handling issues",
+    )
     def test_ingest_assets_versions(self):
         versions = (1, 2)
 

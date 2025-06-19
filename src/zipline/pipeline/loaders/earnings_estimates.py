@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from interface import implements
+from zipline.utils.interface import implements
 import numpy as np
 import pandas as pd
 from toolz import groupby
@@ -30,7 +30,7 @@ from zipline.pipeline.loaders.utils import (
 )
 
 INVALID_NUM_QTRS_MESSAGE = (
-    "Passed invalid number of quarters %s; " "must pass a number of quarters >= 0"
+    "Passed invalid number of quarters %s; must pass a number of quarters >= 0"
 )
 NEXT_FISCAL_QUARTER = "next_fiscal_quarter"
 NEXT_FISCAL_YEAR = "next_fiscal_year"

@@ -13,7 +13,7 @@
 # limitations under the License.
 from collections import defaultdict
 
-from interface import implements
+from zipline.utils.interface import implements
 from numpy import iinfo, uint32, multiply
 
 from zipline.data.fx import ExplodingFXRateReader
