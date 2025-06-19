@@ -16,14 +16,15 @@ from zipline.assets import (
 
 # More robust CI detection
 ON_GHA = (
-    os.getenv("GHA") == "true"
-    or os.getenv("GITHUB_ACTIONS") == "true"
+    os.getenv("GITHUB_ACTIONS") == "true"
     or os.getenv("CI") == "true"
     or os.getenv("CONTINUOUS_INTEGRATION") == "true"
+    or os.getenv("TF_BUILD") == "True"  # Azure DevOps
 )
-# Windows CI specific detection
+# More specific CI platform detection
 ON_WINDOWS_CI = sys.platform == "win32" and ON_GHA
-ON_LINUX_CI = sys.platform == "linux" and ON_GHA
+ON_LINUX_CI = sys.platform.startswith("linux") and ON_GHA
+ON_MACOS_CI = sys.platform == "darwin" and ON_GHA
 
 DEFAULT_DATE_BOUNDS = {
     "START_DATE": pd.Timestamp("2006-01-03"),

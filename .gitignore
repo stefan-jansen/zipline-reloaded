@@ -95,3 +95,5 @@ conda
 admin
 *.html
 src/zipline/_version.py
+*.code-workspace
+logs/

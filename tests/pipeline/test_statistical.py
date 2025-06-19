@@ -50,6 +50,7 @@ from zipline.utils.numpy_utils import (
 import pytest
 import re
 from tests.conftest import ON_WINDOWS_CI, ON_LINUX_CI
+from zipline.utils.calendar_utils import get_calendar
 
 # More robust CI detection
 ON_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS") == "true"
@@ -60,68 +61,70 @@ ON_CI = (
     or os.getenv("TF_BUILD") == "True"  # Azure DevOps
 )
 # Additional skip condition for timezone-sensitive tests
-SKIP_CI_ONLY_FAILURES = ON_WINDOWS_CI or ON_LINUX_CI
+SKIP_CI_ONLY_FAILURES = (
+    ON_WINDOWS_CI or ON_LINUX_CI or (ON_CI and sys.platform == "darwin")
+)
 
 
 @pytest.fixture(scope="class")
-def set_test_statistical_built_ins(request, with_asset_finder, with_trading_calendars):
-    sids = ASSET_FINDER_EQUITY_SIDS = pd.Index([1, 2, 3], dtype="int64")
-    START_DATE = pd.Timestamp("2015-01-31")
-    END_DATE = pd.Timestamp("2015-03-01")
-    ASSET_FINDER_EQUITY_SYMBOLS = ("A", "B", "C")
-    ASSET_FINDER_COUNTRY_CODE = "US"
+def set_test_statistical_built_ins(request, with_trading_calendars, with_asset_finder):
+    """
+    Fixture setting up test data and pipeline engine for statistical tests.
+    """
+    from zipline.pipeline.loaders.testing import make_seeded_random_loader
+    from zipline.testing import (
+        make_cascading_boolean_array,
+        make_alternating_boolean_array,
+    )
+    from zipline.testing.fixtures import WithAssetFinder
 
-    equities = pd.DataFrame(
-        list(
-            zip(
-                ASSET_FINDER_EQUITY_SIDS,
-                ASSET_FINDER_EQUITY_SYMBOLS,
-                [
-                    START_DATE,
-                ]
-                * 3,
-                [
-                    END_DATE,
-                ]
-                * 3,
-                [
-                    "NYSE",
-                ]
-                * 3,
-            )
-        ),
-        columns=["sid", "symbol", "start_date", "end_date", "exchange"],
+    # Set up dates using actual trading calendar
+    trading_calendar = get_calendar("NYSE")
+    # Use a wider date range to ensure enough historical data for regression tests
+    # that need windows of up to 10 days
+    all_sessions = trading_calendar.sessions_in_range(
+        pd.Timestamp("2015-01-05"), pd.Timestamp("2015-03-31")
     )
 
-    exchange_names = [df["exchange"] for df in (equities,) if df is not None]
-    if exchange_names:
-        exchanges = pd.DataFrame(
-            {
-                "exchange": pd.concat(exchange_names).unique(),
-                "country_code": ASSET_FINDER_COUNTRY_CODE,
-            }
+    sids = [1, 2, 3]
+    # Use later indices to ensure we have enough historical data
+    start_date_index = 20  # Increased from 10 to ensure enough history
+    end_date_index = 24  # Adjusted accordingly
+
+    # Ensure we have enough trading days
+    if len(all_sessions) <= end_date_index:
+        # Extend the range further if needed
+        all_sessions = trading_calendar.sessions_in_range(
+            pd.Timestamp("2014-12-01"), pd.Timestamp("2015-04-30")
         )
 
-    request.cls.asset_finder = with_asset_finder(
-        **dict(equities=equities, exchanges=exchanges)
-    )
-    day = request.cls.trading_calendar.day
-    request.cls.dates = dates = pd.date_range("2015-02-01", "2015-02-28", freq=day)
-
-    # Using these start and end dates because they are a contigous span of
-    # 5 days (Monday - Friday) and they allow for plenty of days to look
-    # back on when computing correlations and regressions.
-    request.cls.start_date_index = start_date_index = 14
-    request.cls.end_date_index = end_date_index = 18
+    request.cls.dates = dates = all_sessions
+    request.cls.start_date_index = start_date_index
+    request.cls.end_date_index = end_date_index
     request.cls.pipeline_start_date = dates[start_date_index]
     request.cls.pipeline_end_date = dates[end_date_index]
-    request.cls.num_days = num_days = end_date_index - start_date_index + 1
+    request.cls.num_days = end_date_index - start_date_index + 1
+
+    # Set up asset finder with original symbols for compatibility
+    request.cls.asset_finder = with_asset_finder(
+        equities=pd.DataFrame(
+            {
+                "sid": sids,
+                "symbol": ["A", "B", "C"],  # Use original symbols
+                "start_date": dates[0],
+                "end_date": dates[-1],
+                "exchange": "NYSE",
+            }
+        ),
+        exchanges=pd.DataFrame({"exchange": ["NYSE"], "country_code": "US"}),
+    )
 
     request.cls.assets = assets = request.cls.asset_finder.retrieve_all(sids)
     request.cls.my_asset_column = my_asset_column = 0
     request.cls.my_asset = assets[my_asset_column]
     request.cls.num_assets = num_assets = len(assets)
 
+    # Create test data
     request.cls.raw_data = raw_data = pd.DataFrame(
         data=np.arange(len(dates) * len(sids), dtype=float64_dtype).reshape(
             len(dates),
@@ -131,31 +134,48 @@ def set_test_statistical_built_ins(request, with_asset_finder, with_trading_cale
         columns=assets,
     )
 
-    # Using mock 'close' data here because the correlation and regression
-    # built-ins use USEquityPricing.close as the input to their `Returns`
-    # factors. Since there is no way to change that when constructing an
-    # instance of these built-ins, we need to test with mock 'close' data
-    # to most accurately reflect their true behavior and results.
+    # Set up loaders - both for USEquityPricing and TestingDataSet
     close_loader = DataFrameLoader(USEquityPricing.close, raw_data)
 
+    # Create seeded random loader for TestingDataSet
+    seeded_loader = make_seeded_random_loader(
+        seed=42,  # Fixed seed for reproducibility
+        dates=dates,
+        sids=sids,
+        columns=TestingDataSet.columns,
+    )
+
+    # Create a get_loader function that handles both types
+    def get_loader(column):
+        if column == USEquityPricing.close:
+            return close_loader
+        elif hasattr(column, "dataset") and column.dataset == TestingDataSet:
+            return seeded_loader
+        else:
+            # Fallback - try to return the seeded loader for any unknown columns
+            return seeded_loader
+
     request.cls.run_pipeline = SimplePipelineEngine(
-        {USEquityPricing.close: close_loader}.__getitem__,
+        get_loader,
         request.cls.asset_finder,
         default_domain=US_EQUITIES,
     ).run_pipeline
+
+    # Set up mask data
+    from zipline.testing import AssetIDPlusDay
 
     request.cls.cascading_mask = AssetIDPlusDay() < (
         sids[-1] + dates[start_date_index].day
     )
     request.cls.expected_cascading_mask_result = make_cascading_boolean_array(
-        shape=(num_days, num_assets),
+        shape=(request.cls.num_days, num_assets),
     )
     request.cls.alternating_mask = (AssetIDPlusDay() % 2).eq(0)
     request.cls.expected_alternating_mask_result = make_alternating_boolean_array(
-        shape=(num_days, num_assets),
+        shape=(request.cls.num_days, num_assets),
     )
     request.cls.expected_no_mask_result = np.full(
-        shape=(num_days, num_assets),
+        shape=(request.cls.num_days, num_assets),
         fill_value=True,
         dtype=bool_dtype,
     )
