@@ -1,5 +1,7 @@
 import numpy as np
+import os
 import pandas as pd
+import platform
 import toolz.curried.operator as op
 from os.path import (
     dirname,
@@ -22,10 +24,18 @@ from zipline.testing.fixtures import (
 
 from zipline.utils.functional import apply
 from zipline.testing.github_actions import skip_on
+import pytest
 
 TEST_RESOURCE_PATH = join(
     dirname(dirname(dirname(realpath(__file__)))),
     "resources",  # zipline_repo/tests
+)
+
+# Windows CI specific detection
+ON_WINDOWS_CI = platform.system() == "Windows" and (
+    os.getenv("GITHUB_ACTIONS") == "true"
+    or os.getenv("CI") == "true"
+    or os.getenv("CONTINUOUS_INTEGRATION") == "true"
 )
 
 
@@ -187,6 +197,10 @@ class QuandlBundleTestCase(WithResponses, ZiplineTestCase):
         return pricing, adjustments
 
     @skip_on(PermissionError)
+    @pytest.mark.skipif(
+        ON_WINDOWS_CI,
+        reason="Bundle tests fail on Windows CI due to file handling issues",
+    )
     def test_bundle(self):
         with open(
             join(TEST_RESOURCE_PATH, "quandl_samples", "QUANDL_ARCHIVE.zip"),

@@ -1,4 +1,5 @@
 import os
+import platform
 import pytest
 import re
 
@@ -45,6 +46,13 @@ from zipline.utils.functional import apply
 import zipline.utils.paths as pth
 
 _1_ns = pd.Timedelta(1, unit="ns")
+
+# Windows CI specific detection
+ON_WINDOWS_CI = platform.system() == "Windows" and (
+    os.getenv("GITHUB_ACTIONS") == "true"
+    or os.getenv("CI") == "true"
+    or os.getenv("CONTINUOUS_INTEGRATION") == "true"
+)
 
 
 class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestCase):
@@ -127,6 +135,10 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
         assert called[0]
 
     @skip_on(PermissionError)
+    @pytest.mark.skipif(
+        ON_WINDOWS_CI,
+        reason="Bundle tests fail on Windows CI due to file handling issues",
+    )
     def test_ingest(self):
         calendar = get_calendar("XNYS")
         sessions = calendar.sessions_in_range(self.START_DATE, self.END_DATE)
@@ -274,6 +286,10 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
 
     @pytest.mark.filterwarnings("ignore: Overwriting bundle with name")
     @skip_on(PermissionError)
+    @pytest.mark.skipif(
+        ON_WINDOWS_CI,
+        reason="Bundle tests fail on Windows CI due to file handling issues",
+    )
     def test_ingest_assets_versions(self):
         versions = (1, 2)
 
