@@ -287,6 +287,7 @@ class ExecutionPlan(TermGraph):
         self.domain = domain
 
         sessions = domain.sessions()
+        self.node_dict = dict(self.graph.nodes())
         for term in terms.values():
             self.set_extra_rows(
                 term,
@@ -295,6 +296,7 @@ class ExecutionPlan(TermGraph):
                 end_date,
                 min_extra_rows=min_extra_rows,
             )
+        delattr(self, "node_dict")
 
         self._assert_all_loadable_terms_specialized_to(domain)
 
@@ -454,7 +456,7 @@ class ExecutionPlan(TermGraph):
         """
         Ensure that we're going to compute at least N extra rows of `term`.
         """
-        attrs = dict(self.graph.nodes())[term]
+        attrs = self.node_dict[term]
         attrs["extra_rows"] = max(N, attrs.get("extra_rows", 0))
 
     def mask_and_dates_for_term(self, term, root_mask_term, workspace, all_dates):
