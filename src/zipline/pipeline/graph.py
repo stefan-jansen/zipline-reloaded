@@ -307,7 +307,7 @@ class ExecutionPlan(TermGraph):
         # Specialize any loadable terms before adding extra rows.
         term = maybe_specialize(term, self.domain)
 
-        if self._has_been_here_before_with_min_extra_rows(term, min_extra_rows):
+        if self._has_been_here_before_with_more_min_extra_rows(term, min_extra_rows):
             return
 
         # A term can require that additional extra rows beyond the minimum be
@@ -466,7 +466,7 @@ class ExecutionPlan(TermGraph):
         attrs["extra_rows"] = max(N, attrs.get("extra_rows", 0))
         attrs["min_extra_rows"] = max(min_extra_rows, attrs.get("min_extra_rows", 0))
 
-    def _has_been_here_before_with_min_extra_rows(self, term, minimum_extra_rows):
+    def _has_been_here_before_with_more_min_extra_rows(self, term, minimum_extra_rows):
         """
         Check if the term has been visited before with the same or greater number of minimum extra rows.
         """
