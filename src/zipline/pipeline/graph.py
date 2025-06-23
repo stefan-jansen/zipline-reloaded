@@ -96,8 +96,11 @@ class TermGraph:
         self.graph.add_node(term)
 
         for dependency in term.dependencies:
-            self._add_to_graph(dependency, parents)
-            self.graph.add_edge(dependency, term)
+            if dependency in self.graph:
+                self.graph.add_edge(dependency, term)
+            else:
+                self._add_to_graph(dependency, parents)
+                self.graph.add_edge(dependency, term)
 
         parents.remove(term)
 
