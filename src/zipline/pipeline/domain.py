@@ -18,12 +18,8 @@ Currently, this means that a domain defines two things:
 import datetime
 from textwrap import dedent
 
-from zipline.utils.interface import (
-    default,
-    implements,
-    Interface,
-    create_implementation,
-)
+from abc import ABC, abstractmethod
+
 import numpy as np
 import pandas as pd
 import pytz
@@ -37,9 +33,10 @@ from zipline.utils.memoize import lazyval
 from zipline.utils.pandas_utils import days_at_time
 
 
-class IDomain(Interface):
+class IDomain(ABC):
     """Domain interface."""
 
+    @abstractmethod
     def sessions(self):
         """Get all trading sessions for the calendar of this domain.
 
@@ -53,6 +50,7 @@ class IDomain(Interface):
         """
 
     @property
+    @abstractmethod
     def country_code(self):
         """The country code for this domain.
 
@@ -62,6 +60,7 @@ class IDomain(Interface):
             The two-character country iso3166 country code for this domain.
         """
 
+    @abstractmethod
     def data_query_cutoff_for_sessions(self, sessions):
         """Compute the data query cutoff time for the given sessions.
 
@@ -78,7 +77,6 @@ class IDomain(Interface):
             "available" on each session.
         """
 
-    @default
     def roll_forward(self, dt):
         """Given a date, align it to the calendar of the pipeline's domain.
 
@@ -101,7 +99,12 @@ class IDomain(Interface):
             ) from exc
 
 
-Domain = create_implementation(IDomain)
+class Domain(IDomain):
+    """Base implementation of IDomain interface."""
+
+    pass
+
+
 Domain.__doc__ = """A domain represents a set of labels for the arrays computed by a Pipeline.
 
 A domain defines two things:

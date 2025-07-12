@@ -1,6 +1,5 @@
 """Synthetic data loaders for testing."""
 
-from zipline.utils.interface import implements
 import numpy as np
 
 from numpy.random import RandomState
@@ -31,7 +30,7 @@ def nanos_to_seconds(nanos):
     return nanos / (1000 * 1000 * 1000)
 
 
-class PrecomputedLoader(implements(PipelineLoader)):
+class PrecomputedLoader(PipelineLoader):
     """Synthetic PipelineLoader that uses a pre-computed array for each column.
 
     Parameters

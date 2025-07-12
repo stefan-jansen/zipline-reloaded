@@ -3,7 +3,6 @@
 from collections import namedtuple
 import time
 
-from zipline.utils.interface import implements
 
 from zipline.utils.compat import contextmanager, escape_html
 from zipline.utils.string_formatting import bulleted_list
@@ -11,7 +10,7 @@ from zipline.utils.string_formatting import bulleted_list
 from .iface import PipelineHooks
 
 
-class ProgressHooks(implements(PipelineHooks)):
+class ProgressHooks(PipelineHooks):
     """
     Hooks implementation for displaying progress.
 

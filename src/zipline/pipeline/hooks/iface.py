@@ -1,6 +1,5 @@
+from abc import ABC, abstractmethod
 from zipline.utils.compat import contextmanager as _contextmanager
-
-from zipline.utils.interface import Interface
 
 
 # Keep track of which methods of PipelineHooks are contextmanagers. Used by
@@ -17,7 +16,7 @@ def contextmanager(f):
     return _contextmanager(f)
 
 
-class PipelineHooks(Interface):
+class PipelineHooks(ABC):
     """
     Interface for instrumenting SimplePipelineEngine executions.
 
@@ -35,6 +34,7 @@ class PipelineHooks(Interface):
     computing_term(self, term):
     """
 
+    @abstractmethod
     @contextmanager
     def running_pipeline(self, pipeline, start_date, end_date):
         """
@@ -51,6 +51,7 @@ class PipelineHooks(Interface):
             Last date of the execution.
         """
 
+    @abstractmethod
     @contextmanager
     def computing_chunk(self, terms, start_date, end_date):
         """
@@ -68,6 +69,7 @@ class PipelineHooks(Interface):
             Last date of the chunk.
         """
 
+    @abstractmethod
     @contextmanager
     def loading_terms(self, terms):
         """Contextmanager entered when loading a batch of LoadableTerms.
@@ -78,6 +80,7 @@ class PipelineHooks(Interface):
             Terms being loaded.
         """
 
+    @abstractmethod
     @contextmanager
     def computing_term(self, term):
         """Contextmanager entered when computing a ComputableTerm.

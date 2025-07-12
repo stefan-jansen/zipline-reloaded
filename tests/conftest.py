@@ -52,32 +52,7 @@ if sys.version_info >= (3, 13):
         print(f"Current method: {mp.get_start_method()}")
 
 
-# Monkey patch multiprocessing for Python 3.13 test compatibility
-def _configure_multiprocessing_for_tests():
-    """Configure multiprocessing settings for stable test execution on Python 3.13."""
-    if sys.version_info >= (3, 13):
-        import multiprocessing as mp
-
-        # Store original Pool class
-        if not hasattr(mp, "_original_Pool"):
-            mp._original_Pool = mp.Pool
-
-        # Create a wrapper Pool class that always uses spawn
-        class TestCompatiblePool(mp._original_Pool):
-            def __init__(self, *args, **kwargs):
-                # Ensure we use spawn method to avoid deadlocks
-                try:
-                    mp.set_start_method("spawn", force=True)
-                except RuntimeError:
-                    pass
-                super().__init__(*args, **kwargs)
-
-        # Replace the Pool class during tests
-        mp.Pool = TestCompatiblePool
-
-
-# Apply multiprocessing configuration
-_configure_multiprocessing_for_tests()
+# Multiprocessing configuration is already handled above for Python 3.13
 
 DEFAULT_DATE_BOUNDS = {
     "START_DATE": pd.Timestamp("2006-01-03"),

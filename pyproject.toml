@@ -54,7 +54,6 @@
         'numexpr >=2.6.1',
         'patsy >=0.4.0',
         'python-dateutil >=2.4.2',
-        'python-interface >=1.6.0; python_version<"3.13"',
         'pytz >=2018.5',
         'requests >=2.9.1',
         'scipy >=0.17.1',

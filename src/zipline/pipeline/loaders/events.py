@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 
-from zipline.utils.interface import implements
 from toolz import groupby, merge
 
 from .base import PipelineLoader
@@ -56,7 +55,7 @@ def validate_column_specs(events, next_value_columns, previous_value_columns):
         )
 
 
-class EventsLoader(implements(PipelineLoader)):
+class EventsLoader(PipelineLoader):
     """
     Base class for PipelineLoaders that supports loading the next and previous
     value of an event field.
