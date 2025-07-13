@@ -197,62 +197,62 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
         with self.load("bundle", environ=self.environ) as bundle:
             assert set(bundle.asset_finder.sids) == set(sids)
 
-        columns = "open", "high", "low", "close", "volume"
+            columns = "open", "high", "low", "close", "volume"
 
-        actual = bundle.equity_minute_bar_reader.load_raw_arrays(
-            columns,
-            minutes[0],
-            minutes[-1],
-            sids,
-        )
-
-        for actual_column, colname in zip(actual, columns):
-            np.testing.assert_array_equal(
-                actual_column,
-                expected_bar_values_2d(minutes, sids, equities, colname),
-                err_msg=colname,
+            actual = bundle.equity_minute_bar_reader.load_raw_arrays(
+                columns,
+                minutes[0],
+                minutes[-1],
+                sids,
             )
 
-        actual = bundle.equity_daily_bar_reader.load_raw_arrays(
-            columns,
-            self.START_DATE,
-            self.END_DATE,
-            sids,
-        )
-        for actual_column, colname in zip(actual, columns):
-            np.testing.assert_array_equal(
-                actual_column,
-                expected_bar_values_2d(sessions, sids, equities, colname),
-                err_msg=colname,
-            )
+            for actual_column, colname in zip(actual, columns):
+                np.testing.assert_array_equal(
+                    actual_column,
+                    expected_bar_values_2d(minutes, sids, equities, colname),
+                    err_msg=colname,
+                )
 
-        adjs_for_cols = bundle.adjustment_reader.load_pricing_adjustments(
-            columns,
-            sessions,
-            pd.Index(sids),
-        )
-        for column, adjustments in zip(columns, adjs_for_cols[:-1]):
-            # iterate over all the adjustments but `volume`
-            assert adjustments == {
-                2: [
-                    Float64Multiply(
-                        first_row=0,
-                        last_row=2,
-                        first_col=0,
-                        last_col=0,
-                        value=first_split_ratio,
-                    )
-                ],
-                3: [
-                    Float64Multiply(
-                        first_row=0,
-                        last_row=3,
-                        first_col=1,
-                        last_col=1,
-                        value=second_split_ratio,
-                    )
-                ],
-            }, column
+            actual = bundle.equity_daily_bar_reader.load_raw_arrays(
+                columns,
+                self.START_DATE,
+                self.END_DATE,
+                sids,
+            )
+            for actual_column, colname in zip(actual, columns):
+                np.testing.assert_array_equal(
+                    actual_column,
+                    expected_bar_values_2d(sessions, sids, equities, colname),
+                    err_msg=colname,
+                )
+
+            adjs_for_cols = bundle.adjustment_reader.load_pricing_adjustments(
+                columns,
+                sessions,
+                pd.Index(sids),
+            )
+            for column, adjustments in zip(columns, adjs_for_cols[:-1]):
+                # iterate over all the adjustments but `volume`
+                assert adjustments == {
+                    2: [
+                        Float64Multiply(
+                            first_row=0,
+                            last_row=2,
+                            first_col=0,
+                            last_col=0,
+                            value=first_split_ratio,
+                        )
+                    ],
+                    3: [
+                        Float64Multiply(
+                            first_row=0,
+                            last_row=3,
+                            first_col=1,
+                            last_col=1,
+                            value=second_split_ratio,
+                        )
+                    ],
+                }, column
 
         # check the volume, the value should be 1/ratio
         assert adjs_for_cols[-1] == {
