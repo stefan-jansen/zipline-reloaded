@@ -80,6 +80,7 @@ jobs:
 
       - name: Debug Environment (Python 3.13)
         if: ${{ matrix.python-version == '3.13' }}
+        shell: bash
         run: |
           echo "=== Python 3.13 Debug Info ==="
           python -c "import sys; print(f'Python: {sys.version}')"
@@ -87,11 +88,10 @@ jobs:
           python -c "import pytest; print(f'Pytest: {pytest.__version__}')"
           python -c "import coverage; print(f'Coverage: {coverage.__version__}')"
           echo "=== System Info ==="
-          uname -a
-          nproc
-          free -h
+          python -c "import platform; print(f'Platform: {platform.platform()}')"
+          python -c "import os; print(f'CPU count: {os.cpu_count()}')"
           echo "=== Environment Variables ==="
-          env | grep -E '(GITHUB|CI|TOX|PYTEST)' || true
+          python -c "import os; [print(f'{k}={v}') for k,v in os.environ.items() if any(x in k for x in ['GITHUB', 'CI', 'TOX', 'PYTEST'])]"
 
       - name: Unittests with tox & pytest
         env:
@@ -102,7 +102,8 @@ jobs:
           # CI detection for test configuration
           GITHUB_ACTIONS: true
           CI: true
+        shell: bash
         run: |
           echo "=== Starting tests for Python ${{ matrix.python-version }} on ${{ matrix.os }} ==="
-          echo "Timestamp: $(date)"
+          python -c "from datetime import datetime; print(f'Timestamp: {datetime.now()}')"
           tox -v
