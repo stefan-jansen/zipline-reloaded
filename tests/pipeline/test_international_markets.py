@@ -127,9 +127,12 @@ class WithInternationalDailyBarData(zf.WithAssetFinder):
             )
 
             bar_data = cls.daily_bar_data[name]
+            from zipline.utils.pandas_utils import stack_future_compatible
+
             df = (
-                pd.concat(bar_data, keys=bar_data.keys())
-                .stack(future_stack=True)
+                stack_future_compatible(
+                    pd.concat(bar_data, keys=bar_data.keys()), future_stack=True
+                )
                 .unstack(0)
                 .swaplevel()
             )
@@ -227,7 +230,7 @@ class InternationalEquityTestCase(
                     asset_lifetime=5,
                     exchange=exchange,
                 )
-                for exchange in cls.EXCHANGE_INFO.exchange
+                for exchange in cls.EXCHANGE_INFO["exchange"]
             ],
             ignore_index=True,
         )

@@ -35,6 +35,7 @@ from zipline.testing.predicates import assert_equal
 from zipline.testing.predicates import assert_frame_equal
 from zipline.utils.numpy_utils import datetime64ns_dtype
 from zipline.utils.numpy_utils import float64_dtype
+from zipline.utils.pandas_utils import stack_future_compatible
 import pytest
 
 
@@ -2602,138 +2603,146 @@ class PreviousWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase
 
     @classmethod
     def make_expected_out(cls):
-        split_adjusted_at_start_boundary = (
-            pd.concat(
-                [
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s0,
-                            "estimate": np.nan,
-                        },
-                        index=pd.date_range(
-                            cls.test_start_date,
-                            pd.Timestamp("2015-01-08"),
-                        ),
+        split_adjusted_at_start_boundary = pd.concat(
+            [
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s0,
+                        "estimate": np.nan,
+                    },
+                    index=pd.date_range(
+                        cls.test_start_date,
+                        pd.Timestamp("2015-01-08"),
                     ),
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s0,
-                            "estimate": 10.0,
-                        },
-                        index=pd.date_range(
-                            pd.Timestamp("2015-01-09"),
-                            cls.test_end_date,
-                        ),
+                ),
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s0,
+                        "estimate": 10.0,
+                    },
+                    index=pd.date_range(
+                        pd.Timestamp("2015-01-09"),
+                        cls.test_end_date,
                     ),
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s1,
-                            "estimate": 11.0,
-                        },
-                        index=pd.date_range(cls.test_start_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s1,
+                        "estimate": 11.0,
+                    },
+                    index=pd.date_range(cls.test_start_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {SID_FIELD_NAME: cls.s2, "estimate": np.nan},
+                    index=pd.date_range(cls.test_start_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {SID_FIELD_NAME: cls.s3, "estimate": np.nan},
+                    index=pd.date_range(
+                        cls.test_start_date,
+                        cls.test_end_date - timedelta(1),
                     ),
-                    pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s2, "estimate": np.nan},
-                        index=pd.date_range(cls.test_start_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {SID_FIELD_NAME: cls.s3, "estimate": 13.0 * 0.13},
+                    index=pd.date_range(cls.test_end_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {SID_FIELD_NAME: cls.s4, "estimate": np.nan},
+                    index=pd.date_range(
+                        cls.test_start_date,
+                        cls.test_end_date - timedelta(2),
                     ),
-                    pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s3, "estimate": np.nan},
-                        index=pd.date_range(
-                            cls.test_start_date,
-                            cls.test_end_date - timedelta(1),
-                        ),
+                ),
+                pd.DataFrame(
+                    {SID_FIELD_NAME: cls.s4, "estimate": 14.0 * 0.15},
+                    index=pd.date_range(
+                        cls.test_end_date - timedelta(1),
+                        cls.test_end_date,
                     ),
-                    pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s3, "estimate": 13.0 * 0.13},
-                        index=pd.date_range(cls.test_end_date, cls.test_end_date),
-                    ),
-                    pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s4, "estimate": np.nan},
-                        index=pd.date_range(
-                            cls.test_start_date,
-                            cls.test_end_date - timedelta(2),
-                        ),
-                    ),
-                    pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s4, "estimate": 14.0 * 0.15},
-                        index=pd.date_range(
-                            cls.test_end_date - timedelta(1),
-                            cls.test_end_date,
-                        ),
-                    ),
-                ]
-            )
-            .set_index(SID_FIELD_NAME, append=True)
-            .unstack(SID_FIELD_NAME)
-            .reindex(cls.trading_days)
-            .stack(SID_FIELD_NAME, future_stack=True)
+                ),
+            ]
+        )
+        split_adjusted_at_start_boundary = split_adjusted_at_start_boundary.set_index(
+            SID_FIELD_NAME, append=True
+        )
+        split_adjusted_at_start_boundary = stack_future_compatible(
+            split_adjusted_at_start_boundary.unstack(SID_FIELD_NAME).reindex(
+                cls.trading_days
+            ),
+            level=SID_FIELD_NAME,
+            future_stack=True,
         )
 
-        split_adjusted_at_end_boundary = (
-            pd.concat(
-                [
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s0,
-                            "estimate": np.nan,
-                        },
-                        index=pd.date_range(
-                            cls.test_start_date,
-                            pd.Timestamp("2015-01-08"),
-                        ),
+        split_adjusted_at_end_boundary = pd.concat(
+            [
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s0,
+                        "estimate": np.nan,
+                    },
+                    index=pd.date_range(
+                        cls.test_start_date,
+                        pd.Timestamp("2015-01-08"),
                     ),
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s0,
-                            "estimate": 10.0,
-                        },
-                        index=pd.date_range(
-                            pd.Timestamp("2015-01-09"),
-                            cls.test_end_date,
-                        ),
+                ),
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s0,
+                        "estimate": 10.0,
+                    },
+                    index=pd.date_range(
+                        pd.Timestamp("2015-01-09"),
+                        cls.test_end_date,
                     ),
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s1,
-                            "estimate": 11.0,
-                        },
-                        index=pd.date_range(cls.test_start_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s1,
+                        "estimate": 11.0,
+                    },
+                    index=pd.date_range(cls.test_start_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {SID_FIELD_NAME: cls.s2, "estimate": np.nan},
+                    index=pd.date_range(cls.test_start_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {SID_FIELD_NAME: cls.s3, "estimate": np.nan},
+                    index=pd.date_range(
+                        cls.test_start_date,
+                        cls.test_end_date - timedelta(1),
                     ),
-                    pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s2, "estimate": np.nan},
-                        index=pd.date_range(cls.test_start_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {SID_FIELD_NAME: cls.s3, "estimate": 13.0},
+                    index=pd.date_range(cls.test_end_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {SID_FIELD_NAME: cls.s4, "estimate": np.nan},
+                    index=pd.date_range(
+                        cls.test_start_date,
+                        cls.test_end_date - timedelta(2),
                     ),
-                    pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s3, "estimate": np.nan},
-                        index=pd.date_range(
-                            cls.test_start_date,
-                            cls.test_end_date - timedelta(1),
-                        ),
+                ),
+                pd.DataFrame(
+                    {SID_FIELD_NAME: cls.s4, "estimate": 14.0},
+                    index=pd.date_range(
+                        cls.test_end_date - timedelta(1),
+                        cls.test_end_date,
                     ),
-                    pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s3, "estimate": 13.0},
-                        index=pd.date_range(cls.test_end_date, cls.test_end_date),
-                    ),
-                    pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s4, "estimate": np.nan},
-                        index=pd.date_range(
-                            cls.test_start_date,
-                            cls.test_end_date - timedelta(2),
-                        ),
-                    ),
-                    pd.DataFrame(
-                        {SID_FIELD_NAME: cls.s4, "estimate": 14.0},
-                        index=pd.date_range(
-                            cls.test_end_date - timedelta(1),
-                            cls.test_end_date,
-                        ),
-                    ),
-                ]
-            )
-            .set_index(SID_FIELD_NAME, append=True)
-            .unstack(SID_FIELD_NAME)
-            .reindex(cls.trading_days)
-            .stack(SID_FIELD_NAME, future_stack=True)
+                ),
+            ]
+        )
+        split_adjusted_at_end_boundary = split_adjusted_at_end_boundary.set_index(
+            SID_FIELD_NAME, append=True
+        )
+        split_adjusted_at_end_boundary = stack_future_compatible(
+            split_adjusted_at_end_boundary.unstack(SID_FIELD_NAME).reindex(
+                cls.trading_days
+            ),
+            level=SID_FIELD_NAME,
+            future_stack=True,
         )
 
         split_adjusted_before_start_boundary = split_adjusted_at_start_boundary
@@ -2760,114 +2769,122 @@ class NextWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase):
 
     @classmethod
     def make_expected_out(cls):
-        split_adjusted_at_start_boundary = (
-            pd.concat(
-                [
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s0,
-                            "estimate": 10,
-                        },
-                        index=pd.date_range(
-                            cls.test_start_date,
-                            pd.Timestamp("2015-01-09"),
-                        ),
+        split_adjusted_at_start_boundary = pd.concat(
+            [
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s0,
+                        "estimate": 10,
+                    },
+                    index=pd.date_range(
+                        cls.test_start_date,
+                        pd.Timestamp("2015-01-09"),
                     ),
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s1,
-                            "estimate": 11.0,
-                        },
-                        index=pd.date_range(cls.test_start_date, cls.test_start_date),
+                ),
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s1,
+                        "estimate": 11.0,
+                    },
+                    index=pd.date_range(cls.test_start_date, cls.test_start_date),
+                ),
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s2,
+                        "estimate": 12.0,
+                    },
+                    index=pd.date_range(cls.test_end_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s3,
+                        "estimate": 13.0 * 0.13,
+                    },
+                    index=pd.date_range(
+                        cls.test_end_date - timedelta(1),
+                        cls.test_end_date,
                     ),
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s2,
-                            "estimate": 12.0,
-                        },
-                        index=pd.date_range(cls.test_end_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s4,
+                        "estimate": 14.0,
+                    },
+                    index=pd.date_range(
+                        cls.test_end_date - timedelta(1),
+                        cls.test_end_date - timedelta(1),
                     ),
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s3,
-                            "estimate": 13.0 * 0.13,
-                        },
-                        index=pd.date_range(
-                            cls.test_end_date - timedelta(1),
-                            cls.test_end_date,
-                        ),
-                    ),
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s4,
-                            "estimate": 14.0,
-                        },
-                        index=pd.date_range(
-                            cls.test_end_date - timedelta(1),
-                            cls.test_end_date - timedelta(1),
-                        ),
-                    ),
-                ]
-            )
-            .set_index(SID_FIELD_NAME, append=True)
-            .unstack(SID_FIELD_NAME)
-            .reindex(cls.trading_days)
-            .stack(SID_FIELD_NAME, future_stack=True)
+                ),
+            ]
+        )
+        split_adjusted_at_start_boundary = split_adjusted_at_start_boundary.set_index(
+            SID_FIELD_NAME, append=True
+        )
+        split_adjusted_at_start_boundary = stack_future_compatible(
+            split_adjusted_at_start_boundary.unstack(SID_FIELD_NAME).reindex(
+                cls.trading_days
+            ),
+            level=SID_FIELD_NAME,
+            future_stack=True,
         )
 
-        split_adjusted_at_end_boundary = (
-            pd.concat(
-                [
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s0,
-                            "estimate": 10,
-                        },
-                        index=pd.date_range(
-                            cls.test_start_date,
-                            pd.Timestamp("2015-01-09"),
-                        ),
+        split_adjusted_at_end_boundary = pd.concat(
+            [
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s0,
+                        "estimate": 10,
+                    },
+                    index=pd.date_range(
+                        cls.test_start_date,
+                        pd.Timestamp("2015-01-09"),
                     ),
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s1,
-                            "estimate": 11.0,
-                        },
-                        index=pd.date_range(cls.test_start_date, cls.test_start_date),
+                ),
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s1,
+                        "estimate": 11.0,
+                    },
+                    index=pd.date_range(cls.test_start_date, cls.test_start_date),
+                ),
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s2,
+                        "estimate": 12.0,
+                    },
+                    index=pd.date_range(cls.test_end_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s3,
+                        "estimate": 13.0,
+                    },
+                    index=pd.date_range(
+                        cls.test_end_date - timedelta(1),
+                        cls.test_end_date,
                     ),
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s2,
-                            "estimate": 12.0,
-                        },
-                        index=pd.date_range(cls.test_end_date, cls.test_end_date),
+                ),
+                pd.DataFrame(
+                    {
+                        SID_FIELD_NAME: cls.s4,
+                        "estimate": 14.0,
+                    },
+                    index=pd.date_range(
+                        cls.test_end_date - timedelta(1),
+                        cls.test_end_date - timedelta(1),
                     ),
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s3,
-                            "estimate": 13.0,
-                        },
-                        index=pd.date_range(
-                            cls.test_end_date - timedelta(1),
-                            cls.test_end_date,
-                        ),
-                    ),
-                    pd.DataFrame(
-                        {
-                            SID_FIELD_NAME: cls.s4,
-                            "estimate": 14.0,
-                        },
-                        index=pd.date_range(
-                            cls.test_end_date - timedelta(1),
-                            cls.test_end_date - timedelta(1),
-                        ),
-                    ),
-                ]
-            )
-            .set_index(SID_FIELD_NAME, append=True)
-            .unstack(SID_FIELD_NAME)
-            .reindex(cls.trading_days)
-            .stack(SID_FIELD_NAME, future_stack=True)
+                ),
+            ]
+        )
+        split_adjusted_at_end_boundary = split_adjusted_at_end_boundary.set_index(
+            SID_FIELD_NAME, append=True
+        )
+        split_adjusted_at_end_boundary = stack_future_compatible(
+            split_adjusted_at_end_boundary.unstack(SID_FIELD_NAME).reindex(
+                cls.trading_days
+            ),
+            level=SID_FIELD_NAME,
+            future_stack=True,
         )
 
         split_adjusted_before_start_boundary = split_adjusted_at_start_boundary

@@ -193,9 +193,9 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
             assert isinstance(show_progress, bool)
 
         self.ingest("bundle", environ=self.environ)
-        bundle = self.load("bundle", environ=self.environ)
 
-        assert set(bundle.asset_finder.sids) == set(sids)
+        with self.load("bundle", environ=self.environ) as bundle:
+            assert set(bundle.asset_finder.sids) == set(sids)
 
         columns = "open", "high", "low", "close", "volume"
 
@@ -346,11 +346,15 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
                     version,
                 )
             )
-            metadata = sa.MetaData()
-            metadata.reflect(eng)
-            version_table = metadata.tables["version_info"]
-            with eng.connect() as conn:
-                check_version_info(conn, version_table, version)
+            try:
+                metadata = sa.MetaData()
+                metadata.reflect(eng)
+                version_table = metadata.tables["version_info"]
+                with eng.connect() as conn:
+                    check_version_info(conn, version_table, version)
+            finally:
+                # Dispose of the engine to close all connections and prevent file locking on Windows
+                eng.dispose()
 
     @parameterized.expand([("clean",), ("load",)])
     def test_bundle_doesnt_exist(self, fnname):

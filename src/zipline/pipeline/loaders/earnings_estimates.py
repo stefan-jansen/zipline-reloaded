@@ -700,8 +700,11 @@ class EarningsEstimatesLoader(PipelineLoader):
         # Forward fill values for each quarter/sid/dataset column.
         ffill_across_cols(last_per_qtr, columns, self.name_map)
         # Stack quarter and sid into the index.
-        stacked_last_per_qtr = last_per_qtr.stack(
-            [SID_FIELD_NAME, NORMALIZED_QUARTERS],
+        from zipline.utils.pandas_utils import stack_future_compatible
+
+        stacked_last_per_qtr = stack_future_compatible(
+            last_per_qtr,
+            level=[SID_FIELD_NAME, NORMALIZED_QUARTERS],
             future_stack=True,
         )
         # Set date index name for ease of reference
