@@ -370,5 +370,5 @@ setenv =
     GHA = {env:GITHUB_ACTIONS:false}
 commands =
     # Disable coverage for pandas 2.0 to avoid coverage IndexError bugs
-    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -q --tb=short --maxfail=20 {toxinidir}/tests
 """
