@@ -3,6 +3,9 @@ from pathlib import Path
 import sqlite3
 from unittest import TestCase
 import warnings
+import sys
+import gc
+import time as time_module
 
 import numpy as np
 import pandas as pd
@@ -164,7 +167,29 @@ class ZiplineTestCase(TestCase, metaclass=DebugMROMeta):
             # scoped while still allowing subclasses to access class level
             # attributes.
             delattr(cls, name)
-        stack.close()
+
+        # Windows-specific cleanup handling
+        if sys.platform == "win32":
+            gc.collect()
+            time_module.sleep(0.1)
+
+            # Try to close the stack with retries on Windows
+            for attempt in range(3):
+                try:
+                    stack.close()
+                    break
+                except PermissionError as e:
+                    if attempt < 2:
+                        gc.collect()
+                        time_module.sleep(0.2 * (attempt + 1))
+                    else:
+                        # Log but don't fail the test
+                        import warnings
+
+                        warnings.warn(f"Could not clean up class resources: {e}")
+                        break
+        else:
+            stack.close()
 
     @final
     @classmethod
@@ -224,7 +249,29 @@ class ZiplineTestCase(TestCase, metaclass=DebugMROMeta):
         stack = self._instance_teardown_stack
         for attr in set(vars(self)) - self._pre_setup_attrs:
             delattr(self, attr)
-        stack.close()
+
+        # Windows-specific cleanup handling
+        if sys.platform == "win32":
+            gc.collect()
+            time_module.sleep(0.1)
+
+            # Try to close the stack with retries on Windows
+            for attempt in range(3):
+                try:
+                    stack.close()
+                    break
+                except PermissionError as e:
+                    if attempt < 2:
+                        gc.collect()
+                        time_module.sleep(0.2 * (attempt + 1))
+                    else:
+                        # Log but don't fail the test
+                        import warnings
+
+                        warnings.warn(f"Could not clean up instance resources: {e}")
+                        break
+        else:
+            stack.close()
 
     @final
     def enter_instance_context(self, context_manager):

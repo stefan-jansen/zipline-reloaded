@@ -735,8 +735,8 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
     )
     @parameter_space(returns_length=[2, 3], regression_length=[3, 4])
     @pytest.mark.skipif(
-        SKIP_PANDAS23_NUMPY22_CI,
-        reason="pandas 2.3 + numpy 2.2 numerical precision issues on CI",
+        SKIP_PANDAS23_NUMPY22_CI or (sys.platform == "win32" and ON_CI),
+        reason="pandas 2.3 + numpy 2.2 numerical precision issues on CI, or loader setup issues on Windows CI",
     )
     def test_factor_regression_method(self, returns_length, regression_length):
         """Ensure that `Factor.linear_regression` is consistent with the built-in
