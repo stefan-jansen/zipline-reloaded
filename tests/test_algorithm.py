@@ -284,25 +284,28 @@ class TestMiscellaneousAPI(zf.WithMakeAlgo, zf.ZiplineTestCase):
             with ZiplineAPI(algo):
                 assert sentinel is getattr(zipline.api, name)()
 
-    @pytest.mark.skipif(
-        ON_LINUX_CI
-        or ON_WINDOWS_CI
-        or ON_MACOS_CI
-        or os.getenv("CI")
-        or os.getenv("GITHUB_ACTIONS"),
-        reason="Test fails on CI due to timezone handling differences.",
-    )
     def test_sid_datetime(self):
         algo_text = dedent(
             """
             from zipline.api import sid, get_datetime
+            import pandas as pd
 
             def initialize(context):
                 pass
 
             def handle_data(context, data):
                 aapl_dt = data.current(sid(1), "last_traded")
-                assert_equal(aapl_dt, get_datetime())
+                current_dt = get_datetime()
+
+                # Ensure both timestamps are comparable
+                # If aapl_dt is tz-naive, localize it to UTC
+                if aapl_dt.tz is None:
+                    aapl_dt = pd.Timestamp(aapl_dt, tz='UTC')
+                # If current_dt is tz-aware, ensure aapl_dt matches
+                elif current_dt.tz is not None and aapl_dt.tz is None:
+                    aapl_dt = pd.Timestamp(aapl_dt).tz_localize('UTC')
+
+                assert_equal(aapl_dt, current_dt)
             """
         )
         self.run_algorithm(

@@ -45,6 +45,11 @@ ON_CI = (
     or os.getenv("TF_BUILD") == "True"  # Azure DevOps
 )
 
+# Skip for older Python versions with pandas 2.3 on CI
+SKIP_MINUTE_HISTORY_CI = (
+    ON_CI and sys.version_info < (3, 12) and pd.__version__.startswith("2.3")
+)
+
 
 class WithHistory(zf.WithCreateBarData, zf.WithDataPortal):
     TRADING_START_DT = TRADING_ENV_MIN_DATE = START_DATE = pd.Timestamp("2014-01-03")
@@ -744,8 +749,8 @@ class MinuteEquityHistoryTestCase(WithHistory, zf.WithMakeAlgo, zf.ZiplineTestCa
         np.testing.assert_array_equal([1171, 1181], window4)
 
     @pytest.mark.skipif(
-        ON_CI,
-        reason="Test fails on CI due to array shape mismatch with NaN padding - likely minute data loading issue",
+        SKIP_MINUTE_HISTORY_CI,
+        reason="Test fails on CI for Python < 3.12 with pandas 2.3 - minute data structure incompatibility",
     )
     def test_minute_before_assets_trading(self):
         # since asset2 and asset3 both started trading on 1/5/2015, let's do
@@ -791,8 +796,8 @@ class MinuteEquityHistoryTestCase(WithHistory, zf.WithMakeAlgo, zf.ZiplineTestCa
         ]
     )
     @pytest.mark.skipif(
-        ON_CI,
-        reason="Test fails on CI due to array shape mismatch with NaN padding - likely minute data loading issue",
+        SKIP_MINUTE_HISTORY_CI,
+        reason="Test fails on CI for Python < 3.12 with pandas 2.3 - minute data structure incompatibility",
     )
     def test_minute_regular(self, name, field, sid):
         # asset2 and asset3 both started on 1/5/2015, but asset3 trades every
@@ -837,8 +842,8 @@ class MinuteEquityHistoryTestCase(WithHistory, zf.WithMakeAlgo, zf.ZiplineTestCa
                 )
 
     @pytest.mark.skipif(
-        ON_CI,
-        reason="Test fails on CI due to array shape mismatch with NaN padding - likely minute data loading issue",
+        SKIP_MINUTE_HISTORY_CI,
+        reason="Test fails on CI for Python < 3.12 with pandas 2.3 - minute data structure incompatibility",
     )
     def test_minute_after_asset_stopped(self):
         # SHORT_ASSET's last day was 2015-01-06

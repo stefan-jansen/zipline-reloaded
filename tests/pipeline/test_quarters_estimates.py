@@ -48,6 +48,11 @@ ON_CI = (
     or os.getenv("TF_BUILD") == "True"  # Azure DevOps
 )
 
+# Skip for older Python versions with pandas 2.3 on CI
+SKIP_QUARTERS_ESTIMATES_CI = (
+    ON_CI and sys.version_info < (3, 12) and pd.__version__.startswith("2.3")
+)
+
 
 class Estimates(DataSet):
     event_date = Column(dtype=datetime64ns_dtype)
@@ -2583,8 +2588,8 @@ class WithAdjustmentBoundaries(WithEstimates):
 
     @parameterized.expand(split_adjusted_asof_dates)
     @pytest.mark.skipif(
-        ON_CI,
-        reason="Test fails on CI due to DataFrame shape mismatch (30 vs 10/8 rows) - likely data loading issue",
+        SKIP_QUARTERS_ESTIMATES_CI,
+        reason="Test fails on CI for Python < 3.12 with pandas 2.3 - DataFrame shape mismatch",
     )
     def test_boundaries(self, split_date):
         dataset = QuartersEstimates(1)
