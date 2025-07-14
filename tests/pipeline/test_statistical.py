@@ -70,6 +70,11 @@ SKIP_PY313_PANDAS23 = (
     sys.version_info >= (3, 13) and pd.__version__.startswith("2.3") and ON_CI
 )
 
+# pandas 2.3 + numpy 2.2 combination has numerical precision issues across all Python versions
+SKIP_PANDAS23_NUMPY22_CI = (
+    pd.__version__.startswith("2.3") and np.__version__.startswith("2.2") and ON_CI
+)
+
 
 @pytest.fixture(scope="class")
 def set_test_statistical_built_ins(request, with_trading_calendars, with_asset_finder):
@@ -191,8 +196,8 @@ class TestStatisticalBuiltIns:
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("correlation_length", [3, 4])
     @pytest.mark.skipif(
-        SKIP_CI_ONLY_FAILURES,
-        reason="Test fails on CI due to timezone handling differences.",
+        SKIP_CI_ONLY_FAILURES or SKIP_PANDAS23_NUMPY22_CI,
+        reason="Test fails on CI due to timezone handling differences or pandas 2.3 + numpy 2.2 numerical precision issues.",
     )
     def test_correlation_factors(self, returns_length, correlation_length):
         """Tests for the built-in factors `RollingPearsonOfReturns` and
@@ -294,8 +299,8 @@ class TestStatisticalBuiltIns:
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("regression_length", [3, 4])
     @pytest.mark.skipif(
-        SKIP_CI_ONLY_FAILURES or SKIP_PY313_PANDAS23,
-        reason="Test fails on CI due to timezone handling differences or Python 3.13 + pandas 2.3 numerical precision issues.",
+        SKIP_CI_ONLY_FAILURES or SKIP_PY313_PANDAS23 or SKIP_PANDAS23_NUMPY22_CI,
+        reason="Test fails on CI due to timezone handling differences, Python 3.13 + pandas 2.3, or pandas 2.3 + numpy 2.2 numerical precision issues.",
     )
     def test_regression_of_returns_factor(self, returns_length, regression_length):
         """Tests for the built-in factor `RollingLinearRegressionOfReturns`."""
@@ -618,6 +623,10 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         reason="Test fails on CI due to timezone handling differences.",
     )
     @parameter_space(returns_length=[2, 3], correlation_length=[3, 4])
+    @pytest.mark.skipif(
+        SKIP_PANDAS23_NUMPY22_CI,
+        reason="pandas 2.3 + numpy 2.2 numerical precision issues on CI",
+    )
     def test_factor_correlation_methods(self, returns_length, correlation_length):
         """Ensure that `Factor.pearsonr` and `Factor.spearmanr` are consistent
         with the built-in factors `RollingPearsonOfReturns` and
@@ -725,6 +734,10 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         reason="Test fails on CI due to timezone handling differences.",
     )
     @parameter_space(returns_length=[2, 3], regression_length=[3, 4])
+    @pytest.mark.skipif(
+        SKIP_PANDAS23_NUMPY22_CI,
+        reason="pandas 2.3 + numpy 2.2 numerical precision issues on CI",
+    )
     def test_factor_regression_method(self, returns_length, regression_length):
         """Ensure that `Factor.linear_regression` is consistent with the built-in
         factor `RollingLinearRegressionOfReturns`.

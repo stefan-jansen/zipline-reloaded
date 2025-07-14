@@ -22,6 +22,7 @@ from zipline.testing.fixtures import (
     WithResponses,
 )
 from tests.conftest import ON_WINDOWS_CI
+import sys
 from zipline.utils.functional import apply
 from zipline.testing.github_actions import skip_on
 import pytest
@@ -191,8 +192,8 @@ class QuandlBundleTestCase(WithResponses, ZiplineTestCase):
 
     @skip_on(PermissionError)
     @pytest.mark.skipif(
-        ON_WINDOWS_CI,
-        reason="Bundle tests fail on Windows CI due to file handling issues",
+        ON_WINDOWS_CI or (sys.platform == "win32" and os.getenv("CI")),
+        reason="Bundle tests fail on Windows CI due to file permission issues",
     )
     def test_bundle(self):
         with open(

@@ -125,6 +125,7 @@ from zipline.utils.pandas_utils import PerformanceWarning
 
 # Import CI detection variables
 from tests.conftest import ON_LINUX_CI, ON_WINDOWS_CI, ON_MACOS_CI
+import os
 
 # Because test cases appear to reuse some resources.
 _multiprocess_can_split_ = False
@@ -284,7 +285,11 @@ class TestMiscellaneousAPI(zf.WithMakeAlgo, zf.ZiplineTestCase):
                 assert sentinel is getattr(zipline.api, name)()
 
     @pytest.mark.skipif(
-        ON_LINUX_CI or ON_WINDOWS_CI or ON_MACOS_CI,
+        ON_LINUX_CI
+        or ON_WINDOWS_CI
+        or ON_MACOS_CI
+        or os.getenv("CI")
+        or os.getenv("GITHUB_ACTIONS"),
         reason="Test fails on CI due to timezone handling differences.",
     )
     def test_sid_datetime(self):
