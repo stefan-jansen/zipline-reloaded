@@ -371,4 +371,77 @@ setenv =
 commands =
     # Disable coverage for pandas 2.0 to avoid coverage IndexError bugs
     pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -q --tb=short --maxfail=20 {toxinidir}/tests
+
+# Disable coverage for remaining Python 3.11 environments to avoid IndexError
+[testenv:py311-pandas21-numpy1]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+commands =
+    # Disable coverage for Python 3.11 to avoid coverage IndexError bugs
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
+
+[testenv:py311-pandas22-numpy1]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+commands =
+    # Disable coverage for Python 3.11 to avoid coverage IndexError bugs
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
+
+[testenv:py311-pandas23-numpy1]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+commands =
+    # Disable coverage for Python 3.11 to avoid coverage IndexError bugs
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
+
+[testenv:py311-pandas222-numpy20]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+commands =
+    # Disable coverage for Python 3.11 to avoid coverage IndexError bugs
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
+
+[testenv:py311-pandas222-numpy21]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+commands =
+    # Disable coverage for Python 3.11 to avoid coverage IndexError bugs
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
+
+[testenv:py311-pandas222-numpy22]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+commands =
+    # Disable coverage for Python 3.11 to avoid coverage IndexError bugs
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
+
+[testenv:py311-pandas23-numpy20]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+commands =
+    # Disable coverage for Python 3.11 to avoid coverage IndexError bugs
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
+
+[testenv:py311-pandas23-numpy21]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+commands =
+    # Disable coverage for Python 3.11 to avoid coverage IndexError bugs
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
+
+[testenv:py311-pandas23-numpy22]
+setenv =
+    MPLBACKEND = Agg
+    GHA = {env:GITHUB_ACTIONS:false}
+commands =
+    # Disable coverage for Python 3.11 to avoid coverage IndexError bugs
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
 """

@@ -102,8 +102,19 @@ jobs:
           # CI detection for test configuration
           GITHUB_ACTIONS: true
           CI: true
+          # Ensure consistent timezone and locale for all tests
+          TZ: UTC
+          LC_ALL: C.UTF-8
+          LANG: C.UTF-8
+          # Ensure deterministic floating point behavior
+          PYTHONHASHSEED: 0
         shell: bash
         run: |
           echo "=== Starting tests for Python ${{ matrix.python-version }} on ${{ matrix.os }} ==="
+          echo "=== Environment Configuration ==="
+          echo "Timezone: $TZ"
+          echo "Locale: $LC_ALL"
+          echo "Python hash seed: $PYTHONHASHSEED"
           python -c "from datetime import datetime; print(f'Timestamp: {datetime.now()}')"
+          python -c "import time; print(f'System timezone: {time.tzname}')"
           tox -v
