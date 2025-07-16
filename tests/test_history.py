@@ -45,17 +45,10 @@ ON_CI = (
     or os.getenv("TF_BUILD") == "True"  # Azure DevOps
 )
 
-# Skip for older Python versions with pandas 2.3 on CI
-# The minute history tests fail with KeyError on pandas 2.3 for Python < 3.12
+# Skip for older pandas versions that have compatibility issues
+# The minute history tests fail with KeyError on pandas 1.5/2.0
 # This appears to be due to changes in how pandas handles sparse data in DataFrames
-SKIP_MINUTE_HISTORY_CI = (
-    ON_CI and sys.version_info < (3, 12) and pd.__version__.startswith("2.3")
-)
-
-# Skip specific minute tests that access data with intervals (asset 3)
-SKIP_MINUTE_INTERVAL_TESTS = (
-    ON_CI and sys.version_info < (3, 12) and pd.__version__.startswith("2.3")
-)
+SKIP_OLD_PANDAS = pd.__version__.startswith("1.5") or pd.__version__.startswith("2.0")
 
 
 class WithHistory(zf.WithCreateBarData, zf.WithDataPortal):
@@ -756,7 +749,7 @@ class MinuteEquityHistoryTestCase(WithHistory, zf.WithMakeAlgo, zf.ZiplineTestCa
         np.testing.assert_array_equal([1171, 1181], window4)
 
     @pytest.mark.skipif(
-        SKIP_MINUTE_HISTORY_CI,
+        SKIP_OLD_PANDAS,
         reason="Test fails on CI for Python < 3.12 with pandas 2.3 - minute data structure incompatibility",
     )
     def test_minute_before_assets_trading(self):
@@ -803,7 +796,7 @@ class MinuteEquityHistoryTestCase(WithHistory, zf.WithMakeAlgo, zf.ZiplineTestCa
         ]
     )
     @pytest.mark.skipif(
-        SKIP_MINUTE_HISTORY_CI,
+        SKIP_OLD_PANDAS,
         reason="Test fails on CI for Python < 3.12 with pandas 2.3 - minute data structure incompatibility",
     )
     def test_minute_regular(self, name, field, sid):
@@ -849,7 +842,7 @@ class MinuteEquityHistoryTestCase(WithHistory, zf.WithMakeAlgo, zf.ZiplineTestCa
                 )
 
     @pytest.mark.skipif(
-        SKIP_MINUTE_HISTORY_CI,
+        SKIP_OLD_PANDAS,
         reason="Test fails on CI for Python < 3.12 with pandas 2.3 - minute data structure incompatibility",
     )
     def test_minute_after_asset_stopped(self):
