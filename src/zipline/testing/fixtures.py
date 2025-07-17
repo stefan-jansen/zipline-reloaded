@@ -1752,10 +1752,29 @@ class WithUSEquityPricingPipelineEngine(WithAdjustmentReader, WithTradingSession
         )
 
         def get_loader(column):
+            # Check if column is directly in USEquityPricing.columns
             if column in USEquityPricing.columns:
                 return loader
-            else:
-                raise AssertionError("No loader registered for %s" % column)
+
+            # Handle specialized columns by checking unspecialized version
+            if hasattr(column, "unspecialize"):
+                unspecialized = column.unspecialize()
+                if unspecialized in USEquityPricing.columns:
+                    return loader
+
+            # Check if it's from EquityPricing dataset with matching name
+            if (
+                hasattr(column, "name")
+                and hasattr(column, "dataset")
+                and hasattr(column.dataset, "__name__")
+                and column.dataset.__name__ == "EquityPricing"
+            ):
+                # Check if we have a column with the same name in USEquityPricing
+                for us_col in USEquityPricing.columns:
+                    if us_col.name == column.name:
+                        return loader
+
+            raise AssertionError("No loader registered for %s" % column)
 
         cls.pipeline_engine = SimplePipelineEngine(
             get_loader=get_loader,

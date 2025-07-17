@@ -148,6 +148,9 @@ def set_test_statistical_built_ins(request, with_trading_calendars, with_asset_f
         columns=TestingDataSet.columns,
     )
 
+    # Import EquityPricing to handle specialized columns
+    from zipline.pipeline.data import EquityPricing
+
     # Create a get_loader function that handles both types
     def get_loader(column):
         # Handle specialized columns by comparing unspecialized versions
@@ -156,7 +159,18 @@ def set_test_statistical_built_ins(request, with_trading_calendars, with_asset_f
         else:
             unspecialized = column
 
-        if unspecialized == USEquityPricing.close:
+        # Check for close column from either USEquityPricing or EquityPricing
+        if (
+            unspecialized == USEquityPricing.close
+            or unspecialized == EquityPricing.close
+            or (
+                hasattr(unspecialized, "name")
+                and unspecialized.name == "close"
+                and hasattr(unspecialized, "dataset")
+                and unspecialized.dataset.__name__
+                in ("EquityPricing", "USEquityPricing")
+            )
+        ):
             return close_loader
         elif hasattr(column, "dataset") and column.dataset == TestingDataSet:
             return seeded_loader
@@ -192,10 +206,6 @@ def set_test_statistical_built_ins(request, with_trading_calendars, with_asset_f
 
 @pytest.mark.usefixtures("set_test_statistical_built_ins")
 class TestStatisticalBuiltIns:
-    @pytest.mark.skipif(
-        os.getenv("CI") == "true" or os.getenv("GITHUB_ACTIONS") == "true",
-        reason="Skip on CI - loader configuration issues that don't occur locally",
-    )
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("correlation_length", [3, 4])
     def test_correlation_factors(self, returns_length, correlation_length):
@@ -295,10 +305,6 @@ class TestStatisticalBuiltIns:
             )
             assert_frame_equal(spearman_results, expected_spearman_results)
 
-    @pytest.mark.skipif(
-        os.getenv("CI") == "true" or os.getenv("GITHUB_ACTIONS") == "true",
-        reason="Skip on CI - loader configuration issues that don't occur locally",
-    )
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("regression_length", [3, 4])
     def test_regression_of_returns_factor(self, returns_length, regression_length):
@@ -391,10 +397,6 @@ class TestStatisticalBuiltIns:
                 )
                 assert_frame_equal(output_result, expected_output_result)
 
-    @pytest.mark.skipif(
-        os.getenv("CI") == "true" or os.getenv("GITHUB_ACTIONS") == "true",
-        reason="Skip on CI - loader configuration issues that don't occur locally",
-    )
     def test_simple_beta_matches_regression(self):
         run_pipeline = self.run_pipeline
         simple_beta = SimpleBeta(target=self.my_asset, regression_length=10)
@@ -426,10 +428,6 @@ class TestStatisticalBuiltIns:
             )
             assert beta.params["allowed_missing_count"] == expected
 
-    @pytest.mark.skipif(
-        os.getenv("CI") == "true" or os.getenv("GITHUB_ACTIONS") == "true",
-        reason="Skip on CI - loader configuration issues that don't occur locally",
-    )
     def test_correlation_and_regression_with_bad_asset(self):
         """Test that `RollingPearsonOfReturns`, `RollingSpearmanOfReturns` and
         `RollingLinearRegressionOfReturns` raise the proper exception when
