@@ -311,15 +311,14 @@ class NextWithOneDayPipeline(WithOneDayPipeline, ZiplineTestCase):
 
 
 dummy_df = pd.DataFrame(
-    {SID_FIELD_NAME: 0},
-    columns=[
-        SID_FIELD_NAME,
-        TS_FIELD_NAME,
-        EVENT_DATE_FIELD_NAME,
-        FISCAL_QUARTER_FIELD_NAME,
-        FISCAL_YEAR_FIELD_NAME,
-        "estimate",
-    ],
+    {
+        SID_FIELD_NAME: [0],
+        TS_FIELD_NAME: [pd.NaT],
+        EVENT_DATE_FIELD_NAME: [pd.NaT],
+        FISCAL_QUARTER_FIELD_NAME: [np.nan],
+        FISCAL_YEAR_FIELD_NAME: [np.nan],
+        "estimate": [np.nan],
+    },
     index=[0],
 )
 

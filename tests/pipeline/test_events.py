@@ -133,14 +133,20 @@ def make_events(add_nulls):
                 yield (e1, e2, t1, t2)
 
     event_frames = []
+    sids_used = []
+
     for sid, (e1, e2, t1, t2) in enumerate(gen_date_interleavings()):
         event_frames.append(make_events_for_sid(sid, [e1, e2], [t1, t2]))
+        sids_used.append(sid)
 
     if add_nulls:
+        # Create null events for ALL sids at once, not incrementally
+        # This fixes pandas 2.1 concat dimension mismatch
+        all_sids = np.array(sids_used)
         for date in critical_dates:
             event_frames.append(
                 make_null_event_date_events(
-                    np.arange(sid + 1),
+                    all_sids,
                     timestamp=date,
                 )
             )
