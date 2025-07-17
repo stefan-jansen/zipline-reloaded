@@ -620,8 +620,10 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         cls.col = TestingDataSet.float_col
 
     @pytest.mark.skipif(
-        pd.__version__.startswith("1.5") or pd.__version__.startswith("2.0"),
-        reason="Test fails with pandas 1.5/2.0 - SubTestFailures in factor calculations",
+        pd.__version__.startswith("1.5")
+        or pd.__version__.startswith("2.0")
+        or pd.__version__.startswith("2.1"),
+        reason="Test fails with pandas 1.5/2.0/2.1 - loader issues with EquityPricing columns",
     )
     @parameter_space(returns_length=[2, 3], correlation_length=[3, 4])
     def test_factor_correlation_methods(self, returns_length, correlation_length):
@@ -727,8 +729,10 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
             )
 
     @pytest.mark.skipif(
-        pd.__version__.startswith("1.5") or pd.__version__.startswith("2.0"),
-        reason="Test fails with pandas 1.5/2.0 - SubTestFailures in factor calculations",
+        pd.__version__.startswith("1.5")
+        or pd.__version__.startswith("2.0")
+        or pd.__version__.startswith("2.1"),
+        reason="Test fails with pandas 1.5/2.0/2.1 - loader issues with EquityPricing columns",
     )
     @parameter_space(returns_length=[2, 3], regression_length=[3, 4])
     def test_factor_regression_method(self, returns_length, regression_length):

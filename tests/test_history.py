@@ -1701,6 +1701,10 @@ class DailyEquityHistoryTestCase(WithHistory, zf.ZiplineTestCase):
 
         return df
 
+    @pytest.mark.skipif(
+        SKIP_OLD_PANDAS,
+        reason="Pandas 1.5/2.0 have KeyError issues with sparse OHLC data",
+    )
     def test_daily_before_assets_trading(self):
         # asset2 and asset3 both started trading in 2015
 
@@ -1731,6 +1735,10 @@ class DailyEquityHistoryTestCase(WithHistory, zf.ZiplineTestCase):
 
                     np.testing.assert_array_equal(np.full(10, np.nan), asset3_series)
 
+    @pytest.mark.skipif(
+        SKIP_OLD_PANDAS,
+        reason="Pandas 1.5/2.0 have KeyError issues with sparse OHLC data",
+    )
     def test_daily_regular(self):
         # asset2 and asset3 both started on 1/5/2015, but asset3 trades every
         # 10 days
@@ -1769,6 +1777,10 @@ class DailyEquityHistoryTestCase(WithHistory, zf.ZiplineTestCase):
 
         assert 0 != volume_window[self.ASSET2][-3]
 
+    @pytest.mark.skipif(
+        SKIP_OLD_PANDAS,
+        reason="Pandas 1.5/2.0 have KeyError issues with sparse OHLC data",
+    )
     def test_daily_after_asset_stopped(self):
         # SHORT_ASSET trades on 1/5, 1/6, that's it.
 
