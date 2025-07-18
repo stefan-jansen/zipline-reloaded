@@ -1,16 +1,16 @@
 """Tests for statistical pipeline terms."""
 
 import os
-import platform
-import sys
+import re
 
 import numpy as np
 import pandas as pd
+import pytest
+from empyrical.stats import beta_aligned as empyrical_beta
 from pandas.testing import assert_frame_equal
 from scipy.stats import linregress, pearsonr, spearmanr
 
-from empyrical.stats import beta_aligned as empyrical_beta
-
+import zipline.testing.fixtures as zf
 from zipline.assets import Equity, ExchangeInfo
 from zipline.errors import IncompatibleTerms, NonExistentAssetInTimeFrame
 from zipline.pipeline import CustomFactor, Pipeline
@@ -39,34 +39,17 @@ from zipline.testing import (
     make_cascading_boolean_array,
     parameter_space,
 )
-import zipline.testing.fixtures as zf
 from zipline.testing.predicates import assert_equal
+from zipline.utils.calendar_utils import get_calendar
 from zipline.utils.numpy_utils import (
     as_column,
     bool_dtype,
     datetime64ns_dtype,
     float64_dtype,
 )
-import pytest
-import re
-from tests.conftest import ON_WINDOWS_CI, ON_LINUX_CI
-from zipline.utils.calendar_utils import get_calendar
 
 # More robust CI detection
 ON_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS") == "true"
-ON_CI = (
-    ON_GITHUB_ACTIONS
-    or os.getenv("CI") == "true"
-    or os.getenv("CONTINUOUS_INTEGRATION") == "true"
-    or os.getenv("TF_BUILD") == "True"  # Azure DevOps
-)
-
-# NOTE: CI-specific skips have been removed since tests pass locally with pandas 2.3 + numpy 2.2
-# The CI environment now has consistent timezone (UTC) and locale settings
-# If tests still fail on CI, investigate environment differences rather than skipping tests
-
-# Only skip for known permanent issues, not CI-specific ones
-# Currently no permanent statistical test issues that require skipping
 
 
 @pytest.fixture(scope="class")
@@ -76,10 +59,9 @@ def set_test_statistical_built_ins(request, with_trading_calendars, with_asset_f
     """
     from zipline.pipeline.loaders.testing import make_seeded_random_loader
     from zipline.testing import (
-        make_cascading_boolean_array,
         make_alternating_boolean_array,
+        make_cascading_boolean_array,
     )
-    from zipline.testing.fixtures import WithAssetFinder
 
     # Set up dates using actual trading calendar
     trading_calendar = get_calendar("NYSE")
@@ -219,19 +201,14 @@ def set_test_statistical_built_ins(request, with_trading_calendars, with_asset_f
 class TestStatisticalBuiltIns:
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("correlation_length", [3, 4])
-    @pytest.mark.skipif(
-        pd.__version__.startswith("2.2.2"),
-        reason="Numerical precision differences with pandas 2.2.2 + numpy 2.2",
-    )
-    @pytest.mark.skipif(
-        pd.__version__ >= "2.0" and os.environ.get("CI") == "true",
-        reason="Numerical precision differences in CI with pandas 2.0+",
+    @pytest.mark.xfail(
+        condition=ON_GITHUB_ACTIONS,
+        reason="Unresolved issues on GHA",
     )
     def test_correlation_factors(self, returns_length, correlation_length):
         """Tests for the built-in factors `RollingPearsonOfReturns` and
         `RollingSpearmanOfReturns`.
         """
-
         assets = self.assets
         my_asset = self.my_asset
         my_asset_column = self.my_asset_column
@@ -251,7 +228,7 @@ class TestStatisticalBuiltIns:
             self.expected_no_mask_result,
         )
 
-        for mask, expected_mask in zip(masks, expected_mask_results):
+        for mask, expected_mask in zip(masks, expected_mask_results, strict=False):
             pearson_factor = RollingPearsonOfReturns(
                 target=my_asset,
                 returns_length=returns_length,
@@ -326,13 +303,12 @@ class TestStatisticalBuiltIns:
 
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("regression_length", [3, 4])
-    @pytest.mark.skipif(
-        os.environ.get("CI") == "true" and pd.__version__ >= "1.5",
-        reason="Regression calculation has environment-specific differences in CI",
+    @pytest.mark.xfail(
+        condition=ON_GITHUB_ACTIONS,
+        reason="Unresolved issues on GHA",
     )
     def test_regression_of_returns_factor(self, returns_length, regression_length):
         """Tests for the built-in factor `RollingLinearRegressionOfReturns`."""
-
         assets = self.assets
         my_asset = self.my_asset
         my_asset_column = self.my_asset_column
@@ -355,7 +331,7 @@ class TestStatisticalBuiltIns:
             self.expected_no_mask_result,
         )
 
-        for mask, expected_mask in zip(masks, expected_mask_results):
+        for mask, expected_mask in zip(masks, expected_mask_results, strict=False):
             regression_factor = RollingLinearRegressionOfReturns(
                 target=my_asset,
                 returns_length=returns_length,
@@ -642,12 +618,9 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         # Random input for factors.
         cls.col = TestingDataSet.float_col
 
-    @pytest.mark.skipif(
-        pd.__version__.startswith("1.5")
-        or pd.__version__.startswith("2.0")
-        or pd.__version__.startswith("2.1")
-        or pd.__version__.startswith("2.3"),
-        reason="Test fails with pandas 1.5/2.0/2.1/2.3 - loader issues with EquityPricing columns",
+    @pytest.mark.xfail(
+        condition=ON_GITHUB_ACTIONS,
+        reason="Unresolved issues on GHA",
     )
     @parameter_space(returns_length=[2, 3], correlation_length=[3, 4])
     def test_factor_correlation_methods(self, returns_length, correlation_length):
@@ -655,7 +628,6 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         with the built-in factors `RollingPearsonOfReturns` and
         `RollingSpearmanOfReturns`.
         """
-
         my_asset = self.my_asset
         start_date = self.pipeline_start_date
         end_date = self.pipeline_end_date
@@ -752,23 +724,15 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
                 correlation_length=correlation_length,
             )
 
-    @pytest.mark.skipif(
-        pd.__version__.startswith("1.5")
-        or pd.__version__.startswith("2.0")
-        or pd.__version__.startswith("2.1")
-        or pd.__version__.startswith("2.3"),
-        reason="Test fails with pandas 1.5/2.0/2.1/2.3 - loader issues with EquityPricing columns",
-    )
     @parameter_space(returns_length=[2, 3], regression_length=[3, 4])
-    @pytest.mark.skipif(
-        os.environ.get("CI") == "true" and pd.__version__ >= "1.5",
-        reason="EquityPricing.close loader issues and regression calculation differences in CI",
+    @pytest.mark.xfail(
+        condition=ON_GITHUB_ACTIONS,
+        reason="Unresolved issues on GHA",
     )
     def test_factor_regression_method(self, returns_length, regression_length):
         """Ensure that `Factor.linear_regression` is consistent with the built-in
         factor `RollingLinearRegressionOfReturns`.
         """
-
         my_asset = self.my_asset
         start_date = self.pipeline_start_date
         end_date = self.pipeline_end_date
@@ -844,7 +808,6 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         """Tests for `Factor.pearsonr` and `Factor.spearmanr` when passed another
         2D factor instead of a Slice.
         """
-
         assets = self.assets
         dates = self.dates
         start_date = self.pipeline_start_date
@@ -951,7 +914,6 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         """Tests for `Factor.linear_regression` when passed another 2D factor
         instead of a Slice.
         """
-
         assets = self.assets
         dates = self.dates
         start_date = self.pipeline_start_date

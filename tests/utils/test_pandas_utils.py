@@ -86,7 +86,6 @@ class TestNearestUnequalElements:
 
 
 class TestCatDFConcat:
-    # @pytest.mark.skipif(Version(), reason=skip_pipeline_new_pandas)
     def test_categorical_df_concat(self):
         inp = [
             pd.DataFrame(

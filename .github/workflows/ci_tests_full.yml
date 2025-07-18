@@ -101,7 +101,6 @@ jobs:
           PYTHONUNBUFFERED: 1
           # CI detection for test configuration
           GITHUB_ACTIONS: true
-          CI: true
           # Ensure consistent timezone and locale for all tests
           TZ: UTC
           LC_ALL: C.UTF-8

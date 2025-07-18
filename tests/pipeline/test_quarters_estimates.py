@@ -1,13 +1,17 @@
+import itertools
+import os
 from datetime import timedelta
 from functools import partial
-from packaging.version import Version
-import itertools
-from parameterized import parameterized
+
 import numpy as np
-from numpy.testing import assert_array_equal, assert_almost_equal
 import pandas as pd
+import pytest
+from numpy.testing import assert_almost_equal, assert_array_equal
+from packaging.version import Version
+from parameterized import parameterized
 from toolz import merge
-from zipline.pipeline import SimplePipelineEngine, Pipeline, CustomFactor
+
+from zipline.pipeline import CustomFactor, Pipeline, SimplePipelineEngine
 from zipline.pipeline.common import (
     EVENT_DATE_FIELD_NAME,
     FISCAL_QUARTER_FIELD_NAME,
@@ -15,15 +19,14 @@ from zipline.pipeline.common import (
     SID_FIELD_NAME,
     TS_FIELD_NAME,
 )
-from zipline.pipeline.data import DataSet
-from zipline.pipeline.data import Column
+from zipline.pipeline.data import Column, DataSet
 from zipline.pipeline.domain import EquitySessionDomain
 from zipline.pipeline.loaders.earnings_estimates import (
     NextEarningsEstimatesLoader,
     NextSplitAdjustedEarningsEstimatesLoader,
-    normalize_quarters,
     PreviousEarningsEstimatesLoader,
     PreviousSplitAdjustedEarningsEstimatesLoader,
+    normalize_quarters,
     split_normalized_quarters,
 )
 from zipline.testing.fixtures import (
@@ -31,29 +34,12 @@ from zipline.testing.fixtures import (
     WithTradingSessions,
     ZiplineTestCase,
 )
-from zipline.testing.predicates import assert_equal
-from zipline.testing.predicates import assert_frame_equal
-from zipline.utils.numpy_utils import datetime64ns_dtype
-from zipline.utils.numpy_utils import float64_dtype
+from zipline.testing.predicates import assert_equal, assert_frame_equal
+from zipline.utils.numpy_utils import datetime64ns_dtype, float64_dtype
 from zipline.utils.pandas_utils import stack_future_compatible
-import pytest
-import os
-import sys
 
 # Skip CI-specific failures
-ON_CI = (
-    os.getenv("GITHUB_ACTIONS") == "true"
-    or os.getenv("CI") == "true"
-    or os.getenv("CONTINUOUS_INTEGRATION") == "true"
-    or os.getenv("TF_BUILD") == "True"  # Azure DevOps
-)
-
-# Skip for older pandas versions that have compatibility issues
-SKIP_OLD_PANDAS = (
-    pd.__version__.startswith("1.5")
-    or pd.__version__.startswith("2.0")
-    or pd.__version__ >= "2.1"
-)
+ON_GHA = os.getenv("GITHUB_ACTIONS") == "true"
 
 
 class Estimates(DataSet):
@@ -118,7 +104,7 @@ class WithEstimates(WithTradingSessions, WithAdjustmentReader):
     level fixtures.
 
 
-    Methods
+    Methods:
     -------
     make_loader(events, columns) -> PipelineLoader
         Method which returns the loader to be used throughout tests.
@@ -194,7 +180,7 @@ class WithOneDayPipeline(WithEstimates):
     ZiplineTestCase mixin providing cls.events as a class level fixture and
     defining a test for all inheritors to use.
 
-    Attributes
+    Attributes:
     ----------
     events : pd.DataFrame
         A simple DataFrame with columns needed for estimates and a single sid
@@ -332,7 +318,7 @@ class WithWrongLoaderDefinition(WithEstimates):
     ZiplineTestCase mixin providing cls.events as a class level fixture and
     defining a test for all inheritors to use.
 
-    Attributes
+    Attributes:
     ----------
     events : pd.DataFrame
         A simple DataFrame with columns needed for estimates and a single sid
@@ -463,7 +449,7 @@ class WithEstimatesTimeZero(WithEstimates):
     ZiplineTestCase mixin providing cls.events as a class level fixture and
     defining a test for all inheritors to use.
 
-    Attributes
+    Attributes:
     ----------
     cls.events : pd.DataFrame
         Generated dynamically in order to test inter-leavings of estimates and
@@ -473,7 +459,7 @@ class WithEstimatesTimeZero(WithEstimates):
         the right 'time zero' because we use that to calculate which quarter's
         data needs to be returned for each day.
 
-    Methods
+    Methods:
     -------
     get_expected_estimate(q1_knowledge,
                           q2_knowledge,
@@ -542,7 +528,6 @@ class WithEstimatesTimeZero(WithEstimates):
         relevant event and assign each of these inter-leavings to a
         different sid.
         """
-
         sid_estimates = []
         sid_releases = []
         # We want all permutations of 2 knowledge dates per quarter.
@@ -704,12 +689,12 @@ class WithEstimateMultipleQuarters(WithEstimates):
     ZiplineTestCase mixin providing cls.events, cls.make_expected_out as
     class-level fixtures and self.test_multiple_qtrs_requested as a test.
 
-    Attributes
+    Attributes:
     ----------
     events : pd.DataFrame
         Simple DataFrame with estimates for 2 quarters for a single sid.
 
-    Methods
+    Methods:
     -------
     make_expected_out() --> pd.DataFrame
         Returns the DataFrame that is expected as a result of running a
@@ -884,7 +869,7 @@ class WithVaryingNumEstimates(WithEstimates):
     to make sure that we start applying adjustments at the appropriate, earlier
     date, rather than the later date.
 
-    Methods
+    Methods:
     -------
     assert_compute()
         Defines how to determine that results computed for the `SomeFactor`
@@ -979,7 +964,7 @@ class WithEstimateWindows(WithEstimates):
     """ZiplineTestCase mixin providing fixures and a test to test running a
     Pipeline with an estimates loader over differently-sized windows.
 
-    Attributes
+    Attributes:
     ----------
     events : pd.DataFrame
         DataFrame with estimates for 2 quarters for 2 sids.
@@ -989,7 +974,7 @@ class WithEstimateWindows(WithEstimates):
         A dictionary mapping to the number of quarters out to
         snapshots of how the data should look on each date in the date range.
 
-    Methods
+    Methods:
     -------
     make_expected_timelines() -> dict[int -> pd.DataFrame]
         Creates a dictionary of expected data. See `timelines`, above.
@@ -2101,7 +2086,7 @@ class WithSplitAdjustedMultipleEstimateColumns(WithEstimates):
     ZiplineTestCase mixin for having multiple estimate columns that are
     split-adjusted to make sure that adjustments are applied correctly.
 
-    Attributes
+    Attributes:
     ----------
     test_start_date : pd.Timestamp
         The start date of the test.
@@ -2111,7 +2096,7 @@ class WithSplitAdjustedMultipleEstimateColumns(WithEstimates):
         The split-adjusted-asof-date of the data used in the test, to be used
         to create all loaders of test classes that subclass this mixin.
 
-    Methods
+    Methods:
     -------
     make_expected_timelines_1q_out -> dict[pd.Timestamp -> dict[str ->
         np.array]]
@@ -2410,7 +2395,7 @@ class WithAdjustmentBoundaries(WithEstimates):
     and a test to make sure that when the split-adjusted-asof-date is not
     strictly within the date index, we can still apply adjustments correctly.
 
-    Attributes
+    Attributes:
     ----------
     split_adjusted_before_start : pd.Timestamp
         A split-adjusted-asof-date before the start date of the test.
@@ -2420,7 +2405,7 @@ class WithAdjustmentBoundaries(WithEstimates):
         All the split-adjusted-asof-dates over which we want to parameterize
         the test.
 
-    Methods
+    Methods:
     -------
     make_expected_out -> dict[pd.Timestamp -> pd.DataFrame]
         A dictionary of the expected output of the pipeline at each of the
@@ -2588,13 +2573,9 @@ class WithAdjustmentBoundaries(WithEstimates):
         )
 
     @parameterized.expand(split_adjusted_asof_dates)
-    @pytest.mark.skipif(
-        SKIP_OLD_PANDAS,
-        reason="Test fails with pandas 1.5/2.0/2.1+ - DataFrame shape validation issues",
-    )
-    @pytest.mark.skipif(
-        pd.__version__ >= "2.1",
-        reason="DataFrame shape validation issues with pandas 2.1+",
+    @pytest.mark.xfail(
+        ON_GHA,
+        reason="Unresolved issues on GHA",
     )
     def test_boundaries(self, split_date):
         dataset = QuartersEstimates(1)

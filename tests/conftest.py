@@ -17,7 +17,6 @@ from zipline.assets import (
 # More robust CI detection
 ON_GHA = (
     os.getenv("GITHUB_ACTIONS") == "true"
-    or os.getenv("CI") == "true"
     or os.getenv("CONTINUOUS_INTEGRATION") == "true"
     or os.getenv("TF_BUILD") == "True"  # Azure DevOps
 )

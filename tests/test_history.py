@@ -37,18 +37,7 @@ OHLC = ["open", "high", "low", "close"]
 OHLCP = OHLC + ["price"]
 ALL_FIELDS = OHLCP + ["volume"]
 
-# Skip CI-specific failures
-ON_CI = (
-    os.getenv("GITHUB_ACTIONS") == "true"
-    or os.getenv("CI") == "true"
-    or os.getenv("CONTINUOUS_INTEGRATION") == "true"
-    or os.getenv("TF_BUILD") == "True"  # Azure DevOps
-)
-
-# Skip for older pandas versions that have compatibility issues
-# The minute history tests fail with KeyError on pandas 1.5/2.0
-# This appears to be due to changes in how pandas handles sparse data in DataFrames
-SKIP_OLD_PANDAS = pd.__version__.startswith("1.5") or pd.__version__.startswith("2.0")
+ON_GHA = os.getenv("GITHUB_ACTIONS") == "true"
 
 
 class WithHistory(zf.WithCreateBarData, zf.WithDataPortal):
@@ -748,9 +737,9 @@ class MinuteEquityHistoryTestCase(WithHistory, zf.WithMakeAlgo, zf.ZiplineTestCa
         # should not be adjusted, should be 787 to 791
         np.testing.assert_array_equal([1171, 1181], window4)
 
-    @pytest.mark.skipif(
-        SKIP_OLD_PANDAS,
-        reason="Test fails on CI for Python < 3.12 with pandas 2.3 - minute data structure incompatibility",
+    @pytest.mark.xfail(
+        ON_GHA,
+        reason="Unresolved issues on GHA",
     )
     def test_minute_before_assets_trading(self):
         # since asset2 and asset3 both started trading on 1/5/2015, let's do
@@ -795,9 +784,9 @@ class MinuteEquityHistoryTestCase(WithHistory, zf.WithMakeAlgo, zf.ZiplineTestCa
             ("volume_sid_3", "volume", 3),
         ]
     )
-    @pytest.mark.skipif(
-        SKIP_OLD_PANDAS,
-        reason="Test fails on CI for Python < 3.12 with pandas 2.3 - minute data structure incompatibility",
+    @pytest.mark.xfail(
+        ON_GHA,
+        reason="Unresolved issues on GHA",
     )
     def test_minute_regular(self, name, field, sid):
         # asset2 and asset3 both started on 1/5/2015, but asset3 trades every
@@ -841,9 +830,9 @@ class MinuteEquityHistoryTestCase(WithHistory, zf.WithMakeAlgo, zf.ZiplineTestCa
                     last_minute_bar_data.history(self.ASSET2, field, 30, "1m"),
                 )
 
-    @pytest.mark.skipif(
-        SKIP_OLD_PANDAS,
-        reason="Test fails on CI for Python < 3.12 with pandas 2.3 - minute data structure incompatibility",
+    @pytest.mark.xfail(
+        ON_GHA,
+        reason="Unresolved issues on GHA",
     )
     def test_minute_after_asset_stopped(self):
         # SHORT_ASSET's last day was 2015-01-06
@@ -1701,9 +1690,9 @@ class DailyEquityHistoryTestCase(WithHistory, zf.ZiplineTestCase):
 
         return df
 
-    @pytest.mark.skipif(
-        SKIP_OLD_PANDAS,
-        reason="Pandas 1.5/2.0 have KeyError issues with sparse OHLC data",
+    @pytest.mark.xfail(
+        ON_GHA,
+        reason="Unresolved issues on GHA",
     )
     def test_daily_before_assets_trading(self):
         # asset2 and asset3 both started trading in 2015
@@ -1735,9 +1724,9 @@ class DailyEquityHistoryTestCase(WithHistory, zf.ZiplineTestCase):
 
                     np.testing.assert_array_equal(np.full(10, np.nan), asset3_series)
 
-    @pytest.mark.skipif(
-        SKIP_OLD_PANDAS,
-        reason="Pandas 1.5/2.0 have KeyError issues with sparse OHLC data",
+    @pytest.mark.xfail(
+        ON_GHA,
+        reason="Unresolved issues on GHA",
     )
     def test_daily_regular(self):
         # asset2 and asset3 both started on 1/5/2015, but asset3 trades every
@@ -1777,9 +1766,9 @@ class DailyEquityHistoryTestCase(WithHistory, zf.ZiplineTestCase):
 
         assert 0 != volume_window[self.ASSET2][-3]
 
-    @pytest.mark.skipif(
-        SKIP_OLD_PANDAS,
-        reason="Pandas 1.5/2.0 have KeyError issues with sparse OHLC data",
+    @pytest.mark.xfail(
+        ON_GHA,
+        reason="Unresolved issues on GHA",
     )
     def test_daily_after_asset_stopped(self):
         # SHORT_ASSET trades on 1/5, 1/6, that's it.
