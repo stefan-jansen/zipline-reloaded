@@ -335,8 +335,14 @@ commands = {[pytest_commands]with_cov}
 #commands = {[pytest_commands]py313_specific}
 
 # Disable coverage for ALL Python 3.11 environments due to IndexError bugs.
+[testenv:py311-*]
+commands = {[pytest_commands]without_cov}
+
 # Disable coverage for pandas 1.5 on any python version.
+[testenv:*-pandas15-numpy1]
+commands = {[pytest_commands]without_cov}
+
 # Disable coverage for pandas 2.0 on any python version.
-[testenv:{py311,*-pandas15-numpy1,*-pandas20-numpy1}-*]
+[testenv:*-pandas20-numpy1]
 commands = {[pytest_commands]without_cov}
 """
