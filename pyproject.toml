@@ -321,9 +321,6 @@ deps =
 commands = {[pytest_commands]with_cov}
 
 
-# --- Generative Overrides ---
-# Now, we only override what's necessary for specific environment patterns.
-
 # Special configuration for ALL Python 3.13 environments.
 #[testenv:py313-*]
 #setenv =

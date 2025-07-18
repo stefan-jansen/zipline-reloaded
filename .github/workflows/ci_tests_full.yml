@@ -78,20 +78,27 @@ jobs:
           python -m pip install tox tox-gh-actions
           python -m pip install .[test]
 
-      - name: Debug Environment (Python 3.13)
-        if: ${{ matrix.python-version == '3.13' }}
+#      - name: Debug Environment (Python 3.13)
+#        if: ${{ matrix.python-version == '3.13' }}
+#        shell: bash
+#        run: |
+#          echo "=== Python 3.13 Debug Info ==="
+#          python -c "import sys; print(f'Python: {sys.version}')"
+#          python -c "import multiprocessing as mp; print(f'MP start method: {mp.get_start_method()}')"
+#          python -c "import pytest; print(f'Pytest: {pytest.__version__}')"
+#          python -c "import coverage; print(f'Coverage: {coverage.__version__}')"
+#          echo "=== System Info ==="
+#          python -c "import platform; print(f'Platform: {platform.platform()}')"
+#          python -c "import os; print(f'CPU count: {os.cpu_count()}')"
+#          echo "=== Environment Variables ==="
+#          python -c "import os; [print(f'{k}={v}') for k,v in os.environ.items() if any(x in k for x in ['GITHUB', 'CI', 'TOX', 'PYTEST'])]"
+
+      - name: Debug - Display tox Configuration
         shell: bash
         run: |
-          echo "=== Python 3.13 Debug Info ==="
-          python -c "import sys; print(f'Python: {sys.version}')"
-          python -c "import multiprocessing as mp; print(f'MP start method: {mp.get_start_method()}')"
-          python -c "import pytest; print(f'Pytest: {pytest.__version__}')"
-          python -c "import coverage; print(f'Coverage: {coverage.__version__}')"
-          echo "=== System Info ==="
-          python -c "import platform; print(f'Platform: {platform.platform()}')"
-          python -c "import os; print(f'CPU count: {os.cpu_count()}')"
-          echo "=== Environment Variables ==="
-          python -c "import os; [print(f'{k}={v}') for k,v in os.environ.items() if any(x in k for x in ['GITHUB', 'CI', 'TOX', 'PYTEST'])]"
+          echo "--- Displaying pyproject.toml content ---"
+          cat pyproject.toml
+          echo "----------------------------------------"
 
       - name: Unittests with tox & pytest
         env:
