@@ -290,9 +290,9 @@ python =
 
 [pytest_commands]
 with_cov =
-    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=30 --cov={toxinidir}/src --cov-report term --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings  --tb=short --maxfail=30 --cov={toxinidir}/src --cov-report term --cov-report=xml --cov-report=html:htmlcov {toxinidir}/tests
 without_cov =
-    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings -v --tb=short --maxfail=20 {toxinidir}/tests
+    pytest -n auto --reruns 2 --dist=loadgroup --strict-markers --disable-warnings --tb=short --maxfail=20 {toxinidir}/tests
 py313_specific =
     pytest -n auto --reruns 2 --dist=no --strict-markers --disable-warnings -v --tb=short --maxfail=10 --timeout=300 --durations=10 {toxinidir}/tests
 
@@ -303,7 +303,8 @@ usedevelop = True
 setenv =
     MPLBACKEND = Agg
     # This correctly sets GHA=true only when running in GitHub Actions.
-    GHA = {env:GITHUB_ACTIONS:false}
+    GITHUB_ACTIONS = "true"
+
 changedir = tmp
 extras = test
 deps =

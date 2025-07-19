@@ -93,12 +93,6 @@ jobs:
 #          echo "=== Environment Variables ==="
 #          python -c "import os; [print(f'{k}={v}') for k,v in os.environ.items() if any(x in k for x in ['GITHUB', 'CI', 'TOX', 'PYTEST'])]"
 
-      - name: Debug - Display tox Configuration
-        shell: bash
-        run: |
-          echo "--- Displaying pyproject.toml content ---"
-          cat pyproject.toml
-          echo "----------------------------------------"
 
       - name: Unittests with tox & pytest
         env:
