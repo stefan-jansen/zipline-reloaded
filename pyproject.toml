@@ -303,7 +303,7 @@ usedevelop = True
 setenv =
     MPLBACKEND = Agg
     # This correctly sets GHA=true only when running in GitHub Actions.
-    GITHUB_ACTIONS = "true"
+passenv = GITHUB_ACTIONS
 
 changedir = tmp
 extras = test
