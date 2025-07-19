@@ -336,7 +336,6 @@ commands = {[pytest_commands]with_cov}
 commands = {[pytest_commands]without_cov}
 
 # Disable coverage for pandas 1.5 on any python version.
-[testenv:*-pandas15-numpy1]
 [testenv:py[310,311,312,313]-pandas15-numpy[1,20,21,22]]
 commands = {[pytest_commands]without_cov}
 
