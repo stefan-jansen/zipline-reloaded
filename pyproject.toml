@@ -302,7 +302,6 @@ py313_specific =
 usedevelop = True
 setenv =
     MPLBACKEND = Agg
-    # This correctly sets GHA=true only when running in GitHub Actions.
 passenv = GITHUB_ACTIONS
 
 changedir = tmp
@@ -323,14 +322,14 @@ commands = {[pytest_commands]with_cov}
 
 
 # Special configuration for ALL Python 3.13 environments.
-#[testenv:py313-*]
-#setenv =
-#    {[testenv]setenv}  # Inherit base setenv
-#    PYTHONHASHSEED = 0
-#    PYTHONFAULTHANDLER = 1
-#    PYTHONUNBUFFERED = 1
-#    PYTEST_CURRENT_TEST = 1
-#commands = {[pytest_commands]py313_specific}
+[testenv:py313-pandas{222,23}-numpy2{2}]
+setenv =
+    {[testenv]setenv}  # Inherit base setenv
+    PYTHONHASHSEED = 0
+    PYTHONFAULTHANDLER = 1
+    PYTHONUNBUFFERED = 1
+    PYTEST_CURRENT_TEST = 1
+commands = {[pytest_commands]py313_specific}
 
 # Disable coverage for ALL Python 3.11 environments due to IndexError bugs.
 [testenv:py311-pandas{15,20,21,22,23}-numpy{1,20,21,22}]
