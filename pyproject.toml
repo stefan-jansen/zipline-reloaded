@@ -332,7 +332,7 @@ setenv =
 commands = {[pytest_commands]py313_specific}
 
 # Disable coverage for ALL Python 3.11 environments due to IndexError bugs.
-[testenv:py311-pandas{15,20,21,22,23}-numpy{1,20,21,22}]
+[testenv:py311-pandas{15,20,21,22,222,23}-numpy{1,20,21,22}]
 commands = {[pytest_commands]without_cov}
 
 # Disable coverage for pandas 1.5 on any python version.
