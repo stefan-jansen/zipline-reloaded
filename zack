@@ -1,0 +1,895 @@
+import pandas as pd
+import numpy as np
+from datetime import datetime, timedelta
+import ccxt
+import yfinance as yf
+from typing import Dict, List, Tuple, Optional
+import logging
+from collections import defaultdict
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+class MarketProbabilityAnalyzer:
+    """
+    Analyzes historical market data to predict next day probability
+    based on previous day's open/close performance
+    """
+    
+    def __init__(self, symbol: str = 'NQ=F', data_source: str = 'yahoo'):
+        self.symbol = symbol
+        self.data_source = data_source
+        self.historical_data = pd.DataFrame()
+        self.analysis_results = {}
+        
+    def fetch_historical_data(self, period: str = '2y') -> pd.DataFrame:
+        """Fetch historical data using yfinance (more reliable for stocks/indices)"""
+        try:
+            if self.data_source == 'yahoo':
+                ticker = yf.Ticker(self.symbol)
+                df = ticker.history(period=period)
+                df.reset_index(inplace=True)
+                df.columns = [col.lower() for col in df.columns]
+                df['date'] = df['date'].dt.date
+                self.historical_data = df
+                logger.info(f"Fetched {len(df)} days of historical data for {self.symbol}")
+                return df
+            else:
+                # Alternative: Use ccxt for other exchanges
+                exchange = ccxt.binance()
+                ohlcv = exchange.fetch_ohlcv(self.symbol, '1d', limit=730)
+                df = pd.DataFrame(ohlcv, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+                df['date'] = pd.to_datetime(df['timestamp'], unit='ms').dt.date
+                self.historical_data = df
+                return df
+                
+        except Exception as e:
+            logger.error(f"Failed to fetch historical data: {e}")
+            return pd.DataFrame()
+    
+    def calculate_daily_metrics(self) -> pd.DataFrame:
+        """Calculate daily performance metrics"""
+        df = self.historical_data.copy()
+        
+        # Calculate daily metrics
+        df['daily_return'] = ((df['close'] - df['open']) / df['open']) * 100
+        df['daily_range'] = ((df['high'] - df['low']) / df['open']) * 100
+        df['gap_from_prev'] = ((df['open'] - df['close'].shift(1)) / df['close'].shift(1)) * 100
+        df['is_green'] = df['daily_return'] > 0
+        df['is_red'] = df['daily_return'] < 0
+        df['is_doji'] = abs(df['daily_return']) < 0.1  # Less than 0.1% move
+        
+        # Next day outcomes
+        df['next_day_return'] = df['daily_return'].shift(-1)
+        df['next_day_green'] = df['is_green'].shift(-1)
+        df['next_day_red'] = df['is_red'].shift(-1)
+        
+        # Categorize daily returns into ranges
+        df['return_category'] = pd.cut(df['daily_return'], 
+                                     bins=[-np.inf, -2, -1, -0.5, 0, 0.5, 1, 2, np.inf],
+                                     labels=['Very Red (<-2%)', 'Red (-2% to -1%)', 'Slightly Red (-1% to -0.5%)', 
+                                            'Slightly Red (-0.5% to 0%)', 'Slightly Green (0% to 0.5%)', 
+                                            'Green (0.5% to 1%)', 'Very Green (1% to 2%)', 'Extremely Green (>2%)'])
+        
+        return df
+    
+    def analyze_probability_by_return_range(self, df: pd.DataFrame) -> Dict:
+        """Analyze probability of next day being green/red based on current day return ranges"""
+        results = {}
+        
+        for category in df['return_category'].unique():
+            if pd.isna(category):
+                continue
+                
+            subset = df[df['return_category'] == category].dropna(subset=['next_day_green'])
+            
+            if len(subset) == 0:
+                continue
+            
+            total_days = len(subset)
+            green_next_day = subset['next_day_green'].sum()
+            red_next_day = subset['next_day_red'].sum()
+            
+            green_probability = (green_next_day / total_days) * 100
+            red_probability = (red_next_day / total_days) * 100
+            
+            avg_next_day_return = subset['next_day_return'].mean()
+            
+            results[str(category)] = {
+                'total_occurrences': total_days,
+                'green_next_day': int(green_next_day),
+                'red_next_day': int(red_next_day),
+                'green_probability': green_probability,
+                'red_probability': red_probability,
+                'avg_next_day_return': avg_next_day_return
+            }
+        
+        return results
+    
+    def analyze_consecutive_patterns(self, df: pd.DataFrame) -> Dict:
+        """Analyze patterns of consecutive green/red days"""
+        results = {
+            'after_1_green': {'total': 0, 'green_next': 0, 'red_next': 0},
+            'after_2_green': {'total': 0, 'green_next': 0, 'red_next': 0},
+            'after_3_green': {'total': 0, 'green_next': 0, 'red_next': 0},
+            'after_1_red': {'total': 0, 'green_next': 0, 'red_next': 0},
+            'after_2_red': {'total': 0, 'green_next': 0, 'red_next': 0},
+            'after_3_red': {'total': 0, 'green_next': 0, 'red_next': 0}
+        }
+        
+        for i in range(3, len(df)):
+            if pd.isna(df.iloc[i]['next_day_green']):
+                continue
+                
+            # Check for consecutive green days
+            if (df.iloc[i]['is_green'] and 
+                df.iloc[i-1]['is_green'] and 
+                df.iloc[i-2]['is_green']):
+                results['after_3_green']['total'] += 1
+                if df.iloc[i]['next_day_green']:
+                    results['after_3_green']['green_next'] += 1
+                else:
+                    results['after_3_green']['red_next'] += 1
+            
+            elif (df.iloc[i]['is_green'] and 
+                  df.iloc[i-1]['is_green']):
+                results['after_2_green']['total'] += 1
+                if df.iloc[i]['next_day_green']:
+                    results['after_2_green']['green_next'] += 1
+                else:
+                    results['after_2_green']['red_next'] += 1
+            
+            elif df.iloc[i]['is_green']:
+                results['after_1_green']['total'] += 1
+                if df.iloc[i]['next_day_green']:
+                    results['after_1_green']['green_next'] += 1
+                else:
+                    results['after_1_green']['red_next'] += 1
+            
+            # Check for consecutive red days
+            if (df.iloc[i]['is_red'] and 
+                df.iloc[i-1]['is_red'] and 
+                df.iloc[i-2]['is_red']):
+                results['after_3_red']['total'] += 1
+                if df.iloc[i]['next_day_green']:
+                    results['after_3_red']['green_next'] += 1
+                else:
+                    results['after_3_red']['red_next'] += 1
+            
+            elif (df.iloc[i]['is_red'] and 
+                  df.iloc[i-1]['is_red']):
+                results['after_2_red']['total'] += 1
+                if df.iloc[i]['next_day_green']:
+                    results['after_2_red']['green_next'] += 1
+                else:
+                    results['after_2_red']['red_next'] += 1
+            
+            elif df.iloc[i]['is_red']:
+                results['after_1_red']['total'] += 1
+                if df.iloc[i]['next_day_green']:
+                    results['after_1_red']['green_next'] += 1
+                else:
+                    results['after_1_red']['red_next'] += 1
+        
+        # Calculate probabilities
+        for pattern in results:
+            if results[pattern]['total'] > 0:
+                results[pattern]['green_probability'] = (results[pattern]['green_next'] / results[pattern]['total']) * 100
+                results[pattern]['red_probability'] = (results[pattern]['red_next'] / results[pattern]['total']) * 100
+        
+        return results
+    
+    def analyze_day_of_week_patterns(self, df: pd.DataFrame) -> Dict:
+        """Analyze patterns based on day of the week"""
+        df['day_of_week'] = pd.to_datetime(df['date']).dt.day_name()
+        
+        results = {}
+        for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']:
+            day_data = df[df['day_of_week'] == day].dropna(subset=['next_day_green'])
+            
+            if len(day_data) == 0:
+                continue
+            
+            total = len(day_data)
+            green_next = day_data['next_day_green'].sum()
+            red_next = day_data['next_day_red'].sum()
+            
+            results[day] = {
+                'total_occurrences': total,
+                'green_next_day': int(green_next),
+                'red_next_day': int(red_next),
+                'green_probability': (green_next / total) * 100,
+                'red_probability': (red_next / total) * 100,
+                'avg_return_today': day_data['daily_return'].mean(),
+                'avg_return_next_day': day_data['next_day_return'].mean()
+            }
+        
+        return results
+    
+    def predict_next_day_probability(self, current_day_return: float) -> Dict:
+        """Predict next day probability based on current day return"""
+        if self.analysis_results.get('return_ranges'):
+            for category, data in self.analysis_results['return_ranges'].items():
+                # Parse the category range
+                if 'Very Red' in category and current_day_return < -2:
+                    return {
+                        'category': category,
+                        'green_probability': data['green_probability'],
+                        'red_probability': data['red_probability'],
+                        'sample_size': data['total_occurrences']
+                    }
+                elif 'Red (-2% to -1%)' in category and -2 <= current_day_return < -1:
+                    return {
+                        'category': category,
+                        'green_probability': data['green_probability'],
+                        'red_probability': data['red_probability'],
+                        'sample_size': data['total_occurrences']
+                    }
+                elif 'Slightly Red (-1% to -0.5%)' in category and -1 <= current_day_return < -0.5:
+                    return {
+                        'category': category,
+                        'green_probability': data['green_probability'],
+                        'red_probability': data['red_probability'],
+                        'sample_size': data['total_occurrences']
+                    }
+                elif 'Slightly Red (-0.5% to 0%)' in category and -0.5 <= current_day_return < 0:
+                    return {
+                        'category': category,
+                        'green_probability': data['green_probability'],
+                        'red_probability': data['red_probability'],
+                        'sample_size': data['total_occurrences']
+                    }
+                elif 'Slightly Green (0% to 0.5%)' in category and 0 <= current_day_return < 0.5:
+                    return {
+                        'category': category,
+                        'green_probability': data['green_probability'],
+                        'red_probability': data['red_probability'],
+                        'sample_size': data['total_occurrences']
+                    }
+                elif 'Green (0.5% to 1%)' in category and 0.5 <= current_day_return < 1:
+                    return {
+                        'category': category,
+                        'green_probability': data['green_probability'],
+                        'red_probability': data['red_probability'],
+                        'sample_size': data['total_occurrences']
+                    }
+                elif 'Very Green (1% to 2%)' in category and 1 <= current_day_return < 2:
+                    return {
+                        'category': category,
+                        'green_probability': data['green_probability'],
+                        'red_probability': data['red_probability'],
+                        'sample_size': data['total_occurrences']
+                    }
+                elif 'Extremely Green' in category and current_day_return >= 2:
+                    return {
+                        'category': category,
+                        'green_probability': data['green_probability'],
+                        'red_probability': data['red_probability'],
+                        'sample_size': data['total_occurrences']
+                    }
+        
+        return {'error': 'No matching category found'}
+    
+    def run_full_analysis(self) -> Dict:
+        """Run complete probability analysis"""
+        logger.info(f"Starting full analysis for {self.symbol}")
+        
+        # Fetch data
+        df = self.fetch_historical_data()
+        if df.empty:
+            return {'error': 'No data available'}
+        
+        # Calculate metrics
+        df = self.calculate_daily_metrics()
+        
+        # Run all analyses
+        results = {
+            'symbol': self.symbol,
+            'data_period': f"{df['date'].min()} to {df['date'].max()}",
+            'total_trading_days': len(df),
+            'return_ranges': self.analyze_probability_by_return_range(df),
+            'consecutive_patterns': self.analyze_consecutive_patterns(df),
+            'day_of_week_patterns': self.analyze_day_of_week_patterns(df),
+            'overall_stats': {
+                'total_green_days': int(df['is_green'].sum()),
+                'total_red_days': int(df['is_red'].sum()),
+                'overall_green_probability': (df['is_green'].sum() / len(df)) * 100,
+                'avg_daily_return': df['daily_return'].mean(),
+                'volatility': df['daily_return'].std()
+            }
+        }
+        
+        self.analysis_results = results
+        return results
+    
+    def print_analysis_report(self):
+        """Print formatted analysis report"""
+        if not self.analysis_results:
+            print("No analysis results available. Run full_analysis() first.")
+            return
+        
+        results = self.analysis_results
+        
+        print("\n" + "="*100)
+        print(f"MARKET PROBABILITY ANALYSIS REPORT - {results['symbol']}")
+        print("="*100)
+        print(f"Data Period: {results['data_period']}")
+        print(f"Total Trading Days: {results['total_trading_days']}")
+        
+        # Overall Statistics
+        print(f"\n📊 OVERALL STATISTICS:")
+        print(f"{'='*50}")
+        print(f"Total Green Days: {results['overall_stats']['total_green_days']}")
+        print(f"Total Red Days: {results['overall_stats']['total_red_days']}")
+        print(f"Overall Green Probability: {results['overall_stats']['overall_green_probability']:.1f}%")
+        print(f"Average Daily Return: {results['overall_stats']['avg_daily_return']:.2f}%")
+        print(f"Daily Volatility: {results['overall_stats']['volatility']:.2f}%")
+        
+        # Return Range Analysis
+        print(f"\n🎯 NEXT DAY PROBABILITY BY CURRENT DAY RETURN:")
+        print(f"{'='*50}")
+        for category, data in results['return_ranges'].items():
+            print(f"\n{category}:")
+            print(f"  Sample Size: {data['total_occurrences']} days")
+            print(f"  Next Day GREEN: {data['green_probability']:.1f}% ({data['green_next_day']} days)")
+            print(f"  Next Day RED: {data['red_probability']:.1f}% ({data['red_next_day']} days)")
+            print(f"  Avg Next Day Return: {data['avg_next_day_return']:.2f}%")
+        
+        # Consecutive Patterns
+        print(f"\n🔄 CONSECUTIVE DAY PATTERNS:")
+        print(f"{'='*50}")
+        for pattern, data in results['consecutive_patterns'].items():
+            if data['total'] > 0:
+                print(f"\n{pattern.replace('_', ' ').title()}:")
+                print(f"  Sample Size: {data['total']} occurrences")
+                print(f"  Next Day GREEN: {data['green_probability']:.1f}% ({data['green_next']} times)")
+                print(f"  Next Day RED: {data['red_probability']:.1f}% ({data['red_next']} times)")
+        
+        # Day of Week Patterns
+        print(f"\n📅 DAY OF WEEK PATTERNS:")
+        print(f"{'='*50}")
+        for day, data in results['day_of_week_patterns'].items():
+            print(f"\n{day}:")
+            print(f"  Sample Size: {data['total_occurrences']} days")
+            print(f"  Next Day GREEN: {data['green_probability']:.1f}% ({data['green_next_day']} days)")
+            print(f"  Next Day RED: {data['red_probability']:.1f}% ({data['red_next_day']} days)")
+            print(f"  Avg Return Today: {data['avg_return_today']:.2f}%")
+            print(f"  Avg Return Next Day: {data['avg_return_next_day']:.2f}%")
+    
+    def get_current_day_prediction(self) -> Dict:
+        """Get prediction for next day based on current day performance"""
+        if self.historical_data.empty:
+            return {'error': 'No historical data available'}
+        
+        # Get latest day data
+        latest_data = self.historical_data.iloc[-1]
+        current_return = ((latest_data['close'] - latest_data['open']) / latest_data['open']) * 100
+        
+        prediction = self.predict_next_day_probability(current_return)
+        
+        return {
+            'current_date': latest_data['date'],
+            'current_return': current_return,
+            'prediction': prediction
+        }
+
+# Usage example
+def main():
+    # Initialize analyzer for NASDAQ Futures (NQ=F)
+    analyzer = MarketProbabilityAnalyzer(symbol='NQ=F')
+    
+    # Run full analysis
+    print("Running market probability analysis...")
+    results = analyzer.run_full_analysis()
+    
+    # Print detailed report
+    analyzer.print_analysis_report()
+    
+    # Get current day prediction
+    current_prediction = analyzer.get_current_day_prediction()
+    
+    if 'error' not in current_prediction:
+        print(f"\n🔮 CURRENT DAY PREDICTION:")
+        print(f"{'='*50}")
+        print(f"Current Date: {current_prediction['current_date']}")
+        print(f"Current Day Return: {current_prediction['current_return']:.2f}%")
+        
+        pred = current_prediction['prediction']
+        if 'error' not in pred:
+            print(f"Category: {pred['category']}")
+            print(f"Next Day GREEN Probability: {pred['green_probability']:.1f}%")
+            print(f"Next Day RED Probability: {pred['red_probability']:.1f}%")
+            print(f"Sample Size: {pred['sample_size']} historical occurrences")
+        else:
+            print("No prediction available for current return level")
+    
+    # Example: Manual prediction
+    print(f"\n🎲 MANUAL PREDICTION EXAMPLES:")
+    print(f"{'='*50}")
+    test_returns = [-3.0, -1.5, -0.25, 0.25, 0.75, 1.5, 3.0]
+    
+    for test_return in test_returns:
+        prediction = analyzer.predict_next_day_probability(test_return)
+        if 'error' not in prediction:
+            print(f"If today's return is {test_return:.1f}%:")
+            print(f"  Next day GREEN probability: {prediction['green_probability']:.1f}%")
+            print(f"  Next day RED probability: {prediction['red_probability']:.1f}%")
+            print(f"  Sample size: {prediction['sample_size']} days")
+        print()
+
+if __name__ == "__main__":
+    main()
+
+import pandas as pd
+import numpy as np
+from datetime import datetime, timedelta
+import ccxt
+import yfinance as yf
+import time
+from typing import Dict, List, Tuple, Optional
+import logging
+from scipy.signal import find_peaks
+import warnings
+warnings.filterwarnings('ignore')
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+class KeyLevelRejectionDetector:
+    """
+    Detects key levels from higher timeframes and alerts on rejection blocks
+    from lower timeframes (5m, 15m) when price approaches these levels
+    """
+    
+    def __init__(self, symbol: str = 'NQ=F', data_source: str = 'yahoo'):
+        self.symbol = symbol
+        self.data_source = data_source
+        self.key_levels = []
+        self.rejection_alerts = []
+        
+        # Timeframe configurations
+        self.higher_timeframes = ['1d', '4h', '1h']  # For key level identification
+        self.lower_timeframes = ['15m', '5m']        # For rejection detection
+        
+        # Key level parameters
+        self.min_touches = 2          # Minimum touches to confirm key level
+        self.level_threshold = 0.2    # Price proximity threshold (%)
+        self.lookback_periods = 50    # Periods to look back for key levels
+        
+        # Rejection block parameters
+        self.rejection_candle_size = 0.1    # Minimum rejection candle size (%)
+        self.rejection_wick_ratio = 0.6     # Minimum wick to body ratio
+        self.volume_threshold = 1.2         # Volume multiplier for confirmation
+        
+    def fetch_data(self, timeframe: str, limit: int = 200) -> pd.DataFrame:
+        """Fetch OHLCV data for specified timeframe"""
+        try:
+            if self.data_source == 'yahoo':
+                # Convert timeframe to yfinance format
+                interval_map = {
+                    '1m': '1m', '5m': '5m', '15m': '15m', '30m': '30m',
+                    '1h': '1h', '4h': '4h', '1d': '1d'
+                }
+                
+                if timeframe not in interval_map:
+                    logger.error(f"Unsupported timeframe: {timeframe}")
+                    return pd.DataFrame()
+                
+                # Calculate period based on timeframe and limit
+                period_map = {
+                    '1m': f"{limit}m", '5m': f"{limit*5}m", '15m': f"{limit*15}m",
+                    '30m': f"{limit*30}m", '1h': f"{limit}h", '4h': f"{limit*4}h",
+                    '1d': f"{limit}d"
+                }
+                
+                # Use appropriate period or max available
+                if timeframe == '1d':
+                    period = '2y'
+                elif timeframe == '4h':
+                    period = '60d'
+                elif timeframe == '1h':
+                    period = '30d'
+                else:
+                    period = '7d'
+                
+                ticker = yf.Ticker(self.symbol)
+                df = ticker.history(period=period, interval=interval_map[timeframe])
+                
+                if df.empty:
+                    logger.warning(f"No data retrieved for {timeframe}")
+                    return pd.DataFrame()
+                
+                df.reset_index(inplace=True)
+                df.columns = [col.lower().replace(' ', '_') for col in df.columns]
+                
+                # Rename datetime column to timestamp
+                if 'datetime' in df.columns:
+                    df = df.rename(columns={'datetime': 'timestamp'})
+                
+                return df.tail(limit)
+                
+        except Exception as e:
+            logger.error(f"Failed to fetch data for {timeframe}: {e}")
+            return pd.DataFrame()
+    
+    def identify_key_levels(self, df: pd.DataFrame, timeframe: str) -> List[Dict]:
+        """Identify key support and resistance levels from higher timeframes"""
+        if df.empty or len(df) < 10:
+            return []
+        
+        key_levels = []
+        
+        # Find swing highs and lows
+        high_peaks, _ = find_peaks(df['high'].values, distance=5)
+        low_peaks, _ = find_peaks(-df['low'].values, distance=5)
+        
+        # Combine swing points
+        swing_points = []
+        
+        # Add swing highs
+        for peak in high_peaks:
+            if peak < len(df):
+                swing_points.append({
+                    'price': df.iloc[peak]['high'],
+                    'timestamp': df.iloc[peak]['timestamp'],
+                    'type': 'resistance',
+                    'index': peak
+                })
+        
+        # Add swing lows
+        for peak in low_peaks:
+            if peak < len(df):
+                swing_points.append({
+                    'price': df.iloc[peak]['low'],
+                    'timestamp': df.iloc[peak]['timestamp'],
+                    'type': 'support',
+                    'index': peak
+                })
+        
+        # Sort by price
+        swing_points.sort(key=lambda x: x['price'])
+        
+        # Identify key levels by clustering nearby prices
+        for i, point in enumerate(swing_points):
+            touches = 1
+            touch_timestamps = [point['timestamp']]
+            
+            # Count touches within threshold
+            for j, other_point in enumerate(swing_points):
+                if i != j:
+                    price_diff = abs(point['price'] - other_point['price'])
+                    price_threshold = point['price'] * (self.level_threshold / 100)
+                    
+                    if price_diff <= price_threshold:
+                        touches += 1
+                        touch_timestamps.append(other_point['timestamp'])
+            
+            # Only consider levels with minimum touches
+            if touches >= self.min_touches:
+                # Calculate level strength
+                strength = touches + (len(touch_timestamps) / len(df))
+                
+                key_level = {
+                    'price': point['price'],
+                    'type': point['type'],
+                    'timeframe': timeframe,
+                    'touches': touches,
+                    'strength': strength,
+                    'first_touch': min(touch_timestamps),
+                    'last_touch': max(touch_timestamps),
+                    'touch_timestamps': touch_timestamps
+                }
+                
+                # Avoid duplicate levels
+                is_duplicate = False
+                for existing_level in key_levels:
+                    if abs(existing_level['price'] - key_level['price']) <= (key_level['price'] * 0.001):
+                        if existing_level['strength'] < key_level['strength']:
+                            key_levels.remove(existing_level)
+                            break
+                        else:
+                            is_duplicate = True
+                            break
+                
+                if not is_duplicate:
+                    key_levels.append(key_level)
+        
+        # Sort by strength (descending)
+        key_levels.sort(key=lambda x: x['strength'], reverse=True)
+        
+        return key_levels[:10]  # Return top 10 key levels
+    
+    def detect_rejection_block(self, df: pd.DataFrame, key_level: Dict) -> Optional[Dict]:
+        """Detect rejection block at key level"""
+        if df.empty or len(df) < 2:
+            return None
+        
+        current_candle = df.iloc[-1]
+        previous_candle = df.iloc[-2]
+        
+        key_price = key_level['price']
+        level_type = key_level['type']
+        
+        # Check if price is near key level
+        price_threshold = key_price * (self.level_threshold / 100)
+        
+        # For resistance levels (rejections from above)
+        if level_type == 'resistance':
+            # Check if candle touched or came close to resistance
+            if (current_candle['high'] >= key_price - price_threshold and 
+                current_candle['high'] <= key_price + price_threshold):
+                
+                # Check for bearish rejection patterns
+                rejection_patterns = self._check_bearish_rejection_patterns(current_candle, previous_candle)
+                
+                if rejection_patterns:
+                    return {
+                        'type': 'bearish_rejection',
+                        'key_level': key_level,
+                        'rejection_candle': current_candle,
+                        'previous_candle': previous_candle,
+                        'patterns': rejection_patterns,
+                        'timestamp': current_candle['timestamp']
+                    }
+        
+        # For support levels (rejections from below)
+        elif level_type == 'support':
+            # Check if candle touched or came close to support
+            if (current_candle['low'] <= key_price + price_threshold and 
+                current_candle['low'] >= key_price - price_threshold):
+                
+                # Check for bullish rejection patterns
+                rejection_patterns = self._check_bullish_rejection_patterns(current_candle, previous_candle)
+                
+                if rejection_patterns:
+                    return {
+                        'type': 'bullish_rejection',
+                        'key_level': key_level,
+                        'rejection_candle': current_candle,
+                        'previous_candle': previous_candle,
+                        'patterns': rejection_patterns,
+                        'timestamp': current_candle['timestamp']
+                    }
+        
+        return None
+    
+    def _check_bearish_rejection_patterns(self, current: pd.Series, previous: pd.Series) -> List[str]:
+        """Check for bearish rejection patterns"""
+        patterns = []
+        
+        # Calculate candle metrics
+        body_size = abs(current['close'] - current['open'])
+        upper_wick = current['high'] - max(current['open'], current['close'])
+        lower_wick = min(current['open'], current['close']) - current['low']
+        candle_range = current['high'] - current['low']
+        
+        # Pattern 1: Shooting Star / Doji at resistance
+        if upper_wick > body_size * 2 and current['close'] < current['open']:
+            patterns.append('shooting_star')
+        
+        # Pattern 2: Strong rejection candle
+        if (body_size / current['open'] * 100) >= self.rejection_candle_size:
+            if current['close'] < current['open']:  # Red candle
+                patterns.append('strong_rejection')
+        
+        # Pattern 3: Wick rejection
+        if candle_range > 0 and (upper_wick / candle_range) >= self.rejection_wick_ratio:
+            patterns.append('wick_rejection')
+        
+        # Pattern 4: Evening star pattern (3-candle)
+        if (len(patterns) > 0 and 
+            previous['close'] > previous['open'] and  # Previous was bullish
+            current['close'] < current['open']):     # Current is bearish
+            patterns.append('evening_star_like')
+        
+        return patterns
+    
+    def _check_bullish_rejection_patterns(self, current: pd.Series, previous: pd.Series) -> List[str]:
+        """Check for bullish rejection patterns"""
+        patterns = []
+        
+        # Calculate candle metrics
+        body_size = abs(current['close'] - current['open'])
+        upper_wick = current['high'] - max(current['open'], current['close'])
+        lower_wick = min(current['open'], current['close']) - current['low']
+        candle_range = current['high'] - current['low']
+        
+        # Pattern 1: Hammer / Doji at support
+        if lower_wick > body_size * 2 and current['close'] > current['open']:
+            patterns.append('hammer')
+        
+        # Pattern 2: Strong rejection candle
+        if (body_size / current['open'] * 100) >= self.rejection_candle_size:
+            if current['close'] > current['open']:  # Green candle
+                patterns.append('strong_rejection')
+        
+        # Pattern 3: Wick rejection
+        if candle_range > 0 and (lower_wick / candle_range) >= self.rejection_wick_ratio:
+            patterns.append('wick_rejection')
+        
+        # Pattern 4: Morning star pattern (3-candle)
+        if (len(patterns) > 0 and 
+            previous['close'] < previous['open'] and  # Previous was bearish
+            current['close'] > current['open']):     # Current is bullish
+            patterns.append('morning_star_like')
+        
+        return patterns
+    
+    def scan_for_key_levels(self) -> List[Dict]:
+        """Scan higher timeframes for key levels"""
+        all_key_levels = []
+        
+        for timeframe in self.higher_timeframes:
+            logger.info(f"Scanning {timeframe} for key levels...")
+            
+            df = self.fetch_data(timeframe, self.lookback_periods)
+            if df.empty:
+                continue
+            
+            key_levels = self.identify_key_levels(df, timeframe)
+            all_key_levels.extend(key_levels)
+            
+            logger.info(f"Found {len(key_levels)} key levels in {timeframe}")
+        
+        # Remove duplicates and sort by strength
+        unique_levels = []
+        for level in all_key_levels:
+            is_duplicate = False
+            for existing in unique_levels:
+                if abs(existing['price'] - level['price']) <= (level['price'] * 0.005):  # 0.5% threshold
+                    if existing['strength'] < level['strength']:
+                        unique_levels.remove(existing)
+                        break
+                    else:
+                        is_duplicate = True
+                        break
+            
+            if not is_duplicate:
+                unique_levels.append(level)
+        
+        # Sort by strength and return top levels
+        unique_levels.sort(key=lambda x: x['strength'], reverse=True)
+        self.key_levels = unique_levels[:20]  # Keep top 20 levels
+        
+        return self.key_levels
+    
+    def scan_for_rejections(self) -> List[Dict]:
+        """Scan lower timeframes for rejection blocks at key levels"""
+        rejection_alerts = []
+        
+        if not self.key_levels:
+            logger.warning("No key levels available. Run scan_for_key_levels() first.")
+            return []
+        
+        for timeframe in self.lower_timeframes:
+            logger.info(f"Scanning {timeframe} for rejection blocks...")
+            
+            df = self.fetch_data(timeframe, 50)
+            if df.empty:
+                continue
+            
+            for key_level in self.key_levels:
+                rejection = self.detect_rejection_block(df, key_level)
+                
+                if rejection:
+                    rejection['timeframe'] = timeframe
+                    rejection_alerts.append(rejection)
+                    
+                    logger.info(f"🚨 REJECTION ALERT: {rejection['type']} at {key_level['price']:.2f} on {timeframe}")
+        
+        self.rejection_alerts = rejection_alerts
+        return rejection_alerts
+    
+    def print_key_levels_summary(self):
+        """Print summary of identified key levels"""
+        if not self.key_levels:
+            print("No key levels identified.")
+            return
+        
+        print("\n" + "="*80)
+        print(f"KEY LEVELS SUMMARY - {self.symbol}")
+        print("="*80)
+        
+        for i, level in enumerate(self.key_levels, 1):
+            print(f"\n#{i} - {level['type'].upper()} LEVEL")
+            print(f"Price: {level['price']:.2f}")
+            print(f"Timeframe: {level['timeframe']}")
+            print(f"Touches: {level['touches']}")
+            print(f"Strength: {level['strength']:.2f}")
+            print(f"First Touch: {level['first_touch']}")
+            print(f"Last Touch: {level['last_touch']}")
+    
+    def print_rejection_alerts(self):
+        """Print rejection block alerts"""
+        if not self.rejection_alerts:
+            print("No rejection alerts found.")
+            return
+        
+        print("\n" + "="*80)
+        print(f"REJECTION BLOCK ALERTS - {self.symbol}")
+        print("="*80)
+        
+        for i, alert in enumerate(self.rejection_alerts, 1):
+            print(f"\n🚨 ALERT #{i} - {alert['type'].upper()}")
+            print(f"Timeframe: {alert['timeframe']}")
+            print(f"Key Level: {alert['key_level']['price']:.2f} ({alert['key_level']['type']})")
+            print(f"Rejection Time: {alert['timestamp']}")
+            print(f"Patterns: {', '.join(alert['patterns'])}")
+            print(f"Current Price: {alert['rejection_candle']['close']:.2f}")
+            
+            # Trading suggestion
+            if alert['type'] == 'bearish_rejection':
+                print(f"💡 Suggestion: Consider SHORT position")
+                print(f"   Entry: {alert['rejection_candle']['close']:.2f}")
+                print(f"   Stop Loss: {alert['key_level']['price'] + (alert['key_level']['price'] * 0.002):.2f}")
+                print(f"   Target: {alert['key_level']['price'] - (alert['key_level']['price'] * 0.01):.2f}")
+            else:
+                print(f"💡 Suggestion: Consider LONG position")
+                print(f"   Entry: {alert['rejection_candle']['close']:.2f}")
+                print(f"   Stop Loss: {alert['key_level']['price'] - (alert['key_level']['price'] * 0.002):.2f}")
+                print(f"   Target: {alert['key_level']['price'] + (alert['key_level']['price'] * 0.01):.2f}")
+    
+    def run_continuous_monitor(self, scan_interval: int = 300):
+        """Run continuous monitoring for rejection blocks"""
+        logger.info(f"Starting continuous monitoring for {self.symbol}")
+        logger.info(f"Scan interval: {scan_interval} seconds")
+        
+        # Initial scan for key levels
+        self.scan_for_key_levels()
+        self.print_key_levels_summary()
+        
+        while True:
+            try:
+                # Scan for rejection blocks
+                rejections = self.scan_for_rejections()
+                
+                if rejections:
+                    self.print_rejection_alerts()
+                    
+                    # You can add email/SMS alerts here
+                    for rejection in rejections:
+                        logger.info(f"🚨 NEW REJECTION: {rejection['type']} at {rejection['key_level']['price']:.2f}")
+                
+                # Re-scan key levels every hour
+                if datetime.now().minute == 0:
+                    logger.info("Updating key levels...")
+                    self.scan_for_key_levels()
+                
+                time.sleep(scan_interval)
+                
+            except KeyboardInterrupt:
+                logger.info("Stopping continuous monitor...")
+                break
+            except Exception as e:
+                logger.error(f"Error in continuous monitor: {e}")
+                time.sleep(30)
+
+# Usage example
+def main():
+    # Initialize detector
+    detector = KeyLevelRejectionDetector(symbol='NQ=F')
+    
+    # Scan for key levels
+    print("Scanning for key levels...")
+    key_levels = detector.scan_for_key_levels()
+    detector.print_key_levels_summary()
+    
+    # Scan for rejection blocks
+    print("\nScanning for rejection blocks...")
+    rejections = detector.scan_for_rejections()
+    detector.print_rejection_alerts()
+    
+    # Uncomment to run continuous monitoring
+    # detector.run_continuous_monitor(scan_interval=300)  # 5 minutes
+
+if __name__ == "__main__":
+    main()
+pip install "stratequeue[zipline]"
+stratequeue deploy \
+  --strategy examples/strategies/zipline-reloaded/sma.py \
+  --symbol AAPL \
+  --timeframe 1m
