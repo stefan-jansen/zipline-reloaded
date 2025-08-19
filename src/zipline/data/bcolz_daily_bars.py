@@ -163,6 +163,7 @@ class BcolzDailyBarWriter:
         self, data, assets=None, show_progress=False, invalid_data_behavior="warn"
     ):
         """
+        Write a stream of daily data.  Any existing data in the file is overwritten.
 
         Parameters
         ----------
