@@ -132,6 +132,15 @@ cpdef calculate_position_tracker_stats(positions, PositionStats stats):
     cdef np.ndarray[np.float64_t] old_position_exposure = (
         stats.underlying_value_array
     )
+    
+    # Ensure the original arrays are writeable from the start
+    if not old_index.flags.writeable:
+        old_index = old_index.copy()
+        stats.underlying_index_array = old_index
+        
+    if not old_position_exposure.flags.writeable:
+        old_position_exposure = old_position_exposure.copy()
+        stats.underlying_value_array = old_position_exposure
 
     cdef np.float64_t value
     cdef np.float64_t exposure
@@ -170,6 +179,15 @@ cpdef calculate_position_tracker_stats(positions, PositionStats stats):
         # available
         index = old_index[:npos]
         position_exposure = old_position_exposure[:npos]
+        
+        # Ensure both arrays are writeable
+        if not index.flags.writeable:
+            index = index.copy()
+            stats.underlying_index_array = index
+            
+        if not position_exposure.flags.writeable:
+            position_exposure = position_exposure.copy()
+            stats.underlying_value_array = position_exposure
 
         stats.position_exposure_array = position_exposure
         # create a new series with the sliced arrays
@@ -182,6 +200,15 @@ cpdef calculate_position_tracker_stats(positions, PositionStats stats):
         # needed
         index = old_index
         position_exposure = old_position_exposure
+        
+        # Ensure both arrays are writeable
+        if not index.flags.writeable:
+            index = index.copy()
+            stats.underlying_index_array = index
+            
+        if not position_exposure.flags.writeable:
+            position_exposure = position_exposure.copy()
+            stats.underlying_value_array = position_exposure
 
         stats.position_exposure_array = position_exposure
         stats.position_exposure_series = pd.Series(
