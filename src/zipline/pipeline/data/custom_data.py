@@ -268,7 +268,100 @@ This dataset was created using CustomData().
     return dataset_class
 
 
+def from_db(
+    code: str,
+    db_dir: Optional[str] = None,
+) -> type:
+    """
+    Load a CustomData dataset from a database.
+
+    This creates a DataSet class that automatically loads data from a
+    SQLite database created with create_custom_db().
+
+    Parameters
+    ----------
+    code : str
+        Database identifier.
+    db_dir : str, optional
+        Directory containing database files.
+
+    Returns
+    -------
+    dataset_class : type
+        A DataSet subclass configured to load from the database.
+
+    Examples
+    --------
+    Load a dataset from database:
+
+    >>> from zipline.pipeline.data import from_db
+    >>> MyData = from_db('my-custom-data')
+    >>> # Use in pipeline
+    >>> pipe = Pipeline(
+    ...     columns={'metric': MyData.metric.latest}
+    ... )
+
+    The returned dataset has a `get_loader()` method:
+
+    >>> loader = MyData.get_loader()
+    >>> # Use with SimplePipelineEngine
+    >>> engine = SimplePipelineEngine(
+    ...     lambda col: MyData.get_loader() if col.dataset == MyData else ...,
+    ...     asset_finder
+    ... )
+    """
+    from .custom_db import get_custom_db_info, _get_db_path
+
+    # Get database info
+    info = get_custom_db_info(code, db_dir)
+    db_path = str(_get_db_path(code, db_dir))
+
+    # Parse columns from database metadata
+    columns_dict = {}
+    for col_name, dtype_str in info['columns'].items():
+        # Parse dtype string back to numpy dtype
+        dtype = _normalize_dtype(dtype_str)
+        columns_dict[col_name] = dtype
+
+    # Create the dataset using CustomData
+    dataset_class = CustomData(
+        code.replace('-', '_').title(),  # Convert code to class name
+        columns={name: dtype for name, dtype in columns_dict.items()},
+        doc=f"""
+Dataset loaded from database '{code}'.
+
+Database: {db_path}
+Bar size: {info['bar_size']}
+Rows: {info['row_count']:,}
+Size: {info['size_mb']} MB
+Created: {info['created_at']}
+"""
+    )
+
+    # Attach metadata
+    dataset_class._db_code = code
+    dataset_class._db_path = db_path
+    dataset_class._db_dir = db_dir
+
+    # Add method to get loader
+    @classmethod
+    def get_loader(cls):
+        """Get a DatabaseCustomDataLoader for this dataset."""
+        from ..loaders.custom_db_loader import DatabaseCustomDataLoader
+        return DatabaseCustomDataLoader(cls, cls._db_path)
+
+    dataset_class.get_loader = get_loader
+
+    return dataset_class
+
+
+# Attach from_db as a class method of CustomData
+# This allows: MyData = CustomData.from_db('my-db')
+CustomData.from_db = staticmethod(from_db)
+
+
 __all__ = [
     "CustomData",
+    "from_db",
     "DTYPE_MAPPING",
 ]
