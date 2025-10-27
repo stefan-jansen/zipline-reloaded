@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  zipline-jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zipline-reloaded-jupyter
+    ports:
+      - "8888:8888"  # Jupyter Lab
+    volumes:
+      # Mount notebooks directory
+      - ./notebooks:/notebooks
+      # Mount data directory for persistence
+      - ./data:/data
+      # Mount custom data databases
+      - zipline-data:/root/.zipline
+    environment:
+      - ZIPLINE_ROOT=/root/.zipline
+      - ZIPLINE_CUSTOM_DATA_DIR=/data/custom_databases
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    # Override command if needed
+    # command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+    networks:
+      - zipline-network
+
+  # Optional: Add a data science toolkit container
+  # zipline-toolkit:
+  #   image: jupyter/datascience-notebook:latest
+  #   container_name: zipline-toolkit
+  #   ports:
+  #     - "8889:8888"
+  #   volumes:
+  #     - ./notebooks:/home/jovyan/work
+  #   networks:
+  #     - zipline-network
+
+volumes:
+  zipline-data:
+    driver: local
+
+networks:
+  zipline-network:
+    driver: bridge
