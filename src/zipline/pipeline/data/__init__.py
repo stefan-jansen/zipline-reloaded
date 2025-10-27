@@ -6,10 +6,12 @@ from .dataset import (
     DataSetFamily,
     DataSetFamilySlice,
 )
+from .custom_data import CustomData
 
 __all__ = [
     "BoundColumn",
     "Column",
+    "CustomData",
     "DataSet",
     "EquityPricing",
     "DataSetFamily",
