@@ -62,7 +62,7 @@ jobs:
           CIBW_BUILD: "${{ matrix.python }}-win_amd64"
 
       - name: Store artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: my-artifact-${{ matrix.os }}-${{ matrix.python }}-${{ matrix.arch }}.whl
           path: ./wheelhouse/*.whl
@@ -86,7 +86,7 @@ jobs:
           pip install -U pip setuptools build
           python -m build --sdist
       - name: upload sdist
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: my-artifact-sdist
           path: ./dist/*.tar.gz
