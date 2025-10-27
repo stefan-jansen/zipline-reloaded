@@ -1,0 +1,29 @@
+# Zipline-Reloaded - Testing Dependencies
+
+# Core runtime dependencies
+-r requirements.txt
+
+# Testing framework
+pytest>=7.2.0
+pytest-cov>=3.0.0
+pytest-xdist>=2.5.0
+pytest-timeout>=1.4.2
+pytest-rerunfailures
+
+# Test utilities
+parameterized>=0.6.1
+testfixtures>=4.1.2
+responses>=0.9.0
+coverage
+
+# Data for tests
+pandas-datareader>=0.2.1
+
+# Visualization for tests
+matplotlib>=1.5.3
+
+# Quality assurance
+flake8>=3.9.1
+
+# Test orchestration
+tox

@@ -1,0 +1,51 @@
+# Zipline-Reloaded - Core Runtime Dependencies
+# Python >= 3.9 required
+
+# Core numerical computing
+numpy>=1.23.5,<2.0; python_version<'3.12'
+numpy>=1.26.0; python_version>='3.12'
+pandas>=1.3.0,<3.0
+scipy>=0.17.1
+bottleneck>=1.0.0
+numexpr>=2.6.1
+
+# Database and storage
+alembic>=0.7.7
+bcolz-zipline>=1.2.6
+h5py>=2.7.1
+tables>=3.4.3
+sqlalchemy>=2
+
+# Statistical and financial analysis
+empyrical-reloaded>=0.5.7
+statsmodels>=0.6.1
+patsy>=0.4.0
+
+# Data structures and utilities
+intervaltree>=2.1.0
+lru-dict>=1.1.4
+multipledispatch>=0.6.0
+networkx>=2.0
+toolz>=0.8.2
+
+# Time and calendars
+python-dateutil>=2.4.2
+pytz>=2018.5
+exchange-calendars>=4.2.4
+
+# Standards and codes
+iso3166>=2.1.1
+iso4217>=1.6.20180829
+
+# CLI and interfaces
+click>=4.0.0
+python-interface>=1.5.3
+
+# HTTP requests
+requests>=2.9.1
+
+# Compatibility
+six>=1.10.0
+
+# Optional but recommended for technical analysis
+# ta-lib>=0.4.09  # Uncomment if you need TA-Lib (requires manual installation)

@@ -1,0 +1,26 @@
+# Zipline-Reloaded - Development Dependencies
+
+# Runtime dependencies
+-r requirements.txt
+
+# Build dependencies
+-r requirements-build.txt
+
+# Testing dependencies
+-r requirements-test.txt
+
+# Code formatting and linting
+black>=24.0b1
+flake8>=3.9.1
+ruff
+
+# Development tools
+pre-commit>=2.12.1
+
+# Documentation
+Sphinx>=1.3.2
+numpydoc>=0.5.0
+sphinx-autobuild>=0.6.0
+pydata-sphinx-theme
+sphinx_markdown_tables
+m2r2
