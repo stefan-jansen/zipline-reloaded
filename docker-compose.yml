@@ -13,12 +13,21 @@ services:
       - ./notebooks:/notebooks
       # Mount data directory for persistence
       - ./data:/data
-      # Mount custom data databases
+      # Mount zipline data (bundles stored here - persistent across restarts)
       - zipline-data:/root/.zipline
+      # Mount scripts directory for management tools
+      - ./scripts:/scripts
     environment:
       - ZIPLINE_ROOT=/root/.zipline
       - ZIPLINE_CUSTOM_DATA_DIR=/data/custom_databases
       - PYTHONUNBUFFERED=1
+      # API keys from .env file (optional)
+      - NASDAQ_DATA_LINK_API_KEY=${NASDAQ_DATA_LINK_API_KEY:-}
+      - ALPHA_VANTAGE_API_KEY=${ALPHA_VANTAGE_API_KEY:-}
+      - IEX_CLOUD_API_KEY=${IEX_CLOUD_API_KEY:-}
+      - POLYGON_API_KEY=${POLYGON_API_KEY:-}
+    env_file:
+      - .env
     restart: unless-stopped
     # Override command if needed
     # command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root

@@ -50,13 +50,74 @@ docker rm zipline-jupyter
 - **Python 3.11** with zipline-reloaded
 - **Jupyter Lab** for interactive development
 - **CustomData functionality** with database persistence
+- **Data Bundle System** for persistent backtesting data
 - **Example notebooks** demonstrating usage
 - **Data persistence** via Docker volumes
+- **Management scripts** for bundle operations
 - **Pre-installed packages**:
   - numpy, pandas, scipy
   - matplotlib, seaborn, plotly
+  - yfinance, nasdaq-data-link
   - zipline-reloaded with all dependencies
   - jupyterlab extensions
+
+## 📦 Using Data Bundles in Docker
+
+Zipline bundles provide persistent, optimized storage for backtesting. All bundle data is stored in a Docker volume and persists across container restarts.
+
+### Quick Start with Bundles
+
+```bash
+# Setup Yahoo Finance bundle (free)
+docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py setup --source yahoo
+
+# Setup NASDAQ bundle (requires API key in .env)
+docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py setup --source nasdaq --dataset EOD
+
+# List available bundles
+docker exec -it zipline-reloaded-jupyter zipline bundles
+
+# Update bundles with latest data
+docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py update --all
+```
+
+### Bundle Storage
+
+Bundles are stored in the `zipline-data` Docker volume:
+- **Path in container**: `/root/.zipline/`
+- **Persistent**: Survives container restarts
+- **Format**: bcolz (optimized for backtesting)
+
+### API Keys for NASDAQ
+
+Edit `.env` file:
+```bash
+cp .env.example .env
+# Add your key:
+echo "NASDAQ_DATA_LINK_API_KEY=your_key_here" >> .env
+
+# Restart container
+docker-compose restart
+```
+
+### Run Backtests Using Bundles
+
+```python
+# In Jupyter notebook
+from zipline import run_algorithm
+import pandas as pd
+
+results = run_algorithm(
+    start=pd.Timestamp('2022-01-01', tz='UTC'),
+    end=pd.Timestamp('2023-12-31', tz='UTC'),
+    initialize=initialize,
+    handle_data=handle_data,
+    capital_base=100000,
+    bundle='yahoo',  # Uses persistent bundle data!
+)
+```
+
+**📖 Complete Docker bundle guide**: [docs/DOCKER_BUNDLES.md](docs/DOCKER_BUNDLES.md)
 
 ## Directory Structure
 
@@ -65,12 +126,20 @@ zipline-reloaded/
 ├── Dockerfile              # Container image definition
 ├── docker-compose.yml      # Docker Compose configuration
 ├── .env.example           # Environment variables template
-├── notebooks/             # Jupyter notebooks (mounted)
+├── .env                   # Your API keys (create from .env.example)
+├── notebooks/             # Jupyter notebooks (mounted, persistent)
 │   ├── 01_customdata_quickstart.ipynb
 │   ├── 02_database_storage.ipynb
-│   └── ... more notebooks
+│   ├── 03_market_data_example.ipynb
+│   ├── 04_nasdaq_datalink_example.ipynb
+│   ├── 05_backtesting_with_bundles.ipynb
+│   └── ... your notebooks
+├── scripts/               # Management scripts (mounted)
+│   └── manage_data.py     # Bundle management tool
 ├── data/                  # Persistent data (mounted)
-│   └── custom_databases/  # SQLite databases
+│   └── custom_databases/  # SQLite databases for CustomData
+├── zipline-data/          # Docker volume for bundles (persistent)
+│   └── [bundle-name]/     # Bundle data in bcolz format
 └── README_DOCKER.md       # This file
 ```
 
@@ -102,15 +171,30 @@ from zipline.pipeline import Pipeline
 
 Pre-loaded notebooks demonstrate:
 
-1. **`01_customdata_quickstart.ipynb`**
+1. **`01_customdata_quickstart.ipynb`** (Beginner)
    - Creating custom datasets
    - Building pipelines
    - Visualizing data
 
-2. **`02_database_storage.ipynb`**
+2. **`02_database_storage.ipynb`** (Intermediate)
    - Persistent database storage
    - Querying data efficiently
    - Managing multiple databases
+
+3. **`03_market_data_example.ipynb`** (Advanced)
+   - Fetching real market data from Yahoo Finance
+   - Building pipelines with live data
+   - Technical analysis and visualizations
+
+4. **`04_nasdaq_datalink_example.ipynb`** (Professional)
+   - Professional-grade NASDAQ Data Link integration
+   - API key setup and configuration
+   - Premium EOD and free WIKI datasets
+
+5. **`05_backtesting_with_bundles.ipynb`** (Essential)
+   - Setting up persistent data bundles
+   - Running backtests with `run_algorithm()`
+   - Daily data updates and automation
 
 ## Data Persistence
 
