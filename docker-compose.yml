@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: zipline-reloaded-jupyter
     ports:
-      - "8888:8888"  # Jupyter Lab
+      - "${JUPYTER_PORT:-9000}:8888"  # Jupyter Lab (host:container)
     volumes:
       # Mount notebooks directory
       - ./notebooks:/notebooks

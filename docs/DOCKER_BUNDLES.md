@@ -15,7 +15,7 @@ docker-compose up -d
 # 3. Setup a bundle (from inside container)
 docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py setup --source yahoo
 
-# 4. Access Jupyter at http://localhost:8888
+# 4. Access Jupyter at http://localhost:9000
 # Open notebooks/05_backtesting_with_bundles.ipynb
 ```
 
@@ -466,7 +466,7 @@ docker exec -it zipline-reloaded-jupyter zipline bundles
 (crontab -l 2>/dev/null; echo "0 17 * * 1-5 docker exec zipline-reloaded-jupyter python /scripts/manage_data.py update --all") | crontab -
 
 # 7. Open Jupyter
-open http://localhost:8888
+open http://localhost:9000
 
 # 8. Run backtest in notebook
 # Use notebooks/05_backtesting_with_bundles.ipynb

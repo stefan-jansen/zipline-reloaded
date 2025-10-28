@@ -47,7 +47,7 @@ cd zipline-reloaded
 # Start with Docker Compose
 docker-compose up -d
 
-# Access Jupyter Lab at http://localhost:8888
+# Access Jupyter Lab at http://localhost:9000
 # Notebooks with examples are pre-loaded!
 ```
 
@@ -224,7 +224,7 @@ Try CustomData interactively:
 # Start Jupyter environment
 docker-compose up -d
 
-# Open http://localhost:8888
+# Open http://localhost:9000
 # Try the notebooks:
 # - 01_customdata_quickstart.ipynb
 # - 02_database_storage.ipynb
@@ -313,7 +313,7 @@ cd zipline-reloaded
 docker-compose up -d
 
 # 3. Open Jupyter Lab
-# Navigate to http://localhost:8888 in your browser
+# Navigate to http://localhost:9000 in your browser
 ```
 
 ### What You Get

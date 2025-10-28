@@ -11,7 +11,7 @@ Complete Docker setup for running zipline-reloaded with Jupyter notebooks and Cu
 docker-compose up -d
 
 # Access Jupyter Lab in your browser
-open http://localhost:8888
+open http://localhost:9000
 
 # View logs
 docker-compose logs -f
@@ -28,14 +28,14 @@ docker build -t zipline-reloaded:latest .
 
 # Run the container
 docker run -d \
-  -p 8888:8888 \
+  -p 9000:8888 \
   -v $(pwd)/notebooks:/notebooks \
   -v $(pwd)/data:/data \
   --name zipline-jupyter \
   zipline-reloaded:latest
 
 # Access Jupyter Lab
-open http://localhost:8888
+open http://localhost:9000
 
 # View logs
 docker logs -f zipline-jupyter
@@ -147,7 +147,7 @@ zipline-reloaded/
 
 After starting the container:
 
-1. **Open your browser** to http://localhost:8888
+1. **Open your browser** to http://localhost:9000
 2. **No password required** (configured for local development)
 3. **Notebooks** are in the `/notebooks` directory
 4. **Data** persists in `/data` directory
@@ -277,7 +277,7 @@ cp .env.example .env
 
 Edit `.env`:
 ```
-JUPYTER_PORT=8888
+JUPYTER_PORT=9000
 JUPYTER_TOKEN=your-secret-token
 ZIPLINE_ROOT=/root/.zipline
 ZIPLINE_CUSTOM_DATA_DIR=/data/custom_databases
@@ -306,7 +306,7 @@ docker port zipline-reloaded-jupyter
 
 3. Try localhost instead of 0.0.0.0:
 ```
-http://127.0.0.1:8888
+http://127.0.0.1:9000
 ```
 
 ### Out of memory
@@ -414,7 +414,7 @@ For production:
    - Use HTTPS/SSL
 
 2. **Restrict access**:
-   - Don't expose port 8888 publicly
+   - Don't expose port 9000 publicly
    - Use VPN or SSH tunnel
 
 3. **Resource limits**:
@@ -539,7 +539,7 @@ Quick command reference:
 docker-compose up -d
 
 # Access
-http://localhost:8888
+http://localhost:9000
 
 # Logs
 docker-compose logs -f

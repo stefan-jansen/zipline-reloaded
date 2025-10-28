@@ -64,7 +64,7 @@ This directory contains interactive Jupyter notebooks demonstrating the CustomDa
 If running in Docker container:
 ```bash
 # Notebooks are already loaded
-# Access at http://localhost:8888
+# Access at http://localhost:9000
 ```
 
 ### Local Installation
