@@ -47,5 +47,8 @@ requests>=2.9.1
 # Compatibility
 six>=1.10.0
 
+# Data sources (for examples and notebooks)
+yfinance>=0.2.0  # Yahoo Finance data
+
 # Optional but recommended for technical analysis
 # ta-lib>=0.4.09  # Uncomment if you need TA-Lib (requires manual installation)

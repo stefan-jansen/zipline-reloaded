@@ -22,15 +22,19 @@ This directory contains interactive Jupyter notebooks demonstrating the CustomDa
 
 ### Advanced
 
-3. **`03_advanced_pipelines.ipynb`** (Coming soon)
+3. **`03_market_data_example.ipynb`**
+   - Fetching real market data from Yahoo Finance
+   - Creating databases for market prices
+   - Building pipelines with real data
+   - Technical analysis and indicators
+   - Risk-return analysis
+   - Trading signal generation
+   - Production data workflows
+
+4. **`04_advanced_pipelines.ipynb`** (Coming soon)
    - Custom factors and filters
    - Complex pipeline expressions
    - Multi-dataset pipelines
-
-4. **`04_real_data_example.ipynb`** (Coming soon)
-   - Working with real market data
-   - Data preprocessing
-   - Production workflows
 
 ## Getting Started
 
