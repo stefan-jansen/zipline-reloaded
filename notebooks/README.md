@@ -31,7 +31,19 @@ This directory contains interactive Jupyter notebooks demonstrating the CustomDa
    - Trading signal generation
    - Production data workflows
 
-4. **`04_advanced_pipelines.ipynb`** (Coming soon)
+### Professional
+
+4. **`04_nasdaq_datalink_example.ipynb`**
+   - Professional-grade data from NASDAQ Data Link
+   - API key setup and configuration
+   - Premium EOD and WIKI datasets
+   - Adjusted prices (splits/dividends)
+   - Advanced technical indicators
+   - Golden cross and momentum signals
+   - Data quality verification
+   - Production deployment workflows
+
+5. **`05_advanced_pipelines.ipynb`** (Coming soon)
    - Custom factors and filters
    - Complex pipeline expressions
    - Multi-dataset pipelines
@@ -55,6 +67,43 @@ pip install jupyter jupyterlab
 # Start Jupyter Lab
 jupyter lab
 ```
+
+## API Key Setup (for NASDAQ Data Link)
+
+To use the professional NASDAQ Data Link notebook (`04_nasdaq_datalink_example.ipynb`):
+
+### 1. Get Your API Key
+- Sign up at [NASDAQ Data Link](https://data.nasdaq.com/)
+- Navigate to Account Settings → API Key
+- Copy your API key
+
+### 2. Configure the API Key
+
+**Option A: Environment Variable (Recommended)**
+```bash
+# Add to your .env file
+echo "NASDAQ_DATA_LINK_API_KEY=your_api_key_here" >> .env
+```
+
+**Option B: Docker Compose**
+```bash
+# Copy example file
+cp .env.example .env
+
+# Edit .env and add your key
+# NASDAQ_DATA_LINK_API_KEY=your_api_key_here
+
+# Restart container
+docker-compose down && docker-compose up
+```
+
+**Option C: Direct Export**
+```bash
+export NASDAQ_DATA_LINK_API_KEY='your_api_key_here'
+```
+
+### 3. Verify Setup
+Open `04_nasdaq_datalink_example.ipynb` and run the first few cells to verify your API connection.
 
 ## Tips
 

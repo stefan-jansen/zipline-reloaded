@@ -49,6 +49,8 @@ six>=1.10.0
 
 # Data sources (for examples and notebooks)
 yfinance>=0.2.0  # Yahoo Finance data
+nasdaq-data-link>=1.0.0  # NASDAQ Data Link (formerly Quandl) - Professional market data
+python-dotenv>=0.19.0  # Environment variable management for API keys
 
 # Optional but recommended for technical analysis
 # ta-lib>=0.4.09  # Uncomment if you need TA-Lib (requires manual installation)
