@@ -43,7 +43,16 @@ This directory contains interactive Jupyter notebooks demonstrating the CustomDa
    - Data quality verification
    - Production deployment workflows
 
-5. **`05_advanced_pipelines.ipynb`** (Coming soon)
+5. **`05_backtesting_with_bundles.ipynb`**
+   - Zipline data bundle system
+   - Persistent storage for backtesting
+   - Setting up Yahoo Finance and NASDAQ bundles
+   - Running backtests with `run_algorithm()`
+   - Daily data updates and automation
+   - Advanced strategies with Pipeline
+   - Bundle management and maintenance
+
+6. **`06_advanced_pipelines.ipynb`** (Coming soon)
    - Custom factors and filters
    - Complex pipeline expressions
    - Multi-dataset pipelines

@@ -2,6 +2,10 @@
 from . import quandl  # noqa
 from . import csvdir  # noqa
 
+# Custom bundle imports (not auto-registered, must be registered manually)
+from . import nasdaq_bundle  # noqa
+from . import yahoo_bundle  # noqa
+
 from .core import (
     UnknownBundle,
     bundles,

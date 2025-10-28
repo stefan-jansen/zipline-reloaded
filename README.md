@@ -23,6 +23,7 @@ by [Stefan Jansen](https://www.linkedin.com/in/applied-ai/) who is trying to kee
 - **PyData Integration:** Input of historical data and output of performance statistics are based on Pandas DataFrames to integrate nicely into the existing PyData ecosystem.
 - **Statistics and Machine Learning Libraries:** You can use libraries like matplotlib, scipy, statsmodels, and scikit-klearn to support development, analysis, and visualization of state-of-the-art trading systems.
 - **📊 NEW: CustomData Support:** Easily integrate your own datasets into Zipline pipelines with persistent database storage. [Learn more](#customdata-integration)
+- **📦 NEW: Data Bundles:** Persistent, optimized storage for market data with Yahoo Finance and NASDAQ Data Link integrations. [Learn more](#data-bundles-for-backtesting)
 
 > **Note:** Release 3.05 makes Zipline compatible with Numpy 2.0, which requires Pandas 2.2.2 or higher. If you are using an older version of Pandas, you will need to upgrade it. Other packages may also still take more time to catch up with the latest Numpy release.
 
@@ -228,6 +229,74 @@ docker-compose up -d
 # - 01_customdata_quickstart.ipynb
 # - 02_database_storage.ipynb
 ```
+
+## 📦 Data Bundles for Backtesting
+
+Zipline bundles provide persistent, optimized storage for market data. Perfect for backtesting with `run_algorithm()`.
+
+### Quick Start with Bundles
+
+```bash
+# Setup Yahoo Finance bundle (free)
+python scripts/manage_data.py setup --source yahoo
+
+# Or NASDAQ Data Link (requires API key)
+export NASDAQ_DATA_LINK_API_KEY=your_key
+python scripts/manage_data.py setup --source nasdaq --dataset EOD
+
+# Run backtest
+python -c "
+from zipline import run_algorithm
+# ... your strategy ...
+results = run_algorithm(..., bundle='yahoo')
+"
+```
+
+### Bundle vs CustomData
+
+| Feature | Bundles | CustomData |
+|---------|---------|------------|
+| **Best For** | Backtesting with `run_algorithm()` | Pipeline analysis & custom indicators |
+| **Storage** | bcolz (highly optimized) | SQLite |
+| **Performance** | Excellent | Good |
+| **Updates** | `zipline ingest` command | Custom scripts |
+| **Use Together?** | ✅ Yes! Complementary features | ✅ Yes! Complementary features |
+
+### Available Bundles
+
+**Yahoo Finance** (Free):
+```python
+from zipline.data.bundles import register
+from zipline.data.bundles.yahoo_bundle import yahoo_bundle
+
+register('my-yahoo', yahoo_bundle(tickers=['AAPL', 'MSFT', 'GOOGL']))
+```
+
+**NASDAQ Data Link** (Premium):
+```python
+from zipline.data.bundles.nasdaq_bundle import nasdaq_bundle
+
+register('my-nasdaq', nasdaq_bundle(dataset='EOD'))
+```
+
+### Daily Updates
+
+```bash
+# Update specific bundle
+zipline ingest -b my-bundle
+
+# Update all bundles
+python scripts/manage_data.py update --all
+
+# Automate with cron (runs at 5 PM ET, Mon-Fri)
+0 17 * * 1-5 cd /path/to/zipline && python scripts/manage_data.py update --all
+```
+
+### Documentation
+
+- [📦 Bundle System Guide](docs/BUNDLES.md) - Complete bundle documentation
+- [📓 Backtesting Notebook](notebooks/05_backtesting_with_bundles.ipynb) - Interactive tutorial
+- [🔧 Management Script](scripts/manage_data.py) - Automated bundle management
 
 ## 🐳 Docker + Jupyter Setup
 
