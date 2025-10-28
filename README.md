@@ -22,6 +22,7 @@ by [Stefan Jansen](https://www.linkedin.com/in/applied-ai/) who is trying to kee
 - **Batteries Included:** many common statistics like moving average and linear regression can be readily accessed from within a user-written algorithm.
 - **PyData Integration:** Input of historical data and output of performance statistics are based on Pandas DataFrames to integrate nicely into the existing PyData ecosystem.
 - **Statistics and Machine Learning Libraries:** You can use libraries like matplotlib, scipy, statsmodels, and scikit-klearn to support development, analysis, and visualization of state-of-the-art trading systems.
+- **📊 NEW: CustomData Support:** Easily integrate your own datasets into Zipline pipelines with persistent database storage. [Learn more](#customdata-integration)
 
 > **Note:** Release 3.05 makes Zipline compatible with Numpy 2.0, which requires Pandas 2.2.2 or higher. If you are using an older version of Pandas, you will need to upgrade it. Other packages may also still take more time to catch up with the latest Numpy release.
 
@@ -33,13 +34,48 @@ by [Stefan Jansen](https://www.linkedin.com/in/applied-ai/) who is trying to kee
 
 Zipline supports Python >= 3.9 and is compatible with current versions of the relevant [NumFOCUS](https://numfocus.org/sponsored-projects?_sft_project_category=python-interface) libraries, including [pandas](https://pandas.pydata.org/) and [scikit-learn](https://scikit-learn.org/stable/index.html).
 
+### 🐳 Using Docker (Recommended for Quick Start)
+
+The fastest way to get started with Zipline-Reloaded and Jupyter notebooks:
+
+```bash
+# Clone the repository
+git clone https://github.com/stefan-jansen/zipline-reloaded.git
+cd zipline-reloaded
+
+# Start with Docker Compose
+docker-compose up -d
+
+# Access Jupyter Lab at http://localhost:8888
+# Notebooks with examples are pre-loaded!
+```
+
+**What's included:**
+- ✅ Pre-configured Jupyter Lab environment
+- ✅ All dependencies installed
+- ✅ Example notebooks ready to run
+- ✅ Persistent storage for data and notebooks
+
+[📖 See complete Docker setup guide](README_DOCKER.md)
+
 ### Using `pip`
 
 If your system meets the pre-requisites described in the [installation instructions](https://zipline.ml4trading.io/install.html), you can install Zipline using `pip` by running:
 
 ```bash
+# Install build dependencies first
+pip install -r requirements-build.txt
+
+# Install zipline-reloaded
 pip install zipline-reloaded
+
+# Or install from source
+git clone https://github.com/stefan-jansen/zipline-reloaded.git
+cd zipline-reloaded
+pip install -e .
 ```
+
+[📖 Detailed installation instructions](INSTALLATION.md)
 
 ### Using `conda`
 
@@ -116,6 +152,141 @@ $ zipline run -f dual_moving_average.py --start 2014-1-1 --end 2018-1-1 -o dma.p
 ```
 
 You can find other examples in the [zipline/examples](https://github.com/stefan-jansen/zipline-reloaded/tree/main/src/zipline/examples) directory.
+
+## CustomData Integration
+
+**New in this fork:** Zipline-Reloaded now supports easy integration of custom datasets with persistent database storage!
+
+### Quick Example
+
+```python
+from zipline.pipeline.data import CustomData, create_custom_db, insert_custom_data, from_db
+from zipline.pipeline import Pipeline
+import pandas as pd
+import numpy as np
+
+# 1. Create a custom dataset (in-memory)
+MyData = CustomData(
+    'MyData',
+    columns={
+        'sentiment': float,
+        'revenue_growth': float,
+        'analyst_rating': int,
+    },
+    missing_values={'analyst_rating': -1}
+)
+
+# Use in a pipeline
+pipe = Pipeline(
+    columns={
+        'sentiment': MyData.sentiment.latest,
+        'high_growth': MyData.revenue_growth.latest > 0.1,
+    }
+)
+
+# 2. Or use persistent database storage
+create_custom_db(
+    'my-fundamentals',
+    columns={'pe_ratio': float, 'market_cap': float}
+)
+
+# Insert your data
+insert_custom_data('my-fundamentals', your_dataframe)
+
+# Load and use
+Fundamentals = from_db('my-fundamentals')
+pipe = Pipeline(
+    columns={'pe': Fundamentals.pe_ratio.latest}
+)
+```
+
+### Features
+
+- ✅ **Easy dataset creation** - Define custom datasets with simple Python syntax
+- ✅ **Persistent storage** - SQLite-backed database storage for large datasets
+- ✅ **Efficient querying** - Automatic date/asset filtering for optimal performance
+- ✅ **Type safety** - Full numpy dtype support with validation
+- ✅ **Seamless integration** - Works exactly like built-in Pipeline datasets
+
+### Documentation
+
+- [📘 CustomData User Guide](docs/CUSTOM_DATA.md) - Complete guide with examples
+- [📗 Database Storage Guide](docs/CUSTOM_DATA_DATABASE.md) - Persistent storage documentation
+- [📓 Jupyter Notebooks](notebooks/) - Interactive tutorials
+- [💻 Example Scripts](examples/) - Ready-to-run examples
+
+### Quick Start with Docker + Jupyter
+
+Try CustomData interactively:
+
+```bash
+# Start Jupyter environment
+docker-compose up -d
+
+# Open http://localhost:8888
+# Try the notebooks:
+# - 01_customdata_quickstart.ipynb
+# - 02_database_storage.ipynb
+```
+
+## 🐳 Docker + Jupyter Setup
+
+Get started in minutes with a pre-configured environment:
+
+### Quick Start
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/stefan-jansen/zipline-reloaded.git
+cd zipline-reloaded
+
+# 2. Start with Docker Compose
+docker-compose up -d
+
+# 3. Open Jupyter Lab
+# Navigate to http://localhost:8888 in your browser
+```
+
+### What You Get
+
+- 🐍 **Python 3.11** with zipline-reloaded
+- 📓 **Jupyter Lab** for interactive development
+- 📊 **Pre-loaded notebooks** with CustomData examples
+- 💾 **Persistent storage** for databases and notebooks
+- 📦 **All dependencies** pre-installed
+
+### Common Commands
+
+```bash
+# Start the container
+docker-compose up -d
+
+# Stop the container
+docker-compose down
+
+# View logs
+docker-compose logs -f
+
+# Access container shell
+docker exec -it zipline-reloaded-jupyter bash
+
+# Rebuild after changes
+docker-compose build
+```
+
+### Directory Structure
+
+```
+notebooks/          # Your Jupyter notebooks (persisted)
+├── 01_customdata_quickstart.ipynb
+├── 02_database_storage.ipynb
+└── your_notebooks.ipynb
+
+data/              # Your data files (persisted)
+└── custom_databases/  # SQLite databases
+```
+
+**📖 Complete Docker guide:** [README_DOCKER.md](README_DOCKER.md)
 
 ## Questions, suggestions, bugs?
 
