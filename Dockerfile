@@ -47,6 +47,8 @@ RUN pip install \
 COPY . .
 
 # Install zipline-reloaded in editable mode
+# Set version for setuptools-scm (git metadata not available in Docker build)
+ENV SETUPTOOLS_SCM_PRETEND_VERSION=3.0.4
 RUN pip install -e .
 
 # Create directories for data and notebooks
