@@ -27,6 +27,10 @@ Examples:
     export NASDAQ_DATA_LINK_API_KEY=your_key
     python scripts/manage_data.py setup --source nasdaq --dataset EOD
 
+    # Setup Sharadar bundle (requires premium subscription)
+    export NASDAQ_DATA_LINK_API_KEY=your_key
+    python scripts/manage_data.py setup --source sharadar --tickers AAPL,MSFT,GOOGL
+
     # Update all bundles
     python scripts/manage_data.py update --all
 
@@ -53,11 +57,12 @@ def setup_bundle(source, tickers=None, dataset=None, bundle_name=None):
     Parameters
     ----------
     source : str
-        Data source: 'yahoo' or 'nasdaq'
+        Data source: 'yahoo', 'nasdaq', or 'sharadar'
     tickers : list of str, optional
         Custom ticker list
     dataset : str, optional
         For NASDAQ: 'EOD' or 'WIKI'
+        (Not used for Sharadar - it only uses SEP table)
     bundle_name : str, optional
         Custom bundle name (default: source name)
     """
@@ -110,8 +115,41 @@ def setup_bundle(source, tickers=None, dataset=None, bundle_name=None):
 
         register(bundle_name, nasdaq_bundle(**kwargs))
 
+    elif source == 'sharadar':
+        from zipline.data.bundles.sharadar_bundle import sharadar_bundle
+
+        # Check for API key
+        api_key = os.environ.get('NASDAQ_DATA_LINK_API_KEY')
+        if not api_key:
+            print("ERROR: NASDAQ_DATA_LINK_API_KEY environment variable not set!")
+            print("\nSharadar requires a NASDAQ Data Link API key with Sharadar subscription.")
+            print("\nPlease set your API key:")
+            print("  export NASDAQ_DATA_LINK_API_KEY='your_key_here'")
+            print("\nOr add to .env file:")
+            print("  NASDAQ_DATA_LINK_API_KEY=your_key_here")
+            print("\nSubscribe to Sharadar at:")
+            print("  https://data.nasdaq.com/databases/SFA")
+            sys.exit(1)
+
+        print("Registering Sharadar Equity Prices bundle...")
+        if not ticker_list:
+            print("\n⚠️  WARNING: No tickers specified - will download ALL US equities!")
+            print("   This will take 10-30 minutes and use 10-20 GB storage.")
+            print("   For testing, specify tickers with --tickers")
+            print("   Example: --tickers AAPL,MSFT,GOOGL,AMZN,TSLA\n")
+            response = input("Continue with ALL tickers? [y/N]: ")
+            if response.lower() != 'y':
+                print("Aborted. Specify tickers with --tickers to continue.")
+                sys.exit(0)
+
+        kwargs = {}
+        if ticker_list:
+            kwargs['tickers'] = ticker_list
+
+        register(bundle_name, sharadar_bundle(**kwargs))
+
     else:
-        print(f"ERROR: Unknown source '{source}'. Use 'yahoo' or 'nasdaq'")
+        print(f"ERROR: Unknown source '{source}'. Use 'yahoo', 'nasdaq', or 'sharadar'")
         sys.exit(1)
 
     print(f"✓ Bundle '{bundle_name}' registered\n")
@@ -229,8 +267,8 @@ def main():
     setup_parser.add_argument(
         '--source',
         required=True,
-        choices=['yahoo', 'nasdaq'],
-        help='Data source: yahoo or nasdaq',
+        choices=['yahoo', 'nasdaq', 'sharadar'],
+        help='Data source: yahoo, nasdaq, or sharadar',
     )
     setup_parser.add_argument(
         '--tickers',

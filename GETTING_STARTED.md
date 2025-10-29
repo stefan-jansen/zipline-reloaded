@@ -257,6 +257,45 @@ docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py setup --
 # Note: Data will be automatically capped at 2018-03-27
 ```
 
+### Option 3: Sharadar Equity Prices (Premium - Recommended for Professional Use)
+
+**IMPORTANT: Sharadar requires a paid subscription to NASDAQ Data Link.**
+
+Sharadar provides institutional-grade data with:
+- ✅ High-quality OHLCV data for all US equities
+- ✅ Comprehensive corporate actions
+- ✅ Fundamental data (via SF1 table)
+- ✅ Point-in-time accuracy
+- ✅ Professional support
+
+**Subscribe at:** [https://data.nasdaq.com/databases/SFA](https://data.nasdaq.com/databases/SFA)
+
+**Setup with specific tickers (recommended for testing):**
+
+```bash
+# Add API key to .env file
+echo "NASDAQ_DATA_LINK_API_KEY=your_actual_key_here" >> .env
+
+# Restart container to load the key
+docker compose restart
+
+# Setup Sharadar bundle with specific tickers
+docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py setup --source sharadar --tickers AAPL,MSFT,GOOGL,AMZN,TSLA
+
+# Verify
+docker exec -it zipline-reloaded-jupyter zipline bundles
+# Should show: sharadar
+```
+
+**Setup with ALL US equities (production use):**
+
+```bash
+# WARNING: This downloads ~8,000+ tickers and uses 10-20 GB storage
+docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py setup --source sharadar
+
+# You will be prompted to confirm before downloading all tickers
+```
+
 ### Verify Bundle Data
 
 ```bash

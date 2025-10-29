@@ -196,6 +196,62 @@ from zipline.data.bundles.nasdaq_bundle import (
 register('nasdaq-premium', nasdaq_premium_bundle())
 ```
 
+### Sharadar Equity Prices Bundle
+
+**Source**: `zipline.data.bundles.sharadar_bundle`
+
+**⚠️ PREMIUM SUBSCRIPTION REQUIRED**
+Sharadar is a professional-grade dataset that requires a paid subscription.
+- Subscribe at: [https://data.nasdaq.com/databases/SFA](https://data.nasdaq.com/databases/SFA)
+- Pricing: Contact NASDAQ for current pricing
+- Free trial: Usually available for new subscribers
+
+**Advantages**:
+- ✅ **Institutional-grade quality** - Best-in-class data accuracy
+- ✅ **Comprehensive coverage** - All US equities (~8,000+ tickers)
+- ✅ **Point-in-time** - Historical values as they were known at the time
+- ✅ **Corporate actions included** - Splits, dividends, etc.
+- ✅ **Fundamental data available** - Via SF1 table (separate from bundle)
+- ✅ **Professional support** - Support from NASDAQ
+
+**Limitations**:
+- 💰 **Paid subscription required** - Not free
+- ⚠️ **Large downloads** - Full dataset is 10-20 GB
+- ⚠️ **Long ingestion time** - 10-30 minutes for full dataset
+
+**Setup (Specific tickers - recommended for testing)**:
+```python
+from zipline.data.bundles import register
+from zipline.data.bundles.sharadar_bundle import sharadar_bundle
+
+# Specific tickers
+register('sharadar', sharadar_bundle(
+    tickers=['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA'],
+))
+```
+
+**Setup (All tickers - production use)**:
+```python
+# ALL US equities (~8,000+ tickers)
+# WARNING: 10-20 GB download, 10-30 minutes ingestion time
+register('sharadar-all', sharadar_bundle())  # tickers=None means all
+```
+
+**Pre-configured Variants**:
+```python
+from zipline.data.bundles.sharadar_bundle import (
+    sharadar_tech_bundle,         # Tech stocks (15 tickers)
+    sharadar_sp500_sample_bundle, # S&P 500 sample (30 tickers)
+    sharadar_all_bundle,          # All US equities
+)
+
+register('sharadar-tech', sharadar_tech_bundle())
+```
+
+**Data tables used**:
+- **SEP (Sharadar Equity Prices)**: Daily OHLCV pricing data
+- **ACTIONS**: Corporate actions (splits, dividends, etc.)
+
 ## Bundle vs CustomData
 
 ### When to Use Bundles
