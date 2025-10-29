@@ -127,16 +127,18 @@ git branch
 
 ## Quick Start with Docker
 
-### Step 1: Configure Environment (Optional)
+### Step 1: Configure Environment (Required)
 
 ```bash
 # Copy the example environment file
 cp .env.example .env
 
-# Edit if you want to add API keys or change ports
+# Edit if you want to add API keys or change ports (optional)
 nano .env
 # Or use your preferred editor: vim, code, etc.
 ```
+
+**Note:** The `.env` file is required by Docker Compose. Even if you don't add any API keys, you must create it from the example.
 
 **Important settings in .env:**
 ```bash
