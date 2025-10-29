@@ -2,6 +2,19 @@
 
 This directory contains comprehensive examples for using zipline-reloaded with different data sources and approaches.
 
+## 🗺️ Navigation
+
+**NEW!** You now have full access to the entire project from Jupyter:
+
+- 📁 **`project_root/`** - Full project directory (README, setup.py, etc.)
+- 📜 **`scripts/`** - Data ingestion and utility scripts
+- 💻 **`src/`** - Zipline source code
+- 🧪 **`tests/`** - Test suite
+- 📚 **`docs/`** - Documentation
+- 📓 **`strategies_files/`** - Your trading strategies
+
+👉 **See [NAVIGATION.md](./NAVIGATION.md) for a complete guide to navigating the project from Jupyter**
+
 ## 🌟 Recommended Starting Point
 
 ### For Sharadar Subscribers (Professional/Premium)
