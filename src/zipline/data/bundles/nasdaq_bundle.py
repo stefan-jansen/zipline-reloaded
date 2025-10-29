@@ -59,12 +59,18 @@ def nasdaq_bundle(
         of popular stocks.
     dataset : str, default 'EOD'
         NASDAQ Data Link dataset to use. Options:
-        - 'EOD': End of Day US Stock Prices (Premium)
-        - 'WIKI': Historical stock prices (Free, but discontinued)
+        - 'EOD': End of Day US Stock Prices (Premium, current data)
+        - 'WIKI': Wiki EOD Stock Prices (FREE but DISCONTINUED March 2018)
+
+        **IMPORTANT**: WIKI dataset was discontinued in March 2018 and contains
+        NO data after March 27, 2018. It's only useful for historical backtests
+        before 2018. For current data, you need a premium subscription to EOD.
     start_date : str, optional
         Start date for data fetch (YYYY-MM-DD). Defaults to 10 years ago.
+        For WIKI dataset, end_date is automatically capped at 2018-03-27.
     end_date : str, optional
         End date for data fetch (YYYY-MM-DD). Defaults to today.
+        For WIKI dataset, this is automatically capped at 2018-03-27.
 
     Returns
     -------
@@ -111,6 +117,17 @@ def nasdaq_bundle(
 
     if end_date is None:
         end_date = datetime.now().strftime('%Y-%m-%d')
+
+    # WIKI dataset was discontinued on March 27, 2018
+    # Automatically cap dates to prevent errors
+    if dataset == 'WIKI':
+        wiki_end_date = '2018-03-27'
+        if pd.Timestamp(end_date) > pd.Timestamp(wiki_end_date):
+            print(f"\n⚠️  WARNING: WIKI dataset was discontinued on March 27, 2018")
+            print(f"   Automatically capping end_date from {end_date} to {wiki_end_date}")
+            print(f"   For current data, use dataset='EOD' (requires premium subscription)")
+            print(f"   Or use the Yahoo Finance bundle (free)\n")
+            end_date = wiki_end_date
 
     def ingest(
         environ,

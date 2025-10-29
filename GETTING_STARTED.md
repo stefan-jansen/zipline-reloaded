@@ -219,14 +219,19 @@ docker exec -it zipline-reloaded-jupyter zipline bundles
 
 **This will take 2-5 minutes** depending on the number of stocks and your internet speed.
 
-### Option 2: NASDAQ Data Link (Premium, Requires API Key)
+### Option 2: NASDAQ Data Link (Requires API Key)
+
+**IMPORTANT NOTE ABOUT FREE WIKI DATASET:**
+The free WIKI dataset was discontinued on March 27, 2018 and contains NO data after that date. It's only useful for historical backtests before 2018. For current data, you need:
+- **Yahoo Finance bundle (free)** - Recommended for most users
+- **NASDAQ EOD dataset (premium)** - Requires paid subscription
 
 **First, get your API key:**
 1. Sign up at [NASDAQ Data Link](https://data.nasdaq.com/)
 2. Go to Account Settings → API Key
 3. Copy your key
 
-**Then setup:**
+**Then setup with premium EOD dataset:**
 
 ```bash
 # Add API key to .env file
@@ -235,12 +240,21 @@ echo "NASDAQ_DATA_LINK_API_KEY=your_actual_key_here" >> .env
 # Restart container to load the key
 docker compose restart
 
-# Setup NASDAQ bundle
+# Setup NASDAQ bundle with EOD (premium, current data)
 docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py setup --source nasdaq --dataset EOD
 
 # Verify
 docker exec -it zipline-reloaded-jupyter zipline bundles
 # Should show: nasdaq
+```
+
+**For historical backtests only (pre-2018), you can use WIKI:**
+
+```bash
+# Setup NASDAQ bundle with WIKI (free, but discontinued March 2018)
+docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py setup --source nasdaq --dataset WIKI
+
+# Note: Data will be automatically capped at 2018-03-27
 ```
 
 ### Verify Bundle Data

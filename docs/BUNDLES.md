@@ -146,34 +146,51 @@ register('yahoo-tech', yahoo_tech_bundle())
 
 **Source**: `zipline.data.bundles.nasdaq_bundle`
 
+**⚠️ IMPORTANT: WIKI Dataset Discontinued**
+The free WIKI dataset was discontinued on **March 27, 2018** and contains NO data after that date.
+- For **historical backtests** (pre-2018): You can use WIKI (free)
+- For **current data**: Use Yahoo Finance bundle (free) or NASDAQ EOD (premium)
+
 **Advantages**:
-- ✅ Professional quality
+- ✅ Professional quality (EOD dataset)
 - ✅ Clean, adjusted data
 - ✅ Extensive history
 - ✅ Reliable API
 
 **Limitations**:
 - ⚠️ Requires API key
-- ⚠️ Premium datasets cost money
+- ⚠️ Premium datasets cost money (EOD)
+- ⚠️ Free WIKI dataset discontinued March 2018
 - ⚠️ Rate limits on free tier
 
-**Setup**:
+**Setup (Premium EOD)**:
 ```python
 from zipline.data.bundles import register
 from zipline.data.bundles.nasdaq_bundle import nasdaq_bundle
 
+# Premium EOD dataset (current data)
 register('nasdaq', nasdaq_bundle(
     api_key='your_key',  # or set NASDAQ_DATA_LINK_API_KEY env var
-    dataset='EOD',       # 'EOD' (premium) or 'WIKI' (free)
+    dataset='EOD',       # Premium, current data
 ))
+```
+
+**Setup (Free WIKI - Historical Only)**:
+```python
+# WIKI dataset (free, but discontinued March 2018)
+register('nasdaq-wiki', nasdaq_bundle(
+    api_key='your_key',
+    dataset='WIKI',      # Free, but only data up to 2018-03-27
+))
+# Note: Dates will be automatically capped at 2018-03-27
 ```
 
 **Pre-configured Variants**:
 ```python
 from zipline.data.bundles.nasdaq_bundle import (
-    nasdaq_premium_bundle,  # EOD dataset, 20 stocks
-    nasdaq_free_bundle,     # WIKI dataset, 5 stocks
-    nasdaq_sp500_bundle,    # S&P 500 subset
+    nasdaq_premium_bundle,  # EOD dataset, 20 stocks (premium)
+    nasdaq_free_bundle,     # WIKI dataset, 5 stocks (discontinued 2018)
+    nasdaq_sp500_bundle,    # S&P 500 subset (premium)
 )
 
 register('nasdaq-premium', nasdaq_premium_bundle())
