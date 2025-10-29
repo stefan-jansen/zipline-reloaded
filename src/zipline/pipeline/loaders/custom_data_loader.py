@@ -8,7 +8,6 @@ multiple columns from a single data source.
 from functools import partial
 from typing import Dict, Optional, Union
 
-from interface import implements
 import numpy as np
 import pandas as pd
 
@@ -29,7 +28,7 @@ ADJUSTMENT_COLUMNS = pd.Index(
 )
 
 
-class MultiColumnDataFrameLoader(implements(PipelineLoader)):
+class MultiColumnDataFrameLoader(PipelineLoader):
     """
     A PipelineLoader that reads multiple columns from DataFrames.
 

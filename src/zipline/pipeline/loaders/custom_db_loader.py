@@ -8,7 +8,6 @@ date and asset filtering.
 import sqlite3
 from typing import Optional
 
-from interface import implements
 import numpy as np
 import pandas as pd
 
@@ -16,7 +15,7 @@ from zipline.lib.adjusted_array import AdjustedArray
 from .base import PipelineLoader
 
 
-class DatabaseCustomDataLoader(implements(PipelineLoader)):
+class DatabaseCustomDataLoader(PipelineLoader):
     """
     A PipelineLoader that reads custom data from SQLite databases.
 
