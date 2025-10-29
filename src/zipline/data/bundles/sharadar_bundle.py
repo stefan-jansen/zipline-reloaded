@@ -285,19 +285,18 @@ def download_sharadar_table(
     file_link = bulk_info['file']['link']
 
     # Wait for file to be ready
-    max_wait = 300  # 5 minutes
+    max_wait = 1800  # 30 minutes (Sharadar bulk downloads can take a while)
     waited = 0
     valid_statuses = ['fresh']
     wait_statuses = ['regenerating', 'creating']
 
-    while file_status in wait_statuses and waited < max_wait:
-        if file_status == 'creating':
-            print(f"  File is being created, waiting... ({waited}s)")
-        else:
-            print(f"  File is regenerating, waiting... ({waited}s)")
+    print(f"  ⏳ Waiting for NASDAQ Data Link to prepare your bulk download...")
+    print(f"     This can take up to 30 minutes for large datasets.")
+    print(f"     Current status: {file_status}")
 
-        time.sleep(10)
-        waited += 10
+    while file_status in wait_statuses and waited < max_wait:
+        time.sleep(30)  # Check every 30 seconds instead of 10
+        waited += 30
 
         # Check status again
         response = requests.get(base_url, params=params)
@@ -306,8 +305,22 @@ def download_sharadar_table(
         file_status = result['datatable_bulk_download']['file']['status']
         file_link = result['datatable_bulk_download']['file']['link']
 
+        # Show progress every 2 minutes
+        if waited % 120 == 0:
+            minutes_waited = waited // 60
+            minutes_remaining = (max_wait - waited) // 60
+            if file_status == 'creating':
+                print(f"  ⏳ Still creating... ({minutes_waited} min elapsed, up to {minutes_remaining} min remaining)")
+            else:
+                print(f"  ⏳ Still regenerating... ({minutes_waited} min elapsed, up to {minutes_remaining} min remaining)")
+
     if file_status not in valid_statuses:
-        raise RuntimeError(f"Bulk download file not ready after {waited}s. Status: {file_status}")
+        raise RuntimeError(
+            f"Bulk download file not ready after {waited}s ({waited//60} minutes). "
+            f"Status: {file_status}\n"
+            f"This might be a temporary issue with NASDAQ Data Link. Try again in a few minutes, "
+            f"or contact NASDAQ Data Link support if the problem persists."
+        )
 
     # Download the file
     print(f"  Downloading {table} data from {file_link}...")
