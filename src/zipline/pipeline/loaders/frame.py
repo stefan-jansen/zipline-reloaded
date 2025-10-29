@@ -4,7 +4,6 @@ PipelineLoader accepting a DataFrame as input.
 
 from functools import partial
 
-from interface import implements
 import numpy as np
 import pandas as pd
 
@@ -25,7 +24,7 @@ ADJUSTMENT_COLUMNS = pd.Index(
 )
 
 
-class DataFrameLoader(implements(PipelineLoader)):
+class DataFrameLoader(PipelineLoader):
     """A PipelineLoader that reads its input from DataFrames.
 
     Mostly useful for testing, but can also be used for real work if your data

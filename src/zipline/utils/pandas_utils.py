@@ -21,6 +21,9 @@ skip_pipeline_new_pandas = (
 )
 # skip_pipeline_blaze = "Blaze doesn't play nicely with Pandas >=1.0"
 
+# future_stack parameter was added in pandas 2.1.0
+PANDAS_210_OR_LATER = pandas_version >= Version("2.1.0")
+
 
 def july_5th_holiday_observance(datetime_index):
     return datetime_index[datetime_index.year != 2013]
@@ -294,6 +297,52 @@ def empty_dataframe(*columns):
     dtype: object
     """
     return pd.DataFrame(np.array([], dtype=list(columns)))
+
+
+def stack_future_compatible(df, level=-1, dropna=None, sort=None, future_stack=None):
+    """
+    Compatibility wrapper for DataFrame.stack() method.
+
+    The `future_stack` parameter was added in pandas 2.1.0 to prepare for
+    future behavior changes. This wrapper ensures compatibility across
+    different pandas versions.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The DataFrame to stack.
+    level : int, str, list, default -1
+        Level(s) to stack from the column axis onto the index axis.
+    dropna : bool, default None
+        Whether to drop rows in the resulting Frame/Series with missing values.
+    sort : bool, default None
+        Whether to sort the levels of the resulting MultiIndex.
+    future_stack : bool, optional
+        Parameter added in pandas 2.1.0. If True, the behavior will be
+        consistent with future pandas versions.
+
+    Returns
+    -------
+    pd.DataFrame or pd.Series
+        Stacked dataframe or series.
+    """
+    if PANDAS_210_OR_LATER and future_stack is not None:
+        # Pass future_stack parameter if pandas version supports it
+        kwargs = {"level": level}
+        if dropna is not None:
+            kwargs["dropna"] = dropna
+        if sort is not None:
+            kwargs["sort"] = sort
+        kwargs["future_stack"] = future_stack
+        return df.stack(**kwargs)
+    else:
+        # For older pandas versions, ignore future_stack parameter
+        kwargs = {"level": level}
+        if dropna is not None:
+            kwargs["dropna"] = dropna
+        if sort is not None:
+            kwargs["sort"] = sort
+        return df.stack(**kwargs)
 
 
 def check_indexes_all_same(indexes, message="Indexes are not equal."):

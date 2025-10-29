@@ -1,4 +1,6 @@
 import warnings
+import sys
+import os
 import pandas as pd
 import pytest
 from zipline.utils.calendar_utils import get_calendar
@@ -11,6 +13,45 @@ from zipline.assets import (
     Future,
 )
 
+
+# More robust CI detection
+ON_GHA = (
+    os.getenv("GITHUB_ACTIONS") == "true"
+    or os.getenv("CONTINUOUS_INTEGRATION") == "true"
+    or os.getenv("TF_BUILD") == "True"  # Azure DevOps
+)
+# More specific CI platform detection
+ON_WINDOWS_CI = sys.platform == "win32" and ON_GHA
+ON_LINUX_CI = sys.platform.startswith("linux") and ON_GHA
+ON_MACOS_CI = sys.platform == "darwin" and ON_GHA
+
+# Debug logging for CI environment
+if ON_GHA:
+    print("=== CONFTEST DEBUG: CI Environment Detected ===")
+    print(f"Platform: {sys.platform}")
+    print(f"Python: {sys.version}")
+    print(f"GITHUB_ACTIONS: {os.getenv('GITHUB_ACTIONS')}")
+    print(f"ON_WINDOWS_CI: {ON_WINDOWS_CI}")
+    print(f"ON_LINUX_CI: {ON_LINUX_CI}")
+    print(f"ON_MACOS_CI: {ON_MACOS_CI}")
+
+# Python 3.13 specific handling for multiprocessing issues
+if sys.version_info >= (3, 13):
+    import multiprocessing as mp
+
+    print("=== CONFTEST DEBUG: Python 3.13 detected, configuring multiprocessing ===")
+    # Configure multiprocessing to avoid hanging issues in Python 3.13
+    # This addresses known pytest-xdist hanging issues with multiprocessing
+    try:
+        mp.set_start_method("spawn", force=True)
+        print(f"Multiprocessing start method set to: {mp.get_start_method()}")
+    except RuntimeError as e:
+        # Method already set, skip
+        print(f"Multiprocessing method already set: {e}")
+        print(f"Current method: {mp.get_start_method()}")
+
+
+# Multiprocessing configuration is already handled above for Python 3.13
 
 DEFAULT_DATE_BOUNDS = {
     "START_DATE": pd.Timestamp("2006-01-03"),

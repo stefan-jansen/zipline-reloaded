@@ -1,6 +1,5 @@
 from abc import abstractmethod
 
-from interface import implements
 import numpy as np
 import pandas as pd
 from toolz import groupby
@@ -30,7 +29,7 @@ from zipline.pipeline.loaders.utils import (
 )
 
 INVALID_NUM_QTRS_MESSAGE = (
-    "Passed invalid number of quarters %s; " "must pass a number of quarters >= 0"
+    "Passed invalid number of quarters %s; must pass a number of quarters >= 0"
 )
 NEXT_FISCAL_QUARTER = "next_fiscal_quarter"
 NEXT_FISCAL_YEAR = "next_fiscal_year"
@@ -99,7 +98,7 @@ def add_new_adjustments(adjustments_dict, adjustments, column_name, ts):
         adjustments_dict[column_name][ts] = adjustments
 
 
-class EarningsEstimatesLoader(implements(PipelineLoader)):
+class EarningsEstimatesLoader(PipelineLoader):
     """An abstract pipeline loader for estimates data that can load data a
     variable number of quarters forwards/backwards from calendar dates
     depending on the `num_announcements` attribute of the columns' dataset.
@@ -701,8 +700,12 @@ class EarningsEstimatesLoader(implements(PipelineLoader)):
         # Forward fill values for each quarter/sid/dataset column.
         ffill_across_cols(last_per_qtr, columns, self.name_map)
         # Stack quarter and sid into the index.
-        stacked_last_per_qtr = last_per_qtr.stack(
-            [SID_FIELD_NAME, NORMALIZED_QUARTERS],
+        from zipline.utils.pandas_utils import stack_future_compatible
+
+        stacked_last_per_qtr = stack_future_compatible(
+            last_per_qtr,
+            level=[SID_FIELD_NAME, NORMALIZED_QUARTERS],
+            future_stack=True,
         )
         # Set date index name for ease of reference
         stacked_last_per_qtr.index.set_names(

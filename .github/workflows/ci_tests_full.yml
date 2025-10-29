@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: flake8 Lint
         uses: py-actions/flake8@v2
@@ -35,11 +35,12 @@ jobs:
   tests:
     name: Unit Tests for ${{ matrix.python-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 180  # 3 hours max per job
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
 
     steps:
       - name: Checkout Zipline
@@ -77,11 +78,43 @@ jobs:
           python -m pip install tox tox-gh-actions
           python -m pip install .[test]
 
+#      - name: Debug Environment (Python 3.13)
+#        if: ${{ matrix.python-version == '3.13' }}
+#        shell: bash
+#        run: |
+#          echo "=== Python 3.13 Debug Info ==="
+#          python -c "import sys; print(f'Python: {sys.version}')"
+#          python -c "import multiprocessing as mp; print(f'MP start method: {mp.get_start_method()}')"
+#          python -c "import pytest; print(f'Pytest: {pytest.__version__}')"
+#          python -c "import coverage; print(f'Coverage: {coverage.__version__}')"
+#          echo "=== System Info ==="
+#          python -c "import platform; print(f'Platform: {platform.platform()}')"
+#          python -c "import os; print(f'CPU count: {os.cpu_count()}')"
+#          echo "=== Environment Variables ==="
+#          python -c "import os; [print(f'{k}={v}') for k,v in os.environ.items() if any(x in k for x in ['GITHUB', 'CI', 'TOX', 'PYTEST'])]"
+
+
       - name: Unittests with tox & pytest
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 90
-          max_attempts: 3
-          retry_on: error
-          new_command_on_retry: python -m pip install tox tox-gh-actions .[test]
-          command: tox
+        env:
+          # Add debugging environment variables
+          PYTEST_CURRENT_TEST: 1
+          PYTHONFAULTHANDLER: 1
+          PYTHONUNBUFFERED: 1
+          # CI detection for test configuration
+          GITHUB_ACTIONS: true
+          # Ensure consistent timezone and locale for all tests
+          TZ: UTC
+          LC_ALL: C.UTF-8
+          LANG: C.UTF-8
+          # Ensure deterministic floating point behavior
+          PYTHONHASHSEED: 0
+        shell: bash
+        run: |
+          echo "=== Starting tests for Python ${{ matrix.python-version }} on ${{ matrix.os }} ==="
+          echo "=== Environment Configuration ==="
+          echo "Timezone: $TZ"
+          echo "Locale: $LC_ALL"
+          echo "Python hash seed: $PYTHONHASHSEED"
+          python -c "from datetime import datetime; print(f'Timestamp: {datetime.now()}')"
+          python -c "import time; print(f'System timezone: {time.tzname}')"
+          tox -v

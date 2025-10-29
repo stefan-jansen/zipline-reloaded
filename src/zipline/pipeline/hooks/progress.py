@@ -1,10 +1,8 @@
-"""Pipeline hooks for tracking and displaying progress.
-"""
+"""Pipeline hooks for tracking and displaying progress."""
 
 from collections import namedtuple
 import time
 
-from interface import implements
 
 from zipline.utils.compat import contextmanager, escape_html
 from zipline.utils.string_formatting import bulleted_list
@@ -12,7 +10,7 @@ from zipline.utils.string_formatting import bulleted_list
 from .iface import PipelineHooks
 
 
-class ProgressHooks(implements(PipelineHooks)):
+class ProgressHooks(PipelineHooks):
     """
     Hooks implementation for displaying progress.
 
@@ -357,7 +355,6 @@ class IPythonWidgetProgressPublisher:
             self._ensure_displayed()
 
         elif model.state in ("loading", "computing"):
-
             term_list = self._render_term_list(model.current_work)
             if model.state == "loading":
                 details_heading = "<b>Loading Inputs:</b>"

@@ -13,7 +13,6 @@
 # limitations under the License.
 from collections import defaultdict
 
-from interface import implements
 from numpy import iinfo, uint32, multiply
 
 from zipline.data.fx import ExplodingFXRateReader
@@ -27,7 +26,7 @@ from ..data.equity_pricing import EquityPricing
 UINT32_MAX = iinfo(uint32).max
 
 
-class EquityPricingLoader(implements(PipelineLoader)):
+class EquityPricingLoader(PipelineLoader):
     """A PipelineLoader for loading daily OHLCV data.
 
     Parameters

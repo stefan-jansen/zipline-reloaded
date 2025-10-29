@@ -279,6 +279,7 @@ class AssetFinder:
     @preprocess(engine=coerce_string_to_eng(require_exists=True))
     def __init__(self, engine, future_chain_predicates=CHAIN_PREDICATES):
         self.engine = engine
+        self._should_close_engine = isinstance(engine, str)
         metadata_obj = sa.MetaData()
         metadata_obj.reflect(engine, only=asset_db_table_names)
         for table_name in asset_db_table_names:
@@ -307,6 +308,11 @@ class AssetFinder:
 
         # Populated on first call to `lifetimes`.
         self._asset_lifetimes = {}
+
+    def close(self):
+        """Close the underlying SQLAlchemy engine if we created it from a string path."""
+        if hasattr(self, "_should_close_engine") and self._should_close_engine:
+            self.engine.dispose()
 
     @lazyval
     def exchange_info(self):

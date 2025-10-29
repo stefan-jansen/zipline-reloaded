@@ -2,12 +2,13 @@
 Base class for Pipeline API data loaders.
 """
 
-from interface import default, Interface
+from abc import ABC, abstractmethod
 
 
-class PipelineLoader(Interface):
+class PipelineLoader(ABC):
     """Interface for PipelineLoaders."""
 
+    @abstractmethod
     def load_adjusted_array(self, domain, columns, dates, sids, mask):
         """
         Load data for ``columns`` as AdjustedArrays.
@@ -35,7 +36,6 @@ class PipelineLoader(Interface):
             rolling view over the requested dates for the requested sids.
         """
 
-    @default
     @property
     def currency_aware(self):
         """Whether or not this loader supports currency-conversions.

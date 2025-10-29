@@ -144,11 +144,33 @@ RegisteredBundle = namedtuple(
     ],
 )
 
-BundleData = namedtuple(
-    "BundleData",
+_BundleData = namedtuple(
+    "_BundleData",
     "asset_finder equity_minute_bar_reader equity_daily_bar_reader "
     "adjustment_reader",
 )
+
+
+class BundleData(_BundleData):
+    """Wrapper around bundle data that provides proper resource cleanup."""
+
+    def close(self):
+        """Close all resources that need cleanup."""
+        # Close AssetFinder if it has a close method
+        if hasattr(self.asset_finder, "close"):
+            self.asset_finder.close()
+
+        # Close SQLiteAdjustmentReader if it has a close method
+        if hasattr(self.adjustment_reader, "close"):
+            self.adjustment_reader.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
+        return False
+
 
 BundleCore = namedtuple(
     "BundleCore",
