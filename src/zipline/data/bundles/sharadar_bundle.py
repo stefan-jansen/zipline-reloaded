@@ -160,24 +160,61 @@ def sharadar_bundle(
         # Process data
         print("\nStep 3/3: Processing data for zipline...")
 
-        # Prepare pricing data
-        daily_bar_data = prepare_daily_bars(sep_data)
-
-        # Write pricing data
-        print("Writing daily bars...")
-        daily_bar_writer.write(
-            daily_bar_data,
-            show_progress=show_progress,
-        )
-
-        # Prepare metadata
-        print("Writing asset metadata...")
+        # Prepare metadata first (to get sid assignments)
+        print("Preparing asset metadata...")
         metadata = prepare_asset_metadata(sep_data, start_date, end_date)
+
+        # Create symbol to sid mapping
+        symbol_to_sid = {row['symbol']: idx for idx, row in metadata.iterrows()}
+
+        # Add sid to pricing data
+        sep_data['sid'] = sep_data['ticker'].map(symbol_to_sid)
+
+        # Write metadata
+        print("Writing asset metadata...")
         asset_db_writer.write(equities=metadata)
+
+        # Prepare and write pricing data
+        print("Writing daily bars...")
+        def data_generator():
+            """Generator that yields (sid, dataframe) for each symbol"""
+            for sid in sorted(sep_data['sid'].unique()):
+                if pd.isna(sid):
+                    continue  # Skip any unmapped tickers
+
+                symbol_data = sep_data[sep_data['sid'] == sid].copy()
+
+                # Set date as index
+                symbol_data = symbol_data.set_index('date')
+
+                # Ensure timezone-naive
+                if symbol_data.index.tz is not None:
+                    symbol_data.index = symbol_data.index.tz_localize(None)
+
+                # Use closeunadj for close (adjustments handled separately)
+                symbol_data['close'] = symbol_data['closeunadj']
+
+                # Ensure all required columns and proper types
+                required_cols = ['open', 'high', 'low', 'close', 'volume']
+                symbol_data = symbol_data[required_cols].copy()
+
+                # Convert to float
+                for col in required_cols:
+                    symbol_data[col] = symbol_data[col].astype(float)
+
+                # Remove any NaN rows
+                symbol_data = symbol_data.dropna()
+
+                # Sort by date
+                symbol_data = symbol_data.sort_index()
+
+                yield int(sid), symbol_data
+
+        daily_bar_writer.write(data_generator(), show_progress=show_progress)
 
         # Prepare and write adjustments
         print("Writing adjustments...")
-        adjustments = prepare_adjustments(actions_data, sep_data)
+        adjustments = prepare_adjustments(actions_data, symbol_to_sid)
         adjustment_writer.write(**adjustments)
 
         print(f"\n{'='*60}")
@@ -447,7 +484,7 @@ def prepare_asset_metadata(
 
 def prepare_adjustments(
     actions_data: pd.DataFrame,
-    sep_data: pd.DataFrame,
+    ticker_to_sid: dict,
 ) -> dict:
     """
     Prepare splits and dividends from ACTIONS table.
@@ -456,8 +493,8 @@ def prepare_adjustments(
     ----------
     actions_data : pd.DataFrame
         Corporate actions data
-    sep_data : pd.DataFrame
-        Pricing data (for ticker reference)
+    ticker_to_sid : dict
+        Mapping of ticker symbols to sid integers
 
     Returns
     -------
@@ -470,12 +507,6 @@ def prepare_adjustments(
             'splits': pd.DataFrame(columns=['sid', 'ratio', 'effective_date']),
             'dividends': pd.DataFrame(columns=['sid', 'amount', 'ex_date', 'record_date', 'pay_date']),
         }
-
-    # Get ticker to sid mapping from metadata
-    ticker_to_sid = {
-        ticker: idx
-        for idx, ticker in enumerate(sorted(sep_data['ticker'].unique()))
-    }
 
     # Process splits
     splits = actions_data[actions_data['action'] == 'Split'].copy()
