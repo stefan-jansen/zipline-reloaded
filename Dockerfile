@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     python3-dev \
     libhdf5-dev \
-    libatlas-base-dev \
+    libopenblas-dev \
     gfortran \
     git \
     curl \
