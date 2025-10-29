@@ -250,8 +250,15 @@ def download_sharadar_table(
     # Wait for file to be ready
     max_wait = 300  # 5 minutes
     waited = 0
-    while file_status == 'regenerating' and waited < max_wait:
-        print(f"  File is regenerating, waiting... ({waited}s)")
+    valid_statuses = ['fresh']
+    wait_statuses = ['regenerating', 'creating']
+
+    while file_status in wait_statuses and waited < max_wait:
+        if file_status == 'creating':
+            print(f"  File is being created, waiting... ({waited}s)")
+        else:
+            print(f"  File is regenerating, waiting... ({waited}s)")
+
         time.sleep(10)
         waited += 10
 
@@ -262,7 +269,7 @@ def download_sharadar_table(
         file_status = result['datatable_bulk_download']['file']['status']
         file_link = result['datatable_bulk_download']['file']['link']
 
-    if file_status != 'fresh':
+    if file_status not in valid_statuses:
         raise RuntimeError(f"Bulk download file not ready after {waited}s. Status: {file_status}")
 
     # Download the file
