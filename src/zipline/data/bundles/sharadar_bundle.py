@@ -459,7 +459,7 @@ def prepare_adjustments(
         # Return empty adjustments
         return {
             'splits': pd.DataFrame(columns=['sid', 'ratio', 'effective_date']),
-            'dividends': pd.DataFrame(columns=['sid', 'amount', 'ex_date', 'record_date', 'pay_date']),
+            'dividends': pd.DataFrame(columns=['sid', 'amount', 'ex_date', 'record_date', 'declared_date', 'pay_date']),
         }
 
     # Process splits
@@ -478,12 +478,13 @@ def prepare_adjustments(
         dividends['sid'] = dividends['ticker'].map(ticker_to_sid)
         dividends['amount'] = dividends['value'].astype(float)
         dividends['ex_date'] = pd.to_datetime(dividends['date'])
-        # Sharadar doesn't provide record/pay dates, use ex_date for all
+        # Sharadar doesn't provide record/declared/pay dates, use ex_date for all
         dividends['record_date'] = dividends['ex_date']
+        dividends['declared_date'] = dividends['ex_date']
         dividends['pay_date'] = dividends['ex_date']
-        dividends = dividends[['sid', 'amount', 'ex_date', 'record_date', 'pay_date']].dropna()
+        dividends = dividends[['sid', 'amount', 'ex_date', 'record_date', 'declared_date', 'pay_date']].dropna()
     else:
-        dividends = pd.DataFrame(columns=['sid', 'amount', 'ex_date', 'record_date', 'pay_date'])
+        dividends = pd.DataFrame(columns=['sid', 'amount', 'ex_date', 'record_date', 'declared_date', 'pay_date'])
 
     return {
         'splits': splits,
