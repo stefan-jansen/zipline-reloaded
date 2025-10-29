@@ -280,7 +280,7 @@ services:
 
 Schedule with host cron:
 ```bash
-0 17 * * 1-5 docker-compose run zipline-updater
+0 17 * * 1-5 docker compose run zipline-updater
 ```
 
 ### Update Script

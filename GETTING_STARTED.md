@@ -33,8 +33,11 @@ docker --version
 # Should show: Docker version 20.x.x or higher
 
 # Check Docker Compose
-docker-compose --version
-# Should show: docker-compose version 1.29.x or higher
+docker compose version
+# Should show: Docker Compose version v2.x.x or higher
+
+# Note: Modern Docker uses 'docker compose' (not 'docker-compose')
+# The file is still named docker-compose.yml but the command is 'docker compose'
 ```
 
 ### Install Prerequisites
@@ -52,7 +55,7 @@ sudo usermod -aG docker $USER
 newgrp docker
 
 # Install Docker Compose
-sudo apt install -y docker-compose
+sudo apt install -y docker compose
 ```
 
 **macOS:**
@@ -153,13 +156,13 @@ NASDAQ_DATA_LINK_API_KEY=your_key_here
 
 ```bash
 # Build the Docker image (first time only, takes 5-10 minutes)
-docker-compose build
+docker compose build
 
 # Start the container
-docker-compose up -d
+docker compose up -d
 
 # Verify it's running
-docker-compose ps
+docker compose ps
 # Should show: zipline-reloaded-jupyter   Up
 ```
 
@@ -230,7 +233,7 @@ docker exec -it zipline-reloaded-jupyter zipline bundles
 echo "NASDAQ_DATA_LINK_API_KEY=your_actual_key_here" >> .env
 
 # Restart container to load the key
-docker-compose restart
+docker compose restart
 
 # Setup NASDAQ bundle
 docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py setup --source nasdaq --dataset EOD
@@ -429,22 +432,22 @@ All notebooks are in the `notebooks/` directory:
 
 ```bash
 # Start containers
-docker-compose up -d
+docker compose up -d
 
 # Stop containers
-docker-compose down
+docker compose down
 
 # Restart containers
-docker-compose restart
+docker compose restart
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Access container shell
 docker exec -it zipline-reloaded-jupyter bash
 
 # Rebuild after code changes
-docker-compose build
+docker compose build
 ```
 
 ### Bundle Management
@@ -484,19 +487,19 @@ docker logs zipline-reloaded-jupyter 2>&1 | grep "http://127.0.0.1"
 docker ps
 
 # Check logs for errors
-docker-compose logs
+docker compose logs
 
 # Rebuild and try again
-docker-compose down
-docker-compose build --no-cache
-docker-compose up -d
+docker compose down
+docker compose build --no-cache
+docker compose up -d
 ```
 
 ### Can't Access Jupyter
 
 ```bash
 # Verify container is running
-docker-compose ps
+docker compose ps
 
 # Check port mapping
 docker port zipline-reloaded-jupyter
@@ -530,7 +533,7 @@ If port 9000 is already in use:
 echo "JUPYTER_PORT=9001" >> .env
 
 # Restart
-docker-compose restart
+docker compose restart
 
 # Access at new port
 open http://localhost:9001
@@ -542,7 +545,7 @@ open http://localhost:9001
 
 ### Before Asking for Help
 
-1. **Check the logs**: `docker-compose logs`
+1. **Check the logs**: `docker compose logs`
 2. **Search existing issues**: [GitHub Issues](https://github.com/stefan-jansen/zipline-reloaded/issues)
 3. **Read the docs**: [Documentation](https://zipline.ml4trading.io)
 

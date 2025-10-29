@@ -103,7 +103,7 @@ cp .env.example .env
 # NASDAQ_DATA_LINK_API_KEY=your_api_key_here
 
 # Restart container
-docker-compose down && docker-compose up
+docker compose down && docker compose up
 ```
 
 **Option C: Direct Export**

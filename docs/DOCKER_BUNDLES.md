@@ -10,7 +10,7 @@ cp .env.example .env
 # Edit .env and add: NASDAQ_DATA_LINK_API_KEY=your_key_here
 
 # 2. Start the container
-docker-compose up -d
+docker compose up -d
 
 # 3. Setup a bundle (from inside container)
 docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py setup --source yahoo
@@ -114,7 +114,7 @@ crontab -e
 
 **Option B: Separate Update Container**
 
-Create `docker-compose.override.yml`:
+Create `docker compose.override.yml`:
 
 ```yaml
 version: '3.8'
@@ -137,7 +137,7 @@ services:
 Then schedule on host:
 ```bash
 # Runs updater container at 5 PM ET
-0 17 * * 1-5 cd /path/to/zipline-reloaded && docker-compose run --rm zipline-updater
+0 17 * * 1-5 cd /path/to/zipline-reloaded && docker compose run --rm zipline-updater
 ```
 
 **Option C: Inside Container with Cron**
@@ -215,7 +215,7 @@ docker exec -it zipline-reloaded-jupyter python /notebooks/my_strategy.py
 echo "NASDAQ_DATA_LINK_API_KEY=your_actual_key_here" >> .env
 
 # Restart container to load new environment
-docker-compose restart
+docker compose restart
 ```
 
 **Option 2: Set in docker-compose.yml**
@@ -290,7 +290,7 @@ docker exec -it zipline-reloaded-jupyter env | grep NASDAQ
 
 # If not set, add to .env and restart
 echo "NASDAQ_DATA_LINK_API_KEY=your_key" >> .env
-docker-compose restart
+docker compose restart
 
 # Verify again
 docker exec -it zipline-reloaded-jupyter env | grep NASDAQ
@@ -383,7 +383,7 @@ notebooks/.ipynb_checkpoints/
 
 ### Docker Compose Production Setup
 
-`docker-compose.prod.yml`:
+`docker compose.prod.yml`:
 ```yaml
 version: '3.8'
 
@@ -417,17 +417,17 @@ volumes:
 ### Start in Production
 
 ```bash
-docker-compose -f docker-compose.prod.yml up -d
+docker compose -f docker compose.prod.yml up -d
 ```
 
 ### Monitor Logs
 
 ```bash
 # Follow logs
-docker-compose logs -f
+docker compose logs -f
 
 # Check recent errors
-docker-compose logs --tail=50 | grep ERROR
+docker compose logs --tail=50 | grep ERROR
 ```
 
 ## Best Practices
@@ -451,7 +451,7 @@ cp .env.example .env
 # Edit .env with your API keys
 
 # 2. Start Docker
-docker-compose up -d
+docker compose up -d
 
 # 3. Setup Yahoo bundle
 docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py setup --source yahoo

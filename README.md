@@ -58,7 +58,7 @@ git clone https://github.com/stefan-jansen/zipline-reloaded.git
 cd zipline-reloaded
 
 # Start with Docker Compose
-docker-compose up -d
+docker compose up -d
 
 # Access Jupyter Lab at http://localhost:9000
 # Notebooks with examples are pre-loaded!
@@ -235,7 +235,7 @@ Try CustomData interactively:
 
 ```bash
 # Start Jupyter environment
-docker-compose up -d
+docker compose up -d
 
 # Open http://localhost:9000
 # Try the notebooks:
@@ -323,7 +323,7 @@ git clone https://github.com/stefan-jansen/zipline-reloaded.git
 cd zipline-reloaded
 
 # 2. Start with Docker Compose
-docker-compose up -d
+docker compose up -d
 
 # 3. Open Jupyter Lab
 # Navigate to http://localhost:9000 in your browser
@@ -341,19 +341,19 @@ docker-compose up -d
 
 ```bash
 # Start the container
-docker-compose up -d
+docker compose up -d
 
 # Stop the container
-docker-compose down
+docker compose down
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Access container shell
 docker exec -it zipline-reloaded-jupyter bash
 
 # Rebuild after changes
-docker-compose build
+docker compose build
 ```
 
 ### Directory Structure

@@ -8,16 +8,16 @@ Complete Docker setup for running zipline-reloaded with Jupyter notebooks and Cu
 
 ```bash
 # Build and start the container
-docker-compose up -d
+docker compose up -d
 
 # Access Jupyter Lab in your browser
 open http://localhost:9000
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Stop the container
-docker-compose down
+docker compose down
 ```
 
 ### Option 2: Using Docker directly
@@ -97,7 +97,7 @@ cp .env.example .env
 echo "NASDAQ_DATA_LINK_API_KEY=your_key_here" >> .env
 
 # Restart container
-docker-compose restart
+docker compose restart
 ```
 
 ### Run Backtests Using Bundles
@@ -245,7 +245,7 @@ RUN echo "c.NotebookApp.password = 'sha1:...'" >> /root/.jupyter/jupyter_noteboo
 
 3. Rebuild:
 ```bash
-docker-compose build
+docker compose build
 ```
 
 ### Install Additional Packages
@@ -259,7 +259,7 @@ RUN pip install \
 
 Then rebuild:
 ```bash
-docker-compose build
+docker compose build
 ```
 
 Or install at runtime:
@@ -289,7 +289,7 @@ ZIPLINE_CUSTOM_DATA_DIR=/data/custom_databases
 
 Check logs:
 ```bash
-docker-compose logs
+docker compose logs
 ```
 
 ### Jupyter not accessible
@@ -504,10 +504,10 @@ insert_custom_data('my-db', data)
 
 ```bash
 # Stop and remove containers
-docker-compose down
+docker compose down
 
 # Remove volumes (WARNING: deletes data)
-docker-compose down -v
+docker compose down -v
 
 # Remove images
 docker rmi zipline-reloaded:latest
@@ -536,22 +536,22 @@ Quick command reference:
 
 ```bash
 # Start
-docker-compose up -d
+docker compose up -d
 
 # Access
 http://localhost:9000
 
 # Logs
-docker-compose logs -f
+docker compose logs -f
 
 # Shell
 docker exec -it zipline-reloaded-jupyter bash
 
 # Stop
-docker-compose down
+docker compose down
 
 # Rebuild
-docker-compose build
+docker compose build
 ```
 
 Happy trading! 🚀
