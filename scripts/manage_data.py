@@ -50,6 +50,39 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
 
 
+def ensure_extension_file():
+    """
+    Ensure the zipline extension.py file exists.
+    This file registers all bundles automatically.
+    """
+    ext_file = Path.home() / '.zipline' / 'extension.py'
+
+    if ext_file.exists():
+        return  # Already exists
+
+    print("\n" + "="*70)
+    print("FIRST TIME SETUP: Creating zipline extension file")
+    print("="*70)
+    print("\nThe extension file registers all bundles automatically.")
+    print(f"Creating: {ext_file}\n")
+
+    # Run the setup_extension.py script
+    setup_script = Path(__file__).parent / 'setup_extension.py'
+
+    if setup_script.exists():
+        result = subprocess.run(
+            [sys.executable, str(setup_script)],
+            capture_output=False,
+        )
+        if result.returncode != 0:
+            print("\n⚠ Warning: Extension setup failed, but continuing...")
+    else:
+        print(f"⚠ Warning: Setup script not found: {setup_script}")
+        print("  You may need to manually create ~/.zipline/extension.py")
+
+    print()
+
+
 def setup_bundle(source, tickers=None, dataset=None, bundle_name=None):
     """
     Register and ingest a new bundle.
@@ -67,6 +100,9 @@ def setup_bundle(source, tickers=None, dataset=None, bundle_name=None):
         Custom bundle name (default: source name)
     """
     from zipline.data.bundles import register
+
+    # Ensure extension file exists (first-time setup)
+    ensure_extension_file()
 
     if bundle_name is None:
         bundle_name = source
