@@ -16,6 +16,19 @@ by [Stefan Jansen](https://www.linkedin.com/in/applied-ai/) who is trying to kee
 - [Join our Community!](https://exchange.ml4trading.io)
 - [Documentation](https://zipline.ml4trading.io)
 
+## 🚀 New Here? Start Here!
+
+**Complete step-by-step guide**: [GETTING_STARTED.md](GETTING_STARTED.md)
+
+This guide walks you through:
+1. Cloning this repository to your local machine
+2. Setting up Docker and the development environment
+3. Configuring data bundles (Yahoo Finance or NASDAQ)
+4. Running your first backtest in minutes
+5. Daily workflow and automation
+
+Perfect for beginners and those new to the repository!
+
 ## Features
 
 - **Ease of Use:** Zipline tries to get out of your way so that you can focus on algorithm development. See below for a code example.
