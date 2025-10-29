@@ -389,52 +389,6 @@ def download_paginated(table: str, api_key: str, base_params: dict) -> pd.DataFr
     return df
 
 
-def prepare_daily_bars(sep_data: pd.DataFrame) -> pd.DataFrame:
-    """
-    Prepare SEP data for zipline daily bar writer.
-
-    Parameters
-    ----------
-    sep_data : pd.DataFrame
-        Raw SEP data
-
-    Returns
-    -------
-    pd.DataFrame
-        Data formatted for daily_bar_writer
-    """
-    # Rename columns to zipline format
-    df = sep_data.rename(columns={
-        'ticker': 'symbol',
-        'closeunadj': 'close',  # Use unadjusted close, adjustments handled separately
-    }).copy()
-
-    # Ensure required columns exist
-    required_cols = ['symbol', 'date', 'open', 'high', 'low', 'close', 'volume']
-    missing = set(required_cols) - set(df.columns)
-    if missing:
-        raise ValueError(f"Missing required columns: {missing}")
-
-    # Select and order columns
-    df = df[required_cols]
-
-    # Remove any rows with missing data
-    df = df.dropna(subset=['open', 'high', 'low', 'close', 'volume'])
-
-    # Ensure correct types
-    df['date'] = pd.to_datetime(df['date'])
-    df['symbol'] = df['symbol'].astype(str)
-
-    for col in ['open', 'high', 'low', 'close']:
-        df[col] = df[col].astype(float)
-    df['volume'] = df['volume'].astype(float)
-
-    # Sort by symbol and date
-    df = df.sort_values(['symbol', 'date'])
-
-    return df
-
-
 def prepare_asset_metadata(
     sep_data: pd.DataFrame,
     start_date: str,
