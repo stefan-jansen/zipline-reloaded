@@ -147,11 +147,18 @@ def sharadar_bundle(
         actual_end = sep_data['date'].max()
         print(f"Downloaded data range: {actual_start.date()} to {actual_end.date()}")
 
-        # Cap end date to avoid incomplete recent data (Sharadar may have gaps in recent days)
-        # Use data up to 5 days before the latest date to ensure completeness
-        safe_end = actual_end - pd.Timedelta(days=5)
-        print(f"⚠️  Using safe end date: {safe_end.date()} (5 days before latest)")
-        print(f"   This avoids gaps in recent incomplete data")
+        # Cap end date to avoid incomplete recent data
+        # Sharadar data may have gaps in recent months (e.g., missing session on 2025-01-22)
+        # Use end of previous year to ensure data completeness
+        current_year = actual_end.year
+        safe_end = pd.Timestamp(f'{current_year - 1}-12-31')
+
+        # If that's before the start of data, use 6 months before latest instead
+        if safe_end < actual_start:
+            safe_end = actual_end - pd.Timedelta(days=180)
+
+        print(f"⚠️  Using safe end date: {safe_end.date()}")
+        print(f"   (Capped to avoid gaps in {current_year} data like missing session 2025-01-22)")
 
         # Filter to safe date range
         sep_data = sep_data[sep_data['date'] <= safe_end]
