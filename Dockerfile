@@ -20,12 +20,15 @@ RUN apt-get update && apt-get install -y \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install Python dependencies
-COPY requirements*.txt ./
+# Copy requirements first for better caching
+COPY requirements*.txt pyproject.toml setup.py ./
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 
-# Copy the entire project
+# Copy the entire project including .git for version detection
 COPY . .
+
+# Set version environment variable for setuptools-scm
+ENV SETUPTOOLS_SCM_PRETEND_VERSION=3.1.1
 
 # Install zipline-reloaded in editable mode
 RUN pip install --no-cache-dir -e .
