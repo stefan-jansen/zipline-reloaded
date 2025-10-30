@@ -29,6 +29,81 @@ This guide walks you through:
 
 Perfect for beginners and those new to the repository!
 
+## 📊 Sharadar Bundle Setup (This Branch)
+
+This branch (`claude/implement-custom-data-011CUXBP4M1HT2VGQGmKJkVf`) includes fixes for Sharadar data ingestion with automatic handling of incomplete current-year data.
+
+### Quick Setup
+
+```bash
+# 1. Clone and checkout this branch
+git clone https://github.com/stefan-jansen/zipline-reloaded.git
+cd zipline-reloaded
+git checkout claude/implement-custom-data-011CUXBP4M1HT2VGQGmKJkVf
+
+# 2. Install zipline with all dependencies
+pip install -e .
+
+# 3. Set your NASDAQ Data Link API key
+export NASDAQ_DATA_LINK_API_KEY='your_api_key_here'
+
+# 4. Run Sharadar bundle ingestion
+# For specific tickers:
+python scripts/manage_data.py setup --source sharadar --tickers AAPL,MSFT,GOOGL
+
+# For all tickers (requires significant time and storage):
+python scripts/manage_data.py setup --source sharadar
+```
+
+### What's Included
+
+- ✅ **Automatic data quality handling** - Caps data to previous year-end to avoid gaps in current year
+- ✅ **Missing session fix** - Resolves AssertionError for missing trading sessions (e.g., 2025-01-22)
+- ✅ **Premium Sharadar support** - Full integration with NASDAQ Data Link Sharadar dataset
+- ✅ **Conservative data strategy** - Uses complete data through Dec 31, 2024 to ensure backtest reliability
+
+### Why Year-End Cap?
+
+Sharadar data may have gaps in the current year (2025) due to:
+- Data processing delays
+- Incomplete corporate action data
+- Exchange reporting lags
+
+The bundle automatically caps data to the previous year-end (2024-12-31) to ensure:
+- No missing trading sessions
+- Complete corporate actions (splits, dividends)
+- Reliable backtesting results
+
+### Verification
+
+After ingestion, verify your bundle:
+
+```bash
+# Check available bundles
+zipline bundles
+
+# Check data range
+python scripts/check_bundle_dates.py
+
+# Expected output:
+# Bundle: sharadar
+# Date range: 2015-11-02 to 2024-12-31
+# Number of assets: [your asset count]
+```
+
+### Troubleshooting
+
+**If you see "Missing sessions" error:**
+1. Make sure you pulled the latest code: `git pull origin claude/implement-custom-data-011CUXBP4M1HT2VGQGmKJkVf`
+2. Verify the fix is present: `grep "previous year" src/zipline/data/bundles/sharadar_bundle.py`
+3. Clean any old ingestions: `rm -rf ~/.zipline/data/sharadar`
+4. Re-run ingestion
+
+**API Key Issues:**
+- Verify key is set: `echo $NASDAQ_DATA_LINK_API_KEY`
+- Check Sharadar subscription at https://data.nasdaq.com/databases/SFA
+- Premium subscription required for Sharadar access
+
 ## Features
 
 - **Ease of Use:** Zipline tries to get out of your way so that you can focus on algorithm development. See below for a code example.
