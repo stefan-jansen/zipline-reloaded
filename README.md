@@ -39,7 +39,14 @@ This branch (`claude/implement-custom-data-011CUXBP4M1HT2VGQGmKJkVf`) includes f
 # 1. Clone and checkout this branch
 git clone https://github.com/stefan-jansen/zipline-reloaded.git
 cd zipline-reloaded
+
+# Fetch and checkout the branch
+git fetch origin
 git checkout claude/implement-custom-data-011CUXBP4M1HT2VGQGmKJkVf
+
+# Verify you're on the correct branch
+git branch --show-current
+# Should show: claude/implement-custom-data-011CUXBP4M1HT2VGQGmKJkVf
 
 # 2. Install zipline with all dependencies
 pip install -e .
@@ -48,7 +55,7 @@ pip install -e .
 export NASDAQ_DATA_LINK_API_KEY='your_api_key_here'
 
 # 4. Run Sharadar bundle ingestion
-# For specific tickers:
+# For specific tickers (recommended for testing):
 python scripts/manage_data.py setup --source sharadar --tickers AAPL,MSFT,GOOGL
 
 # For all tickers (requires significant time and storage):
