@@ -142,6 +142,18 @@ def sharadar_bundle(
 
         print(f"Downloaded {len(sep_data):,} price records for {sep_data['ticker'].nunique()} tickers")
 
+        # Validate and adjust date range to match available data
+        actual_start = sep_data['date'].min()
+        actual_end = sep_data['date'].max()
+        print(f"Actual data range: {actual_start.date()} to {actual_end.date()}")
+
+        # Cap the end date to avoid future dates without data
+        if pd.Timestamp(end_date) > actual_end:
+            print(f"⚠️  Requested end_date ({end_date}) is beyond available data.")
+            print(f"   Using actual data end date: {actual_end.date()}")
+            # Filter data to actual range
+            sep_data = sep_data[sep_data['date'] <= actual_end]
+
         # Download ACTIONS (corporate actions) data
         print("\nStep 2/3: Downloading corporate actions (ACTIONS table)...")
         actions_data = download_sharadar_table(
@@ -154,15 +166,24 @@ def sharadar_bundle(
 
         if not actions_data.empty:
             print(f"Downloaded {len(actions_data):,} corporate action records")
+            # Filter actions to match the actual data range
+            actions_data = actions_data[actions_data['date'] <= actual_end]
+            print(f"Filtered to {len(actions_data):,} actions within data range")
         else:
             print("No corporate actions data available")
 
         # Process data
         print("\nStep 3/3: Processing data for zipline...")
+        print(f"Using date range: {actual_start.date()} to {actual_end.date()}")
 
         # Prepare metadata first (to get sid assignments)
         print("Preparing asset metadata...")
-        metadata = prepare_asset_metadata(sep_data, start_date, end_date)
+        # Use actual dates from the data to ensure consistency
+        metadata = prepare_asset_metadata(
+            sep_data,
+            actual_start.strftime('%Y-%m-%d'),
+            actual_end.strftime('%Y-%m-%d')
+        )
 
         # Create symbol to sid mapping
         symbol_to_sid = {row['symbol']: idx for idx, row in metadata.iterrows()}
