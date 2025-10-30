@@ -6,7 +6,7 @@ LABEL description="Zipline-Reloaded with Sharadar bundle support"
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies including Cython build requirements
 RUN apt-get update && apt-get install -y \
     build-essential \
     gcc \
@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     gfortran \
     libopenblas-dev \
     libhdf5-dev \
+    libblosc-dev \
     pkg-config \
     git \
     curl \
@@ -22,7 +23,11 @@ RUN apt-get update && apt-get install -y \
 
 # Copy requirements first for better caching
 COPY requirements*.txt pyproject.toml setup.py ./
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel cython
+
+# Install bcolz-zipline separately with verbose output
+RUN pip install --no-cache-dir bcolz-zipline --verbose || \
+    pip install --no-cache-dir --no-build-isolation bcolz-zipline
 
 # Copy the entire project including .git for version detection
 COPY . .
@@ -31,7 +36,7 @@ COPY . .
 ENV SETUPTOOLS_SCM_PRETEND_VERSION=3.1.1
 
 # Install zipline-reloaded in editable mode
-RUN pip install --no-cache-dir -e .
+RUN pip install --no-cache-dir -e . --no-build-isolation
 
 # Create necessary directories
 RUN mkdir -p /notebooks /data /root/.zipline /scripts
