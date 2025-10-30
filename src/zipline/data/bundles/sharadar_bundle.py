@@ -145,14 +145,17 @@ def sharadar_bundle(
         # Validate and adjust date range to match available data
         actual_start = sep_data['date'].min()
         actual_end = sep_data['date'].max()
-        print(f"Actual data range: {actual_start.date()} to {actual_end.date()}")
+        print(f"Downloaded data range: {actual_start.date()} to {actual_end.date()}")
 
-        # Cap the end date to avoid future dates without data
-        if pd.Timestamp(end_date) > actual_end:
-            print(f"⚠️  Requested end_date ({end_date}) is beyond available data.")
-            print(f"   Using actual data end date: {actual_end.date()}")
-            # Filter data to actual range
-            sep_data = sep_data[sep_data['date'] <= actual_end]
+        # Cap end date to avoid incomplete recent data (Sharadar may have gaps in recent days)
+        # Use data up to 5 days before the latest date to ensure completeness
+        safe_end = actual_end - pd.Timedelta(days=5)
+        print(f"⚠️  Using safe end date: {safe_end.date()} (5 days before latest)")
+        print(f"   This avoids gaps in recent incomplete data")
+
+        # Filter to safe date range
+        sep_data = sep_data[sep_data['date'] <= safe_end]
+        actual_end = safe_end
 
         # Download ACTIONS (corporate actions) data
         print("\nStep 2/3: Downloading corporate actions (ACTIONS table)...")
