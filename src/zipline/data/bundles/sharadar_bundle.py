@@ -142,27 +142,10 @@ def sharadar_bundle(
 
         print(f"Downloaded {len(sep_data):,} price records for {sep_data['ticker'].nunique()} tickers")
 
-        # Validate and adjust date range to match available data
+        # Validate date range to match available data
         actual_start = sep_data['date'].min()
         actual_end = sep_data['date'].max()
         print(f"Downloaded data range: {actual_start.date()} to {actual_end.date()}")
-
-        # Cap end date to avoid incomplete recent data
-        # Sharadar data may have gaps in recent months (e.g., missing session on 2025-01-22)
-        # Use end of previous year to ensure data completeness
-        current_year = actual_end.year
-        safe_end = pd.Timestamp(f'{current_year - 1}-12-31')
-
-        # If that's before the start of data, use 6 months before latest instead
-        if safe_end < actual_start:
-            safe_end = actual_end - pd.Timedelta(days=180)
-
-        print(f"⚠️  Using safe end date: {safe_end.date()}")
-        print(f"   (Capped to avoid gaps in {current_year} data like missing session 2025-01-22)")
-
-        # Filter to safe date range
-        sep_data = sep_data[sep_data['date'] <= safe_end]
-        actual_end = safe_end
 
         # Download ACTIONS (corporate actions) data
         print("\nStep 2/3: Downloading corporate actions (ACTIONS table)...")
