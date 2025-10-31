@@ -266,6 +266,9 @@ def download_sharadar_table(
     """
     Download a Sharadar table using bulk download API.
 
+    Based on official NASDAQ Data Link documentation:
+    https://data.nasdaq.com/databases/SFA/documentation
+
     Parameters
     ----------
     table : str
@@ -284,7 +287,7 @@ def download_sharadar_table(
     pd.DataFrame
         Downloaded data
     """
-    # Build URL for bulk download
+    # Build URL for bulk download - official NASDAQ Data Link endpoint
     base_url = f'https://data.nasdaq.com/api/v3/datatables/SHARADAR/{table}.json'
     params = {
         'qopts.export': 'true',
@@ -313,57 +316,71 @@ def download_sharadar_table(
         return download_paginated(table, api_key, params)
 
     bulk_info = result['datatable_bulk_download']
+
+    # Get file status and link
     file_status = bulk_info['file']['status']
     file_link = bulk_info['file']['link']
+    last_refreshed = bulk_info.get('datatable', {}).get('last_refreshed_time', 'unknown')
 
-    # Wait for file to be ready
-    max_wait = 1800  # 30 minutes (Sharadar bulk downloads can take a while)
-    waited = 0
-    valid_statuses = ['fresh']
-    wait_statuses = ['regenerating', 'creating']
+    # Official NASDAQ Data Link statuses (from their documentation):
+    # - 'fresh': File is ready to download
+    # - 'regenerating': File is being regenerated, will be ready soon
+    # - 'generating': File doesn't exist yet, being created for first time
+    valid_statuses = ['fresh', 'regenerating']  # Can download immediately
+    wait_statuses = ['generating']  # Need to wait
 
-    print(f"  ⏳ Waiting for NASDAQ Data Link to prepare your bulk download...")
-    print(f"     This can take up to 30 minutes for large datasets.")
-    print(f"     Current status: {file_status}")
+    print(f"  Status: {file_status}")
+    print(f"  Last refreshed: {last_refreshed}")
 
-    while file_status in wait_statuses and waited < max_wait:
-        time.sleep(30)  # Check every 30 seconds instead of 10
-        waited += 30
+    # Wait for file to be ready (if generating)
+    max_wait_seconds = 1800  # 30 minutes maximum
+    waited_seconds = 0
+    check_interval = 60  # Check every 60 seconds (as per official example)
+
+    if file_status in wait_statuses:
+        print(f"  ⏳ File is being generated, waiting for completion...")
+        print(f"     Will check every {check_interval} seconds (max {max_wait_seconds//60} minutes)")
+
+    while file_status in wait_statuses and waited_seconds < max_wait_seconds:
+        time.sleep(check_interval)
+        waited_seconds += check_interval
 
         # Check status again
         response = requests.get(base_url, params=params)
         response.raise_for_status()
         result = response.json()
-        file_status = result['datatable_bulk_download']['file']['status']
-        file_link = result['datatable_bulk_download']['file']['link']
 
-        # Show progress every 2 minutes
-        if waited % 120 == 0:
-            minutes_waited = waited // 60
-            minutes_remaining = (max_wait - waited) // 60
-            if file_status == 'creating':
-                print(f"  ⏳ Still creating... ({minutes_waited} min elapsed, up to {minutes_remaining} min remaining)")
-            else:
-                print(f"  ⏳ Still regenerating... ({minutes_waited} min elapsed, up to {minutes_remaining} min remaining)")
+        bulk_info = result['datatable_bulk_download']
+        file_status = bulk_info['file']['status']
+        file_link = bulk_info['file']['link']
 
+        # Show progress
+        minutes_elapsed = waited_seconds // 60
+        print(f"  ⏳ Status: {file_status} ({minutes_elapsed} min elapsed)")
+
+    # Check if file is ready
     if file_status not in valid_statuses:
         raise RuntimeError(
-            f"Bulk download file not ready after {waited}s ({waited//60} minutes). "
-            f"Status: {file_status}\n"
-            f"This might be a temporary issue with NASDAQ Data Link. Try again in a few minutes, "
-            f"or contact NASDAQ Data Link support if the problem persists."
+            f"Bulk download file not ready after {waited_seconds}s ({waited_seconds//60} minutes).\n"
+            f"Final status: {file_status}\n\n"
+            f"This might be a temporary issue with NASDAQ Data Link.\n"
+            f"Try again in a few minutes, or contact support at: https://data.nasdaq.com/contact"
         )
 
-    # Download the file
-    print(f"  Downloading {table} data from {file_link}...")
+    # File is ready - download it
+    print(f"  ✓ File is ready (status: {file_status})")
+    print(f"  Downloading {table} data...")
+
     download_response = requests.get(file_link)
     download_response.raise_for_status()
 
-    # Extract from zip
-    print(f"  Extracting {table} data...")
+    # Extract from zip file
+    print(f"  Extracting {table} data from ZIP...")
     with ZipFile(BytesIO(download_response.content)) as zf:
         # Get the CSV filename (usually SHARADAR_TABLE.csv)
         csv_filename = zf.namelist()[0]
+        print(f"  Reading: {csv_filename}")
+
         with zf.open(csv_filename) as csv_file:
             df = pd.read_csv(csv_file, parse_dates=['date'])
 
