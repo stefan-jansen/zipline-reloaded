@@ -208,12 +208,6 @@ def sharadar_bundle(
         # Prepare and write pricing data
         print("Writing daily bars...")
 
-        # Get all trading days in the range from the calendar
-        trading_days = calendar.sessions_in_range(
-            pd.Timestamp(actual_start),
-            pd.Timestamp(actual_end)
-        )
-
         def data_generator():
             """Generator that yields (sid, dataframe) for each symbol"""
             for sid in sorted(sep_data['sid'].unique()):
@@ -240,18 +234,11 @@ def sharadar_bundle(
                 for col in required_cols:
                     symbol_data[col] = symbol_data[col].astype(float)
 
-                # Remove any NaN rows before reindexing
+                # Remove any NaN rows
                 symbol_data = symbol_data.dropna()
 
                 # Sort by date
                 symbol_data = symbol_data.sort_index()
-
-                # Reindex to fill missing trading days with forward-filled data
-                # This handles gaps in individual stock data
-                symbol_data = symbol_data.reindex(trading_days, method='ffill')
-
-                # Drop any remaining NaN rows (from start of series before first valid data)
-                symbol_data = symbol_data.dropna()
 
                 yield int(sid), symbol_data
 
