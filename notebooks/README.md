@@ -1,6 +1,6 @@
 # Zipline-Reloaded Example Notebooks
 
-This directory contains comprehensive examples for using zipline-reloaded with different data sources and approaches.
+This directory contains comprehensive examples for using zipline-reloaded with Sharadar professional data.
 
 ## 🗺️ Navigation
 
@@ -17,217 +17,234 @@ This directory contains comprehensive examples for using zipline-reloaded with d
 
 ## 🌟 Recommended Starting Point
 
-### For Sharadar Subscribers (Professional/Premium)
+**👉 Start here: [`05_backtesting_with_bundles.ipynb`](./05_backtesting_with_bundles.ipynb)**
 
-**👉 Start here: [`06_sharadar_professional_backtesting.ipynb`](./06_sharadar_professional_backtesting.ipynb)**
-
-If you have a [Sharadar subscription](https://data.nasdaq.com/databases/SFA), this is the best way to use zipline-reloaded:
+This notebook introduces backtesting with Sharadar data:
 
 - ✅ Institutional-grade data quality
 - ✅ Point-in-time accurate (no look-ahead bias)
 - ✅ Built-in bundle system (easiest setup)
 - ✅ Optimized for performance
-- ✅ Comprehensive US equity coverage
+- ✅ Comprehensive US equity coverage (~13,000 tickers)
 
 **Quick Setup:**
 ```bash
-# Setup Sharadar bundle
+# Set API key
 export NASDAQ_DATA_LINK_API_KEY='your_key'
-python /scripts/manage_data.py setup --source sharadar --tickers AAPL,MSFT,GOOGL
-```
 
-### For Free Data Users
+# Ingest specific tickers for testing
+python scripts/manage_sharadar.py ingest --tickers AAPL,MSFT,GOOGL,AMZN,TSLA
 
-**👉 Start here: [`05_backtesting_with_bundles.ipynb`](./05_backtesting_with_bundles.ipynb)**
-
-Uses Yahoo Finance data (free, no API key required):
-
-- ✅ Free and open access
-- ✅ Current market data
-- ✅ Easy setup
-- ✅ Good for learning and prototyping
-
-**Quick Setup:**
-```bash
-# Setup Yahoo Finance bundle
-python /scripts/manage_data.py setup --source yahoo
+# Check status
+python scripts/manage_sharadar.py status
 ```
 
 ## 📚 All Notebooks
 
 ### Backtesting & Trading
 
-| Notebook | Description | Data Source | Difficulty |
-|----------|-------------|-------------|------------|
-| **06_sharadar_professional_backtesting.ipynb** | Professional backtesting with Sharadar | Sharadar (Premium) | ⭐⭐ Intermediate |
-| **05_backtesting_with_bundles.ipynb** | Complete backtesting tutorial | Yahoo Finance (Free) | ⭐ Beginner |
-| **03_market_data_example.ipynb** | Yahoo Finance CustomData integration | Yahoo Finance (Free) | ⭐⭐ Intermediate |
+| Notebook | Description | Difficulty |
+|----------|-------------|------------|
+| **05_backtesting_with_bundles.ipynb** | Introduction to backtesting | ⭐ Beginner |
+| **06_sharadar_professional_backtesting.ipynb** | Advanced strategies with Pipeline | ⭐⭐ Intermediate |
+| **07_pipeline_research.ipynb** | Stock screening and research | ⭐⭐ Intermediate |
+| **08_run_external_strategy.ipynb** | Using external strategy files | ⭐ Beginner |
 
-### CustomData (Advanced)
+### Analysis
 
-| Notebook | Description | Use Case | Difficulty |
-|----------|-------------|----------|------------|
-| **01_customdata_quickstart.ipynb** | CustomData basics | Custom indicators in Pipeline | ⭐ Beginner |
-| **02_database_storage.ipynb** | Database storage for CustomData | Large datasets, persistence | ⭐⭐ Intermediate |
-| **04_nasdaq_datalink_example.ipynb** | NASDAQ Data Link CustomData | Non-Sharadar NASDAQ data | ⭐⭐⭐ Advanced |
+| Notebook | Description | Difficulty |
+|----------|-------------|------------|
+| **analyze_backtest_results.ipynb** | Performance analysis with pyfolio | ⭐⭐ Intermediate |
 
-**Note on 04_nasdaq_datalink_example.ipynb**: This notebook shows CustomData usage with NASDAQ Data Link API. However, if you have Sharadar, use `06_sharadar_professional_backtesting.ipynb` instead - it's much simpler and more powerful!
+### Navigation
 
-## 🎯 Quick Decision Tree
-
-### What Should I Use?
-
-```
-Do you have a Sharadar subscription?
-├─ YES → Use 06_sharadar_professional_backtesting.ipynb
-│         (Best data quality, easiest setup)
-│
-└─ NO → Do you want to pay for data?
-    ├─ NO → Use 05_backtesting_with_bundles.ipynb
-    │        (Yahoo Finance, free and good)
-    │
-    └─ YES → Consider getting Sharadar
-             Then use 06_sharadar_professional_backtesting.ipynb
-```
-
-### Bundles vs CustomData?
-
-**Use Bundles (Recommended):**
-- ✅ For backtesting with `run_algorithm()`
-- ✅ For OHLCV pricing data
-- ✅ When you want automatic adjustment handling
-- ✅ When you need maximum performance
-
-**Use CustomData:**
-- ✅ For custom indicators in Pipeline
-- ✅ For non-standard data (sentiment, fundamentals, etc.)
-- ✅ For research and factor analysis
-- ✅ When you need flexible data schemas
+| Notebook | Description |
+|----------|-------------|
+| **00_quick_links.ipynb** | Quick navigation and helper tools |
 
 ## 📖 Learning Path
 
-### Beginner
+### 1. Beginner - Start Here
 
-1. **Start**: `05_backtesting_with_bundles.ipynb`
-   - Learn bundle basics
-   - Write your first strategy
-   - Understand backtest results
+**First**: [`05_backtesting_with_bundles.ipynb`](./05_backtesting_with_bundles.ipynb)
+- Learn bundle basics
+- Write your first strategy
+- Understand backtest results
 
-2. **Next**: `01_customdata_quickstart.ipynb`
-   - Understand CustomData
-   - Create custom factors
-   - Use Pipeline for screening
+**Then**: [`08_run_external_strategy.ipynb`](./08_run_external_strategy.ipynb)
+- Use external strategy files
+- Organize your code better
+- Learn CLI usage
 
-### Intermediate
+### 2. Intermediate
 
-3. **Then**: `06_sharadar_professional_backtesting.ipynb` (if you have Sharadar)
-   - Professional-grade data
-   - Advanced strategies
-   - Pipeline with bundles
+**Next**: [`06_sharadar_professional_backtesting.ipynb`](./06_sharadar_professional_backtesting.ipynb)
+- Advanced trading strategies
+- Pipeline for stock selection
+- Moving averages and momentum
 
-4. **Or**: `03_market_data_example.ipynb` (if using free data)
-   - Yahoo Finance integration
-   - CustomData + bundles together
+**Also**: [`07_pipeline_research.ipynb`](./07_pipeline_research.ipynb)
+- Stock screening
+- Custom factors
+- Technical indicators
 
-### Advanced
+### 3. Advanced
 
-5. **Finally**: `02_database_storage.ipynb`
-   - Persistent CustomData storage
-   - Large dataset management
-   - Production workflows
-
-6. **Optional**: `04_nasdaq_datalink_example.ipynb`
-   - NASDAQ Data Link integration
-   - Custom data pipelines
+**Finally**: [`analyze_backtest_results.ipynb`](./analyze_backtest_results.ipynb)
+- Detailed performance metrics
+- Risk analysis with pyfolio
+- Tear sheets and reports
 
 ## 🚀 Setup Instructions
 
 ### Prerequisites
 
-```bash
-# Make sure you're in the Docker container
-docker exec -it zipline-reloaded-jupyter bash
+You need:
+1. [Sharadar subscription](https://data.nasdaq.com/databases/SFA) from NASDAQ Data Link
+2. Docker installed and running
+3. API key from your NASDAQ Data Link account
 
-# Or access Jupyter Lab at http://localhost:9000
-```
-
-### Setup Sharadar (Premium)
+### Quick Start
 
 ```bash
 # 1. Set API key in .env file
 echo "NASDAQ_DATA_LINK_API_KEY=your_key_here" >> .env
 
-# 2. Restart Docker
-docker compose restart
+# 2. Start Docker
+docker compose up -d
 
-# 3. Setup bundle
-docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py setup \
-    --source sharadar \
-    --tickers AAPL,MSFT,GOOGL,AMZN,TSLA
+# 3. Access Jupyter at http://localhost:9000
 
-# 4. Verify
-docker exec -it zipline-reloaded-jupyter zipline bundles
+# 4. In Jupyter terminal, ingest data
+python scripts/manage_sharadar.py ingest --tickers AAPL,MSFT,GOOGL,AMZN,TSLA
+
+# 5. Verify bundle
+python scripts/manage_sharadar.py status
 ```
 
-### Setup Yahoo Finance (Free)
+### Full Database (Production)
 
 ```bash
-# 1. Setup bundle
-docker exec -it zipline-reloaded-jupyter python /scripts/manage_data.py setup \
-    --source yahoo
+# Download all ~13,000 US equities (takes 10-30 minutes, ~15 GB)
+python scripts/manage_sharadar.py ingest --all
 
-# 2. Verify
-docker exec -it zipline-reloaded-jupyter zipline bundles
+# Inspect data
+python scripts/inspect_bundle.py
+
+# Check specific ticker
+python scripts/inspect_bundle.py --ticker AAPL
+```
+
+## 🔧 Data Management
+
+### Daily Updates
+
+Sharadar data is updated daily. To update your bundle:
+
+```bash
+# Simple update
+python scripts/manage_sharadar.py ingest --all
+```
+
+### Clean Old Data
+
+```bash
+# Keep last 3 ingestions, remove older ones
+python scripts/manage_sharadar.py clean --keep-last 3
+```
+
+### Inspect Bundle
+
+```bash
+# Overview
+python scripts/inspect_bundle.py
+
+# Specific ticker with recent prices
+python scripts/inspect_bundle.py --ticker AAPL
 ```
 
 ## 📚 Additional Resources
 
 ### Documentation
 
-- [Sharadar Setup Guide](../docs/SHARADAR_GUIDE.md) - Complete Sharadar documentation
-- [Bundle System](../docs/BUNDLES.md) - Understanding bundles
-- [CustomData Guide](../docs/CUSTOM_DATA.md) - CustomData documentation
-- [Getting Started](../GETTING_STARTED.md) - Repository setup
-- [Docker Guide](../docs/DOCKER_BUNDLES.md) - Docker-specific instructions
-
-### External Resources
-
+- [Sharadar Documentation](https://data.nasdaq.com/databases/SFA/documentation)
+- [NASDAQ Data Link API](https://docs.data.nasdaq.com/)
 - [Zipline Documentation](https://zipline.ml4trading.io/)
 - [Pipeline Tutorial](https://zipline.ml4trading.io/beginner-tutorial.html)
-- [Sharadar Data](https://data.nasdaq.com/databases/SFA)
+
+### Books & Communities
+
 - [ML4Trading Book](https://www.ml4trading.io/) - Uses Sharadar extensively
+- [ML4Trading Community](https://exchange.ml4trading.io)
 
 ## ❓ Common Issues
 
-### "No bundle registered with name 'X'"
+### "Missing sessions" error during ingestion
 
-**Solution**: Run the extension setup
+This usually means:
+1. **Missing data in source** - Some tickers may have gaps in Sharadar data
+2. **Solution**: The bundle now forward-fills missing days automatically
+
+Check your data quality:
 ```bash
-docker exec -it zipline-reloaded-jupyter python /scripts/setup_extension.py
+python scripts/inspect_bundle.py --ticker SYMBOL
 ```
 
-### "NASDAQData is not defined" (in notebook 04)
+### "No bundle registered with name 'sharadar'"
 
-**Issue**: Cell 19 must be run before cell 21. The notebook creates `NASDAQData` variable in cell 19 by loading from database.
+**Solution**: The bundle is auto-registered. Try:
+```bash
+# Re-ingest
+python scripts/manage_sharadar.py ingest --tickers AAPL
 
-**Better Solution**: If you have Sharadar, use `06_sharadar_professional_backtesting.ipynb` instead - it's much simpler!
+# Verify
+zipline bundles
+```
 
-### "WIKI dataset has no data"
+### Import errors in notebooks
 
-**Solution**: WIKI was discontinued in 2018. Use one of these instead:
-- Sharadar (premium, recommended)
-- Yahoo Finance (free)
-- NASDAQ EOD (premium)
+**Solution**: Restart the kernel
+- In Jupyter: Kernel → Restart Kernel
+- Then re-run all cells from the top
 
-See [WIKI Dataset Notice](../docs/WIKI_DATASET_NOTICE.md) for details.
+### Out of date prices
 
-## Tips
+**Solution**: Re-ingest to get latest data
+```bash
+python scripts/manage_sharadar.py ingest --all
+```
 
-- **Save frequently** - Notebooks auto-save but manual saves are recommended
-- **Restart kernel** if you encounter issues: Kernel → Restart Kernel
-- **Run cells in order** - Especially for notebooks that build on previous cells
-- **Clear outputs** before committing: Cell → All Output → Clear
-- **Use markdown** cells for documentation
+## 💡 Tips
+
+- **Start small**: Ingest a few tickers first to test (`--tickers` option)
+- **Use inspect_bundle.py**: Check what data you have before backtesting
+- **Save frequently**: Notebooks auto-save but manual saves are recommended
+- **Run cells in order**: Especially important for Pipeline notebooks
+- **Check dates**: Use `inspect_bundle.py` to see your data range before backtesting
+
+## 🎯 Quick Reference
+
+### Common Commands
+
+```bash
+# Ingest specific tickers
+python scripts/manage_sharadar.py ingest --tickers AAPL,MSFT,GOOGL
+
+# Ingest all US equities
+python scripts/manage_sharadar.py ingest --all
+
+# Check status
+python scripts/manage_sharadar.py status
+
+# Inspect data
+python scripts/inspect_bundle.py
+
+# Clean old data
+python scripts/manage_sharadar.py clean --keep-last 3
+
+# Run strategy from CLI
+zipline run -f strategies_files/sma_crossover.py -b sharadar --start 2022-01-01 --end 2023-12-31
+```
 
 ## 🤝 Contributing
 
@@ -237,4 +254,4 @@ Found an issue or want to add an example?
 
 ---
 
-**Happy Backtesting! 🚀**
+**Happy Backtesting with Sharadar! 🚀**
