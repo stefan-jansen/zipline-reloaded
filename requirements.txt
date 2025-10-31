@@ -22,6 +22,10 @@ pyfolio-reloaded>=0.9.5  # Performance and risk analysis for backtests
 statsmodels>=0.6.1
 patsy>=0.4.0
 
+# Visualization
+matplotlib>=3.3.0  # Required for plotting in notebooks and pyfolio
+seaborn>=0.11.0  # Enhanced statistical visualizations
+
 # Data structures and utilities
 intervaltree>=2.1.0
 lru-dict>=1.1.4
