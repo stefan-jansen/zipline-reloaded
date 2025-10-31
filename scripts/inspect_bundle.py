@@ -18,9 +18,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
 
 import pandas as pd
-from zipline.data.data_portal import DataPortal
-from zipline.pipeline.loaders import USEquityPricingLoader
-from zipline.utils.calendars import get_calendar
+from zipline.utils.calendar_utils import get_calendar
 from zipline.data import bundles
 
 
