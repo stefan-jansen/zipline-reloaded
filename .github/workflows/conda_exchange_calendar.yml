@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout zipline-reloaded
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup miniconda3
         uses: conda-incubator/setup-miniconda@v3
