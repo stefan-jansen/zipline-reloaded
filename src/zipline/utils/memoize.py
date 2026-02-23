@@ -156,7 +156,6 @@ def _weak_lru_cache(maxsize=100):
                         hits += 1
                         return result
                     except KeyError:
-                        misses += 1
                         pass
                 result = user_function(*args, **kwds)
                 with lock:
@@ -176,9 +175,10 @@ def _weak_lru_cache(maxsize=100):
 
         def cache_clear():
             """Clear the cache and cache statistics"""
+            nonlocal hits, misses
             with lock:
                 cache.clear()
-                hits[0] = misses[0] = 0
+                hits = misses = 0
 
         wrapper.cache_info = cache_info
         wrapper.cache_clear = cache_clear
