@@ -273,7 +273,7 @@ class DataPortal:
         self._first_trading_minute = (
             self.trading_calendar.session_first_minute(self._first_trading_day)
             if self._first_trading_day is not None
-            else (None, None)
+            else None
         )
 
         # Store the locs of the first day and first minute
@@ -734,7 +734,7 @@ class DataPortal:
                         else:
                             # adjust if needed
                             return self.get_adjusted_value(
-                                asset, column, found_dt, dt, "minute", spot_value=value
+                                asset, column, found_dt, dt, "daily", spot_value=value
                             )
                     else:
                         found_dt -= self.trading_calendar.day
