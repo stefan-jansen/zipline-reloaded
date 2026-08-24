@@ -24,6 +24,9 @@ from zipline.data.bundles.core import (
     BadClean,
     to_bundle_ingest_dirname,
     asset_db_path,
+    adjustment_db_path,
+    daily_equity_path,
+    minute_equity_path,
 )
 from zipline.lib.adjustment import Float64Multiply
 from zipline.pipeline.loaders.synthetic import (
@@ -540,3 +543,44 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
             fourth,
             fifth,
         }, "did not strip first and last directories"
+
+
+@pytest.mark.parametrize("zipline_root_type", ["relative", "absolute"])
+def test_load_uses_ingestion_name_for_paths(monkeypatch, tmp_path, zipline_root_type):
+    """Load bundle data from both relative and absolute ZIPLINE_ROOT paths."""
+    _, register, _, _, load, _ = _make_bundle_core()
+    register("bundle", lambda *args: None)
+
+    monkeypatch.chdir(tmp_path)
+    zipline_root = (
+        "zipline" if zipline_root_type == "relative" else str(tmp_path / "zipline")
+    )
+    environ = {"ZIPLINE_ROOT": zipline_root}
+    timestr = to_bundle_ingest_dirname(pd.Timestamp("2025-04-13T08:45:28.449915"))
+    os.makedirs(pth.data_path(["bundle", timestr], environ=environ))
+
+    class DummyReader:
+        def __init__(self, path):
+            self.path = path
+
+    monkeypatch.setattr("zipline.data.bundles.core.AssetFinder", DummyReader)
+    monkeypatch.setattr("zipline.data.bundles.core.BcolzMinuteBarReader", DummyReader)
+    monkeypatch.setattr("zipline.data.bundles.core.BcolzDailyBarReader", DummyReader)
+    monkeypatch.setattr("zipline.data.bundles.core.SQLiteAdjustmentReader", DummyReader)
+
+    bundle_data = load(
+        "bundle",
+        environ=environ,
+        timestamp=pd.Timestamp("2025-04-14"),
+    )
+
+    assert bundle_data.asset_finder.path == asset_db_path("bundle", timestr, environ)
+    assert bundle_data.equity_minute_bar_reader.path == minute_equity_path(
+        "bundle", timestr, environ
+    )
+    assert bundle_data.equity_daily_bar_reader.path == daily_equity_path(
+        "bundle", timestr, environ
+    )
+    assert bundle_data.adjustment_reader.path == adjustment_db_path(
+        "bundle", timestr, environ
+    )
