@@ -352,6 +352,21 @@ class SimulationBlotter(Blotter):
             for order in orders_to_modify:
                 order.handle_split(ratio)
 
+            # A reverse split can leave an order with no whole shares. Such an
+            # order reports FILLED (`open_amount` is zero), so `cancel` skips
+            # it and it would stay in the book forever -- and then trip the
+            # `assert not orders` in `cancel_all_orders_for_asset` when the
+            # asset is auto-closed. A broker cancels an order a split leaves
+            # with nothing to trade, so drop it here.
+            emptied = [order for order in orders_to_modify if order.amount == 0]
+            for order in emptied:
+                orders_to_modify.remove(order)
+                if order in self.new_orders:
+                    self.new_orders.remove(order)
+
+            if not orders_to_modify:
+                del self.open_orders[asset]
+
     def get_transactions(self, bar_data):
         """
         Creates a list of transactions based on the current open orders,

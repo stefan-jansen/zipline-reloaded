@@ -32,7 +32,9 @@ from zipline.finance.asset_restrictions import NoRestrictions
 from zipline.finance.blotter.simulation_blotter import SimulationBlotter
 from zipline.finance.execution import LimitOrder, MarketOrder
 from zipline.finance.metrics import MetricsTracker
+from zipline.finance.ledger import Ledger
 from zipline.finance.metrics import load as load_metrics_set
+from zipline.finance.position import Position
 from zipline.finance.slippage import FixedBasisPointsSlippage, FixedSlippage
 from zipline.finance.trading import SimulationParameters
 from zipline.protocol import BarData
@@ -422,6 +424,96 @@ class TestFinance:
         assert 300 == asset2_order.amount
         assert 3.33 == asset2_order.limit
         assert 2 == asset2_order.asset
+
+    def test_blotter_drops_orders_a_split_leaves_with_no_shares(self):
+        # A reverse split can round an order down to zero shares. Such an
+        # order reports FILLED, so `cancel` skips it and it would stay in the
+        # book until `cancel_all_orders_for_asset` trips `assert not orders`.
+        blotter = SimulationBlotter(equity_slippage=FixedSlippage())
+
+        asset1 = self.asset_finder.retrieve_asset(1)
+        asset2 = self.asset_finder.retrieve_asset(2)
+
+        blotter.order(asset1, 9, LimitOrder(10, asset=asset1))
+        blotter.order(asset2, 600, LimitOrder(10, asset=asset2))
+        emptied_order = blotter.open_orders[asset1][0]
+
+        blotter.process_splits([(asset1, 100.0), (asset2, 100.0)])
+
+        # asset1: 9 / 100 rounds to nothing, so the order is gone
+        assert asset1 not in blotter.open_orders
+        assert emptied_order not in blotter.new_orders
+
+        # asset2 still has whole shares, so it is adjusted as before
+        assert 6 == blotter.open_orders[asset2][0].amount
+
+        # and the auto-close cleanup no longer raises
+        blotter.cancel_all_orders_for_asset(asset1)
+
+    # A reverse split settles the leftover fraction in cash at the market.
+    # Bought at $1.00 and now trading at $0.40, a 1-for-100 reverse split
+    # leaves 90 shares as 0.9 of a share, worth $36 at the post-split $40.
+    SPLIT_SESSIONS = pd.date_range("2006-01-03", periods=3, freq="C")
+
+    def split_a_position(self, amount, ratio=100.0, cost_basis=1.00, last_sale_price=0.40):
+        asset = self.asset_finder.retrieve_asset(1)
+        ledger = Ledger(self.SPLIT_SESSIONS, 100000.0, "daily")
+        position = Position(
+            asset,
+            amount=amount,
+            cost_basis=cost_basis,
+            last_sale_price=last_sale_price,
+        )
+        ledger.position_tracker.positions[asset] = position
+        ledger.position_tracker._positions_store[asset] = position
+
+        cash_before = ledger.portfolio.cash
+        ledger.process_splits([(asset, ratio)])
+
+        held = ledger.position_tracker.positions.get(asset)
+        return held, round(ledger.portfolio.cash - cash_before, 2)
+
+    def test_split_long_fraction_settles_at_market(self):
+        held, cash = self.split_a_position(90)
+        # the 0.9 share is worth 0.9 * $40, not 0.9 * the $100 it cost
+        assert held is None
+        assert cash == 36.0
+
+    def test_split_short_rounds_toward_zero_and_pays_for_its_fraction(self):
+        held, cash = self.split_a_position(-90)
+        # flat, not short a whole share, and cash goes out to buy the
+        # fraction back rather than in
+        assert held is None
+        assert cash == -36.0
+
+    def test_split_short_keeps_whole_shares(self):
+        held, cash = self.split_a_position(-150)
+        assert held.amount == -1
+        assert held.cost_basis == 100.0
+        assert cash == -20.0
+
+    def test_split_long_keeps_whole_shares(self):
+        held, cash = self.split_a_position(150)
+        assert held.amount == 1
+        assert cash == 20.0
+
+    def test_forward_split_is_unchanged(self):
+        held, cash = self.split_a_position(
+            300, ratio=0.5, cost_basis=2.00, last_sale_price=2.50
+        )
+        assert held.amount == 600
+        assert held.cost_basis == 1.0
+        assert cash == 0.0
+
+    @pytest.mark.parametrize("last_sale_price", [np.nan, 0.0])
+    def test_split_of_unpriced_position_falls_back_to_cost_basis(
+        self, last_sale_price
+    ):
+        # last_sale_price defaults to 0.0 and is NaN for an asset with no
+        # price yet; neither is a price the fraction can be settled at.
+        held, cash = self.split_a_position(90, last_sale_price=last_sale_price)
+        assert held is None
+        assert cash == 90.0
 
 
 @pytest.mark.usefixtures("with_trading_calendars")

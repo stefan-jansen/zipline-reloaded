@@ -135,6 +135,16 @@ class PositionTracker:
                 leftover_cash = position.handle_split(asset, ratio)
                 total_leftover_cash += leftover_cash
 
+                if position.amount == 0:
+                    # The split left no whole shares; the position is closed,
+                    # as it would be by a fill down to zero.
+                    del self.positions[asset]
+
+                    try:
+                        del self._positions_store[asset]
+                    except KeyError:
+                        pass
+
         return total_leftover_cash
 
     def earn_dividends(self, cash_dividends, stock_dividends):
@@ -501,7 +511,8 @@ class Ledger:
             A list of splits. Each split is a tuple of (asset, ratio).
         """
         leftover_cash = self.position_tracker.handle_splits(splits)
-        if leftover_cash > 0:
+        if leftover_cash:
+            # Either sign: a short pays cash to settle its fraction.
             self._cash_flow(leftover_cash)
 
     def process_order(self, order):
