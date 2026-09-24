@@ -134,17 +134,32 @@ def csvdir_bundle(
             )
 
     divs_splits = {
+        # NOTE: these frames are seeded with explicit dtypes (rather than an
+        # all-object-dtype frame created via `columns=[...]`) so that
+        # `pd.concat`-ing them below with the per-symbol float/datetime
+        # frames does not silently end up as object dtype. Older pandas
+        # versions used to upcast an empty object-dtype frame to match the
+        # dtype of the non-empty frame it was concatenated with, but this
+        # behavior was removed in pandas 3.0, which made
+        # `adjustment_writer.write` raise a `TypeError` for any bundle
+        # containing splits or dividends.
         "divs": pd.DataFrame(
-            columns=[
-                "sid",
-                "amount",
-                "ex_date",
-                "record_date",
-                "declared_date",
-                "pay_date",
-            ]
+            {
+                "sid": pd.Series(dtype="int64"),
+                "amount": pd.Series(dtype="float64"),
+                "ex_date": pd.Series(dtype="datetime64[ns]"),
+                "record_date": pd.Series(dtype="datetime64[ns]"),
+                "declared_date": pd.Series(dtype="datetime64[ns]"),
+                "pay_date": pd.Series(dtype="datetime64[ns]"),
+            }
         ),
-        "splits": pd.DataFrame(columns=["sid", "ratio", "effective_date"]),
+        "splits": pd.DataFrame(
+            {
+                "sid": pd.Series(dtype="int64"),
+                "ratio": pd.Series(dtype="float64"),
+                "effective_date": pd.Series(dtype="datetime64[ns]"),
+            }
+        ),
     }
     for tframe in tframes:
         ddir = os.path.join(csvdir, tframe)
