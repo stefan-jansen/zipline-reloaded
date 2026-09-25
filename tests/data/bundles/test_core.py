@@ -1,6 +1,8 @@
 import os
 import pytest
 import re
+from contextlib import ExitStack
+from unittest import mock
 
 from parameterized import parameterized
 import numpy as np
@@ -19,6 +21,7 @@ from zipline.data.bundles import (
     from_bundle_ingest_dirname,
     ingestions_for_bundle,
 )
+import zipline.data.bundles.core as bundles_core
 from zipline.data.bundles.core import (
     _make_bundle_core,
     BadClean,
@@ -418,6 +421,50 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
         assert _wrote_to[0] in ingestions, "output_dir was not in the bundle directory"
 
         return _wrote_to[0]
+
+    def test_load_on_or_before_timestamp(self):
+        # ``load(timestamp=...)`` must return the newest ingestion at or before
+        # the timestamp, not always the newest one (quantopian/zipline#2685).
+        first = self._empty_ingest()
+        second = self._empty_ingest()
+        third = self._empty_ingest()
+
+        # Empty ingestions hold no readable data, so the readers are stubbed to
+        # return their path: this checks which ingestion ``load`` resolved.
+        with ExitStack() as stack:
+            for reader in (
+                "AssetFinder",
+                "BcolzDailyBarReader",
+                "BcolzMinuteBarReader",
+                "SQLiteAdjustmentReader",
+            ):
+                stack.enter_context(
+                    mock.patch.object(bundles_core, reader, lambda path: path)
+                )
+            self._assert_load_selects(first, second, third)
+
+    def _assert_load_selects(self, first, second, third):
+        def loaded(ts):
+            data = self.load("bundle", timestamp=ts, environ=self.environ)
+            return os.path.dirname(data.asset_finder)
+
+        assert loaded(self._ts_of_run(first)) == first
+        assert loaded(self._ts_of_run(second)) == second
+        halfway = self._ts_of_run(first) + (
+            self._ts_of_run(second) - self._ts_of_run(first)
+        ) / 2
+        assert loaded(halfway) == first
+        # A tz-aware timestamp is compared in UTC, as ingestion names are.
+        assert loaded(self._ts_of_run(second).tz_localize("UTC")) == second
+        # Without a timestamp, the newest ingestion is still used.
+        assert loaded(None) == third
+
+    def test_load_before_first_ingestion(self):
+        first = self._empty_ingest()
+        ts = self._ts_of_run(first) - pd.Timedelta("1s")
+        expected_msg = "no data for bundle 'bundle' on or before %s" % ts
+        with pytest.raises(ValueError, match=re.escape(expected_msg)):
+            self.load("bundle", timestamp=ts, environ=self.environ)
 
     def test_clean_keep_last(self):
         first = self._empty_ingest()
