@@ -1,6 +1,8 @@
 from unittest import mock
 
 import pandas as pd
+import pytest
+import requests
 
 from zipline.data.bundles.fxmacrodata import (
     fetch_fx_pair,
@@ -35,7 +37,7 @@ def test_format_fxmacrodata_url():
 
 
 def test_fetch_fx_pair_sends_api_key_header():
-    response = mock.Mock()
+    response = mock.Mock(status_code=200)
     response.json.return_value = {"data": [{"date": "2026-01-02", "val": 1.1}]}
 
     with mock.patch(
@@ -52,10 +54,59 @@ def test_fetch_fx_pair_sends_api_key_header():
     assert "api_key" not in get.call_args_list[0].args[0]
     assert get.call_args_list[0].kwargs["headers"] == {"X-API-Key": "test-key"}
     assert get.call_args_list[1].kwargs["headers"] == {}
+    assert get.call_args_list[0].kwargs["allow_redirects"] is False
+
+
+def test_fetch_fx_pair_does_not_follow_redirects():
+    response = mock.Mock(status_code=302)
+
+    with mock.patch(
+        "zipline.data.bundles.fxmacrodata.requests.get", return_value=response
+    ) as get:
+        with pytest.raises(requests.HTTPError, match="redirect"):
+            fetch_fx_pair(
+                "EURUSD",
+                pd.Timestamp("2026-01-01"),
+                pd.Timestamp("2026-01-31"),
+                api_key="test-key",
+            )
+
+    assert get.call_count == 1
+    response.json.assert_not_called()
+
+
+def test_invalid_api_key_is_not_echoed():
+    with pytest.raises(ValueError) as excinfo:
+        fetch_fx_pair(
+            "EURUSD",
+            pd.Timestamp("2026-01-01"),
+            pd.Timestamp("2026-01-31"),
+            api_key="secret-key
+X-Other: 1",
+        )
+
+    assert "secret-key" not in str(excinfo.value)
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [{"detail": "Invalid API key"}, ["oops"], {"data": {"oops": 1}}, {"data": ["x"]}],
+)
+def test_fetch_fx_pair_rejects_malformed_responses(payload):
+    response = mock.Mock(status_code=200)
+    response.json.return_value = payload
+
+    with mock.patch(
+        "zipline.data.bundles.fxmacrodata.requests.get", return_value=response
+    ):
+        with pytest.raises(ValueError):
+            fetch_fx_pair(
+                "EURUSD", pd.Timestamp("2026-01-01"), pd.Timestamp("2026-01-31")
+            )
 
 
 def test_fetch_fx_pair_follows_pagination():
-    first = mock.Mock()
+    first = mock.Mock(status_code=200)
     first.json.return_value = {
         "data": [
             {"date": "2026-01-03", "val": 1.3},
@@ -63,7 +114,7 @@ def test_fetch_fx_pair_follows_pagination():
         ],
         "pagination": {"has_more": True, "next_offset": 2},
     }
-    second = mock.Mock()
+    second = mock.Mock(status_code=200)
     second.json.return_value = {
         "data": [{"date": "2026-01-01", "val": 1.1}],
         "pagination": {"has_more": False, "next_offset": None},

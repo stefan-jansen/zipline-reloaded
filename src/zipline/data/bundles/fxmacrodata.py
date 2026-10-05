@@ -53,6 +53,9 @@ def format_fxmacrodata_url(symbol, start_date, end_date, offset=0):
 
 
 def fxmacrodata_headers(api_key=None):
+    api_key = (api_key or "").strip()
+    if any(char.isspace() or not char.isprintable() for char in api_key):
+        raise ValueError("FXMACRODATA_API_KEY contains invalid characters")
     if api_key:
         return {"X-API-Key": api_key}
     return {}
@@ -63,11 +66,32 @@ def fetch_fx_pair(symbol, start_date, end_date, api_key=None):
     offset = 0
     for _ in range(MAX_PAGES):
         url = format_fxmacrodata_url(symbol, start_date, end_date, offset)
-        response = requests.get(url, headers=fxmacrodata_headers(api_key), timeout=30)
+        # Redirects are not followed, so the key never leaves this host.
+        response = requests.get(
+            url,
+            headers=fxmacrodata_headers(api_key),
+            timeout=30,
+            allow_redirects=False,
+        )
+        if 300 <= response.status_code < 400:
+            raise requests.HTTPError(
+                f"FXMacroData returned an unexpected redirect "
+                f"({response.status_code}) for {symbol}"
+            )
         response.raise_for_status()
         payload = response.json()
-        page = payload.get("data") or []
-        rows.extend(page)
+        page = payload.get("data") if isinstance(payload, dict) else None
+        if not isinstance(page, list):
+            detail = payload.get("detail") if isinstance(payload, dict) else None
+            raise ValueError(
+                f"Unexpected FXMacroData response for {symbol}: "
+                f"{detail or 'missing data list'}"
+            )
+        rows.extend(
+            row
+            for row in page
+            if isinstance(row, dict) and "date" in row and "val" in row
+        )
 
         pagination = payload.get("pagination")
         if (
