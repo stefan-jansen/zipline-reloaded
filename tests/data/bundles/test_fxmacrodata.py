@@ -81,8 +81,7 @@ def test_invalid_api_key_is_not_echoed():
             "EURUSD",
             pd.Timestamp("2026-01-01"),
             pd.Timestamp("2026-01-31"),
-            api_key="secret-key
-X-Other: 1",
+            api_key="secret-key\nX-Other: 1",
         )
 
     assert "secret-key" not in str(excinfo.value)
