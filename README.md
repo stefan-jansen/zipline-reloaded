@@ -16,6 +16,17 @@ by [Stefan Jansen](https://www.linkedin.com/in/applied-ai/) who is trying to kee
 - [Join our Community!](https://exchange.ml4trading.io)
 - [Documentation](https://zipline.ml4trading.io)
 
+## Maintenance and new projects
+
+We continue to maintain Zipline Reloaded for bug, security and compatibility fixes.
+Our new feature development focuses on [ML4T Backtest](https://github.com/ml4t/backtest)
+within the [current ML4T libraries](https://www.ml4trading.io/).
+For new projects, we recommend evaluating Backtest through the
+[migration guide](https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/),
+which includes a runnable strategy and explains differences in data preparation,
+callbacks and execution assumptions. See the
+[Backtest documentation](https://www.ml4trading.io/docs/backtest/) for its supported workflows.
+
 ## Features
 
 - **Ease of Use:** Zipline tries to get out of your way so that you can focus on algorithm development. See below for a code example.
@@ -107,8 +118,8 @@ $ export QUANDL_API_KEY="your_key_here"
 $ zipline ingest -b quandl
 ````
 
-The following will 
-- stream the through the algorithm over the specified time range. 
+The following will
+- stream the through the algorithm over the specified time range.
 - save the resulting performance DataFrame as `dma.pickle`, which you can load and analyze from Python using, e.g., [pyfolio-reloaded](https://github.com/stefan-jansen/pyfolio-reloaded).
 
 ```bash
