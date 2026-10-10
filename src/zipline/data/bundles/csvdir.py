@@ -133,34 +133,7 @@ def csvdir_bundle(
                 "'daily' and 'minute' directories " "not found in '%s'" % csvdir
             )
 
-    divs_splits = {
-        # NOTE: these frames are seeded with explicit dtypes (rather than an
-        # all-object-dtype frame created via `columns=[...]`) so that
-        # `pd.concat`-ing them below with the per-symbol float/datetime
-        # frames does not silently end up as object dtype. Older pandas
-        # versions used to upcast an empty object-dtype frame to match the
-        # dtype of the non-empty frame it was concatenated with, but this
-        # behavior was removed in pandas 3.0, which made
-        # `adjustment_writer.write` raise a `TypeError` for any bundle
-        # containing splits or dividends.
-        "divs": pd.DataFrame(
-            {
-                "sid": pd.Series(dtype="int64"),
-                "amount": pd.Series(dtype="float64"),
-                "ex_date": pd.Series(dtype="datetime64[ns]"),
-                "record_date": pd.Series(dtype="datetime64[ns]"),
-                "declared_date": pd.Series(dtype="datetime64[ns]"),
-                "pay_date": pd.Series(dtype="datetime64[ns]"),
-            }
-        ),
-        "splits": pd.DataFrame(
-            {
-                "sid": pd.Series(dtype="int64"),
-                "ratio": pd.Series(dtype="float64"),
-                "effective_date": pd.Series(dtype="datetime64[ns]"),
-            }
-        ),
-    }
+    divs_splits = _empty_divs_splits()
     for tframe in tframes:
         ddir = os.path.join(csvdir, tframe)
 
@@ -202,6 +175,37 @@ def csvdir_bundle(
         )
 
 
+def _empty_divs_splits():
+    """Return empty dividends and splits frames with explicit dtypes.
+
+    They are seeded with explicit dtypes (rather than an all-object-dtype frame created via
+    `columns=[...]`) so that `pd.concat`-ing them with the per-symbol float/datetime frames does
+    not silently end up as object dtype. Older pandas versions used to upcast an empty
+    object-dtype frame to match the dtype of the non-empty frame it was concatenated with, but
+    this behavior was removed in pandas 3.0, which made `adjustment_writer.write` raise a
+    `TypeError` for any bundle containing splits or dividends.
+    """
+    return {
+        "divs": pd.DataFrame(
+            {
+                "sid": pd.Series(dtype="int64"),
+                "amount": pd.Series(dtype="float64"),
+                "ex_date": pd.Series(dtype="datetime64[ns]"),
+                "record_date": pd.Series(dtype="datetime64[ns]"),
+                "declared_date": pd.Series(dtype="datetime64[ns]"),
+                "pay_date": pd.Series(dtype="datetime64[ns]"),
+            }
+        ),
+        "splits": pd.DataFrame(
+            {
+                "sid": pd.Series(dtype="int64"),
+                "ratio": pd.Series(dtype="float64"),
+                "effective_date": pd.Series(dtype="datetime64[ns]"),
+            }
+        ),
+    }
+
+
 def _pricing_iter(csvdir, symbols, metadata, divs_splits, show_progress):
     with maybe_show_progress(
         symbols, show_progress, label="Loading custom pricing data: "
@@ -240,6 +244,16 @@ def _pricing_iter(csvdir, symbols, metadata, divs_splits, show_progress):
                 )
                 split["ratio"] = tmp.tolist()
                 split["sid"] = sid
+                # An empty frame (a file with a split column but no splits) would
+                # otherwise come out as object dtype and turn the concat result
+                # back into object dtype on pandas 3.
+                split = split.astype(
+                    {
+                        "effective_date": "datetime64[ns]",
+                        "ratio": "float64",
+                        "sid": "int64",
+                    }
+                )
 
                 splits = divs_splits["splits"]
                 index = pd.Index(
@@ -257,6 +271,16 @@ def _pricing_iter(csvdir, symbols, metadata, divs_splits, show_progress):
                 div["pay_date"] = pd.NaT
                 div["amount"] = tmp.tolist()
                 div["sid"] = sid
+                div = div.astype(
+                    {
+                        "ex_date": "datetime64[ns]",
+                        "record_date": "datetime64[ns]",
+                        "declared_date": "datetime64[ns]",
+                        "pay_date": "datetime64[ns]",
+                        "amount": "float64",
+                        "sid": "int64",
+                    }
+                )
 
                 divs = divs_splits["divs"]
                 ind = pd.Index(range(divs.shape[0], divs.shape[0] + div.shape[0]))
