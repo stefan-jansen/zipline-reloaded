@@ -31,6 +31,7 @@ from zipline.data.bcolz_minute_bars import (
     H5MinuteBarUpdateReader,
 )
 
+from zipline.testing import parameter_space
 from zipline.testing.fixtures import (
     WithAssetFinder,
     WithInstanceTmpDir,
@@ -78,6 +79,21 @@ class BcolzMinuteBarTestCase(
             US_EQUITIES_MINUTES_PER_DAY,
         )
         self.reader = BcolzMinuteBarReader(self.dest)
+
+    @parameter_space(behavior=["ignore", "warn"])
+    def test_overflowing_price_excludes_the_whole_bar(self, behavior):
+        minutes = self.trading_calendar.session_minutes(self.test_calendar_start)[:3]
+        frame = pd.DataFrame(
+            {field: 10.0 for field in ["open", "high", "low", "close"]},
+            index=minutes,
+        )
+        frame["volume"] = 1000
+        frame.loc[minutes[1], "high"] = 1e10
+        self.writer.write([(1, frame)], invalid_data_behavior=behavior)
+        assert self.reader.get_value(1, minutes[0], "close") == 10.0
+        assert self.reader.get_value(1, minutes[2], "close") == 10.0
+        assert self.reader.get_value(1, minutes[1], "volume") == 0
+        assert np.isnan(self.reader.get_value(1, minutes[1], "open"))
 
     def test_version(self):
         metadata = self.reader._get_metadata()
