@@ -1,5 +1,4 @@
 import itertools
-import os
 from datetime import timedelta
 from functools import partial
 
@@ -37,9 +36,6 @@ from zipline.testing.fixtures import (
 from zipline.testing.predicates import assert_equal, assert_frame_equal
 from zipline.utils.numpy_utils import datetime64ns_dtype, float64_dtype
 from zipline.utils.pandas_utils import stack_future_compatible
-
-# Skip CI-specific failures
-ON_GHA = os.getenv("GITHUB_ACTIONS") == "true"
 
 
 class Estimates(DataSet):
@@ -2573,10 +2569,6 @@ class WithAdjustmentBoundaries(WithEstimates):
         )
 
     @parameterized.expand(split_adjusted_asof_dates)
-    @pytest.mark.xfail(
-        ON_GHA,
-        reason="Unresolved issues on GHA",
-    )
     def test_boundaries(self, split_date):
         dataset = QuartersEstimates(1)
         loader = self.loader(split_adjusted_asof=split_date)
