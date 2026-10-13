@@ -2504,15 +2504,17 @@ class WithAdjustmentBoundaries(WithEstimates):
             index=[0],
         )
 
-        return pd.concat(
-            [
-                sid_0_timeline,
-                sid_1_timeline,
-                sid_2_timeline,
-                sid_3_timeline,
-                sid_4_timeline,
-            ]
-        )
+        timelines = [
+            sid_0_timeline,
+            sid_1_timeline,
+            sid_2_timeline,
+            sid_3_timeline,
+            sid_4_timeline,
+        ]
+        for timeline in timelines:
+            for column in [TS_FIELD_NAME, EVENT_DATE_FIELD_NAME]:
+                timeline[column] = timeline[column].astype("datetime64[ns]")
+        return pd.concat(timelines)
 
     @classmethod
     def make_splits_data(cls):
@@ -2564,9 +2566,10 @@ class WithAdjustmentBoundaries(WithEstimates):
             }
         )
 
-        return pd.concat(
-            [sid_0_splits, sid_1_splits, sid_2_splits, sid_3_splits, sid_4_splits]
-        )
+        splits = [sid_0_splits, sid_1_splits, sid_2_splits, sid_3_splits, sid_4_splits]
+        for frame in splits:
+            frame["effective_date"] = frame["effective_date"].astype("datetime64[ns]")
+        return pd.concat(splits)
 
     @parameterized.expand(split_adjusted_asof_dates)
     def test_boundaries(self, split_date):
