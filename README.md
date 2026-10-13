@@ -31,7 +31,7 @@ by [Stefan Jansen](https://www.linkedin.com/in/applied-ai/) who is trying to kee
 
 ## Installation
 
-Zipline supports Python >= 3.9 and is compatible with current versions of the relevant [NumFOCUS](https://numfocus.org/sponsored-projects?_sft_project_category=python-interface) libraries, including [pandas](https://pandas.pydata.org/) and [scikit-learn](https://scikit-learn.org/stable/index.html).
+Zipline supports Python 3.10 through 3.13 and depends on [NumFOCUS](https://numfocus.org/sponsored-projects?_sft_project_category=python-interface) libraries including [pandas](https://pandas.pydata.org/). Package metadata constrains pandas to versions below 3.0.
 
 ### Using `pip`
 
@@ -107,8 +107,8 @@ $ export QUANDL_API_KEY="your_key_here"
 $ zipline ingest -b quandl
 ````
 
-The following will 
-- stream the through the algorithm over the specified time range. 
+The following will
+- stream the through the algorithm over the specified time range.
 - save the resulting performance DataFrame as `dma.pickle`, which you can load and analyze from Python using, e.g., [pyfolio-reloaded](https://github.com/stefan-jansen/pyfolio-reloaded).
 
 ```bash
