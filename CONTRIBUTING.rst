@@ -3,6 +3,9 @@ Contributing to Zipline
 
 .. contribution-policy-start
 
+Follow the `shared ML4T contribution policy
+<https://github.com/ml4t/ecosystem/blob/main/CONTRIBUTING.md>`_ and the local guidance below.
+
 Zipline Reloaded accepts bug, security and compatibility fixes and improvements
 to its existing documentation. Direct new feature work to current ML4T libraries,
 including `Backtest <https://github.com/ml4t/backtest>`_. Existing Zipline workflows
