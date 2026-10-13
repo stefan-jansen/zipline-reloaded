@@ -202,7 +202,8 @@ provided, users should call
 to this method. If the data source does not provide minute level data, then
 there is no need to call the write method. It is also acceptable to pass an
 empty iterator to :meth:`~zipline.data.minute_bars.BcolzMinuteBarWriter.write`
-to signal that there is no minutely data.
+to signal that there is no minutely data. Each call appends bars and retains
+previously written data. New minutes for a sid must follow its existing minutes.
 
 .. note::
 
@@ -227,6 +228,9 @@ no need to call the write method. It is also acceptable to pass an empty
 iterable to :meth:`~zipline.data.minute_bars.BcolzMinuteBarWriter.write` to
 signal that there is no daily data. If no daily data is provided but minute data
 is provided, a daily rollup will happen to service daily history requests.
+
+Each call to the daily writer replaces the entire table. Supply all assets and
+dates that should remain available in one call; repeated calls do not append.
 
 .. note::
 

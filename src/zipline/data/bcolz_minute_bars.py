@@ -627,7 +627,10 @@ class BcolzMinuteBarWriter:
             table.attrs[k] = v
 
     def write(self, data, show_progress=False, invalid_data_behavior="warn"):
-        """Write a stream of minute data.
+        """Append a stream of minute data.
+
+        Existing bars are retained. New dates for each sid must follow its
+        previously written dates, including across calls to this method.
 
         Parameters
         ----------

@@ -162,7 +162,10 @@ class BcolzDailyBarWriter:
     def write(
         self, data, assets=None, show_progress=False, invalid_data_behavior="warn"
     ):
-        """
+        """Replace the daily table with all supplied assets and bars.
+
+        Each call overwrites the existing table. Include every asset and date
+        that should remain available; this method does not append.
 
         Parameters
         ----------
