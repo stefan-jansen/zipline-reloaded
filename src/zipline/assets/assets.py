@@ -804,7 +804,7 @@ class AssetFinder:
             options = {self.retrieve_asset(owner.sid) for owner in owners}
 
             if multi_country:
-                country_codes = map(attrgetter("country_code"), options)
+                country_codes = [asset.country_code for asset in options]
 
                 if len(set(country_codes)) > 1:
                     raise SameSymbolUsedAcrossCountries(
