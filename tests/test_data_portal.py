@@ -556,3 +556,31 @@ class TestDataPortal(DataPortalTestBase, ZiplineTestCase):
 class TestDataPortalExplicitLastAvailable(DataPortalTestBase, ZiplineTestCase):
     DATA_PORTAL_LAST_AVAILABLE_SESSION = alias("START_DATE")
     DATA_PORTAL_LAST_AVAILABLE_MINUTE = alias("END_DATE")
+
+
+class TestMergerAdjustmentTimezone(
+    WithDataPortal, WithTradingSessions, ZiplineTestCase
+):
+    START_DATE = pd.Timestamp("2016-08-01")
+    END_DATE = pd.Timestamp("2016-08-08")
+    ASSET_FINDER_EQUITY_SIDS = (1,)
+
+    @classmethod
+    def make_mergers_data(cls):
+        return pd.DataFrame(
+            {
+                "sid": [1],
+                "ratio": [0.5],
+                "effective_date": [cls.START_DATE + pd.Timedelta(days=2)],
+            }
+        )
+
+    @parameter_space(tz=[None, "UTC"])
+    def test_merger_adjustment_accepts_daily_and_minute_timestamps(self, tz):
+        asset = self.asset_finder.retrieve_asset(1)
+        assert self.data_portal.get_adjustments(
+            [asset],
+            "price",
+            self.START_DATE.tz_localize(tz),
+            self.END_DATE.tz_localize(tz),
+        ) == [0.5]
