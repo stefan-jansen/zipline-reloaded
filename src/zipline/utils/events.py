@@ -428,7 +428,7 @@ class BeforeClose(StatelessRule):
         # Align the market close time here with the execution time used by the
         # simulation clock. This ensures that scheduled functions trigger at
         # the correct times.
-        if self.cal == "us_futures":
+        if self.cal.name == "us_futures":
             self._period_end = self.cal.execution_time_from_close(period_end)
         else:
             self._period_end = period_end

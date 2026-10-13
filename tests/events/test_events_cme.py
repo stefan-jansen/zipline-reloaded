@@ -40,3 +40,16 @@ class TestStatelessRulesCMES(StatelessRulesTests, TestCase):
 
 class TestStatefulRulesCMES(StatefulRulesTests, TestCase):
     CALENDAR_STRING = "CMES"
+
+
+def test_us_futures_before_close_uses_simulation_execution_close():
+    from zipline.utils.calendar_utils import get_calendar
+    from zipline.utils.events import BeforeClose
+
+    calendar = get_calendar("us_futures")
+    close = calendar.execution_time_from_close(
+        calendar.session_close(pd.Timestamp("2014-01-06"))
+    )
+    rule = BeforeClose(minutes=1)
+    rule.cal = calendar
+    assert rule.should_trigger(close - pd.Timedelta(minutes=1))
