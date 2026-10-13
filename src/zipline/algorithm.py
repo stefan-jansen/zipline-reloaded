@@ -1592,10 +1592,11 @@ class TradingAlgorithm:
             The new symbol lookup date.
         """
         try:
-            self._symbol_lookup_date = pd.Timestamp(dt).tz_localize("UTC")
-        except TypeError:
-            self._symbol_lookup_date = pd.Timestamp(dt).tz_convert("UTC")
-        except ValueError as exc:
+            lookup_date = pd.Timestamp(dt)
+            if lookup_date.tzinfo is not None:
+                lookup_date = lookup_date.tz_convert("UTC").tz_localize(None)
+            self._symbol_lookup_date = lookup_date
+        except (TypeError, ValueError) as exc:
             raise UnsupportedDatetimeFormat(
                 input=dt, method="set_symbol_lookup_date"
             ) from exc
