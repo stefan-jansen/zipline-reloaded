@@ -65,5 +65,5 @@ requirements. Useful fixes in bundled submissions can be resubmitted separately.
 
 See the `Development Guidelines
 <https://zipline.ml4trading.io/development-guidelines.html>`_ for environment setup,
-tests, style and documentation builds. Ask usage questions in the `community
-forum <https://exchange.ml4trading.io/>`_.
+tests, style and documentation builds. Ask contribution questions in the `issue
+tracker <https://github.com/stefan-jansen/zipline-reloaded/issues>`_.
