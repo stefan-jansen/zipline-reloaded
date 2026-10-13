@@ -1,4 +1,6 @@
+import numpy as np
 import pandas as pd
+import pytest
 
 from zipline.assets import Equity, ExchangeInfo
 from zipline.data.adjustments import StockDividend
@@ -149,3 +151,30 @@ def test_stock_dividend_under_one_share_is_not_booked():
     assert spin_off not in tracker.positions
     assert tracker._dirty_stats is False
     assert tracker.positions[parent].amount == -1
+
+
+@pytest.mark.parametrize(
+    "amount, ratio, expected",
+    [
+        (100, 0.29, 129),
+        (-100, 0.29, -129),
+        (10, 0.15, 11),
+        (-10, 0.15, -11),
+        (1, np.nextafter(np.nextafter(1.0, 0), 0), 1),
+        (2**53, 1.0, 2**54),
+    ],
+)
+def test_dividend_payment_preserves_whole_shares_at_float_boundaries(
+    amount, ratio, expected
+):
+    from zipline.finance.ledger import Ledger
+    from zipline.finance.transaction import Transaction
+
+    asset = _asset()
+    sessions = pd.date_range("2020-01-06", periods=2, freq="B", tz="UTC")
+    ledger = Ledger(sessions, 1e20, "daily")
+    ledger.process_transaction(Transaction(asset, amount, sessions[0], 10.0, "initial"))
+    dividend = _dividend(asset, ratio)
+    ledger.position_tracker.earn_dividends([], [dividend])
+    ledger.position_tracker.pay_dividends(dividend.pay_date)
+    assert ledger.portfolio.positions[asset].amount == expected
