@@ -17,7 +17,6 @@ classifiers = [
     'Development Status :: 4 - Beta',
     'Natural Language :: English',
     'Programming Language :: Python',
-    'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
     'Programming Language :: Python :: 3.13',
@@ -33,7 +32,7 @@ license-files = [
     "LICENSE",
 ]
 
-requires-python = '>=3.10'
+requires-python = '>=3.11'
 dependencies = [
     "numpy>=1.23.5; python_version<'3.12'",
     "numpy>=1.26.0; python_version>='3.12'",
@@ -169,6 +168,7 @@ markers = [
 ]
 
 [tool.cibuildwheel]
+build = "cp311-* cp312-* cp313-*"
 test-extras = "test"
 test-command = "pytest -n auto --reruns 5 --dist=loadgroup --strict-markers --disable-warnings -q {project}/tests"
 build-verbosity = 3
@@ -190,7 +190,6 @@ test-command = 'pytest -n auto -k "not daily_returns_is_special_case_of_returns"
 [tool.black]
 line-length = 88
 target-version = [
-    'py310',
     'py311',
     'py312',
 ]
@@ -269,10 +268,8 @@ line-ending = "auto"
 legacy_tox_ini = """
 [tox]
 envlist =
-    py310-pandas{15,20,21,22,23}-numpy1
     py311-pandas{15,20,21,22,23}-numpy1
     py312-pandas{15,20,21,22,23}-numpy1
-    py310-pandas{222,23}-numpy2{0,1,2}
     py311-pandas{222,23}-numpy2{0,1,2}
     py312-pandas{222,23}-numpy2{0,1,2}
     py313-pandas{222,23}-numpy2{2}
@@ -283,7 +280,6 @@ minversion = 3.23.0
 
 [gh-actions]
 python =
-    3.10: py310
     3.11: py311
     3.12: py312
     3.13: py313
@@ -336,10 +332,10 @@ commands = {[pytest_commands]py313_specific}
 commands = {[pytest_commands]without_cov}
 
 # Disable coverage for pandas 1.5 on any python version.
-[testenv:py{310,311,312,313}-pandas15-numpy{1,20,21,22}]
+[testenv:py{311,312,313}-pandas15-numpy{1,20,21,22}]
 commands = {[pytest_commands]without_cov}
 
 # Disable coverage for pandas 2.0 on any python version.
-[testenv:py{310,311,312,313}-pandas{15,20}-numpy{1,20,21,22}]
+[testenv:py{311,312,313}-pandas{15,20}-numpy{1,20,21,22}]
 commands = {[pytest_commands]without_cov}
 """

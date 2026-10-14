@@ -9,8 +9,12 @@ that runs on Windows, macOS, and Linux. In case you are installing `zipline-relo
 encounter [conflict errors](https://github.com/conda/conda/issues/9707), consider using
 [mamba](https://github.com/mamba-org/mamba) instead.
 
-Zipline runs on Python 3.10, 3.11, 3.12 and 3.13. To install and use different Python versions in parallel as well as create
+Zipline runs on Python 3.11, 3.12 and 3.13. To install and use different Python versions in parallel as well as create
 a virtual environment, you may want to use `pyenv <https://github.com/pyenv/pyenv>`_.
+
+The next release requires Python 3.11 or later. Python 3.10 support has ended
+because the interpreter no longer receives security updates. Python 3.14 and
+3.15 are stable releases, but Zipline compatibility is not yet qualified.
 
 Installing with ``pip``
 -----------------------
@@ -162,7 +166,7 @@ Assuming ``conda`` has been set up, you can create a ``conda`` environment:
 
 .. code-block:: bash
 
-    $ conda create -n env_zipline python=3.10
+    $ conda create -n env_zipline python=3.11
 
 
 Now you have set up an isolated environment called ``env_zipline``, a sandbox-like
