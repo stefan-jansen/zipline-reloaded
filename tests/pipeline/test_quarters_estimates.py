@@ -2593,12 +2593,14 @@ class WithAdjustmentBoundaries(WithEstimates):
 class PreviousWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase):
     @classmethod
     def make_loader(cls, events, columns):
-        return partial(
-            PreviousSplitAdjustedEarningsEstimatesLoader,
-            events,
-            columns,
-            split_adjustments_loader=cls.adjustment_reader,
-            split_adjusted_column_names=["estimate"],
+        return staticmethod(
+            partial(
+                PreviousSplitAdjustedEarningsEstimatesLoader,
+                events,
+                columns,
+                split_adjustments_loader=cls.adjustment_reader,
+                split_adjusted_column_names=["estimate"],
+            )
         )
 
     @classmethod
@@ -2759,12 +2761,14 @@ class PreviousWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase
 class NextWithAdjustmentBoundaries(WithAdjustmentBoundaries, ZiplineTestCase):
     @classmethod
     def make_loader(cls, events, columns):
-        return partial(
-            NextSplitAdjustedEarningsEstimatesLoader,
-            events,
-            columns,
-            split_adjustments_loader=cls.adjustment_reader,
-            split_adjusted_column_names=["estimate"],
+        return staticmethod(
+            partial(
+                NextSplitAdjustedEarningsEstimatesLoader,
+                events,
+                columns,
+                split_adjustments_loader=cls.adjustment_reader,
+                split_adjusted_column_names=["estimate"],
+            )
         )
 
     @classmethod
