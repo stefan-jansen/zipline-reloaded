@@ -338,4 +338,12 @@ commands = {[pytest_commands]without_cov}
 # Disable coverage for pandas 2.0 on any python version.
 [testenv:py{311,312,313}-pandas{15,20}-numpy{1,20,21,22}]
 commands = {[pytest_commands]without_cov}
+
+# Qualification only: excluded from the supported envlist and release wheel selectors.
+[testenv:py{314,315}-pandas23-numpy2]
+constrain_package_deps = True
+deps =
+    pandas>=2.3,<2.4
+    numpy>=2.3,<3
+commands = {[pytest_commands]without_cov}
 """

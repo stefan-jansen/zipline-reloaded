@@ -2,6 +2,11 @@ name: CI Tests
 
 on:
   workflow_dispatch:
+    inputs:
+      qualify_new_python:
+        description: 'Qualify Python 3.14 and 3.15 without declaring support'
+        type: boolean
+        default: false
   push:
       branches:
       - main
@@ -40,7 +45,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.11", "3.12", "3.13"]
+        python-version: ${{ fromJSON(inputs.qualify_new_python && '["3.14", "3.15"]' || '["3.11", "3.12", "3.13"]') }}
 
     steps:
       - name: Checkout Zipline
@@ -117,4 +122,8 @@ jobs:
           echo "Python hash seed: $PYTHONHASHSEED"
           python -c "from datetime import datetime; print(f'Timestamp: {datetime.now()}')"
           python -c "import time; print(f'System timezone: {time.tzname}')"
-          tox -v
+          case "${{ matrix.python-version }}" in
+            3.14) tox -v -e py314-pandas23-numpy2 ;;
+            3.15) tox -v -e py315-pandas23-numpy2 ;;
+            *) tox -v ;;
+          esac
