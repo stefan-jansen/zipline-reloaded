@@ -125,10 +125,10 @@ class Classifier(RestrictedDTypeMixin, ComputableTerm):
     def bad_compare(opname, other):
         raise TypeError("cannot compare classifiers with %s" % opname)
 
-    __gt__ = partial(bad_compare, ">")
-    __ge__ = partial(bad_compare, ">=")
-    __le__ = partial(bad_compare, "<=")
-    __lt__ = partial(bad_compare, "<")
+    __gt__ = staticmethod(partial(bad_compare, ">"))
+    __ge__ = staticmethod(partial(bad_compare, ">="))
+    __le__ = staticmethod(partial(bad_compare, "<="))
+    __lt__ = staticmethod(partial(bad_compare, "<"))
 
     del bad_compare
 
