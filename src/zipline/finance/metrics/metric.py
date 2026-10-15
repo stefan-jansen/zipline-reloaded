@@ -137,8 +137,8 @@ class Returns:
             "algorithm_period_return"
         ] = ledger.portfolio.returns
 
-    end_of_bar = partial(_end_of_period, "minute_perf")
-    end_of_session = partial(_end_of_period, "daily_perf")
+    end_of_bar = staticmethod(partial(_end_of_period, "minute_perf"))
+    end_of_session = staticmethod(partial(_end_of_period, "daily_perf"))
 
 
 class BenchmarkReturnsAndVolatility:
