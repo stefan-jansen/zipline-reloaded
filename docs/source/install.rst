@@ -1,7 +1,7 @@
 .. _install:
 
 Installation
-Zipline runs on Python 3.11, 3.12, 3.13 and 3.14. To install and use different Python versions in parallel as well as create
+This development version runs on Python 3.11, 3.12, 3.13 and 3.14. To install and use different Python versions in parallel as well as create
 a virtual environment, you may want to use `pyenv <https://github.com/pyenv/pyenv>`_.
 
 The next release supports Python 3.11 through 3.14. Python 3.10 support has ended
@@ -9,6 +9,7 @@ because the interpreter no longer receives security updates. Python 3.14 require
 pandas 2.3.3 and NumPy 2.3.3 or later. Python 3.15 is stable, but is not yet
 supported: the declared pandas 2.x dependency crashes during date arithmetic.
 Package metadata prevents installation on Python 3.15 until compatibility is qualified.
+Python 3.14 support requires the development source until the next release is published.
 
 Installing with ``pip``
 -----------------------

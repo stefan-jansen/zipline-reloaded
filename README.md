@@ -31,7 +31,7 @@ by [Stefan Jansen](https://www.linkedin.com/in/applied-ai/) who is trying to kee
 
 ## Installation
 
-Zipline supports Python 3.11 through 3.14 and depends on [NumFOCUS](https://numfocus.org/sponsored-projects?_sft_project_category=python-interface) libraries including [pandas](https://pandas.pydata.org/). Package metadata constrains pandas to versions below 3.0. Python 3.14 requires pandas 2.3.3 and NumPy 2.3.3 or later; Python 3.15 is not yet supported.
+The next release supports Python 3.11 through 3.14 and depends on [NumFOCUS](https://numfocus.org/sponsored-projects?_sft_project_category=python-interface) libraries including [pandas](https://pandas.pydata.org/). Package metadata constrains pandas to versions below 3.0. Python 3.14 requires pandas 2.3.3 and NumPy 2.3.3 or later; Python 3.15 is not yet supported. Python 3.14 support requires the development source until the next release is published.
 
 ### Using `pip`
 
