@@ -2,12 +2,9 @@
 Tests for our testing utilities.
 """
 
-from itertools import product
-import pytest  # Add pytest back
-import os
+from unittest import TestCase
 
-# import logging # No longer needed if logger is removed
-# import sys # No longer used
+import pytest
 
 from numpy import array, empty
 
@@ -19,7 +16,7 @@ from zipline.testing import (
     check_arrays,
     make_alternating_boolean_array,
     make_cascading_boolean_array,
-    # parameter_space, # This was commented out, so it's unused
+    parameter_space,
 )
 from zipline.testing.fixtures import (  # Assuming this is where ZiplineTestCase and others are
     WithConstantEquityMinuteBarData,
@@ -30,71 +27,42 @@ from zipline.testing.slippage import TestingSlippage
 from zipline.testing.predicates import wildcard, instance_of
 from zipline.utils.numpy_utils import bool_dtype
 
-ON_GHA = os.getenv("GITHUB_ACTIONS") == "true"
-
-# Group all tests in this module to run on the same worker
 pytestmark = pytest.mark.xdist_group(name="module_group_test_testing")
 
-# Configure a logger for this module
-# logger = logging.getLogger(__name__) # Removed as it's no longer used
 
-
-@pytest.fixture(scope="class")
-def invocations_state(request):
-    request.cls.xy_invocations = []
-    request.cls.yx_invocations = []
-    yield
-
-    actual_xy_invocations = sorted(request.cls.xy_invocations)
-    actual_yx_invocations = sorted(request.cls.yx_invocations)
-
-    expected_xy = sorted(
-        list(product(request.cls.x_args_vals, request.cls.y_args_vals))
-    )
-    expected_yx = sorted(
-        list(product(request.cls.y_args_vals, request.cls.x_args_vals))
-    )
-
-    worker = os.environ.get("PYTEST_XDIST_WORKER", "main")
-
-    assert (
-        actual_xy_invocations == expected_xy
-    ), f"[{worker}] XY invocations do not match. Expected: {expected_xy}, Got: {actual_xy_invocations}"
-    assert (
-        actual_yx_invocations == expected_yx
-    ), f"[{worker}] YX invocations do not match. Expected: {expected_yx}, Got: {actual_yx_invocations}"
-
-
-@pytest.mark.usefixtures("invocations_state")
-@pytest.mark.xfail(
-    ON_GHA,
-    reason="Unresolved issues on GHA",
-)
 class TestParameterSpace:
-    """Test class for parametrized tests using a shared state via fixture."""
+    @pytest.mark.parametrize("fail_fast", [False, True])
+    def test_xy(self, fail_fast):
+        invocations = []
 
-    x_args_vals = [1, 2]
-    y_args_vals = [3, 4]
+        @parameter_space(__fail_fast=fail_fast, x=[1, 2], y=[3, 4])
+        def record(self, x, y):
+            invocations.append((x, y))
 
-    @pytest.mark.parametrize("x", x_args_vals)
-    @pytest.mark.parametrize("y", y_args_vals)
-    def test_xy(self, x, y):
-        """Test xy parameter combinations."""
-        self.__class__.xy_invocations.append((x, y))
+        record(TestCase())
+        assert invocations == [(1, 3), (1, 4), (2, 3), (2, 4)]
 
-    @pytest.mark.parametrize("y", y_args_vals)
-    @pytest.mark.parametrize("x", x_args_vals)
-    def test_yx(self, y, x):
-        """Test yx parameter combinations."""
-        self.__class__.yx_invocations.append((y, x))
+    @pytest.mark.parametrize("fail_fast", [False, True])
+    def test_yx(self, fail_fast):
+        invocations = []
 
-    @pytest.mark.xfail(
-        ON_GHA,
-        reason="Unresolved issues on GHA",
-    )
-    def test_nothing(self):
-        """A simple test that does nothing but ensures fixture setup/teardown works."""
-        pass
+        @parameter_space(__fail_fast=fail_fast, x=[1, 2], y=[3, 4])
+        def record(self, y, x):
+            invocations.append((x, y))
+
+        record(TestCase())
+        assert invocations == [(1, 3), (2, 3), (1, 4), (2, 4)]
+
+    @pytest.mark.parametrize("fail_fast", [False, True])
+    def test_nothing(self, fail_fast):
+        invocations = []
+
+        @parameter_space(__fail_fast=fail_fast)
+        def record(self):
+            invocations.append("called")
+
+        record(TestCase())
+        assert invocations == ["called"]
 
 
 class TestMakeBooleanArray:
