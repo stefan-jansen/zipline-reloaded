@@ -5,16 +5,13 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   black-format:
     name: Formatting Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: psf/black@stable
         with:
           options: "--check --diff"
@@ -25,7 +22,7 @@ jobs:
     name: Lint Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
@@ -44,7 +41,7 @@ jobs:
 
     steps:
       - name: Checkout Zipline
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v6
@@ -76,7 +73,7 @@ jobs:
           python -VV
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install tox tox-gh-actions
-          python -m pip install .[test]
+          python -m pip install ".[test]"
 
       - name: Unittests with tox & pytest
         uses: nick-fields/retry@v3
@@ -84,7 +81,7 @@ jobs:
           timeout_minutes: 90
           max_attempts: 3
           retry_on: error
-          on_retry_command: python -m pip install tox tox-gh-actions .[test]
+          on_retry_command: python -m pip install tox tox-gh-actions ".[test]"
           command: tox -e py312-pandas222-numpy20
 
       - name: Upload coverage data to Codecov
