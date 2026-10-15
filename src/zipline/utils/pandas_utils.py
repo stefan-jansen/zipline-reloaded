@@ -336,10 +336,12 @@ def stack_future_compatible(df, level=-1, dropna=None, sort=None, future_stack=N
         kwargs["future_stack"] = future_stack
         return df.stack(**kwargs)
     else:
-        # For older pandas versions, ignore future_stack parameter
+        # Preserve missing values requested by future_stack on older pandas.
         kwargs = {"level": level}
         if dropna is not None:
             kwargs["dropna"] = dropna
+        elif future_stack:
+            kwargs["dropna"] = False
         if sort is not None:
             kwargs["sort"] = sort
         return df.stack(**kwargs)
