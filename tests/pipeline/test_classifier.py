@@ -453,10 +453,11 @@ class ClassifierTestCase(BaseUSEquityPipelineTestCase):
 
         expected = (
             """Expected `choices` to be an iterable of hashable values, but got [{'a': 1}] instead.\n"""
-            """This caused the following error: TypeError("unhashable type: 'dict'")."""
+            "This caused the following error: TypeError("
         )
-        with pytest.raises(TypeError, match=re.escape(expected)):
+        with pytest.raises(TypeError, match=re.escape(expected)) as exc_info:
             c.element_of([{"a": 1}])
+        assert "unhashable type: 'dict'" in str(exc_info.value)
 
     @parameter_space(
         __fail_fast=True,
