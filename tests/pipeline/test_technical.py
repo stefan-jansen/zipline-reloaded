@@ -448,7 +448,7 @@ class TestMovingAverageConvergenceDivergence:
         # ewma (which is itself a rolling-window function) because we only want
         # to look at ``window_length`` rows at a time.
         return data_df.rolling(window).apply(
-            lambda sub: pd.DataFrame(sub).ewm(span=window).mean().values[-1]
+            lambda sub: pd.DataFrame(sub).ewm(span=window).mean().iloc[-1, 0]
         )
 
     @pytest.mark.parametrize(
