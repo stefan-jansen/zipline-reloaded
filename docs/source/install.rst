@@ -1,16 +1,15 @@
 .. _install:
 
 Installation
-============
-
-You can install Zipline either using `pip <https://pip.pypa.io/en/stable/>`_, the Python package installer, or
-`conda <https://docs.conda.io/projects/conda/en/latest/index.html>`_, the package and environment management system
-that runs on Windows, macOS, and Linux. In case you are installing `zipline-reloaded` alongside other packages and
-encounter [conflict errors](https://github.com/conda/conda/issues/9707), consider using
-[mamba](https://github.com/mamba-org/mamba) instead.
-
-Zipline runs on Python 3.8, 3.9, 3.10 and 3.11. To install and use different Python versions in parallel as well as create
+This development version runs on Python 3.11, 3.12, 3.13 and 3.14. To install and use different Python versions in parallel as well as create
 a virtual environment, you may want to use `pyenv <https://github.com/pyenv/pyenv>`_.
+
+The next release supports Python 3.11 through 3.14. Python 3.10 support has ended
+because the interpreter no longer receives security updates. Python 3.14 requires
+pandas 2.3.3 and NumPy 2.3.3 or later. Python 3.15 is stable, but is not yet
+supported: the declared pandas 2.x dependency crashes during date arithmetic.
+Package metadata prevents installation on Python 3.15 until compatibility is qualified.
+Python 3.14 support requires the development source until the next release is published.
 
 Installing with ``pip``
 -----------------------
@@ -162,7 +161,7 @@ Assuming ``conda`` has been set up, you can create a ``conda`` environment:
 
 .. code-block:: bash
 
-    $ conda create -n env_zipline python=3.10
+    $ conda create -n env_zipline python=3.11
 
 
 Now you have set up an isolated environment called ``env_zipline``, a sandbox-like
