@@ -99,37 +99,19 @@ class Position:
         # e.g., 33.333
         raw_share_count = self.amount / float(ratio)
 
-        # e.g., 33. Truncated toward zero, so a short shrinks like a long
-        # does: -0.9 shares settles flat, not short a whole share.
+        # e.g., 33
         full_share_count = np.trunc(raw_share_count)
 
-        # e.g., 0.333, and negative for a short position
+        # e.g., 0.333
         fractional_share_count = raw_share_count - full_share_count
 
         # adjust the cost basis to the nearest cent, e.g., 60.0
         new_cost_basis = round(self.cost_basis * ratio, 2)
 
-        # The fraction is settled in cash at the market ("cash in lieu"), not
-        # at what the shares cost. last_sale_price is the last pre-split
-        # price, so scale it like the share count. A position that has never
-        # been priced (last_sale_price defaults to 0.0) falls back to its
-        # cost basis.
-        last_sale_price = self.last_sale_price
-        if (
-            last_sale_price is None
-            or not np.isfinite(last_sale_price)
-            or last_sale_price <= 0
-        ):
-            fraction_price = new_cost_basis
-        else:
-            fraction_price = last_sale_price * ratio
-
         self.cost_basis = new_cost_basis
         self.amount = full_share_count
 
-        # Positive for a long (cash in), negative for a short (cash out to
-        # buy the fraction back).
-        return_cash = round(float(fractional_share_count * fraction_price), 2)
+        return_cash = round(float(fractional_share_count * new_cost_basis), 2)
 
         log.info("after split: " + str(self))
         log.info("returning cash: " + str(return_cash))
