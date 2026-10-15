@@ -3,7 +3,6 @@ Module for building a complete daily dataset from Quandl's WIKI dataset.
 """
 
 from io import BytesIO
-import os
 import tarfile
 from zipfile import ZipFile
 
@@ -299,6 +298,11 @@ def quantopian_quandl_bundle(
     show_progress,
     output_dir,
 ):
+    if not hasattr(tarfile, "data_filter"):
+        raise RuntimeError(
+            "Ingesting quantopian-quandl requires a Python security update "
+            "that provides tarfile.data_filter."
+        )
     if show_progress:
         data = download_with_progress(
             QUANTOPIAN_QUANDL_URL,
@@ -311,16 +315,7 @@ def quantopian_quandl_bundle(
     with tarfile.open("r", fileobj=data) as tar:
         if show_progress:
             log.info("Writing data to %s.", output_dir)
-        for member in tar.getmembers():
-            member_path = os.path.join(output_dir, member.name)
-            if not os.path.realpath(member_path).startswith(
-                os.path.realpath(output_dir)
-            ):
-                raise ValueError(
-                    f"Tar member {member.name!r} would extract outside "
-                    f"target directory"
-                )
-        tar.extractall(output_dir)
+        tar.extractall(output_dir, filter="data")
 
 
 register_calendar_alias("QUANDL", "NYSE")

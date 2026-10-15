@@ -31,18 +31,7 @@ None
 Bug Fixes
 ~~~~~~~~~
 
-- Fix ``convert_cols`` in bcolz minute bar writer to use ``|=`` instead of
-  ``&=`` for the exclude mask, so rows with uint32 overflow values are actually
-  filtered out. (:issue:`314`)
-- Fix infinite loop in ``DataPortal._get_daily_spot_value`` when searching
-  backwards for a non-NaN close price by adding a bounds check against
-  ``_first_trading_day``. (:issue:`314`)
-- Fix infinite loop in ``BcolzDailyBarReader.get_last_traded_dt`` when
-  ``NoDataAfterDate`` is raised and no previous session exists. (:issue:`314`)
-- Fix ``DataPortal.get_adjustments`` to apply ``tz_localize`` to merger
-  adjustment dates, consistent with splits and dividends. (:issue:`314`)
-- Add path traversal validation to ``tar.extractall`` in the Quandl bundle
-  loader (CVE-2007-4559). (:issue:`314`)
+None
 
 Performance
 ~~~~~~~~~~~

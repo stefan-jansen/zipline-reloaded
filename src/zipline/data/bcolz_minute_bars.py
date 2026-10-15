@@ -156,7 +156,7 @@ def convert_cols(cols, scale_factor, sid, invalid_data_behavior):
 
             # We want to exclude all rows that have an unsafe value in
             # this column.
-            exclude_mask |= scaled_col >= np.iinfo(np.uint32).max
+            exclude_mask &= scaled_col >= np.iinfo(np.uint32).max
 
     # Convert all cols to uint32.
     opens = scaled_opens.astype(np.uint32)

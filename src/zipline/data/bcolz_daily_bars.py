@@ -595,8 +595,6 @@ class BcolzDailyBarReader(CurrencyAwareSessionBarReader):
                 prev_day_ix = self.sessions.get_loc(search_day) - 1
                 if prev_day_ix > -1:
                     search_day = self.sessions[prev_day_ix]
-                else:
-                    return pd.NaT
                 continue
             except NoDataOnDate:
                 return pd.NaT

@@ -595,9 +595,9 @@ class DataPortal:
                     asset, self._mergers_dict, "MERGERS"
                 )
                 for adj_dt, adj in merger_adjustments:
-                    if dt < adj_dt.tz_localize(dt.tzinfo) <= perspective_dt:
+                    if dt < adj_dt <= perspective_dt:
                         adjustments_for_asset.append(adj)
-                    elif adj_dt.tz_localize(dt.tzinfo) > perspective_dt:
+                    elif adj_dt > perspective_dt:
                         break
 
                 dividend_adjustments = self._get_adjustment_list(
@@ -738,8 +738,6 @@ class DataPortal:
                             )
                     else:
                         found_dt -= self.trading_calendar.day
-                        if found_dt < self._first_trading_day:
-                            return np.nan
                 except NoDataOnDate:
                     return np.nan
 
