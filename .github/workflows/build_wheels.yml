@@ -23,7 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest , windows-latest, macos-latest ]
-        python: [ "cp311", "cp312", "cp313" ]
+        python: [ "cp311", "cp312", "cp313", "cp314" ]
         arch: [ auto64 ]
 
     steps:
