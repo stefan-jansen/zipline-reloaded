@@ -1,0 +1,2 @@
+# pandas 1.5/2.0 source builds import pkg_resources, removed in setuptools 82.
+setuptools<82
