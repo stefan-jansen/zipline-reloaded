@@ -31,21 +31,7 @@ None
 Bug Fixes
 ~~~~~~~~~
 
-- Fix ``execute_daily_cancel_policy`` to cancel all orders for all assets at
-  end of day, not just the first order for assets with multiple orders.
-  Previously, assets with a single open order were skipped entirely. (:issue:`313`)
-- Fix ``NoSlippage.process_order`` and ``FixedSlippage.process_order`` to use
-  ``order.open_amount`` instead of ``order.amount``, preventing overfill of
-  partially filled orders. (:issue:`313`)
-- Fix ``VolumeShareSlippage.process_order`` to return ``(None, None)`` instead
-  of bare ``None`` when price is NaN, preventing ``TypeError`` during tuple
-  unpacking. (:issue:`313`)
-- Fix ``before_trading_start`` to reset ``_in_before_trading_start`` flag via
-  ``try/finally``, preventing orders from being permanently blocked after an
-  exception in the user's callback. (:issue:`313`)
-- Fix ``validate_order_params`` and ``__convert_order_params_for_blotter`` to
-  use ``is not None`` checks for ``limit_price`` and ``stop_price`` instead of
-  truthiness checks, allowing a price of ``0.0``. (:issue:`313`)
+None
 
 Performance
 ~~~~~~~~~~~

@@ -222,7 +222,7 @@ class NoSlippage(SlippageModel):
     def process_order(data, order):
         return (
             data.current(order.asset, "close"),
-            order.open_amount,
+            order.amount,
         )
 
 
@@ -317,7 +317,7 @@ class VolumeShareSlippage(SlippageModel):
         # Remove this block after fixing data to ensure volume always has
         # corresponding price.
         if isnull(price):
-            return None, None
+            return
         # END
 
         simulated_impact = (
@@ -362,7 +362,7 @@ class FixedSlippage(SlippageModel):
     def process_order(self, data, order):
         price = data.current(order.asset, "close")
 
-        return (price + (self.spread / 2.0 * order.direction), order.open_amount)
+        return (price + (self.spread / 2.0 * order.direction), order.amount)
 
 
 class MarketImpactBase(SlippageModel):

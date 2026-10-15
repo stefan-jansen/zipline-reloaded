@@ -431,15 +431,14 @@ class TradingAlgorithm:
 
         self._in_before_trading_start = True
 
-        try:
-            with (
-                handle_non_market_minutes(data)
-                if self.data_frequency == "minute"
-                else ExitStack()
-            ):
-                self._before_trading_start(self, data)
-        finally:
-            self._in_before_trading_start = False
+        with (
+            handle_non_market_minutes(data)
+            if self.data_frequency == "minute"
+            else ExitStack()
+        ):
+            self._before_trading_start(self, data)
+
+        self._in_before_trading_start = False
 
     def handle_data(self, data):
         if self._handle_data:

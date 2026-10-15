@@ -239,7 +239,48 @@ class SimulationBlotter(Blotter):
         if self.cancel_policy.should_cancel(event):
             warn = self.cancel_policy.warn_on_cancel
             for asset in copy(self.open_orders):
-                self.cancel_all_orders_for_asset(asset, warn, relay_status=True)
+                orders = self.open_orders[asset]
+                if len(orders) > 1:
+                    order = orders[0]
+                    self.cancel(order.id, relay_status=True)
+                    if warn:
+                        if order.filled > 0:
+                            warning_logger.warn(
+                                "Your order for {order_amt} shares of "
+                                "{order_sym} has been partially filled. "
+                                "{order_filled} shares were successfully "
+                                "purchased. {order_failed} shares were not "
+                                "filled by the end of day and "
+                                "were canceled.".format(
+                                    order_amt=order.amount,
+                                    order_sym=order.asset.symbol,
+                                    order_filled=order.filled,
+                                    order_failed=order.amount - order.filled,
+                                )
+                            )
+                        elif order.filled < 0:
+                            warning_logger.warn(
+                                "Your order for {order_amt} shares of "
+                                "{order_sym} has been partially filled. "
+                                "{order_filled} shares were successfully "
+                                "sold. {order_failed} shares were not "
+                                "filled by the end of day and "
+                                "were canceled.".format(
+                                    order_amt=order.amount,
+                                    order_sym=order.asset.symbol,
+                                    order_filled=-1 * order.filled,
+                                    order_failed=-1 * (order.amount - order.filled),
+                                )
+                            )
+                        else:
+                            warning_logger.warn(
+                                "Your order for {order_amt} shares of "
+                                "{order_sym} failed to fill by the end of day "
+                                "and was canceled.".format(
+                                    order_amt=order.amount,
+                                    order_sym=order.asset.symbol,
+                                )
+                            )
 
     def execute_cancel_policy(self, event):
         if self.cancel_policy.should_cancel(event):

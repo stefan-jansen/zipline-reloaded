@@ -1,5 +1,6 @@
 prune *
 include LICENSE README.md pyproject.toml setup.py
+include tools/legacy-pandas-build-constraints.txt
 
 graft src
 graft tests
