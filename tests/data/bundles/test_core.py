@@ -450,9 +450,10 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
 
         assert loaded(self._ts_of_run(first)) == first
         assert loaded(self._ts_of_run(second)) == second
-        halfway = self._ts_of_run(first) + (
-            self._ts_of_run(second) - self._ts_of_run(first)
-        ) / 2
+        halfway = (
+            self._ts_of_run(first)
+            + (self._ts_of_run(second) - self._ts_of_run(first)) / 2
+        )
         assert loaded(halfway) == first
         # A tz-aware timestamp is compared in UTC, as ingestion names are.
         assert loaded(self._ts_of_run(second).tz_localize("UTC")) == second
@@ -587,3 +588,56 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
             fourth,
             fifth,
         }, "did not strip first and last directories"
+
+
+@pytest.mark.parametrize("zipline_root_type", ["relative", "absolute"])
+@pytest.mark.parametrize(
+    "timestamp, expected_price",
+    [
+        (None, 30.0),
+        (pd.Timestamp("2025-04-14"), 10.0),
+        (pd.Timestamp("2025-04-14", tz="US/Eastern"), 10.0),
+    ],
+)
+def test_load_uses_ingestion_name_for_paths(
+    monkeypatch, tmp_path, zipline_root_type, timestamp, expected_price
+):
+    """Load the selected ingestion through both relative and absolute roots."""
+    _, register, _, ingest, load, _ = _make_bundle_core()
+    monkeypatch.chdir(tmp_path)
+    zipline_root = (
+        "zipline" if zipline_root_type == "relative" else str(tmp_path / "zipline")
+    )
+    environ = {"ZIPLINE_ROOT": zipline_root}
+    start, end = pd.Timestamp("2014-01-06"), pd.Timestamp("2014-01-08")
+    calendar = get_calendar("XNYS")
+    sessions = calendar.sessions_in_range(start, end)
+    minutes = calendar.sessions_minutes(start, end)
+
+    @register("bundle", calendar_name="XNYS", start_session=start, end_session=end)
+    def write_bundle(environ, assets, minute, daily, adjustments, calendar, *args):
+        assets.write(equities=make_simple_equity_info([1], start, end))
+        for writer, dates in [(daily, sessions), (minute, minutes)]:
+            bars = pd.DataFrame(
+                {field: price for field in ["open", "high", "low", "close"]},
+                index=dates,
+            )
+            bars["volume"] = 1000
+            writer.write([(1, bars)])
+        adjustments.write()
+
+    for date, price in [("2025-04-13", 10.0), ("2025-04-15", 30.0)]:
+        ingest("bundle", environ=environ, timestamp=pd.Timestamp(date, tz="UTC"))
+    with load("bundle", environ=environ, timestamp=timestamp) as bundle_data:
+        assert bundle_data.asset_finder.retrieve_asset(1).sid == 1
+        assert (
+            bundle_data.equity_daily_bar_reader.get_value(1, start, "close")
+            == expected_price
+        )
+        assert (
+            bundle_data.equity_minute_bar_reader.get_value(1, minutes[0], "close")
+            == expected_price
+        )
+        assert bundle_data.adjustment_reader.load_pricing_adjustments(
+            ["close"], sessions, pd.Index([1])
+        ) == [{}]

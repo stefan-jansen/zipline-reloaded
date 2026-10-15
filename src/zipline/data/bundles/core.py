@@ -492,8 +492,8 @@ def _make_bundle_core():
                     downgrade(wf.path, version)
 
     def most_recent_data(bundle_name, timestamp, environ=None):
-        """Get the path to the most recent data on or before ``timestamp`` for
-        the given bundle.
+        """Get the name of the newest ingestion on or before ``timestamp``
+        for the given bundle.
 
         Parameters
         ----------
@@ -517,19 +517,13 @@ def _make_bundle_core():
             candidates = os.listdir(
                 pth.data_path([bundle_name], environ=environ),
             )
-            return pth.data_path(
-                [
-                    bundle_name,
-                    max(
-                        (
-                            candidate
-                            for candidate in filter(complement(pth.hidden), candidates)
-                            if from_bundle_ingest_dirname(candidate) <= cutoff
-                        ),
-                        key=from_bundle_ingest_dirname,
-                    ),
-                ],
-                environ=environ,
+            return max(
+                (
+                    candidate
+                    for candidate in filter(complement(pth.hidden), candidates)
+                    if from_bundle_ingest_dirname(candidate) <= cutoff
+                ),
+                key=from_bundle_ingest_dirname,
             )
         except (ValueError, OSError) as e:
             if getattr(e, "errno", errno.ENOENT) != errno.ENOENT:
