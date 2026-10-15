@@ -156,11 +156,11 @@ def _weak_lru_cache(maxsize=100):
                         hits += 1
                         return result
                     except KeyError:
-                        misses += 1
                         pass
                 result = user_function(*args, **kwds)
                 with lock:
                     cache[key] = result  # record recent use of this key
+                    misses += 1
                     if cache_len() > maxsize:
                         # purge least recently used cache entry
                         cache_popitem(last=False)
@@ -199,8 +199,8 @@ class _WeakArgs(Sequence):
             if self is not None and dict_remove is not None:
                 dict_remove(self)
 
-        self._items, self._selectors = unzip(
-            self._try_ref(item, remove) for item in items
+        self._items, self._selectors = (
+            unzip(self._try_ref(item, remove) for item in items) if items else ((), ())
         )
         self._items = tuple(self._items)
         self._selectors = tuple(self._selectors)
@@ -236,6 +236,9 @@ class _WeakArgs(Sequence):
 
 
 class _WeakArgsDict(WeakKeyDictionary, object):
+    def clear(self):
+        self.data.clear()
+
     def __delitem__(self, key):
         del self.data[_WeakArgs(key)]
 

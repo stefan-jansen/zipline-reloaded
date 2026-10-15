@@ -31,18 +31,7 @@ None
 Bug Fixes
 ~~~~~~~~~
 
-- Fix ``_weak_lru_cache`` double-counting cache misses and fix
-  ``cache_clear()`` crash from subscripting integer counters. (:issue:`315`)
-- Fix ``AssetFinder._lookup_symbol_strict`` to materialize ``map()`` iterator
-  to a list before reuse, preventing empty ``options`` dict in
-  ``SameSymbolUsedAcrossCountries`` error. (:issue:`315`)
-- Fix ``AssetDBWriter._all_tables_present`` to check all tables instead of
-  returning after the first one. (:issue:`315`)
-- Fix ``BeforeClose.calculate_dates`` to compare ``self.cal.name`` instead of
-  ``self.cal`` to the string ``"us_futures"``. (:issue:`315`)
-- Fix ``AssetDBWriter.write_direct`` argument order for futures, which
-  previously swapped the data and defaults arguments to
-  ``_generate_output_dataframe``. (:issue:`315`)
+None
 
 Performance
 ~~~~~~~~~~~
