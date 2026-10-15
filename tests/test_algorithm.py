@@ -940,6 +940,12 @@ class TestPositions(zf.WithMakeAlgo, zf.ZiplineTestCase):
         for i, expected in enumerate(expected_position_count):
             assert result.iloc[i]["num_positions"] == expected
 
+    def test_positions_metric_serializes_positions(self):
+        from zipline.finance.metrics.metric import Positions
+
+        results = self.run_algorithm(metrics_set={Positions()})
+        assert all(positions == [] for positions in results.positions)
+
     def test_noop_orders(self):
         asset = self.asset_finder.retrieve_asset(1)
 
@@ -2055,6 +2061,12 @@ class TestAlgoScript(zf.WithMakeAlgo, zf.ZiplineTestCase):
             warnings.simplefilter("ignore", RuntimeWarning)
             # catch new FutureWarning until fixed
             warnings.simplefilter("ignore", FutureWarning)
+            warnings.filterwarnings(
+                "ignore",
+                message="The 'generic' unit for NumPy timedelta is deprecated",
+                category=DeprecationWarning,
+                module=r"exchange_calendars\.utils\.pandas_utils",
+            )
 
             algo = self.make_algo(script=algocode, sim_params=sim_params)
             algo.run()

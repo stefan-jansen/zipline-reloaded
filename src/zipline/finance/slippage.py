@@ -61,7 +61,7 @@ def fill_price_worse_than_limit_price(fill_price, order):
     bool: Whether the fill price is above the limit price (for a buy) or below
     the limit price (for a sell).
     """
-    if order.limit is not None:
+    if order.limit:
         # this is tricky! if an order with a limit price has reached
         # the limit price, we will try to fill the order. do not fill
         # these shares if the impacted price is worse than the limit

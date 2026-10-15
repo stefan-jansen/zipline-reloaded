@@ -155,10 +155,10 @@ class MaxOrderSize(TradingControl):
         if max_shares is None and max_notional is None:
             raise ValueError("Must supply at least one of max_shares and max_notional")
 
-        if max_shares is not None and max_shares < 0:
+        if max_shares and max_shares < 0:
             raise ValueError("max_shares cannot be negative.")
 
-        if max_notional is not None and max_notional < 0:
+        if max_notional and max_notional < 0:
             raise ValueError("max_notional must be positive.")
 
     def validate(self, asset, amount, portfolio, algo_datetime, algo_current_data):
@@ -199,10 +199,10 @@ class MaxPositionSize(TradingControl):
         if max_shares is None and max_notional is None:
             raise ValueError("Must supply at least one of max_shares and max_notional")
 
-        if max_shares is not None and max_shares < 0:
+        if max_shares and max_shares < 0:
             raise ValueError("max_shares cannot be negative.")
 
-        if max_notional is not None and max_notional < 0:
+        if max_notional and max_notional < 0:
             raise ValueError("max_notional must be positive.")
 
     def validate(self, asset, amount, portfolio, algo_datetime, algo_current_data):
@@ -268,13 +268,13 @@ class AssetDateBounds(TradingControl):
         normalized_algo_dt = algo_datetime.normalize().tz_localize(None)
 
         # Fail if the algo is before this Asset's start_date
-        if asset.start_date is not None:
+        if asset.start_date:
             normalized_start = asset.start_date.normalize()
             if normalized_algo_dt < normalized_start:
                 metadata = {"asset_start_date": normalized_start}
                 self.handle_violation(asset, amount, algo_datetime, metadata=metadata)
         # Fail if the algo has passed this Asset's end_date
-        if asset.end_date is not None:
+        if asset.end_date:
             normalized_end = asset.end_date.normalize()
             if normalized_algo_dt > normalized_end:
                 metadata = {"asset_end_date": normalized_end}

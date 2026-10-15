@@ -31,13 +31,7 @@ None
 Bug Fixes
 ~~~~~~~~~
 
-- Fix ``fill_price_worse_than_limit_price`` skipping limit price check when
-  ``order.limit`` is ``0.0`` due to Python truthiness (:issue:`xxx`).
-- Fix ``Positions`` metric class calling ``ledger.positions`` property as a method
-  (:issue:`xxx`).
-- Fix multiple Python truthiness checks that should use ``is not None`` in
-  ``validate_order_params``, ``_can_order_asset``, ``AssetDateBounds.validate``,
-  ``MaxOrderSize``, and ``MaxPositionSize`` (:issue:`xxx`).
+None
 
 Performance
 ~~~~~~~~~~~
