@@ -2,11 +2,6 @@ name: CI Tests
 
 on:
   workflow_dispatch:
-    inputs:
-      qualify_new_python:
-        description: 'Qualify Python 3.14 and 3.15 without declaring support'
-        type: boolean
-        default: false
   push:
       branches:
       - main
@@ -48,7 +43,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ${{ fromJSON(inputs.qualify_new_python && '["3.14", "3.15"]' || '["3.11", "3.12", "3.13"]') }}
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
 
     steps:
       - name: Checkout Zipline
@@ -78,25 +73,6 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           ./tools/install_talib.bat
-
-      - name: Build HDF5 for Python 3.15 source dependencies
-        if: ${{ matrix.python-version == '3.15' && runner.os != 'macOS' }}
-        shell: bash
-        run: |
-          mkdir -p "$RUNNER_TEMP/zipline-hdf5"
-          cd "$RUNNER_TEMP/zipline-hdf5"
-          curl --fail --location --retry 3 https://github.com/HDFGroup/hdf5/releases/download/hdf5_1.14.6/hdf5-1.14.6.tar.gz -o hdf5.tar.gz
-          echo 'e4defbac30f50d64e1556374aa49e574417c9e72c6b1de7a4ff88c4b1bea6e9b  hdf5.tar.gz' | sha256sum --check
-          tar -xzf hdf5.tar.gz
-          install_prefix="$PWD/install"
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
-            install_prefix="$(cygpath -m "$install_prefix")"
-          fi
-          cmake -S hdf5-1.14.6 -B build -DCMAKE_INSTALL_PREFIX="$install_prefix" -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DHDF5_BUILD_TOOLS=OFF -DHDF5_BUILD_EXAMPLES=OFF -DHDF5_BUILD_CPP_LIB=OFF -DHDF5_BUILD_FORTRAN=OFF
-          cmake --build build --config Release --parallel 4
-          cmake --install build --config Release
-          echo "HDF5_DIR=$install_prefix" >> "$GITHUB_ENV"
-          echo "$install_prefix/bin" >> "$GITHUB_PATH"
 
       - name: Install Zipline
         run: |
@@ -144,8 +120,4 @@ jobs:
           echo "Python hash seed: $PYTHONHASHSEED"
           python -c "from datetime import datetime; print(f'Timestamp: {datetime.now()}')"
           python -c "import time; print(f'System timezone: {time.tzname}')"
-          case "${{ matrix.python-version }}" in
-            3.14) tox -v -e py314-pandas23-numpy2 ;;
-            3.15) tox -v -e py315-pandas23-numpy2 ;;
-            *) tox -v ;;
-          esac
+          tox -v
