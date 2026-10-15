@@ -252,7 +252,6 @@ class NumericalExpression(ComputableTerm):
             global_dict={"inf": inf},
             out=out,
         )
-        out[~mask] = self.missing_value
         return out
 
     def _rebind_variables(self, new_inputs):
@@ -289,7 +288,7 @@ class NumericalExpression(ComputableTerm):
 
         Returns a tuple of (new_self_expr, new_other_expr, new_inputs)
         """
-        new_inputs = tuple(dict.fromkeys(self.inputs + other.inputs))
+        new_inputs = tuple(set(self.inputs).union(other.inputs))
         new_self_expr = self._rebind_variables(new_inputs)
         new_other_expr = other._rebind_variables(new_inputs)
         return new_self_expr, new_other_expr, new_inputs

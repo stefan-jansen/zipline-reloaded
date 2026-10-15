@@ -209,11 +209,6 @@ class SQLiteAdjustmentReader:
         ]
 
     def get_adjustments_for_sid(self, table_name, sid):
-        if table_name.lower() not in SQLITE_ADJUSTMENT_TABLENAMES:
-            raise ValueError(
-                f"Table name '{table_name}' is not in the whitelist of "
-                f"adjustment tables: {SQLITE_ADJUSTMENT_TABLENAMES}"
-            )
         t = (sid,)
         c = self.conn.cursor()
         adjustments_for_sid = c.execute(

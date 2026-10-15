@@ -465,9 +465,7 @@ class _ClassicRiskMetrics:
             & (algorithm_returns.index <= end_session)
         ]
 
-        if isinstance(
-            getattr(algorithm_leverages, 'index', None), pd.DatetimeIndex
-        ):
+        if isinstance(getattr(algorithm_leverages, "index", None), pd.DatetimeIndex):
             algorithm_leverages = algorithm_leverages[
                 (algorithm_leverages.index >= start_session)
                 & (algorithm_leverages.index <= end_session)

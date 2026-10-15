@@ -31,18 +31,7 @@ None
 Bug Fixes
 ~~~~~~~~~
 
-- Fix ``RollFinder.get_rolls`` using ``sessions.freq`` which returns ``None``
-  in pandas 2.0+ (:issue:`xxx`).
-- Fix ``compute_asset_lifetimes`` reporting all-null assets as spanning the entire
-  date range in HDF5 daily bar writer (:issue:`xxx`).
-- Fix ``NumericalExpression._compute`` not applying mask to output (:issue:`xxx`).
-- Fix ``NumericalExpression._merge_expressions`` using ``set()`` which loses
-  deterministic input ordering (:issue:`xxx`).
-- Add SQL table name whitelist validation in ``SQLiteAdjustmentReader``
-  (:issue:`xxx`).
-- Fix ``_ClassicRiskMetrics.risk_metric_period`` computing ``max_leverage`` across
-  the entire simulation instead of filtering to the reporting period
-  (:issue:`xxx`).
+None
 
 Performance
 ~~~~~~~~~~~
