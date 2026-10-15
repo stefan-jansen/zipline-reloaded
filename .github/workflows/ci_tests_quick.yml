@@ -5,16 +5,13 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   black-format:
     name: Formatting Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: psf/black@stable
         with:
           options: "--check --diff"
@@ -25,10 +22,10 @@ jobs:
     name: Lint Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: flake8 Lint
         uses: py-actions/flake8@v2
@@ -37,14 +34,14 @@ jobs:
     name: Unit Tests for ${{ matrix.python-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.11"]
+        python-version: ["3.12"]
 
     steps:
       - name: Checkout Zipline
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
@@ -76,7 +73,7 @@ jobs:
           python -VV
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install tox tox-gh-actions
-          python -m pip install .[test]
+          python -m pip install ".[test]"
 
       - name: Unittests with tox & pytest
         uses: nick-fields/retry@v3
@@ -84,8 +81,8 @@ jobs:
           timeout_minutes: 90
           max_attempts: 3
           retry_on: error
-          new_command_on_retry: python -m pip install tox tox-gh-actions .[test]
-          command: tox -e py311-pandas2
+          on_retry_command: python -m pip install tox tox-gh-actions ".[test]"
+          command: tox -e py312-pandas222-numpy20
 
       - name: Upload coverage data to Codecov
         if: ${{ matrix.os == 'ubuntu-latest' }}

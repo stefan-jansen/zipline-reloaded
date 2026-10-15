@@ -144,11 +144,33 @@ RegisteredBundle = namedtuple(
     ],
 )
 
-BundleData = namedtuple(
-    "BundleData",
+_BundleData = namedtuple(
+    "_BundleData",
     "asset_finder equity_minute_bar_reader equity_daily_bar_reader "
     "adjustment_reader",
 )
+
+
+class BundleData(_BundleData):
+    """Wrapper around bundle data that provides proper resource cleanup."""
+
+    def close(self):
+        """Close all resources that need cleanup."""
+        # Close AssetFinder if it has a close method
+        if hasattr(self.asset_finder, "close"):
+            self.asset_finder.close()
+
+        # Close SQLiteAdjustmentReader if it has a close method
+        if hasattr(self.adjustment_reader, "close"):
+            self.adjustment_reader.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
+        return False
+
 
 BundleCore = namedtuple(
     "BundleCore",
@@ -470,7 +492,7 @@ def _make_bundle_core():
                     downgrade(wf.path, version)
 
     def most_recent_data(bundle_name, timestamp, environ=None):
-        """Get the path to the most recent data after ``date``for the
+        """Get the name of the most recent data ingestion after ``date`` for the
         given bundle.
 
         Parameters
@@ -489,15 +511,9 @@ def _make_bundle_core():
             candidates = os.listdir(
                 pth.data_path([bundle_name], environ=environ),
             )
-            return pth.data_path(
-                [
-                    bundle_name,
-                    max(
-                        filter(complement(pth.hidden), candidates),
-                        key=from_bundle_ingest_dirname,
-                    ),
-                ],
-                environ=environ,
+            return max(
+                filter(complement(pth.hidden), candidates),
+                key=from_bundle_ingest_dirname,
             )
         except (ValueError, OSError) as e:
             if getattr(e, "errno", errno.ENOENT) != errno.ENOENT:

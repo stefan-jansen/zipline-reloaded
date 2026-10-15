@@ -19,7 +19,7 @@ from toolz import merge
 
 from zipline.assets.synthetic import make_rotating_equity_info
 from zipline.errors import NoFurtherDataError
-from zipline.lib.adjustment import MULTIPLY
+from zipline.lib.adjustment import AdjustmentKind
 from zipline.lib.labelarray import LabelArray
 from zipline.pipeline import CustomFactor, Pipeline
 from zipline.pipeline.data import (
@@ -820,7 +820,7 @@ class FrameInputTestCase(
         adjustments = pd.DataFrame.from_records(
             [
                 dict(
-                    kind=MULTIPLY,
+                    kind=AdjustmentKind.MULTIPLY,
                     sid=asset_ids[1],
                     value=2.0,
                     start_date=None,
@@ -828,7 +828,7 @@ class FrameInputTestCase(
                     apply_date=apply_date(0),
                 ),
                 dict(
-                    kind=MULTIPLY,
+                    kind=AdjustmentKind.MULTIPLY,
                     sid=asset_ids[1],
                     value=3.0,
                     start_date=None,
@@ -836,7 +836,7 @@ class FrameInputTestCase(
                     apply_date=apply_date(1),
                 ),
                 dict(
-                    kind=MULTIPLY,
+                    kind=AdjustmentKind.MULTIPLY,
                     sid=asset_ids[1],
                     value=5.0,
                     start_date=None,
@@ -1121,7 +1121,7 @@ class ParameterizedFactorTestCase(
         # ewma (which is itself a rolling-window function) because we only want
         # to look at ``window_length`` rows at a time.
         return self.raw_data.rolling(window_length).apply(
-            lambda subarray: (pd.DataFrame(subarray).ewm(span=span).mean().values[-1])
+            lambda subarray: pd.DataFrame(subarray).ewm(span=span).mean().iloc[-1, 0]
         )[window_length:]
 
     def expected_ewmstd(self, window_length, decay_rate):
@@ -1133,7 +1133,7 @@ class ParameterizedFactorTestCase(
         # of an ewma (which is itself a rolling-window function) because we
         # only want to look at ``window_length`` rows at a time.
         return self.raw_data.rolling(window_length).apply(
-            lambda subarray: (pd.DataFrame(subarray).ewm(span=span).std().values[-1])
+            lambda subarray: pd.DataFrame(subarray).ewm(span=span).std().iloc[-1, 0]
         )[window_length:]
 
     @parameterized.expand(
@@ -1442,20 +1442,24 @@ class PopulateInitialWorkspaceTestCase(
             self.dates[-1],
         )
 
-        assert_equal(
-            results["precomputed_term"].values,
-            np.full_like(
-                results["precomputed_term"],
-                precomputed_term_value,
+        (
+            assert_equal(
+                results["precomputed_term"].values,
+                np.full_like(
+                    results["precomputed_term"],
+                    precomputed_term_value,
+                ),
             ),
-        ),
-        assert_equal(
-            results["precomputed_term_with_window"].values,
-            np.full_like(
-                results["precomputed_term_with_window"],
-                precomputed_term_with_window_value,
+        )
+        (
+            assert_equal(
+                results["precomputed_term_with_window"].values,
+                np.full_like(
+                    results["precomputed_term_with_window"],
+                    precomputed_term_with_window_value,
+                ),
             ),
-        ),
+        )
         assert_equal(
             results["depends_on_precomputed_term"].values,
             np.full_like(

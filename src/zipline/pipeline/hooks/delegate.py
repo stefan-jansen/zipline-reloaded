@@ -1,5 +1,3 @@
-from interface import implements
-
 from zipline.utils.compat import ExitStack, contextmanager, wraps
 
 from .iface import PipelineHooks, PIPELINE_HOOKS_CONTEXT_MANAGERS
@@ -31,12 +29,12 @@ def delegating_hooks_method(method_name):
         return method
 
 
-class DelegatingHooks(implements(PipelineHooks)):
+class DelegatingHooks(PipelineHooks):
     """A PipelineHooks that delegates to one or more other hooks.
 
     Parameters
     ----------
-    hooks : list[implements(PipelineHooks)]
+    hooks : list[PipelineHooks]
         Sequence of hooks to delegate to.
     """
 
@@ -54,15 +52,34 @@ class DelegatingHooks(implements(PipelineHooks)):
             self._hooks = hooks
             return self
 
-    # Implement all interface methods by delegating to corresponding methods on
-    # input hooks.
-    locals().update(
-        {
-            name: delegating_hooks_method(name)
-            # TODO: Expose this publicly on interface.
-            for name in PipelineHooks._signatures
-        }
-    )
+    @contextmanager
+    def running_pipeline(self, *args, **kwargs):
+        with ExitStack() as stack:
+            for hook in self._hooks:
+                sub_ctx = hook.running_pipeline(*args, **kwargs)
+                stack.enter_context(sub_ctx)
+            yield stack
 
+    @contextmanager
+    def computing_chunk(self, *args, **kwargs):
+        with ExitStack() as stack:
+            for hook in self._hooks:
+                sub_ctx = hook.computing_chunk(*args, **kwargs)
+                stack.enter_context(sub_ctx)
+            yield stack
 
-del delegating_hooks_method
+    @contextmanager
+    def loading_terms(self, *args, **kwargs):
+        with ExitStack() as stack:
+            for hook in self._hooks:
+                sub_ctx = hook.loading_terms(*args, **kwargs)
+                stack.enter_context(sub_ctx)
+            yield stack
+
+    @contextmanager
+    def computing_term(self, *args, **kwargs):
+        with ExitStack() as stack:
+            for hook in self._hooks:
+                sub_ctx = hook.computing_term(*args, **kwargs)
+                stack.enter_context(sub_ctx)
+            yield stack

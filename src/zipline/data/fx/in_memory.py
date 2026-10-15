@@ -1,13 +1,12 @@
 """Interface and definitions for foreign exchange rate readers."""
 
-from interface import implements
 import numpy as np
 
 from .base import FXRateReader, DEFAULT_FX_RATE
 from .utils import check_dts
 
 
-class InMemoryFXRateReader(implements(FXRateReader)):
+class InMemoryFXRateReader(FXRateReader):
     """A simple in-memory FXRateReader.
 
     This is primarily used for testing.

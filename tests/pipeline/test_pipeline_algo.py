@@ -22,7 +22,7 @@ from zipline.errors import (
     DuplicatePipelineName,
 )
 from zipline.finance.trading import SimulationParameters
-from zipline.lib.adjustment import MULTIPLY
+from zipline.lib.adjustment import AdjustmentKind
 from zipline.pipeline import Pipeline, CustomFactor
 from zipline.pipeline.factors import VWAP
 from zipline.pipeline.data import USEquityPricing
@@ -112,15 +112,18 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
         )
         cls.volumes = cls.closes * 1000
         for sid in sids:
-            yield sid, pd.DataFrame(
-                {
-                    "open": cls.closes[sid].values,
-                    "high": cls.closes[sid].values,
-                    "low": cls.closes[sid].values,
-                    "close": cls.closes[sid].values,
-                    "volume": cls.volumes[sid].values,
-                },
-                index=cls.dates,
+            yield (
+                sid,
+                pd.DataFrame(
+                    {
+                        "open": cls.closes[sid].values,
+                        "high": cls.closes[sid].values,
+                        "low": cls.closes[sid].values,
+                        "close": cls.closes[sid].values,
+                        "volume": cls.volumes[sid].values,
+                    },
+                    index=cls.dates,
+                ),
             )
 
     @classmethod
@@ -141,7 +144,7 @@ class ClosesAndVolumes(WithMakeAlgo, ZiplineTestCase):
                 {
                     "sid": cls.split_asset.sid,
                     "value": cls.split_ratio,
-                    "kind": MULTIPLY,
+                    "kind": AdjustmentKind.MULTIPLY,
                     "start_date": pd.NaT,
                     "end_date": cls.split_date,
                     "apply_date": cls.split_date,
@@ -636,7 +639,6 @@ class PipelineAlgorithmTestCase(
         )
 
     def test_empty_pipeline(self):
-
         # For ensuring we call before_trading_start.
         count = [0]
 
@@ -718,7 +720,6 @@ class PipelineAlgorithmTestCase(
 
 
 class PipelineSequenceTestCase(WithMakeAlgo, ZiplineTestCase):
-
     # run algorithm for 3 days
     START_DATE = pd.Timestamp("2014-12-29")
     END_DATE = pd.Timestamp("2014-12-31")
@@ -728,7 +729,6 @@ class PipelineSequenceTestCase(WithMakeAlgo, ZiplineTestCase):
         raise AssertionError("Loading terms for pipeline with no inputs")
 
     def test_pipeline_compute_before_bts(self):
-
         # for storing and keeping track of calls to BTS and TestFactor.compute
         trace = []
 

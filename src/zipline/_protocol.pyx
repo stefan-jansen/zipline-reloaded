@@ -656,10 +656,13 @@ cdef class BarData:
                            for field, df in df_dict.items()}
 
             dt_label = 'date' if frequency == '1d' else 'date_time'
-            df = (pd.concat(df_dict,
-                            keys=df_dict.keys(),
-                            names=['fields', dt_label])
-                  .stack(future_stack=True)  # ensure we return all fields/assets/dates despite missing values
+            from zipline.utils.pandas_utils import stack_future_compatible
+            df = (stack_future_compatible(
+                      pd.concat(df_dict,
+                                keys=df_dict.keys(),
+                                names=['fields', dt_label]),
+                      future_stack=True  # ensure we return all fields/assets/dates despite missing values
+                  )
                   .unstack(level='fields'))
             df.index.set_names([dt_label, 'asset'])
             return df.sort_index()

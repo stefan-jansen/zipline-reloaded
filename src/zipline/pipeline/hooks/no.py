@@ -1,11 +1,9 @@
-from interface import implements
-
 from zipline.utils.compat import contextmanager
 
 from .iface import PipelineHooks
 
 
-class NoHooks(implements(PipelineHooks)):
+class NoHooks(PipelineHooks):
     """A PipelineHooks that defines no-op methods for all available hooks."""
 
     @contextmanager

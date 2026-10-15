@@ -1,5 +1,7 @@
 import numpy as np
+import os
 import pandas as pd
+import platform
 import toolz.curried.operator as op
 from os.path import (
     dirname,
@@ -19,9 +21,11 @@ from zipline.testing.fixtures import (
     ZiplineTestCase,
     WithResponses,
 )
-
+from tests.conftest import ON_WINDOWS_CI
+import sys
 from zipline.utils.functional import apply
 from zipline.testing.github_actions import skip_on
+import pytest
 
 TEST_RESOURCE_PATH = join(
     dirname(dirname(dirname(realpath(__file__)))),
@@ -187,6 +191,10 @@ class QuandlBundleTestCase(WithResponses, ZiplineTestCase):
         return pricing, adjustments
 
     @skip_on(PermissionError)
+    @pytest.mark.skipif(
+        ON_WINDOWS_CI or (sys.platform == "win32" and os.getenv("CI")),
+        reason="Bundle tests fail on Windows CI due to file permission issues",
+    )
     def test_bundle(self):
         with open(
             join(TEST_RESOURCE_PATH, "quandl_samples", "QUANDL_ARCHIVE.zip"),

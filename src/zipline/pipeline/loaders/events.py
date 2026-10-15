@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 
-from interface import implements
 from toolz import groupby, merge
 
 from .base import PipelineLoader
@@ -56,7 +55,7 @@ def validate_column_specs(events, next_value_columns, previous_value_columns):
         )
 
 
-class EventsLoader(implements(PipelineLoader)):
+class EventsLoader(PipelineLoader):
     """
     Base class for PipelineLoaders that supports loading the next and previous
     value of an event field.
@@ -134,8 +133,9 @@ class EventsLoader(implements(PipelineLoader)):
                 return "previous"
 
             raise ValueError(
-                "{c} not found in next_value_columns "
-                "or previous_value_columns".format(c=c)
+                "{c} not found in next_value_columns or previous_value_columns".format(
+                    c=c
+                )
             )
 
         groups = groupby(next_or_previous, requested_columns)

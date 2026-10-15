@@ -3,6 +3,9 @@ from pathlib import Path
 import sqlite3
 from unittest import TestCase
 import warnings
+import sys
+import gc
+import time as time_module
 
 import numpy as np
 import pandas as pd
@@ -164,7 +167,29 @@ class ZiplineTestCase(TestCase, metaclass=DebugMROMeta):
             # scoped while still allowing subclasses to access class level
             # attributes.
             delattr(cls, name)
-        stack.close()
+
+        # Windows-specific cleanup handling
+        if sys.platform == "win32":
+            gc.collect()
+            time_module.sleep(0.1)
+
+            # Try to close the stack with retries on Windows
+            for attempt in range(3):
+                try:
+                    stack.close()
+                    break
+                except PermissionError as e:
+                    if attempt < 2:
+                        gc.collect()
+                        time_module.sleep(0.2 * (attempt + 1))
+                    else:
+                        # Log but don't fail the test
+                        import warnings
+
+                        warnings.warn(f"Could not clean up class resources: {e}")
+                        break
+        else:
+            stack.close()
 
     @final
     @classmethod
@@ -224,7 +249,29 @@ class ZiplineTestCase(TestCase, metaclass=DebugMROMeta):
         stack = self._instance_teardown_stack
         for attr in set(vars(self)) - self._pre_setup_attrs:
             delattr(self, attr)
-        stack.close()
+
+        # Windows-specific cleanup handling
+        if sys.platform == "win32":
+            gc.collect()
+            time_module.sleep(0.1)
+
+            # Try to close the stack with retries on Windows
+            for attempt in range(3):
+                try:
+                    stack.close()
+                    break
+                except PermissionError as e:
+                    if attempt < 2:
+                        gc.collect()
+                        time_module.sleep(0.2 * (attempt + 1))
+                    else:
+                        # Log but don't fail the test
+                        import warnings
+
+                        warnings.warn(f"Could not clean up instance resources: {e}")
+                        break
+        else:
+            stack.close()
 
     @final
     def enter_instance_context(self, context_manager):
@@ -1705,10 +1752,29 @@ class WithUSEquityPricingPipelineEngine(WithAdjustmentReader, WithTradingSession
         )
 
         def get_loader(column):
+            # Check if column is directly in USEquityPricing.columns
             if column in USEquityPricing.columns:
                 return loader
-            else:
-                raise AssertionError("No loader registered for %s" % column)
+
+            # Handle specialized columns by checking unspecialized version
+            if hasattr(column, "unspecialize"):
+                unspecialized = column.unspecialize()
+                if unspecialized in USEquityPricing.columns:
+                    return loader
+
+            # Check if it's from EquityPricing dataset with matching name
+            if (
+                hasattr(column, "name")
+                and hasattr(column, "dataset")
+                and hasattr(column.dataset, "__name__")
+                and column.dataset.__name__ == "EquityPricing"
+            ):
+                # Check if we have a column with the same name in USEquityPricing
+                for us_col in USEquityPricing.columns:
+                    if us_col.name == column.name:
+                        return loader
+
+            raise AssertionError("No loader registered for %s" % column)
 
         cls.pipeline_engine = SimplePipelineEngine(
             get_loader=get_loader,

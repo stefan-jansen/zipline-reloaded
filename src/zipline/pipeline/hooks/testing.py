@@ -2,7 +2,6 @@ from collections import namedtuple
 
 from .iface import PipelineHooks, PIPELINE_HOOKS_CONTEXT_MANAGERS
 
-from interface import implements
 
 from zipline.utils.compat import contextmanager, wraps
 
@@ -47,7 +46,7 @@ def testing_hooks_method(method_name):
         return method
 
 
-class TestingHooks(implements(PipelineHooks)):
+class TestingHooks(PipelineHooks):
     """A hooks implementation that keeps a trace of hook method calls."""
 
     def __init__(self):
@@ -56,12 +55,30 @@ class TestingHooks(implements(PipelineHooks)):
     def clear(self):
         self.trace = []
 
-    # Implement all interface methods by delegating to corresponding methods on
-    # input hooks.
-    locals().update(
-        {
-            name: testing_hooks_method(name)
-            # TODO: Expose this publicly on interface.
-            for name in PipelineHooks._signatures
-        }
-    )
+    @contextmanager
+    def running_pipeline(self, *args, **kwargs):
+        call = Call("running_pipeline", args, kwargs)
+        self.trace.append(ContextCall("enter", call))
+        yield
+        self.trace.append(ContextCall("exit", call))
+
+    @contextmanager
+    def computing_chunk(self, *args, **kwargs):
+        call = Call("computing_chunk", args, kwargs)
+        self.trace.append(ContextCall("enter", call))
+        yield
+        self.trace.append(ContextCall("exit", call))
+
+    @contextmanager
+    def loading_terms(self, *args, **kwargs):
+        call = Call("loading_terms", args, kwargs)
+        self.trace.append(ContextCall("enter", call))
+        yield
+        self.trace.append(ContextCall("exit", call))
+
+    @contextmanager
+    def computing_term(self, *args, **kwargs):
+        call = Call("computing_term", args, kwargs)
+        self.trace.append(ContextCall("enter", call))
+        yield
+        self.trace.append(ContextCall("exit", call))

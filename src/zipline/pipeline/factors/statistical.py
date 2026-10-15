@@ -195,7 +195,7 @@ class RollingLinearRegression(CustomFactor):
         stderr = out.stderr
 
         def regress(y, x):
-            regr_results = linregress(y=y, x=x)
+            regr_results = linregress(x, y)
             # `linregress` returns its results in the following order:
             # slope, intercept, r-value, p-value, stderr
             alpha[i] = regr_results[1]
