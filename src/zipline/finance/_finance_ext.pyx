@@ -102,12 +102,15 @@ cdef class PositionStats:
     @classmethod
     def new(cls):
         cdef PositionStats self = cls()
-        self.position_exposure_series = es = pd.Series(
-            np.array([], dtype='float64'),
-            index=np.array([], dtype='int64'),
+        self.underlying_value_array = self.position_exposure_array = np.array(
+            [], dtype='float64',
         )
-        self.underlying_value_array = self.position_exposure_array = es.values
-        self.underlying_index_array = es.index.values
+        self.underlying_index_array = np.array([], dtype='int64')
+        self.position_exposure_series = pd.Series(
+            self.underlying_value_array,
+            index=self.underlying_index_array,
+            copy=False,
+        )
         return self
 
 
@@ -164,6 +167,7 @@ cpdef calculate_position_tracker_stats(positions, PositionStats stats):
         stats.position_exposure_series = pd.Series(
             position_exposure,
             index=index,
+            copy=False,
         )
     elif len(old_index) > npos:
         # we have more space than needed, slice off the extra but leave it
@@ -176,6 +180,7 @@ cpdef calculate_position_tracker_stats(positions, PositionStats stats):
         stats.position_exposure_series = pd.Series(
             position_exposure,
             index=index,
+            copy=False,
         )
     else:
         # we have exactly the right amount of space, no slicing or allocation
@@ -187,6 +192,7 @@ cpdef calculate_position_tracker_stats(positions, PositionStats stats):
         stats.position_exposure_series = pd.Series(
             position_exposure,
             index=index,
+            copy=False,
         )
 
     cdef InnerPosition position

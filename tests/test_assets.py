@@ -430,6 +430,20 @@ def asset_finder(sql_db):
     return asset_finder
 
 
+class TestAssetMetadataDateUnits:
+    @pytest.mark.parametrize("unit", ["s", "ms", "us", "ns"])
+    def test_asset_metadata_dates_keep_their_epoch_units(self, asset_finder, unit):
+        equities = make_simple_equity_info([1], "2014-01-06", "2014-01-08")
+        for column in ["start_date", "end_date"]:
+            equities[column] = equities[column].astype(f"datetime64[{unit}]")
+
+        finder = asset_finder(equities=equities)
+        asset = finder.retrieve_asset(1)
+        assert asset.start_date == pd.Timestamp("2014-01-06")
+        assert asset.end_date == pd.Timestamp("2014-01-08")
+        assert finder.lookup_symbol("A", pd.Timestamp("2014-01-07")) == asset
+
+
 @pytest.mark.usefixtures("set_test_asset")
 class TestAsset:
     def test_asset_object(self):
