@@ -192,6 +192,7 @@ test-command = 'pytest -n auto -k "not daily_returns_is_special_case_of_returns"
 
 [tool.black]
 line-length = 88
+force-exclude = '^/src/zipline/_version\.py$'
 target-version = [
     'py311',
     'py312',
