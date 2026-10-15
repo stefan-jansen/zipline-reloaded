@@ -403,7 +403,7 @@ def _dt_to_epoch_ns(dt_series: pd.Series) -> pd.Index:
         index = index.tz_localize("UTC")
     else:
         index = index.tz_convert("UTC")
-    return index.view(np.int64)
+    return pd.Index(index.to_numpy(dtype="datetime64[ns]").view(np.int64))
 
 
 def check_version_info(conn, version_table, expected_version: int):

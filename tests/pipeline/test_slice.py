@@ -14,7 +14,7 @@ from zipline.errors import (
     UnsupportedPipelineOutput,
 )
 from zipline.pipeline import CustomFactor, Factor, Filter, Classifier, Pipeline
-from zipline.pipeline.data import USEquityPricing
+from zipline.pipeline.data import EquityPricing, USEquityPricing
 from zipline.pipeline.data.testing import TestingDataSet
 from zipline.pipeline.domain import US_EQUITIES
 from zipline.pipeline.factors import (
@@ -45,6 +45,10 @@ class SliceTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
     END_DATE = pd.Timestamp("2015-03-01")
     ASSET_FINDER_COUNTRY_CODE = "US"
     SEEDED_RANDOM_PIPELINE_DEFAULT_DOMAIN = US_EQUITIES
+
+    @classmethod
+    def make_seeded_random_loader_columns(cls):
+        return (*super().make_seeded_random_loader_columns(), EquityPricing.close)
 
     @classmethod
     def init_class_fixtures(cls):
@@ -362,7 +366,7 @@ class SliceTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
         """
         my_asset = self.asset_finder.retrieve_asset(self.sids[0])
 
-        returns = Returns(window_length=returns_length, inputs=[self.col])
+        returns = Returns(window_length=returns_length)
         returns_slice = returns[my_asset]
 
         pearson = returns.pearsonr(
@@ -383,14 +387,6 @@ class SliceTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
             returns_length=returns_length,
             correlation_length=correlation_length,
         )
-
-        # These built-ins construct their own Returns factor to use as inputs,
-        # so the only way to set our own inputs is to do so after the fact.
-        # This should not be done in practice. It is necessary here because we
-        # want Returns to use our random data as an input, but by default it is
-        # using USEquityPricing.close.
-        expected_pearson.inputs = [returns, returns_slice]
-        expected_spearman.inputs = [returns, returns_slice]
 
         columns = {
             "pearson": pearson,
@@ -455,7 +451,7 @@ class SliceTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
         """
         my_asset = self.asset_finder.retrieve_asset(self.sids[0])
 
-        returns = Returns(window_length=returns_length, inputs=[self.col])
+        returns = Returns(window_length=returns_length)
         returns_slice = returns[my_asset]
 
         regression = returns.linear_regression(
@@ -467,13 +463,6 @@ class SliceTestCase(WithSeededRandomPipelineEngine, ZiplineTestCase):
             returns_length=returns_length,
             regression_length=regression_length,
         )
-
-        # These built-ins construct their own Returns factor to use as inputs,
-        # so the only way to set our own inputs is to do so after the fact.
-        # This should not be done in practice. It is necessary here because we
-        # want Returns to use our random data as an input, but by default it is
-        # using USEquityPricing.close.
-        expected_regression.inputs = [returns, returns_slice]
 
         class MyFactor(CustomFactor):
             inputs = ()
