@@ -1,14 +1,6 @@
 .. _install:
 
 Installation
-============
-
-You can install Zipline either using `pip <https://pip.pypa.io/en/stable/>`_, the Python package installer, or
-`conda <https://docs.conda.io/projects/conda/en/latest/index.html>`_, the package and environment management system
-that runs on Windows, macOS, and Linux. In case you are installing `zipline-reloaded` alongside other packages and
-encounter [conflict errors](https://github.com/conda/conda/issues/9707), consider using
-[mamba](https://github.com/mamba-org/mamba) instead.
-
 Zipline runs on Python 3.11, 3.12 and 3.13. To install and use different Python versions in parallel as well as create
 a virtual environment, you may want to use `pyenv <https://github.com/pyenv/pyenv>`_.
 

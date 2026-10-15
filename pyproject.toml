@@ -276,7 +276,7 @@ envlist =
 
 isolated_build = True
 skip_missing_interpreters = True
-minversion = 3.23.0
+minversion = 4.4.0
 
 [gh-actions]
 python =
@@ -296,8 +296,10 @@ py313_specific =
 # This is the default configuration for all environments.
 [testenv]
 usedevelop = True
+constrain_package_deps = True
 setenv =
     MPLBACKEND = Agg
+    py312-pandas15,py312-pandas20: PIP_BUILD_CONSTRAINT = {toxinidir}/tools/legacy-pandas-build-constraints.txt
 passenv = GITHUB_ACTIONS
 
 changedir = tmp

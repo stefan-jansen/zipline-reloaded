@@ -1,5 +1,4 @@
 import itertools
-import os
 from datetime import timedelta
 from functools import partial
 
@@ -37,9 +36,6 @@ from zipline.testing.fixtures import (
 from zipline.testing.predicates import assert_equal, assert_frame_equal
 from zipline.utils.numpy_utils import datetime64ns_dtype, float64_dtype
 from zipline.utils.pandas_utils import stack_future_compatible
-
-# Skip CI-specific failures
-ON_GHA = os.getenv("GITHUB_ACTIONS") == "true"
 
 
 class Estimates(DataSet):
@@ -2508,15 +2504,17 @@ class WithAdjustmentBoundaries(WithEstimates):
             index=[0],
         )
 
-        return pd.concat(
-            [
-                sid_0_timeline,
-                sid_1_timeline,
-                sid_2_timeline,
-                sid_3_timeline,
-                sid_4_timeline,
-            ]
-        )
+        timelines = [
+            sid_0_timeline,
+            sid_1_timeline,
+            sid_2_timeline,
+            sid_3_timeline,
+            sid_4_timeline,
+        ]
+        for timeline in timelines:
+            for column in [TS_FIELD_NAME, EVENT_DATE_FIELD_NAME]:
+                timeline[column] = timeline[column].astype("datetime64[ns]")
+        return pd.concat(timelines)
 
     @classmethod
     def make_splits_data(cls):
@@ -2568,15 +2566,12 @@ class WithAdjustmentBoundaries(WithEstimates):
             }
         )
 
-        return pd.concat(
-            [sid_0_splits, sid_1_splits, sid_2_splits, sid_3_splits, sid_4_splits]
-        )
+        splits = [sid_0_splits, sid_1_splits, sid_2_splits, sid_3_splits, sid_4_splits]
+        for frame in splits:
+            frame["effective_date"] = frame["effective_date"].astype("datetime64[ns]")
+        return pd.concat(splits)
 
     @parameterized.expand(split_adjusted_asof_dates)
-    @pytest.mark.xfail(
-        ON_GHA,
-        reason="Unresolved issues on GHA",
-    )
     def test_boundaries(self, split_date):
         dataset = QuartersEstimates(1)
         loader = self.loader(split_adjusted_asof=split_date)

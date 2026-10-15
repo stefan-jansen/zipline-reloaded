@@ -2055,6 +2055,12 @@ class TestAlgoScript(zf.WithMakeAlgo, zf.ZiplineTestCase):
             warnings.simplefilter("ignore", RuntimeWarning)
             # catch new FutureWarning until fixed
             warnings.simplefilter("ignore", FutureWarning)
+            warnings.filterwarnings(
+                "ignore",
+                message="The 'generic' unit for NumPy timedelta is deprecated",
+                category=DeprecationWarning,
+                module=r"exchange_calendars\.utils\.pandas_utils",
+            )
 
             algo = self.make_algo(script=algocode, sim_params=sim_params)
             algo.run()
