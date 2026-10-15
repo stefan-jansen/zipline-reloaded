@@ -105,6 +105,6 @@ ext_modules = [
 
 setup(
     use_scm_version=True,
-    ext_modules=cythonize(ext_modules, **ext_options),
+    ext_modules=cythonize(ext_modules, force=True, **ext_options),
     include_dirs=[numpy.get_include()],
 )
