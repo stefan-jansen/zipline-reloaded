@@ -5,15 +5,15 @@ on:
     inputs:
       target:
         type: choice
-        description: 'Package Index'
+        description: 'Build artifacts only, or explicitly publish to an index'
         required: true
-        default: 'TESTPYPI'
-        options: [ 'TESTPYPI', 'PYPI' ]
+        default: 'BUILD_ONLY'
+        options: [ 'BUILD_ONLY', 'TESTPYPI', 'PYPI' ]
       version:
         type: string
-        description: 'Version tag'
+        description: 'Source ref (branch, tag, or commit)'
         required: true
-        default: '3.1'
+        default: 'main'
 
 jobs:
   build_wheels:
