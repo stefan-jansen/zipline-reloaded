@@ -1121,7 +1121,7 @@ class ParameterizedFactorTestCase(
         # ewma (which is itself a rolling-window function) because we only want
         # to look at ``window_length`` rows at a time.
         return self.raw_data.rolling(window_length).apply(
-            lambda subarray: (pd.DataFrame(subarray).ewm(span=span).mean().values[-1])
+            lambda subarray: pd.DataFrame(subarray).ewm(span=span).mean().iloc[-1, 0]
         )[window_length:]
 
     def expected_ewmstd(self, window_length, decay_rate):
@@ -1133,7 +1133,7 @@ class ParameterizedFactorTestCase(
         # of an ewma (which is itself a rolling-window function) because we
         # only want to look at ``window_length`` rows at a time.
         return self.raw_data.rolling(window_length).apply(
-            lambda subarray: (pd.DataFrame(subarray).ewm(span=span).std().values[-1])
+            lambda subarray: pd.DataFrame(subarray).ewm(span=span).std().iloc[-1, 0]
         )[window_length:]
 
     @parameterized.expand(
