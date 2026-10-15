@@ -1,6 +1,5 @@
 """Tests for statistical pipeline terms."""
 
-import os
 import re
 
 import numpy as np
@@ -14,7 +13,7 @@ import zipline.testing.fixtures as zf
 from zipline.assets import Equity, ExchangeInfo
 from zipline.errors import IncompatibleTerms, NonExistentAssetInTimeFrame
 from zipline.pipeline import CustomFactor, Pipeline
-from zipline.pipeline.data import USEquityPricing
+from zipline.pipeline.data import EquityPricing, USEquityPricing
 from zipline.pipeline.data.testing import TestingDataSet
 from zipline.pipeline.domain import US_EQUITIES
 from zipline.pipeline.engine import SimplePipelineEngine
@@ -47,9 +46,6 @@ from zipline.utils.numpy_utils import (
     datetime64ns_dtype,
     float64_dtype,
 )
-
-# More robust CI detection
-ON_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS") == "true"
 
 
 @pytest.fixture(scope="class")
@@ -201,10 +197,6 @@ def set_test_statistical_built_ins(request, with_trading_calendars, with_asset_f
 class TestStatisticalBuiltIns:
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("correlation_length", [3, 4])
-    @pytest.mark.xfail(
-        condition=ON_GITHUB_ACTIONS,
-        reason="Unresolved issues on GHA",
-    )
     def test_correlation_factors(self, returns_length, correlation_length):
         """Tests for the built-in factors `RollingPearsonOfReturns` and
         `RollingSpearmanOfReturns`.
@@ -303,10 +295,6 @@ class TestStatisticalBuiltIns:
 
     @pytest.mark.parametrize("returns_length", [2, 3])
     @pytest.mark.parametrize("regression_length", [3, 4])
-    @pytest.mark.xfail(
-        condition=ON_GITHUB_ACTIONS,
-        reason="Unresolved issues on GHA",
-    )
     def test_regression_of_returns_factor(self, returns_length, regression_length):
         """Tests for the built-in factor `RollingLinearRegressionOfReturns`."""
         assets = self.assets
@@ -582,6 +570,10 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
     SEEDED_RANDOM_PIPELINE_DEFAULT_DOMAIN = US_EQUITIES
 
     @classmethod
+    def make_seeded_random_loader_columns(cls):
+        return (*super().make_seeded_random_loader_columns(), EquityPricing.close)
+
+    @classmethod
     def init_class_fixtures(cls):
         super(StatisticalMethodsTestCase, cls).init_class_fixtures()
 
@@ -618,10 +610,6 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         # Random input for factors.
         cls.col = TestingDataSet.float_col
 
-    @pytest.mark.xfail(
-        condition=ON_GITHUB_ACTIONS,
-        reason="Unresolved issues on GHA",
-    )
     @parameter_space(returns_length=[2, 3], correlation_length=[3, 4])
     def test_factor_correlation_methods(self, returns_length, correlation_length):
         """Ensure that `Factor.pearsonr` and `Factor.spearmanr` are consistent
@@ -633,7 +621,7 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         end_date = self.pipeline_end_date
         run_pipeline = self.run_pipeline
 
-        returns = Returns(window_length=returns_length, inputs=[self.col])
+        returns = Returns(window_length=returns_length)
         returns_slice = returns[my_asset]
 
         pearson = returns.pearsonr(
@@ -654,14 +642,6 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
             returns_length=returns_length,
             correlation_length=correlation_length,
         )
-
-        # These built-ins construct their own Returns factor to use as inputs,
-        # so the only way to set our own inputs is to do so after the fact.
-        # This should not be done in practice. It is necessary here because we
-        # want Returns to use our random data as an input, but by default it is
-        # using USEquityPricing.close.
-        expected_pearson.inputs = [returns, returns_slice]
-        expected_spearman.inputs = [returns, returns_slice]
 
         columns = {
             "pearson": pearson,
@@ -725,10 +705,6 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
             )
 
     @parameter_space(returns_length=[2, 3], regression_length=[3, 4])
-    @pytest.mark.xfail(
-        condition=ON_GITHUB_ACTIONS,
-        reason="Unresolved issues on GHA",
-    )
     def test_factor_regression_method(self, returns_length, regression_length):
         """Ensure that `Factor.linear_regression` is consistent with the built-in
         factor `RollingLinearRegressionOfReturns`.
@@ -738,7 +714,7 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
         end_date = self.pipeline_end_date
         run_pipeline = self.run_pipeline
 
-        returns = Returns(window_length=returns_length, inputs=[self.col])
+        returns = Returns(window_length=returns_length)
         returns_slice = returns[my_asset]
 
         regression = returns.linear_regression(
@@ -750,13 +726,6 @@ class StatisticalMethodsTestCase(zf.WithSeededRandomPipelineEngine, zf.ZiplineTe
             returns_length=returns_length,
             regression_length=regression_length,
         )
-
-        # This built-in constructs its own Returns factor to use as an input,
-        # so the only way to set our own input is to do so after the fact. This
-        # should not be done in practice. It is necessary here because we want
-        # Returns to use our random data as an input, but by default it is
-        # using USEquityPricing.close.
-        expected_regression.inputs = [returns, returns_slice]
 
         columns = {
             "regression": regression,
