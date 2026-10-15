@@ -108,6 +108,43 @@ class TestConstantPrice(
         )
         cls.closes.name = None
 
+    def test_copy_on_write_position_statistics_follow_filled_orders(self):
+        observed = []
+        targets = [1, 0, -1, 0]
+
+        def initialize(context):
+            api.set_benchmark(self.equity)
+            api.set_slippage(api.slippage.NoSlippage())
+            api.set_commission(api.commission.NoCommission())
+
+        def handle_data(context, data):
+            portfolio = context.portfolio
+            position = portfolio.positions.get(self.equity)
+            exposures = (
+                context.metrics_tracker._ledger.position_tracker.stats.position_exposure_series.to_dict()
+            )
+            observed.append(
+                (
+                    0 if position is None else position.amount,
+                    portfolio.positions_value,
+                    portfolio.positions_exposure,
+                    exposures,
+                )
+            )
+            if len(observed) <= len(targets):
+                api.order_target(self.equity, targets[len(observed) - 1])
+
+        with pd.option_context("mode.copy_on_write", True):
+            self.run_algorithm(initialize=initialize, handle_data=handle_data)
+
+        assert observed[:5] == [
+            (0, 0.0, 0.0, {}),
+            (1, 1.0, 1.0, {self.equity.sid: 1.0}),
+            (0, 0.0, 0.0, {}),
+            (-1, -1.0, -1.0, {self.equity.sid: -1.0}),
+            (0, 0.0, 0.0, {}),
+        ]
+
     def test_nop(self):
         perf = self.run_algorithm()
 
