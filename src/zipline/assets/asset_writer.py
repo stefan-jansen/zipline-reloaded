@@ -825,7 +825,7 @@ class AssetDBWriter:
                 df[column] = _dt_to_epoch_ns(df[column])
 
         if txn.dialect.name == "postgresql":
-            txn.execute(sa.text(f"ALTER TABLE {tbl.name} DISABLE TRIGGER ALL;"))
+            txn.execute(sa.text(f"ALTER TABLE {tbl.name} DISABLE TRIGGER ALL"))
 
         df.to_sql(
             tbl.name,
@@ -889,8 +889,11 @@ class AssetDBWriter:
             True if any tables are present, otherwise False.
         """
         # conn = txn.connect()
-        inspector = sa.inspect(txn)
-        return any(inspector.has_table(t) for t in asset_db_table_names)
+        for table_name in asset_db_table_names:
+            return sa.inspect(txn).has_table(table_name)
+            # if txn.dialect.has_table(conn, table_name):
+            # return True
+        # return False
 
     def init_db(self, txn=None):
         """Connect to database and create tables.
