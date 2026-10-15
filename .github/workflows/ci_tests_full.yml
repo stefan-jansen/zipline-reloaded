@@ -5,6 +5,9 @@ on:
   push:
       branches:
       - main
+  pull_request:
+    branches:
+      - main
   schedule:
     - cron: "0 9 * * 6"
 
@@ -40,7 +43,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
 
     steps:
       - name: Checkout Zipline
@@ -76,7 +79,7 @@ jobs:
           python -VV
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install tox tox-gh-actions
-          python -m pip install .[test]
+          python -m pip install ".[test]"
 
 #      - name: Debug Environment (Python 3.13)
 #        if: ${{ matrix.python-version == '3.13' }}
