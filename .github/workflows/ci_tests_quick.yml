@@ -5,9 +5,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   black-format:
@@ -76,7 +73,7 @@ jobs:
           python -VV
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install tox tox-gh-actions
-          python -m pip install .[test]
+          python -m pip install ".[test]"
 
       - name: Unittests with tox & pytest
         uses: nick-fields/retry@v3
@@ -84,7 +81,7 @@ jobs:
           timeout_minutes: 90
           max_attempts: 3
           retry_on: error
-          on_retry_command: python -m pip install tox tox-gh-actions .[test]
+          on_retry_command: python -m pip install tox tox-gh-actions ".[test]"
           command: tox -e py312-pandas222-numpy20
 
       - name: Upload coverage data to Codecov
