@@ -302,6 +302,7 @@ py313_specific =
 usedevelop = True
 setenv =
     MPLBACKEND = Agg
+    py312-pandas15,py312-pandas20: PIP_BUILD_CONSTRAINT = {toxinidir}/tools/legacy-pandas-build-constraints.txt
 passenv = GITHUB_ACTIONS
 
 changedir = tmp
