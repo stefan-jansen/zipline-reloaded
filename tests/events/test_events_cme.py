@@ -53,3 +53,19 @@ def test_us_futures_before_close_uses_simulation_execution_close():
     rule = BeforeClose(minutes=1)
     rule.cal = calendar
     assert rule.should_trigger(close - pd.Timedelta(minutes=1))
+    assert not rule.should_trigger(
+        calendar.session_close(pd.Timestamp("2014-01-06")) - pd.Timedelta(minutes=1)
+    )
+
+
+def test_other_calendars_before_close_keeps_the_exchange_close():
+    from zipline.utils.calendar_utils import get_calendar
+    from zipline.utils.events import BeforeClose
+
+    for name in ("CMES", "XNYS"):
+        calendar = get_calendar(name)
+        close = calendar.session_close(pd.Timestamp("2014-01-06"))
+        rule = BeforeClose(minutes=1)
+        rule.cal = calendar
+        assert rule.should_trigger(close - pd.Timedelta(minutes=1))
+        assert not rule.should_trigger(close)
