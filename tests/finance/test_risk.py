@@ -336,3 +336,11 @@ class TestRisk:
         }
 
         assert set(test_period) == metrics
+
+
+def test_monthly_leverage_excludes_positions_in_other_months():
+    sessions = pd.date_range("2014-01-02", "2014-02-28", freq="B")
+    returns = pd.Series(0.0, index=sessions)
+    leverage = pd.Series(np.where(sessions.month == 1, 0.01, 0.11), index=sessions)
+    report = ClassicRiskMetrics.risk_report(returns, returns, leverage)
+    assert [period["max_leverage"] for period in report["one_month"]] == [0.01, 0.11]

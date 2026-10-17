@@ -818,23 +818,18 @@ class TestSetSymbolLookupDate(zf.WithMakeAlgo, zf.ZiplineTestCase):
             index=cls.sids,
         )
 
-    # TODO FIXME IMPORTANT pytest crashes with internal error if test below is uncommented
-    # def test_set_symbol_lookup_date(self):
-    #     """Test the set_symbol_lookup_date API method."""
+    @parameterized.expand([(None,), ("UTC",), ("US/Eastern",)])
+    def test_explicit_lookup_date_selects_historical_symbol_owner(self, tz):
+        def initialize(context):
+            for date, expected_sid in zip(self.asset_ends, self.sids):
+                if tz is not None:
+                    date = date.tz_localize("UTC").tz_convert(tz)
+                zipline.api.set_symbol_lookup_date(date)
+                assert zipline.api.symbol("DUP").sid == expected_sid
+            with pytest.raises(zipline.errors.UnsupportedDatetimeFormat):
+                zipline.api.set_symbol_lookup_date("foobar")
 
-    #     set_symbol_lookup_date = zipline.api.set_symbol_lookup_date
-
-    #     def initialize(context):
-    #         set_symbol_lookup_date(self.asset_ends[0])
-    #         assert zipline.api.symbol("DUP").sid == self.sids[0]
-
-    #         set_symbol_lookup_date(self.asset_ends[1])
-    #         assert zipline.api.symbol("DUP").sid == self.sids[1]
-
-    #         with pytest.raises(UnsupportedDatetimeFormat):
-    #             set_symbol_lookup_date("foobar")
-
-    #     self.run_algorithm(initialize=initialize)
+        self.run_algorithm(initialize=initialize)
 
 
 class TestPositions(zf.WithMakeAlgo, zf.ZiplineTestCase):
@@ -940,6 +935,12 @@ class TestPositions(zf.WithMakeAlgo, zf.ZiplineTestCase):
         for i, expected in enumerate(expected_position_count):
             assert result.iloc[i]["num_positions"] == expected
 
+    def test_positions_metric_serializes_positions(self):
+        from zipline.finance.metrics.metric import Positions
+
+        results = self.run_algorithm(metrics_set={Positions()})
+        assert all(positions == [] for positions in results.positions)
+
     def test_noop_orders(self):
         asset = self.asset_finder.retrieve_asset(1)
 
@@ -986,6 +987,8 @@ class TestPositions(zf.WithMakeAlgo, zf.ZiplineTestCase):
             ###################
             # Rounding Checks #
             ###################
+            algo.order(asset, 100, limit_price=0)
+            algo.order(asset, -100, stop_price=0)
             algo.order(asset, 100, limit_price=0.00000001)
             algo.order(asset, -100, stop_price=0.00000001)
 
