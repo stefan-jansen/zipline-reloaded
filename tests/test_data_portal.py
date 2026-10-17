@@ -556,3 +556,47 @@ class TestDataPortal(DataPortalTestBase, ZiplineTestCase):
 class TestDataPortalExplicitLastAvailable(DataPortalTestBase, ZiplineTestCase):
     DATA_PORTAL_LAST_AVAILABLE_SESSION = alias("START_DATE")
     DATA_PORTAL_LAST_AVAILABLE_MINUTE = alias("END_DATE")
+
+
+class TestMergerAdjustmentTimezone(
+    WithDataPortal, WithTradingSessions, ZiplineTestCase
+):
+    START_DATE = pd.Timestamp("2016-08-01")
+    END_DATE = pd.Timestamp("2016-08-08")
+    ASSET_FINDER_EQUITY_SIDS = (1,)
+
+    @classmethod
+    def make_mergers_data(cls):
+        return pd.DataFrame(
+            {
+                "sid": [1],
+                "ratio": [0.5],
+                "effective_date": [cls.START_DATE + pd.Timedelta(days=2)],
+            }
+        )
+
+    @parameter_space(tz=[None, "UTC"])
+    def test_merger_adjustment_accepts_daily_and_minute_timestamps(self, tz):
+        asset = self.asset_finder.retrieve_asset(1)
+        assert self.data_portal.get_adjustments(
+            [asset],
+            "price",
+            self.START_DATE.tz_localize(tz),
+            self.END_DATE.tz_localize(tz),
+        ) == [0.5]
+
+    @parameter_space(tz=[None, "UTC", "US/Eastern"], after=[False, True])
+    def test_merger_effective_instant_does_not_shift_with_query_timezone(
+        self, tz, after
+    ):
+        effective = pd.Timestamp("2016-08-03", tz="UTC")
+        start = effective + pd.Timedelta(minutes=1 if after else -1)
+        end = effective + pd.Timedelta(hours=5 if after else 0, minutes=1)
+        if tz is None:
+            start, end = start.tz_localize(None), end.tz_localize(None)
+        else:
+            start, end = start.tz_convert(tz), end.tz_convert(tz)
+        asset = self.asset_finder.retrieve_asset(1)
+        assert self.data_portal.get_adjustments([asset], "price", start, end) == [
+            1.0 if after else 0.5
+        ]

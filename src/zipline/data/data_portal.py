@@ -574,6 +574,12 @@ class DataPortal:
         if isinstance(assets, Asset):
             assets = [assets]
 
+        # Adjustment readers return UTC-naive effective instants.
+        if dt.tzinfo is not None:
+            dt = dt.tz_convert("UTC").tz_localize(None)
+        if perspective_dt.tzinfo is not None:
+            perspective_dt = perspective_dt.tz_convert("UTC").tz_localize(None)
+
         adjustment_ratios_per_asset = []
 
         def split_adj_factor(x):
@@ -585,9 +591,9 @@ class DataPortal:
                 asset, self._splits_dict, "SPLITS"
             )
             for adj_dt, adj in split_adjustments:
-                if dt < adj_dt.tz_localize(dt.tzinfo) <= perspective_dt:
+                if dt < adj_dt <= perspective_dt:
                     adjustments_for_asset.append(split_adj_factor(adj))
-                elif adj_dt.tz_localize(dt.tzinfo) > perspective_dt:
+                elif adj_dt > perspective_dt:
                     break
 
             if field != "volume":
@@ -606,9 +612,9 @@ class DataPortal:
                     "DIVIDENDS",
                 )
                 for adj_dt, adj in dividend_adjustments:
-                    if dt < adj_dt.tz_localize(dt.tzinfo) <= perspective_dt:
+                    if dt < adj_dt <= perspective_dt:
                         adjustments_for_asset.append(adj)
-                    elif adj_dt.tz_localize(dt.tzinfo) > perspective_dt:
+                    elif adj_dt > perspective_dt:
                         break
 
             ratio = reduce(mul, adjustments_for_asset, 1.0)
