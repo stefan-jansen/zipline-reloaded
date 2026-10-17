@@ -358,7 +358,7 @@ class SimulationBlotter(Blotter):
             # `assert not orders` in `cancel_all_orders_for_asset` when the
             # asset is auto-closed. A broker cancels an order a split leaves
             # with nothing to trade, so drop it here.
-            emptied = [order for order in orders_to_modify if order.amount == 0]
+            emptied = [order for order in orders_to_modify if order.open_amount == 0]
             for order in emptied:
                 orders_to_modify.remove(order)
                 if order in self.new_orders:

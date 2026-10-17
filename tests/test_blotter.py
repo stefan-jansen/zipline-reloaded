@@ -392,3 +392,41 @@ class BlotterTestCase(
         future_txn = txns[1]
         assert future_txn.price == bar_data.current(future_txn.asset, "price") + 1.0
         assert commissions[1]["cost"] == 2.0
+
+    @parameterized.expand(
+        [
+            (sign, amount, volume_limit, ratio, filled, remaining)
+            for sign in (1, -1)
+            for amount, volume_limit, ratio, filled, remaining in (
+                (250, 1.0, 100.0, 1, 1),
+                (199, 1.0, 100.0, 1, 0),
+                (150, 0.9, 100.0, 0, 0),
+                (250, 1.0, 0.5, 200, 300),
+            )
+        ]
+    )
+    def test_split_preserves_remaining_quantity_after_real_partial_fill(
+        self, sign, amount, volume_limit, ratio, filled, remaining
+    ):
+        blotter = SimulationBlotter(
+            equity_slippage=VolumeShareSlippage(volume_limit=volume_limit)
+        )
+        order_id = blotter.order(self.asset_24, sign * amount, MarketOrder())
+        bar_data = self.create_bardata(
+            simulation_dt_func=lambda: self.sim_params.sessions[0]
+        )
+        transactions, _, _ = blotter.get_transactions(bar_data)
+        assert len(transactions) == 1
+        assert transactions[0].amount == sign * (90 if volume_limit == 0.9 else 100)
+
+        blotter.process_splits([(self.asset_24, ratio)])
+
+        order = blotter.orders[order_id]
+        assert order.filled == sign * filled
+        assert order.open_amount == sign * remaining
+        assert order.amount == sign * (filled + remaining)
+        if remaining:
+            assert order in blotter.open_orders[self.asset_24]
+        else:
+            assert self.asset_24 not in blotter.open_orders
+            assert order not in blotter.new_orders

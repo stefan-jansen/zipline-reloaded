@@ -226,7 +226,11 @@ class Order:
         # new_share_amount = old_share_amount / ratio
         # new_price = old_price * ratio
 
-        self.amount = int(self.amount / ratio)
+        # Truncate outstanding shares separately so a reverse split cannot
+        # create an extra share to trade from a fractional prior fill.
+        remaining = int(self.open_amount / ratio)
+        self.filled = int(self.filled / ratio)
+        self.amount = self.filled + remaining
 
         if self.limit is not None:
             self.limit = round(self.limit * ratio, 2)
