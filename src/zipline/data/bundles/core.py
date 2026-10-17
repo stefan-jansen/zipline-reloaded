@@ -492,8 +492,8 @@ def _make_bundle_core():
                     downgrade(wf.path, version)
 
     def most_recent_data(bundle_name, timestamp, environ=None):
-        """Get the name of the most recent data ingestion after ``date`` for the
-        given bundle.
+        """Get the name of the newest ingestion on or before ``timestamp``
+        for the given bundle.
 
         Parameters
         ----------
@@ -507,12 +507,22 @@ def _make_bundle_core():
         if bundle_name not in bundles:
             raise UnknownBundle(bundle_name)
 
+        # Ingestion directories are named from naive UTC timestamps (see
+        # ``to_bundle_ingest_dirname``), so compare in the same terms.
+        cutoff = pd.Timestamp(timestamp)
+        if cutoff.tzinfo is not None:
+            cutoff = cutoff.tz_convert("UTC").tz_localize(None)
+
         try:
             candidates = os.listdir(
                 pth.data_path([bundle_name], environ=environ),
             )
             return max(
-                filter(complement(pth.hidden), candidates),
+                (
+                    candidate
+                    for candidate in filter(complement(pth.hidden), candidates)
+                    if from_bundle_ingest_dirname(candidate) <= cutoff
+                ),
                 key=from_bundle_ingest_dirname,
             )
         except (ValueError, OSError) as e:

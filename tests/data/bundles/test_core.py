@@ -1,6 +1,8 @@
 import os
 import pytest
 import re
+from contextlib import ExitStack
+from unittest import mock
 
 from parameterized import parameterized
 import numpy as np
@@ -19,6 +21,7 @@ from zipline.data.bundles import (
     from_bundle_ingest_dirname,
     ingestions_for_bundle,
 )
+import zipline.data.bundles.core as bundles_core
 from zipline.data.bundles.core import (
     _make_bundle_core,
     BadClean,
@@ -419,6 +422,51 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
 
         return _wrote_to[0]
 
+    def test_load_on_or_before_timestamp(self):
+        # ``load(timestamp=...)`` must return the newest ingestion at or before
+        # the timestamp, not always the newest one (quantopian/zipline#2685).
+        first = self._empty_ingest()
+        second = self._empty_ingest()
+        third = self._empty_ingest()
+
+        # Empty ingestions hold no readable data, so the readers are stubbed to
+        # return their path: this checks which ingestion ``load`` resolved.
+        with ExitStack() as stack:
+            for reader in (
+                "AssetFinder",
+                "BcolzDailyBarReader",
+                "BcolzMinuteBarReader",
+                "SQLiteAdjustmentReader",
+            ):
+                stack.enter_context(
+                    mock.patch.object(bundles_core, reader, lambda path: path)
+                )
+            self._assert_load_selects(first, second, third)
+
+    def _assert_load_selects(self, first, second, third):
+        def loaded(ts):
+            data = self.load("bundle", timestamp=ts, environ=self.environ)
+            return os.path.dirname(data.asset_finder)
+
+        assert loaded(self._ts_of_run(first)) == first
+        assert loaded(self._ts_of_run(second)) == second
+        halfway = (
+            self._ts_of_run(first)
+            + (self._ts_of_run(second) - self._ts_of_run(first)) / 2
+        )
+        assert loaded(halfway) == first
+        # A tz-aware timestamp is compared in UTC, as ingestion names are.
+        assert loaded(self._ts_of_run(second).tz_localize("UTC")) == second
+        # Without a timestamp, the newest ingestion is still used.
+        assert loaded(None) == third
+
+    def test_load_before_first_ingestion(self):
+        first = self._empty_ingest()
+        ts = self._ts_of_run(first) - pd.Timedelta("1s")
+        expected_msg = "no data for bundle 'bundle' on or before %s" % ts
+        with pytest.raises(ValueError, match=re.escape(expected_msg)):
+            self.load("bundle", timestamp=ts, environ=self.environ)
+
     def test_clean_keep_last(self):
         first = self._empty_ingest()
 
@@ -543,8 +591,19 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
 
 
 @pytest.mark.parametrize("zipline_root_type", ["relative", "absolute"])
-def test_load_uses_ingestion_name_for_paths(monkeypatch, tmp_path, zipline_root_type):
-    """Load bundle data from both relative and absolute ZIPLINE_ROOT paths."""
+@pytest.mark.parametrize(
+    "timestamp, expected_price",
+    [
+        (None, 30.0),
+        (pd.Timestamp("2025-04-14"), 10.0),
+        (pd.Timestamp("2025-04-14", tz="US/Eastern"), 20.0),
+        (pd.Timestamp("2025-04-13 23:00", tz="US/Eastern"), 20.0),
+    ],
+)
+def test_load_uses_ingestion_name_for_paths(
+    monkeypatch, tmp_path, zipline_root_type, timestamp, expected_price
+):
+    """Load the selected ingestion through both relative and absolute roots."""
     _, register, _, ingest, load, _ = _make_bundle_core()
     monkeypatch.chdir(tmp_path)
     zipline_root = (
@@ -561,20 +620,28 @@ def test_load_uses_ingestion_name_for_paths(monkeypatch, tmp_path, zipline_root_
         assets.write(equities=make_simple_equity_info([1], start, end))
         for writer, dates in [(daily, sessions), (minute, minutes)]:
             bars = pd.DataFrame(
-                {field: 10.0 for field in ["open", "high", "low", "close"]},
+                {field: price for field in ["open", "high", "low", "close"]},
                 index=dates,
             )
             bars["volume"] = 1000
             writer.write([(1, bars)])
         adjustments.write()
 
-    ingest("bundle", environ=environ, timestamp=pd.Timestamp("2025-04-13", tz="UTC"))
-    with load("bundle", environ=environ) as bundle_data:
+    for date, price in [
+        ("2025-04-13", 10.0),
+        ("2025-04-14 02:00", 20.0),
+        ("2025-04-15", 30.0),
+    ]:
+        ingest("bundle", environ=environ, timestamp=pd.Timestamp(date, tz="UTC"))
+    with load("bundle", environ=environ, timestamp=timestamp) as bundle_data:
         assert bundle_data.asset_finder.retrieve_asset(1).sid == 1
-        assert bundle_data.equity_daily_bar_reader.get_value(1, start, "close") == 10.0
+        assert (
+            bundle_data.equity_daily_bar_reader.get_value(1, start, "close")
+            == expected_price
+        )
         assert (
             bundle_data.equity_minute_bar_reader.get_value(1, minutes[0], "close")
-            == 10.0
+            == expected_price
         )
         assert bundle_data.adjustment_reader.load_pricing_adjustments(
             ["close"], sessions, pd.Index([1])
