@@ -465,6 +465,12 @@ class _ClassicRiskMetrics:
             & (algorithm_returns.index <= end_session)
         ]
 
+        if isinstance(getattr(algorithm_leverages, "index", None), pd.DatetimeIndex):
+            algorithm_leverages = algorithm_leverages[
+                (algorithm_leverages.index >= start_session)
+                & (algorithm_leverages.index <= end_session)
+            ]
+
         # Benchmark needs to be masked to the same dates as the algo returns
         benchmark_ret_tzinfo = benchmark_returns.index.tzinfo
         benchmark_returns = benchmark_returns[
@@ -596,6 +602,6 @@ class _ClassicRiskMetrics:
                     sessions[0],
                     sessions[-1],
                 ),
-                algorithm_leverages=self._leverages,
+                algorithm_leverages=pd.Series(self._leverages, index=sessions),
             )
         )
