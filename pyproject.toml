@@ -104,7 +104,9 @@ test = [
     'click',
     'coverage',
     'pytest-rerunfailures',
-    'Cython>=0.29.21,<3.2.0',
+    # SQLAlchemy's pure-Python wheel needs the corrected runtime type helpers.
+    # Native extensions retain their isolated build-system compiler constraint.
+    'Cython>=3.3.0',
 ]
 
 dev = [
