@@ -106,7 +106,7 @@ class Position:
         raw_share_count = self.amount / float(ratio)
 
         # e.g., 33
-        full_share_count = np.floor(raw_share_count)
+        full_share_count = np.trunc(raw_share_count)
 
         # e.g., 0.333
         fractional_share_count = raw_share_count - full_share_count

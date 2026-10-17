@@ -423,6 +423,56 @@ class TestFinance:
         assert 3.33 == asset2_order.limit
         assert 2 == asset2_order.asset
 
+    @pytest.mark.parametrize("amount", [9, -9])
+    def test_blotter_drops_orders_a_split_leaves_with_no_shares(self, amount):
+        # A reverse split can round an order down to zero shares. Such an
+        # order reports FILLED, so `cancel` skips it and it would stay in the
+        # book until `cancel_all_orders_for_asset` trips `assert not orders`.
+        blotter = SimulationBlotter(equity_slippage=FixedSlippage())
+
+        asset1 = self.asset_finder.retrieve_asset(1)
+        asset2 = self.asset_finder.retrieve_asset(2)
+
+        blotter.order(asset1, amount, LimitOrder(10, asset=asset1))
+        blotter.order(asset2, 600, LimitOrder(10, asset=asset2))
+        emptied_order = blotter.open_orders[asset1][0]
+
+        blotter.process_splits([(asset1, 100.0), (asset2, 100.0)])
+
+        # asset1: 9 / 100 rounds to nothing, so the order is gone
+        assert asset1 not in blotter.open_orders
+        assert emptied_order not in blotter.new_orders
+
+        # asset2 still has whole shares, so it is adjusted as before
+        assert 6 == blotter.open_orders[asset2][0].amount
+
+        # and the auto-close cleanup no longer raises
+        blotter.cancel_all_orders_for_asset(asset1)
+
+    @pytest.mark.parametrize(
+        "amount, expected_amount, expected_cash",
+        [(90, 0, 90.0), (-90, 0, -90.0), (-150, -1, -50.0)],
+    )
+    def test_split_books_signed_fraction_from_a_real_transaction(
+        self, amount, expected_amount, expected_cash
+    ):
+        from zipline.finance.ledger import Ledger
+        from zipline.finance.transaction import Transaction
+
+        sessions = pd.date_range("2006-01-03", periods=3, freq="B", tz="UTC")
+        asset = self.asset_finder.retrieve_asset(1)
+        ledger = Ledger(sessions, 100000.0, "daily")
+        ledger.process_transaction(
+            Transaction(asset, amount, sessions[0], 1.0, "initial")
+        )
+        cash_before = ledger.portfolio.cash
+        ledger.process_splits([(asset, 100.0)])
+        assert ledger.portfolio.cash - cash_before == expected_cash
+        if expected_amount:
+            assert ledger.portfolio.positions[asset].amount == expected_amount
+        else:
+            assert asset not in ledger.portfolio.positions
+
 
 @pytest.mark.usefixtures("with_trading_calendars")
 class TestSimulationParameters:
