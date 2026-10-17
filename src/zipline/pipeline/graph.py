@@ -91,6 +91,9 @@ class TermGraph:
         if term in parents:
             raise CyclicDependency(term)
 
+        if term in self.graph:
+            return
+
         parents.add(term)
 
         self.graph.add_node(term)
@@ -302,6 +305,10 @@ class ExecutionPlan(TermGraph):
         # Specialize any loadable terms before adding extra rows.
         term = maybe_specialize(term, self.domain)
 
+        attrs = self.graph.nodes[term]
+        if attrs.get("min_extra_rows", -1) >= min_extra_rows:
+            return
+
         # A term can require that additional extra rows beyond the minimum be
         # computed.  This is most often used with downsampled terms, which need
         # to ensure that the first date is a computation date.
@@ -321,6 +328,7 @@ class ExecutionPlan(TermGraph):
             )
 
         self._ensure_extra_rows(term, extra_rows_for_term)
+        attrs["min_extra_rows"] = min_extra_rows
 
         for dependency, additional_extra_rows in term.dependencies.items():
             self.set_extra_rows(
@@ -454,7 +462,7 @@ class ExecutionPlan(TermGraph):
         """
         Ensure that we're going to compute at least N extra rows of `term`.
         """
-        attrs = dict(self.graph.nodes())[term]
+        attrs = self.graph.nodes[term]
         attrs["extra_rows"] = max(N, attrs.get("extra_rows", 0))
 
     def mask_and_dates_for_term(self, term, root_mask_term, workspace, all_dates):

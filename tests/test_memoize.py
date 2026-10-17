@@ -3,7 +3,9 @@
 from collections import defaultdict
 import gc
 
-from zipline.utils.memoize import remember_last
+import pytest
+
+from zipline.utils.memoize import remember_last, weak_lru_cache
 
 
 class TestRememberLast:
@@ -95,3 +97,40 @@ class TestRememberLast:
             pass
 
         assert not [inst for inst in gc.get_objects() if type(inst) is clz]
+
+
+@pytest.mark.parametrize("maxsize", [None, 2])
+def test_cache_clear_recomputes_results_and_resets_counts(maxsize):
+    class Item:
+        value = 1
+
+        @weak_lru_cache(maxsize)
+        def cached(self, key):
+            return self.value
+
+    item = Item()
+    cached = item.cached
+    assert cached(1) == 1
+    item.value = 2
+    assert cached(1) == 1
+    assert cached.cache_info().misses == 1
+    cached.cache_clear()
+    assert cached.cache_info().hits == cached.cache_info().misses == 0
+    assert cached(1) == 2
+
+
+@pytest.mark.parametrize("maxsize", [None, 2])
+def test_cache_accepts_a_function_without_arguments(maxsize):
+    calls = []
+
+    class Item:
+        @weak_lru_cache(maxsize)
+        def cached(self):
+            calls.append(None)
+            return len(calls)
+
+    item = Item()
+    function = item.cached
+    assert function() == function() == 1
+    function.cache_clear()
+    assert function() == 2
