@@ -309,3 +309,51 @@ class TestCSVDIRBundle:
             pd.Index(sids),
         )
         assert [sorted(adj.keys()) for adj in adjs_for_cols] == expected_adjustments
+
+
+@pytest.mark.parametrize(
+    "symbols, n_events",
+    [
+        # Columns present everywhere but no split or dividend events at all. This is the
+        # case where the empty per-symbol frames used to turn the result into object dtype.
+        (("AAA",), 0),
+        (("AAA", "BBB"), 1),
+        (("BBB", "AAA"), 1),
+    ],
+)
+def test_pricing_iter_keeps_dtypes_when_a_file_has_no_splits_or_dividends(
+    tmp_path, symbols, n_events
+):
+    # AAA has split and dividend columns but no events, BBB has one of each.
+    from zipline.data.bundles.csvdir import _empty_divs_splits, _pricing_iter
+
+    header = "date,open,high,low,close,volume,dividend,split\n"
+    (tmp_path / "AAA.csv").write_text(
+        header + "2020-01-02,1,1,1,1,100,0.0,1.0\n2020-01-03,1,1,1,1,100,0.0,1.0\n"
+    )
+    (tmp_path / "BBB.csv").write_text(
+        header + "2020-01-02,1,1,1,1,100,0.0,1.0\n2020-01-03,1,1,1,1,100,0.5,2.0\n"
+    )
+    metadata = pd.DataFrame(
+        np.empty(
+            len(symbols),
+            dtype=[
+                ("start_date", "datetime64[ns]"),
+                ("end_date", "datetime64[ns]"),
+                ("auto_close_date", "datetime64[ns]"),
+                ("symbol", "object"),
+            ],
+        )
+    )
+    divs_splits = _empty_divs_splits()
+
+    list(_pricing_iter(str(tmp_path), list(symbols), metadata, divs_splits, False))
+
+    splits, divs = divs_splits["splits"], divs_splits["divs"]
+    assert splits["effective_date"].dtype == "datetime64[ns]"
+    assert splits["ratio"].dtype == "float64"
+    for column in ("ex_date", "record_date", "declared_date", "pay_date"):
+        assert divs[column].dtype == "datetime64[ns]"
+    assert divs["amount"].dtype == "float64"
+    assert len(splits) == n_events
+    assert len(divs) == n_events
