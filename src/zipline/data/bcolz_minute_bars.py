@@ -136,6 +136,7 @@ def convert_cols(cols, scale_factor, sid, invalid_data_behavior):
         ("high", scaled_highs),
         ("low", scaled_lows),
         ("close", scaled_closes),
+        ("volume", cols["volume"]),
     ]:
         max_val = scaled_col.max()
 
@@ -147,8 +148,8 @@ def convert_cols(cols, scale_factor, sid, invalid_data_behavior):
 
             if invalid_data_behavior == "warn":
                 logger.warning(
-                    "Values for sid={}, col={} contain some too large for "
-                    "uint32 (max={}), filtering them out",
+                    "Values for sid=%s, col=%s contain some too large for "
+                    "uint32 (max=%s), filtering them out",
                     sid,
                     col_name,
                     max_val,
@@ -156,23 +157,19 @@ def convert_cols(cols, scale_factor, sid, invalid_data_behavior):
 
             # We want to exclude all rows that have an unsafe value in
             # this column.
-            exclude_mask &= scaled_col >= np.iinfo(np.uint32).max
+            exclude_mask |= scaled_col >= np.iinfo(np.uint32).max
 
-    # Convert all cols to uint32.
-    opens = scaled_opens.astype(np.uint32)
-    highs = scaled_highs.astype(np.uint32)
-    lows = scaled_lows.astype(np.uint32)
-    closes = scaled_closes.astype(np.uint32)
-    volumes = cols["volume"].astype(np.uint32)
-
-    # Exclude rows with unsafe values by setting to zero.
-    opens[exclude_mask] = 0
-    highs[exclude_mask] = 0
-    lows[exclude_mask] = 0
-    closes[exclude_mask] = 0
-    volumes[exclude_mask] = 0
-
-    return opens, highs, lows, closes, volumes
+    # Remove unsafe rows before casting to avoid platform-dependent overflow.
+    return tuple(
+        np.where(exclude_mask, 0, values).astype(np.uint32)
+        for values in (
+            scaled_opens,
+            scaled_highs,
+            scaled_lows,
+            scaled_closes,
+            cols["volume"],
+        )
+    )
 
 
 class BcolzMinuteBarMetadata:
