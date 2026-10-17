@@ -62,7 +62,7 @@ jobs:
           CIBW_BUILD: "${{ matrix.python }}-win_amd64"
 
       - name: Store artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: my-artifact-${{ matrix.os }}-${{ matrix.python }}-${{ matrix.arch }}.whl
           path: ./wheelhouse/*.whl
@@ -77,7 +77,7 @@ jobs:
           fetch-tags: true
           ref: ${{ github.event.inputs.version }}
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         name: Install Python
         with:
           python-version: '3.11'
@@ -86,7 +86,7 @@ jobs:
           pip install -U pip setuptools build
           python -m build --sdist
       - name: upload sdist
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: my-artifact-sdist
           path: ./dist/*.tar.gz
@@ -96,7 +96,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download All Artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           pattern: my-artifact-*
           path: artifacts/
