@@ -21,7 +21,7 @@ from zipline.data.benchmarks import get_benchmark_returns_from_file
 from zipline.data.data_portal import DataPortal
 from zipline.finance import metrics
 from zipline.finance.trading import SimulationParameters
-from zipline.pipeline.data import USEquityPricing
+from zipline.pipeline.data import EquityPricing
 from zipline.pipeline.loaders import USEquityPricingLoader
 
 import zipline.utils.paths as pth
@@ -177,10 +177,10 @@ def _run(
     )
 
     def choose_loader(column):
-        if column in USEquityPricing.columns:
+        if column.unspecialize() in EquityPricing.columns:
             return pipeline_loader
         try:
-            return custom_loader.get(column)
+            return (custom_loader or {})[column]
         except KeyError:
             raise ValueError("No PipelineLoader registered for column %s." % column)
 
