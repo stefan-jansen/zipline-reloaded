@@ -277,10 +277,10 @@ class Positions:
     """Tracks daily positions."""
 
     def end_of_bar(self, packet, ledger, dt, session_ix, data_portal):
-        packet["minute_perf"]["positions"] = ledger.positions(dt)
+        packet["minute_perf"]["positions"] = ledger.positions
 
     def end_of_session(self, packet, ledger, dt, session_ix, data_portal):
-        packet["daily_perf"]["positions"] = ledger.positions()
+        packet["daily_perf"]["positions"] = ledger.positions
 
 
 class ReturnsStatistic:

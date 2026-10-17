@@ -940,6 +940,12 @@ class TestPositions(zf.WithMakeAlgo, zf.ZiplineTestCase):
         for i, expected in enumerate(expected_position_count):
             assert result.iloc[i]["num_positions"] == expected
 
+    def test_positions_metric_serializes_positions(self):
+        from zipline.finance.metrics.metric import Positions
+
+        results = self.run_algorithm(metrics_set={Positions()})
+        assert all(positions == [] for positions in results.positions)
+
     def test_noop_orders(self):
         asset = self.asset_finder.retrieve_asset(1)
 
