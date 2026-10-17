@@ -652,7 +652,7 @@ class AssetDBWriter:
             )
 
         if futures is not None:
-            futures = _generate_output_dataframe(_futures_defaults, futures)
+            futures = _generate_output_dataframe(futures, _futures_defaults)
 
         if exchanges is not None:
             exchanges = _generate_output_dataframe(
