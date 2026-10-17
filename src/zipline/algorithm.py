@@ -1301,12 +1301,12 @@ class TradingAlgorithm:
             )
 
         if style:
-            if limit_price:
+            if limit_price is not None:
                 raise UnsupportedOrderParameters(
                     msg="Passing both limit_price and style is not supported."
                 )
 
-            if stop_price:
+            if stop_price is not None:
                 raise UnsupportedOrderParameters(
                     msg="Passing both stop_price and style is not supported."
                 )
@@ -1331,11 +1331,11 @@ class TradingAlgorithm:
         if style:
             assert (limit_price, stop_price) == (None, None)
             return style
-        if limit_price and stop_price:
+        if limit_price is not None and stop_price is not None:
             return StopLimitOrder(limit_price, stop_price, asset=asset)
-        if limit_price:
+        if limit_price is not None:
             return LimitOrder(limit_price, asset=asset)
-        if stop_price:
+        if stop_price is not None:
             return StopOrder(stop_price, asset=asset)
         else:
             return MarketOrder()
@@ -1592,10 +1592,11 @@ class TradingAlgorithm:
             The new symbol lookup date.
         """
         try:
-            self._symbol_lookup_date = pd.Timestamp(dt).tz_localize("UTC")
-        except TypeError:
-            self._symbol_lookup_date = pd.Timestamp(dt).tz_convert("UTC")
-        except ValueError as exc:
+            lookup_date = pd.Timestamp(dt)
+            if lookup_date.tzinfo is not None:
+                lookup_date = lookup_date.tz_convert("UTC").tz_localize(None)
+            self._symbol_lookup_date = lookup_date
+        except (TypeError, ValueError) as exc:
             raise UnsupportedDatetimeFormat(
                 input=dt, method="set_symbol_lookup_date"
             ) from exc
