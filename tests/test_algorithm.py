@@ -3480,6 +3480,25 @@ class TestFuturesAlgo(zf.WithMakeAlgo, zf.ZiplineTestCase):
     TRADING_CALENDAR_PRIMARY_CAL = "us_futures"
     BENCHMARK_SID = None
 
+    def test_scheduled_market_close_runs_at_each_futures_execution_close(self):
+        calls = []
+        calendar = get_calendar("us_futures")
+
+        def initialize(context):
+            zipline.api.schedule_function(
+                lambda context, data: calls.append(zipline.api.get_datetime()),
+                zipline.api.date_rules.every_day(),
+                zipline.api.time_rules.market_close(minutes=1),
+            )
+
+        self.make_algo(initialize=initialize, trading_calendar=calendar).run()
+
+        assert calls == [
+            calendar.execution_time_from_close(calendar.session_close(session))
+            - pd.Timedelta("1 min")
+            for session in self.sim_params.sessions
+        ]
+
     @classmethod
     def make_futures_info(cls):
         return pd.DataFrame.from_dict(
