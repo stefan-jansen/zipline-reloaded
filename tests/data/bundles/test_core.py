@@ -596,7 +596,8 @@ class BundleCoreTestCase(WithInstanceTmpDir, WithDefaultDateBounds, ZiplineTestC
     [
         (None, 30.0),
         (pd.Timestamp("2025-04-14"), 10.0),
-        (pd.Timestamp("2025-04-14", tz="US/Eastern"), 10.0),
+        (pd.Timestamp("2025-04-14", tz="US/Eastern"), 20.0),
+        (pd.Timestamp("2025-04-13 23:00", tz="US/Eastern"), 20.0),
     ],
 )
 def test_load_uses_ingestion_name_for_paths(
@@ -626,7 +627,11 @@ def test_load_uses_ingestion_name_for_paths(
             writer.write([(1, bars)])
         adjustments.write()
 
-    for date, price in [("2025-04-13", 10.0), ("2025-04-15", 30.0)]:
+    for date, price in [
+        ("2025-04-13", 10.0),
+        ("2025-04-14 02:00", 20.0),
+        ("2025-04-15", 30.0),
+    ]:
         ingest("bundle", environ=environ, timestamp=pd.Timestamp(date, tz="UTC"))
     with load("bundle", environ=environ, timestamp=timestamp) as bundle_data:
         assert bundle_data.asset_finder.retrieve_asset(1).sid == 1
