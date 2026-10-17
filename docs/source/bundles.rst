@@ -204,6 +204,10 @@ there is no need to call the write method. It is also acceptable to pass an
 empty iterator to :meth:`~zipline.data.minute_bars.BcolzMinuteBarWriter.write`
 to signal that there is no minutely data. Each call appends bars and retains
 previously written data. New minutes for a sid must follow its existing minutes.
+Gaps between sessions are permitted and padded with zero-filled bars, which the
+reader exposes as missing prices and zero volume. A batch whose final minute
+has already been stored raises ``BcolzMinuteOverlappingData``; repeated writes
+do not replace earlier values.
 
 .. note::
 

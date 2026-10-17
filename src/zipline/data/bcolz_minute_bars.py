@@ -631,6 +631,8 @@ class BcolzMinuteBarWriter:
 
         Existing bars are retained. New dates for each sid must follow its
         previously written dates, including across calls to this method.
+        Gaps between sessions are padded with zeros. A batch ending at or
+        before the last stored minute raises ``BcolzMinuteOverlappingData``.
 
         Parameters
         ----------
