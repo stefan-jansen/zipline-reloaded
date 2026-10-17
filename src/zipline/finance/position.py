@@ -75,9 +75,15 @@ class Position:
         Register the number of shares we held at this dividend's ex date so
         that we can pay out the correct amount on the dividend's pay date.
         """
+        share_count = self.amount * float(stock_dividend.ratio)
+        nearest_integer = np.rint(share_count)
+        # Correct at most one floating-point step of multiplication roundoff,
+        # such as 100 * 0.29 landing just below 29. Other fractions truncate.
+        if abs(share_count - nearest_integer) <= np.spacing(abs(share_count)):
+            share_count = nearest_integer
         return {
             "payment_asset": stock_dividend.payment_asset,
-            "share_count": np.floor(self.amount * float(stock_dividend.ratio)),
+            "share_count": np.trunc(share_count),
         }
 
     def handle_split(self, asset, ratio):

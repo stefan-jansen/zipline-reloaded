@@ -156,7 +156,6 @@ def _weak_lru_cache(maxsize=100):
                         hits += 1
                         return result
                     except KeyError:
-                        misses += 1
                         pass
                 result = user_function(*args, **kwds)
                 with lock:
@@ -176,9 +175,10 @@ def _weak_lru_cache(maxsize=100):
 
         def cache_clear():
             """Clear the cache and cache statistics"""
+            nonlocal hits, misses
             with lock:
                 cache.clear()
-                hits[0] = misses[0] = 0
+                hits = misses = 0
 
         wrapper.cache_info = cache_info
         wrapper.cache_clear = cache_clear
@@ -199,8 +199,8 @@ class _WeakArgs(Sequence):
             if self is not None and dict_remove is not None:
                 dict_remove(self)
 
-        self._items, self._selectors = unzip(
-            self._try_ref(item, remove) for item in items
+        self._items, self._selectors = (
+            unzip(self._try_ref(item, remove) for item in items) if items else ((), ())
         )
         self._items = tuple(self._items)
         self._selectors = tuple(self._selectors)
@@ -236,6 +236,9 @@ class _WeakArgs(Sequence):
 
 
 class _WeakArgsDict(WeakKeyDictionary, object):
+    def clear(self):
+        self.data.clear()
+
     def __delitem__(self, key):
         del self.data[_WeakArgs(key)]
 

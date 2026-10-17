@@ -178,6 +178,9 @@ class PositionTracker:
             div_owed = self.positions[stock_dividend.asset].earn_stock_dividend(
                 stock_dividend
             )
+            if not div_owed["share_count"]:
+                # Less than one share (also -0.0 for a small short).
+                continue
             try:
                 self._unpaid_stock_dividends[stock_dividend.pay_date].append(
                     div_owed,
@@ -211,8 +214,14 @@ class PositionTracker:
         # be negative in the case of short positions.
         try:
             stock_payments = self._unpaid_stock_dividends[next_trading_day]
+            # Same as cash dividends: a pay date is settled once.
+            del self._unpaid_stock_dividends[next_trading_day]
         except KeyError:
             stock_payments = []
+
+        if stock_payments:
+            # Share count changed, so cached position stats are stale.
+            self._dirty_stats = True
 
         for stock_payment in stock_payments:
             payment_asset = stock_payment["payment_asset"]
