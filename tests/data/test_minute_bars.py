@@ -80,20 +80,26 @@ class BcolzMinuteBarTestCase(
         )
         self.reader = BcolzMinuteBarReader(self.dest)
 
-    @parameter_space(behavior=["ignore", "warn"])
-    def test_overflowing_price_excludes_the_whole_bar(self, behavior):
+    @parameter_space(behavior=["ignore", "warn", "raise"], field=["high", "volume"])
+    def test_overflowing_value_excludes_the_whole_bar(self, behavior, field):
         minutes = self.trading_calendar.session_minutes(self.test_calendar_start)[:3]
         frame = pd.DataFrame(
             {field: 10.0 for field in ["open", "high", "low", "close"]},
             index=minutes,
         )
         frame["volume"] = 1000
-        frame.loc[minutes[1], "high"] = 1e10
+        frame.loc[minutes[1], field] = 1e10
+        if behavior == "raise":
+            with pytest.raises(ValueError, match=field):
+                self.writer.write([(1, frame)], invalid_data_behavior=behavior)
+            return
         self.writer.write([(1, frame)], invalid_data_behavior=behavior)
         assert self.reader.get_value(1, minutes[0], "close") == 10.0
         assert self.reader.get_value(1, minutes[2], "close") == 10.0
         assert self.reader.get_value(1, minutes[1], "volume") == 0
         assert np.isnan(self.reader.get_value(1, minutes[1], "open"))
+        assert self.reader.get_value(1, minutes[0], "volume") == 1000
+        assert self.reader.get_value(1, minutes[2], "volume") == 1000
 
     def test_version(self):
         metadata = self.reader._get_metadata()
