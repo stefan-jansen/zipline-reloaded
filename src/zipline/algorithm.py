@@ -1301,12 +1301,12 @@ class TradingAlgorithm:
             )
 
         if style:
-            if limit_price:
+            if limit_price is not None:
                 raise UnsupportedOrderParameters(
                     msg="Passing both limit_price and style is not supported."
                 )
 
-            if stop_price:
+            if stop_price is not None:
                 raise UnsupportedOrderParameters(
                     msg="Passing both stop_price and style is not supported."
                 )
@@ -1331,11 +1331,11 @@ class TradingAlgorithm:
         if style:
             assert (limit_price, stop_price) == (None, None)
             return style
-        if limit_price and stop_price:
+        if limit_price is not None and stop_price is not None:
             return StopLimitOrder(limit_price, stop_price, asset=asset)
-        if limit_price:
+        if limit_price is not None:
             return LimitOrder(limit_price, asset=asset)
-        if stop_price:
+        if stop_price is not None:
             return StopOrder(stop_price, asset=asset)
         else:
             return MarketOrder()

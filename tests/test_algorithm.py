@@ -992,6 +992,8 @@ class TestPositions(zf.WithMakeAlgo, zf.ZiplineTestCase):
             ###################
             # Rounding Checks #
             ###################
+            algo.order(asset, 100, limit_price=0)
+            algo.order(asset, -100, stop_price=0)
             algo.order(asset, 100, limit_price=0.00000001)
             algo.order(asset, -100, stop_price=0.00000001)
 
