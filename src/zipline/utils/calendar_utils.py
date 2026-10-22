@@ -28,6 +28,9 @@ def wrap_with_signature(signature):
 @wrap_with_signature(inspect.signature(ec_get_calendar))
 def get_calendar(*args, **kwargs):
     bound = inspect.signature(ec_get_calendar).bind(*args, **kwargs)
+    side = bound.arguments.get("side", "right")
+    if side != "right":
+        raise TypeError(f"Zipline calendars are right-sided; got side={side!r}")
     bound.arguments["side"] = "right"
     if (
         bound.arguments["name"] in ["us_futures", "CMES", "XNYS", "NYSE"]

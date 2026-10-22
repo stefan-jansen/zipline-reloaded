@@ -42,8 +42,14 @@ def test_legacy_defaults_stay_unchanged(name):
     pd.testing.assert_index_equal(actual.sessions, expected.sessions)
 
 
-def test_side_stays_right_for_zipline_compatibility():
-    assert get_calendar("XNYS", side="left").side == "right"
+def test_side_right_is_accepted():
+    assert get_calendar("XNYS", side="right").side == "right"
+
+
+@pytest.mark.parametrize("side", ["left", "both", "neither"])
+def test_conflicting_side_is_rejected(side):
+    with pytest.raises(TypeError, match="right-sided"):
+        get_calendar("XNYS", side=side)
 
 
 @pytest.mark.parametrize(

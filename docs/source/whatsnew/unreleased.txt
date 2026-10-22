@@ -6,4 +6,5 @@ Bug Fixes
 
 - Fixed ``zipline.utils.calendar_utils.get_calendar`` to accept ``name`` as a
   keyword and forward explicit ``start`` and ``end`` bounds, while preserving
-  right-sided calendars and the existing default start dates.
+  right-sided calendars and the existing default start dates. A ``side`` other
+  than ``"right"`` raises ``TypeError``.
