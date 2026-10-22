@@ -34,6 +34,16 @@ def test_explicit_bounds_work_positionally_and_by_keyword(name):
     pd.testing.assert_index_equal(keyword.sessions, expected.sessions)
 
 
+def test_explicit_start_before_1990_is_honoured():
+    start, end = "1985-01-02", "1985-01-31"
+    expected = ec_get_calendar("XNYS", start=start, end=end, side="right")
+    positional = get_calendar("XNYS", start, end)
+    keyword = get_calendar("XNYS", start=start, end=end)
+    assert positional.first_session == pd.Timestamp(start)
+    pd.testing.assert_index_equal(positional.sessions, expected.sessions)
+    pd.testing.assert_index_equal(keyword.sessions, expected.sessions)
+
+
 @pytest.mark.parametrize("name", ["XNYS", "NYSE", "CMES", "us_futures"])
 def test_legacy_defaults_stay_unchanged(name):
     expected = ec_get_calendar(name, start="1990-01-01", side="right")
