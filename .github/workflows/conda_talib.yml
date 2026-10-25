@@ -32,14 +32,12 @@ jobs:
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
           xcode-select --print-path
-          xcode-select --print-path | ls
+          ls "$(xcode-select --print-path)"
           xcrun --show-sdk-path
-          xcrun --show-sdk-path | ls
+          ls "$(xcrun --show-sdk-path)"
 
       - name: Checkout zipline-reloaded
-        uses: actions/checkout@v7
-        with:
-          python-version: ${{ matrix.python-version }}
+        uses: actions/checkout@v6
 
       - name: Setup miniconda3
         uses: conda-incubator/setup-miniconda@v3
@@ -64,19 +62,19 @@ jobs:
         run: conda mambabuild --output-folder . --python ${{ matrix.python }} conda/ta-lib/
 
       - name: store macos result
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v6
         if: ${{ matrix.os == 'macos-latest' }}
         with:
           path: osx-64/*.tar.bz2
 
       - name: store linux result
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v6
         if: ${{ matrix.os == 'ubuntu-latest' }}
         with:
           path: linux-64/*.tar.bz2
 
       - name: store windows result
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v6
         if: ${{ matrix.os == 'windows-latest' }}
         with:
           path: win-64/*.tar.bz2
