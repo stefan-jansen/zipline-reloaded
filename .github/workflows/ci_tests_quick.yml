@@ -15,7 +15,7 @@ jobs:
     name: Formatting Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: psf/black@stable
         with:
           options: "--check --diff"
@@ -26,8 +26,8 @@ jobs:
     name: Lint Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -45,10 +45,10 @@ jobs:
 
     steps:
       - name: Checkout Zipline
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -80,7 +80,7 @@ jobs:
           python -m pip install ".[test]"
 
       - name: Unittests with tox & pytest
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: 90
           max_attempts: 3
@@ -90,8 +90,9 @@ jobs:
 
       - name: Upload coverage data to Codecov
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
           name: codecov-umbrella
           verbose: true
