@@ -3,6 +3,10 @@
 Calendars
 ---------
 
+.. note::
+
+   When moving a strategy to ML4T Backtest, review calendar selection, timestamps and execution timing in the `Zipline migration guide <https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/>`_. Do not assume that calendar settings have identical meanings.
+
 What is a Trading Calendar?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 A trading calendar represents the timing information of a single market exchange. The timing information is made up of two parts: sessions, and opens/closes.

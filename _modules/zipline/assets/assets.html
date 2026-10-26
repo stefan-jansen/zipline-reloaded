@@ -1,71 +1,76 @@
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.assets.assets &#8212; Zipline 3.0 docs</title>
+    <title>zipline.assets.assets &#8212; Zipline Reloaded 3.2.1</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
   
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/documentation_options.js?v=eb155f5e"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/zipline/assets/assets';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/zipline.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.2.1" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -73,7 +78,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -81,18 +85,30 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Zipline Reloaded 3.2.1: bug, security and compatibility fixes. <a href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">Migration to ML4T Backtest</a>.</div>
+</aside>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../../index.html">
@@ -101,102 +117,106 @@
   
   
   
-    <p class="title logo__title">Zipline 3.0 docs</p>
+  
+    <p class="title logo__title">Zipline Reloaded 3.2.1</p>
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../install.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">
+    Migration to ML4T Backtest
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
-                        Tutorial
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../bundles.html">
-                        Data
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../trading-calendars.html">
-                        Calendars
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../risk-and-perf-metrics.html">
-                        Metrics
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
+    Tutorial
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../bundles.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../trading-calendars.html">
+    Calendars
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../development-guidelines.html">
-                        Development
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../risk-and-perf-metrics.html">
+    Metrics
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../api-reference.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../releases.html">
-                        Releases
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../development-guidelines.html">
+    Development
+  </a>
+</li>
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://ml4trading.io">
-                    ML for Trading
-                  </a>
-                </li>
-                
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
-                    Community
-                  </a>
-                </li>
-                
-                </div>
-            </div>
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api-reference.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releases.html">
+    Releases
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://ml4trading.io">
+    ML for Trading
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://exchange.ml4trading.io">
+    Community
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -208,28 +228,31 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -240,8 +263,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -252,8 +274,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
       
@@ -263,25 +284,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -290,94 +316,91 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../install.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">
+    Migration to ML4T Backtest
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
-                        Tutorial
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../bundles.html">
-                        Data
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../trading-calendars.html">
-                        Calendars
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../risk-and-perf-metrics.html">
-                        Metrics
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../development-guidelines.html">
-                        Development
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
+    Tutorial
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../api-reference.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../releases.html">
-                        Releases
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../bundles.html">
+    Data
+  </a>
+</li>
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://ml4trading.io">
-                    ML for Trading
-                  </a>
-                </li>
-                
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
-                    Community
-                  </a>
-                </li>
-                
-                </div>
-            </div>
-            
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../trading-calendars.html">
+    Calendars
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../risk-and-perf-metrics.html">
+    Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../development-guidelines.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api-reference.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releases.html">
+    Releases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://ml4trading.io">
+    ML for Trading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
+    Community
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -386,17 +409,21 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -407,8 +434,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -419,8 +445,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
         
@@ -430,30 +455,33 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../../index.html" class="nav-link" aria-label="Home">
@@ -463,7 +491,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">zipline.assets.assets</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">zipline.assets.assets</span></li>
   </ul>
 </nav>
 </div>
@@ -478,19 +506,19 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for zipline.assets.assets</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright 2016 Quantopian, Inc.</span>
 <span class="c1">#</span>
-<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the "License");</span>
 <span class="c1"># you may not use this file except in compliance with the License.</span>
 <span class="c1"># You may obtain a copy of the License at</span>
 <span class="c1">#</span>
 <span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
 <span class="c1">#</span>
 <span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># distributed under the License is distributed on an "AS IS" BASIS,</span>
 <span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
@@ -498,17 +526,17 @@ document.write(`
 <span class="c1"># import array</span>
 <span class="c1"># import binascii</span>
 <span class="c1"># import struct</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span><span class="p">,</span> <span class="n">namedtuple</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Integral</span>
-<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">attrgetter</span><span class="p">,</span> <span class="n">itemgetter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span><span class="p">,</span> <span class="n">namedtuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Integral</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">attrgetter</span><span class="p">,</span> <span class="n">itemgetter</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">sqlalchemy</span> <span class="k">as</span> <span class="nn">sa</span>
-<span class="kn">from</span> <span class="nn">toolz</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sa</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">toolz</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">compose</span><span class="p">,</span>
     <span class="n">concat</span><span class="p">,</span>
     <span class="n">concatv</span><span class="p">,</span>
@@ -520,7 +548,7 @@ document.write(`
     <span class="n">valmap</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">zipline.errors</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.errors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">EquitiesNotFound</span><span class="p">,</span>
     <span class="n">FutureContractsNotFound</span><span class="p">,</span>
     <span class="n">MultipleSymbolsFound</span><span class="p">,</span>
@@ -533,58 +561,58 @@ document.write(`
     <span class="n">SymbolNotFound</span><span class="p">,</span>
     <span class="n">ValueNotFoundForField</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.functional</span> <span class="kn">import</span> <span class="n">invert</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.memoize</span> <span class="kn">import</span> <span class="n">lazyval</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.numpy_utils</span> <span class="kn">import</span> <span class="n">as_column</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.preprocess</span> <span class="kn">import</span> <span class="n">preprocess</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.sqlite_utils</span> <span class="kn">import</span> <span class="n">coerce_string_to_eng</span><span class="p">,</span> <span class="n">group_into_chunks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.functional</span><span class="w"> </span><span class="kn">import</span> <span class="n">invert</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.memoize</span><span class="w"> </span><span class="kn">import</span> <span class="n">lazyval</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.numpy_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">as_column</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.preprocess</span><span class="w"> </span><span class="kn">import</span> <span class="n">preprocess</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.sqlite_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">coerce_string_to_eng</span><span class="p">,</span> <span class="n">group_into_chunks</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">Asset</span><span class="p">,</span> <span class="n">Equity</span><span class="p">,</span> <span class="n">Future</span>
-<span class="kn">from</span> <span class="nn">.asset_db_schema</span> <span class="kn">import</span> <span class="n">ASSET_DB_VERSION</span>
-<span class="kn">from</span> <span class="nn">.asset_writer</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">Asset</span><span class="p">,</span> <span class="n">Equity</span><span class="p">,</span> <span class="n">Future</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.asset_db_schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">ASSET_DB_VERSION</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.asset_writer</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">SQLITE_MAX_VARIABLE_NUMBER</span><span class="p">,</span>
     <span class="n">asset_db_table_names</span><span class="p">,</span>
     <span class="n">check_version_info</span><span class="p">,</span>
     <span class="n">split_delimited_symbol</span><span class="p">,</span>
     <span class="n">symbol_columns</span> <span class="k">as</span> <span class="n">SYMBOL_COLUMNS</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.continuous_futures</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.continuous_futures</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">ADJUSTMENT_STYLES</span><span class="p">,</span>
     <span class="n">CHAIN_PREDICATES</span><span class="p">,</span>
     <span class="n">ContinuousFuture</span><span class="p">,</span>
     <span class="n">OrderedContracts</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.exchange_info</span> <span class="kn">import</span> <span class="n">ExchangeInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.exchange_info</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExchangeInfo</span>
 
-<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;assets.py&quot;</span><span class="p">)</span>
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"assets.py"</span><span class="p">)</span>
 
 <span class="c1"># A set of fields that need to be converted to strings before building an</span>
 <span class="c1"># Asset to avoid unicode fields</span>
 <span class="c1"># _asset_str_fields = frozenset(</span>
 <span class="c1">#     {</span>
-<span class="c1">#         &quot;symbol&quot;,</span>
-<span class="c1">#         &quot;asset_name&quot;,</span>
-<span class="c1">#         &quot;exchange&quot;,</span>
+<span class="c1">#         "symbol",</span>
+<span class="c1">#         "asset_name",</span>
+<span class="c1">#         "exchange",</span>
 <span class="c1">#     }</span>
 <span class="c1"># )</span>
 
 <span class="c1"># A set of fields that need to be converted to timestamps in UTC</span>
 <span class="n">_asset_timestamp_fields</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
     <span class="p">{</span>
-        <span class="s2">&quot;start_date&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;end_date&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;first_traded&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;notice_date&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;expiration_date&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;auto_close_date&quot;</span><span class="p">,</span>
+        <span class="s2">"start_date"</span><span class="p">,</span>
+        <span class="s2">"end_date"</span><span class="p">,</span>
+        <span class="s2">"first_traded"</span><span class="p">,</span>
+        <span class="s2">"notice_date"</span><span class="p">,</span>
+        <span class="s2">"expiration_date"</span><span class="p">,</span>
+        <span class="s2">"auto_close_date"</span><span class="p">,</span>
     <span class="p">}</span>
 <span class="p">)</span>
 
-<span class="n">OwnershipPeriod</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;OwnershipPeriod&quot;</span><span class="p">,</span> <span class="s2">&quot;start end sid value&quot;</span><span class="p">)</span>
+<span class="n">OwnershipPeriod</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"OwnershipPeriod"</span><span class="p">,</span> <span class="s2">"start end sid value"</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">merge_ownership_periods</span><span class="p">(</span><span class="n">mappings</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Given a dict of mappings where the values are lists of</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">merge_ownership_periods</span><span class="p">(</span><span class="n">mappings</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Given a dict of mappings where the values are lists of</span>
 <span class="sd">    OwnershipPeriod objects, returns a dict with the same structure with</span>
 <span class="sd">    new OwnershipPeriod objects adjusted so that the periods have no</span>
 <span class="sd">    gaps.</span>
@@ -592,7 +620,7 @@ document.write(`
 <span class="sd">    Orders the periods chronologically, and pushes forward the end date</span>
 <span class="sd">    of each period to match the start date of the following period. The</span>
 <span class="sd">    end date of the last period pushed forward to the max Timestamp.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">valmap</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span>
             <span class="n">OwnershipPeriod</span><span class="p">(</span>
@@ -622,16 +650,19 @@ document.write(`
     <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_build_ownership_map_from_rows</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">key_from_row</span><span class="p">,</span> <span class="n">value_from_row</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_ownership_map_from_rows</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">key_from_row</span><span class="p">,</span> <span class="n">value_from_row</span><span class="p">):</span>
     <span class="n">mappings</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-        <span class="n">mappings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">key_from_row</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="p">[],)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">mappings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
+            <span class="n">key_from_row</span><span class="p">(</span><span class="n">row</span><span class="p">),</span>
+            <span class="p">[],</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">OwnershipPeriod</span><span class="p">(</span>
                 <span class="c1"># TODO FIX TZ MESS</span>
-                <span class="c1"># pd.Timestamp(row.start_date, unit=&quot;ns&quot;, tz=&quot;utc&quot;),</span>
-                <span class="c1"># pd.Timestamp(row.end_date, unit=&quot;ns&quot;, tz=&quot;utc&quot;),</span>
-                <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ns&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
-                <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">end_date</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ns&quot;</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                <span class="c1"># pd.Timestamp(row.start_date, unit="ns", tz="utc"),</span>
+                <span class="c1"># pd.Timestamp(row.end_date, unit="ns", tz="utc"),</span>
+                <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"ns"</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">end_date</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"ns"</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
                 <span class="n">row</span><span class="o">.</span><span class="n">sid</span><span class="p">,</span>
                 <span class="n">value_from_row</span><span class="p">(</span><span class="n">row</span><span class="p">),</span>
             <span class="p">),</span>
@@ -640,8 +671,8 @@ document.write(`
     <span class="k">return</span> <span class="n">merge_ownership_periods</span><span class="p">(</span><span class="n">mappings</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">build_ownership_map</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">key_from_row</span><span class="p">,</span> <span class="n">value_from_row</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds a dict mapping to lists of OwnershipPeriods, from a db table.&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_ownership_map</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">key_from_row</span><span class="p">,</span> <span class="n">value_from_row</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Builds a dict mapping to lists of OwnershipPeriods, from a db table."""</span>
     <span class="k">return</span> <span class="n">_build_ownership_map_from_rows</span><span class="p">(</span>
         <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">c</span><span class="p">))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">(),</span>
         <span class="n">key_from_row</span><span class="p">,</span>
@@ -649,10 +680,10 @@ document.write(`
     <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">build_grouped_ownership_map</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">key_from_row</span><span class="p">,</span> <span class="n">value_from_row</span><span class="p">,</span> <span class="n">group_key</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Builds a dict mapping group keys to maps of keys to lists of</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_grouped_ownership_map</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">key_from_row</span><span class="p">,</span> <span class="n">value_from_row</span><span class="p">,</span> <span class="n">group_key</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Builds a dict mapping group keys to maps of keys to lists of</span>
 <span class="sd">    OwnershipPeriods, from a db table.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">grouped_rows</span> <span class="o">=</span> <span class="n">groupby</span><span class="p">(</span>
         <span class="n">group_key</span><span class="p">,</span>
@@ -669,8 +700,8 @@ document.write(`
 
 
 <span class="nd">@curry</span>
-<span class="k">def</span> <span class="nf">_filter_kwargs</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">dict_</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter out kwargs from a dictionary.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_filter_kwargs</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">dict_</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Filter out kwargs from a dictionary.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -684,7 +715,7 @@ document.write(`
 <span class="sd">    kwargs : dict[str, any]</span>
 <span class="sd">        ``dict_`` where the keys intersect with ``names`` and the values are</span>
 <span class="sd">        not None.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dict_</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">names</span> <span class="ow">and</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
 
 
@@ -692,11 +723,11 @@ document.write(`
 <span class="n">_filter_equity_kwargs</span> <span class="o">=</span> <span class="n">_filter_kwargs</span><span class="p">(</span><span class="n">Equity</span><span class="o">.</span><span class="n">_kwargnames</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_convert_asset_timestamp_fields</span><span class="p">(</span><span class="n">dict_</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes in a dict of Asset init args and converts dates to pd.Timestamps&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_convert_asset_timestamp_fields</span><span class="p">(</span><span class="n">dict_</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Takes in a dict of Asset init args and converts dates to pd.Timestamps"""</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">_asset_timestamp_fields</span> <span class="o">&amp;</span> <span class="n">dict_</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="c1"># TODO FIX TZ MESS</span>
-        <span class="c1"># value = pd.Timestamp(dict_[key], tz=&quot;UTC&quot;)</span>
+        <span class="c1"># value = pd.Timestamp(dict_[key], tz="UTC")</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">dict_</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">tz</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
         <span class="n">dict_</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">else</span> <span class="n">value</span>
     <span class="k">return</span> <span class="n">dict_</span>
@@ -708,18 +739,18 @@ document.write(`
 <span class="p">}</span>
 
 <span class="n">CONTINUOUS_FUTURE_ROLL_STYLE_IDS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;calendar&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s2">&quot;volume&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"calendar"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">"volume"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">CONTINUOUS_FUTURE_ADJUSTMENT_STYLE_IDS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="kc">None</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s2">&quot;div&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s2">&quot;add&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">"div"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">"add"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
 <span class="p">}</span>
 
 
-<span class="k">def</span> <span class="nf">_encode_continuous_future_sid</span><span class="p">(</span><span class="n">root_symbol</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">roll_style</span><span class="p">,</span> <span class="n">adjustment_style</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_encode_continuous_future_sid</span><span class="p">(</span><span class="n">root_symbol</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">roll_style</span><span class="p">,</span> <span class="n">adjustment_style</span><span class="p">):</span>
     <span class="c1"># Generate a unique int identifier</span>
     <span class="n">values</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">SID_TYPE_IDS</span><span class="p">[</span><span class="n">ContinuousFuture</span><span class="p">],</span>
@@ -728,18 +759,20 @@ document.write(`
         <span class="n">CONTINUOUS_FUTURE_ROLL_STYLE_IDS</span><span class="p">[</span><span class="n">roll_style</span><span class="p">],</span>
         <span class="n">CONTINUOUS_FUTURE_ADJUSTMENT_STYLE_IDS</span><span class="p">[</span><span class="n">adjustment_style</span><span class="p">],</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]))</span>
 
 
-<span class="n">Lifetimes</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;Lifetimes&quot;</span><span class="p">,</span> <span class="s2">&quot;sid start end&quot;</span><span class="p">)</span>
+<span class="n">Lifetimes</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Lifetimes"</span><span class="p">,</span> <span class="s2">"sid start end"</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="AssetFinder"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder">[docs]</a><span class="k">class</span> <span class="nc">AssetFinder</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An AssetFinder is an interface to a database of Asset metadata written by</span>
+<div class="viewcode-block" id="AssetFinder">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AssetFinder</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""An AssetFinder is an interface to a database of Asset metadata written by</span>
 <span class="sd">    an ``AssetDBWriter``.</span>
 
 <span class="sd">    This class provides methods for looking up assets by unique integer id or</span>
-<span class="sd">    by symbol.  For historical reasons, we refer to these unique ids as &#39;sids&#39;.</span>
+<span class="sd">    by symbol.  For historical reasons, we refer to these unique ids as 'sids'.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -754,11 +787,12 @@ document.write(`
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    :class:`zipline.assets.AssetDBWriter`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@preprocess</span><span class="p">(</span><span class="n">engine</span><span class="o">=</span><span class="n">coerce_string_to_eng</span><span class="p">(</span><span class="n">require_exists</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">future_chain_predicates</span><span class="o">=</span><span class="n">CHAIN_PREDICATES</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">future_chain_predicates</span><span class="o">=</span><span class="n">CHAIN_PREDICATES</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_should_close_engine</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
         <span class="n">metadata_obj</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">MetaData</span><span class="p">()</span>
         <span class="n">metadata_obj</span><span class="o">.</span><span class="n">reflect</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">asset_db_table_names</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">table_name</span> <span class="ow">in</span> <span class="n">asset_db_table_names</span><span class="p">:</span>
@@ -788,8 +822,16 @@ document.write(`
         <span class="c1"># Populated on first call to `lifetimes`.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_asset_lifetimes</span> <span class="o">=</span> <span class="p">{}</span>
 
+<div class="viewcode-block" id="AssetFinder.close">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.close">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Close the underlying SQLAlchemy engine if we created it from a string path."""</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"_should_close_engine"</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_should_close_engine</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">dispose</span><span class="p">()</span></div>
+
+
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">exchange_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">exchange_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
             <span class="n">es</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exchanges</span><span class="o">.</span><span class="n">c</span><span class="p">))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">{</span>
@@ -798,7 +840,7 @@ document.write(`
         <span class="p">}</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">symbol_ownership_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">symbol_ownership_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">mappings</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">symbol_ownership_maps_by_country_code</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">ownership_periods</span> <span class="ow">in</span> <span class="n">mappings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -807,7 +849,7 @@ document.write(`
         <span class="k">return</span> <span class="n">out</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">symbol_ownership_maps_by_country_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">symbol_ownership_maps_by_country_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
             <span class="n">query</span> <span class="o">=</span> <span class="n">sa</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">equities</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">sid</span><span class="p">,</span>
@@ -824,11 +866,11 @@ document.write(`
             <span class="p">)</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">country_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">country_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol_ownership_maps_by_country_code</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_fuzzify_symbol_ownership_map</span><span class="p">(</span><span class="n">ownership_map</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fuzzify_symbol_ownership_map</span><span class="p">(</span><span class="n">ownership_map</span><span class="p">):</span>
         <span class="n">fuzzy_mappings</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">scs</span><span class="p">),</span> <span class="n">owners</span> <span class="ow">in</span> <span class="n">ownership_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">fuzzy_owners</span> <span class="o">=</span> <span class="n">fuzzy_mappings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
@@ -840,18 +882,18 @@ document.write(`
         <span class="k">return</span> <span class="n">fuzzy_mappings</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">fuzzy_symbol_ownership_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fuzzy_symbol_ownership_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fuzzify_symbol_ownership_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol_ownership_map</span><span class="p">)</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">fuzzy_symbol_ownership_maps_by_country_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fuzzy_symbol_ownership_maps_by_country_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">valmap</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fuzzify_symbol_ownership_map</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">symbol_ownership_maps_by_country_code</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">equity_supplementary_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">equity_supplementary_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">build_ownership_map</span><span class="p">(</span>
                 <span class="n">conn</span><span class="p">,</span>
@@ -861,7 +903,7 @@ document.write(`
             <span class="p">)</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">equity_supplementary_map_by_sid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">equity_supplementary_map_by_sid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">build_ownership_map</span><span class="p">(</span>
                 <span class="n">conn</span><span class="p">,</span>
@@ -870,8 +912,10 @@ document.write(`
                 <span class="n">value_from_row</span><span class="o">=</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
             <span class="p">)</span>
 
-<div class="viewcode-block" id="AssetFinder.lookup_asset_types"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.lookup_asset_types">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_asset_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve asset types for a list of sids.</span>
+<div class="viewcode-block" id="AssetFinder.lookup_asset_types">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.lookup_asset_types">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lookup_asset_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Retrieve asset types for a list of sids.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -881,7 +925,7 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        types : dict[sid -&gt; str or None]</span>
 <span class="sd">            Asset types for the provided sids.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">found</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">missing</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
@@ -910,8 +954,11 @@ document.write(`
 
         <span class="k">return</span> <span class="n">found</span></div>
 
-<div class="viewcode-block" id="AssetFinder.group_by_type"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.group_by_type">[docs]</a>    <span class="k">def</span> <span class="nf">group_by_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Group a list of sids by asset type.</span>
+
+<div class="viewcode-block" id="AssetFinder.group_by_type">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.group_by_type">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">group_by_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Group a list of sids by asset type.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -922,13 +969,16 @@ document.write(`
 <span class="sd">        types : dict[str or None -&gt; list[int]]</span>
 <span class="sd">            A dict mapping unique asset types to lists of sids drawn from sids.</span>
 <span class="sd">            If we fail to look up an asset, we assign it a key of None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">invert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lookup_asset_types</span><span class="p">(</span><span class="n">sids</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="AssetFinder.retrieve_asset"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.retrieve_asset">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_asset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">default_none</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AssetFinder.retrieve_asset">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.retrieve_asset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve_asset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">default_none</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Retrieve the Asset for a given sid.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">asset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asset_cache</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">asset</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">default_none</span><span class="p">:</span>
@@ -937,8 +987,11 @@ document.write(`
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieve_all</span><span class="p">((</span><span class="n">sid</span><span class="p">,),</span> <span class="n">default_none</span><span class="o">=</span><span class="n">default_none</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="AssetFinder.retrieve_all"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.retrieve_all">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">,</span> <span class="n">default_none</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all assets in `sids`.</span>
+
+<div class="viewcode-block" id="AssetFinder.retrieve_all">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.retrieve_all">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">,</span> <span class="n">default_none</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Retrieve all assets in `sids`.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -958,14 +1011,14 @@ document.write(`
 <span class="sd">        ------</span>
 <span class="sd">        SidsNotFound</span>
 <span class="sd">            When a requested sid is not found and default_none=False.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">sids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sids</span><span class="p">)</span>
         <span class="n">hits</span><span class="p">,</span> <span class="n">missing</span><span class="p">,</span> <span class="n">failures</span> <span class="o">=</span> <span class="p">{},</span> <span class="nb">set</span><span class="p">(),</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="n">sids</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">asset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asset_cache</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">default_none</span> <span class="ow">and</span> <span class="n">asset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="c1"># Bail early if we&#39;ve already cached that we don&#39;t know</span>
+                    <span class="c1"># Bail early if we've already cached that we don't know</span>
                     <span class="c1"># about an asset.</span>
                     <span class="k">raise</span> <span class="n">SidsNotFound</span><span class="p">(</span><span class="n">sids</span><span class="o">=</span><span class="p">[</span><span class="n">sid</span><span class="p">])</span>
                 <span class="n">hits</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span> <span class="o">=</span> <span class="n">asset</span>
@@ -989,23 +1042,26 @@ document.write(`
         <span class="k">if</span> <span class="n">failures</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">default_none</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">SidsNotFound</span><span class="p">(</span><span class="n">sids</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">failures</span><span class="p">))</span>
 
-        <span class="c1"># We don&#39;t update the asset cache here because it should already be</span>
+        <span class="c1"># We don't update the asset cache here because it should already be</span>
         <span class="c1"># updated by `self.retrieve_equities`.</span>
-        <span class="n">update_hits</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">retrieve_equities</span><span class="p">(</span><span class="n">type_to_assets</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;equity&quot;</span><span class="p">,</span> <span class="p">())))</span>
-        <span class="n">update_hits</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">retrieve_futures_contracts</span><span class="p">(</span><span class="n">type_to_assets</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;future&quot;</span><span class="p">,</span> <span class="p">())))</span>
+        <span class="n">update_hits</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">retrieve_equities</span><span class="p">(</span><span class="n">type_to_assets</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"equity"</span><span class="p">,</span> <span class="p">())))</span>
+        <span class="n">update_hits</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">retrieve_futures_contracts</span><span class="p">(</span><span class="n">type_to_assets</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"future"</span><span class="p">,</span> <span class="p">())))</span>
 
-        <span class="c1"># We shouldn&#39;t know about any other asset types.</span>
+        <span class="c1"># We shouldn't know about any other asset types.</span>
         <span class="k">if</span> <span class="n">type_to_assets</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Found asset types: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">list</span><span class="p">(</span><span class="n">type_to_assets</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">"Found asset types: </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="nb">list</span><span class="p">(</span><span class="n">type_to_assets</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 
         <span class="k">return</span> <span class="p">[</span><span class="n">hits</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span> <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="n">sids</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="AssetFinder.retrieve_equities"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.retrieve_equities">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_equities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve Equity objects for a list of sids.</span>
 
-<span class="sd">        Users generally shouldn&#39;t need to this method (instead, they should</span>
+<div class="viewcode-block" id="AssetFinder.retrieve_equities">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.retrieve_equities">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve_equities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Retrieve Equity objects for a list of sids.</span>
+
+<span class="sd">        Users generally shouldn't need to this method (instead, they should</span>
 <span class="sd">        prefer the more general/friendly `retrieve_assets`), but it has a</span>
-<span class="sd">        documented interface and tests because it&#39;s used upstream.</span>
+<span class="sd">        documented interface and tests because it's used upstream.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1018,19 +1074,22 @@ document.write(`
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        EquitiesNotFound</span>
-<span class="sd">            When any requested asset isn&#39;t found.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            When any requested asset isn't found.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrieve_assets</span><span class="p">(</span><span class="n">sids</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">equities</span><span class="p">,</span> <span class="n">Equity</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_retrieve_equity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_retrieve_equity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieve_equities</span><span class="p">((</span><span class="n">sid</span><span class="p">,))[</span><span class="n">sid</span><span class="p">]</span>
 
-<div class="viewcode-block" id="AssetFinder.retrieve_futures_contracts"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.retrieve_futures_contracts">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_futures_contracts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve Future objects for an iterable of sids.</span>
+<div class="viewcode-block" id="AssetFinder.retrieve_futures_contracts">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.retrieve_futures_contracts">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve_futures_contracts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Retrieve Future objects for an iterable of sids.</span>
 
-<span class="sd">        Users generally shouldn&#39;t need to this method (instead, they should</span>
+<span class="sd">        Users generally shouldn't need to this method (instead, they should</span>
 <span class="sd">        prefer the more general/friendly `retrieve_assets`), but it has a</span>
-<span class="sd">        documented interface and tests because it&#39;s used upstream.</span>
+<span class="sd">        documented interface and tests because it's used upstream.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1043,20 +1102,21 @@ document.write(`
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        EquitiesNotFound</span>
-<span class="sd">            When any requested asset isn&#39;t found.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            When any requested asset isn't found.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrieve_assets</span><span class="p">(</span><span class="n">sids</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">futures_contracts</span><span class="p">,</span> <span class="n">Future</span><span class="p">)</span></div>
 
+
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_select_assets_by_sid</span><span class="p">(</span><span class="n">asset_tbl</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_select_assets_by_sid</span><span class="p">(</span><span class="n">asset_tbl</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">sa</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">asset_tbl</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">asset_tbl</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">sid</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sids</span><span class="p">)))</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_select_asset_by_symbol</span><span class="p">(</span><span class="n">asset_tbl</span><span class="p">,</span> <span class="n">symbol</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_select_asset_by_symbol</span><span class="p">(</span><span class="n">asset_tbl</span><span class="p">,</span> <span class="n">symbol</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">sa</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">asset_tbl</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">asset_tbl</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">symbol</span> <span class="o">==</span> <span class="n">symbol</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_select_most_recent_symbols_chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid_group</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve the most recent symbol for a set of sids.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_select_most_recent_symbols_chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid_group</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Retrieve the most recent symbol for a set of sids.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1078,7 +1138,7 @@ document.write(`
 <span class="sd">        that inner select on the sid with no aggregations to select the last</span>
 <span class="sd">        row per group which gives us the most recently active symbol for all</span>
 <span class="sd">        of the sids.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">equity_symbol_mappings</span><span class="o">.</span><span class="n">c</span>
 
         <span class="c1"># These are the columns we actually want.</span>
@@ -1090,14 +1150,14 @@ document.write(`
         <span class="n">func_rank</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">sa</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
             <span class="o">.</span><span class="n">over</span><span class="p">(</span><span class="n">order_by</span><span class="o">=</span><span class="n">cols</span><span class="o">.</span><span class="n">end_date</span><span class="o">.</span><span class="n">desc</span><span class="p">(),</span> <span class="n">partition_by</span><span class="o">=</span><span class="n">cols</span><span class="o">.</span><span class="n">sid</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">&quot;rnk&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="s2">"rnk"</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="n">to_select</span> <span class="o">=</span> <span class="n">data_cols</span> <span class="o">+</span> <span class="p">(</span><span class="n">func_rank</span><span class="p">,)</span>
 
         <span class="n">subquery</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">sa</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">*</span><span class="n">to_select</span><span class="p">)</span>
             <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cols</span><span class="o">.</span><span class="n">sid</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sid_group</span><span class="p">)))</span>
-            <span class="o">.</span><span class="n">subquery</span><span class="p">(</span><span class="s2">&quot;sq&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">subquery</span><span class="p">(</span><span class="s2">"sq"</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="n">query</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">sa</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">subquery</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
@@ -1106,7 +1166,7 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">query</span>
 
-    <span class="k">def</span> <span class="nf">_lookup_most_recent_symbols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_lookup_most_recent_symbols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span>
                 <span class="n">row</span><span class="o">.</span><span class="n">sid</span><span class="p">:</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">SYMBOL_COLUMNS</span><span class="p">}</span>
@@ -1118,28 +1178,28 @@ document.write(`
                 <span class="p">)</span>
             <span class="p">}</span>
 
-    <span class="k">def</span> <span class="nf">_retrieve_asset_dicts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">,</span> <span class="n">asset_tbl</span><span class="p">,</span> <span class="n">querying_equities</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_retrieve_asset_dicts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">,</span> <span class="n">asset_tbl</span><span class="p">,</span> <span class="n">querying_equities</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">sids</span><span class="p">:</span>
             <span class="k">return</span>
 
         <span class="k">if</span> <span class="n">querying_equities</span><span class="p">:</span>
 
-            <span class="k">def</span> <span class="nf">mkdict</span><span class="p">(</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">mkdict</span><span class="p">(</span>
                 <span class="n">row</span><span class="p">,</span>
                 <span class="n">exchanges</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exchange_info</span><span class="p">,</span>
                 <span class="n">symbols</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_lookup_most_recent_symbols</span><span class="p">(</span><span class="n">sids</span><span class="p">),</span>
             <span class="p">):</span>
                 <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-                <span class="n">d</span><span class="p">[</span><span class="s2">&quot;exchange_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">exchanges</span><span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;exchange&quot;</span><span class="p">)]</span>
+                <span class="n">d</span><span class="p">[</span><span class="s2">"exchange_info"</span><span class="p">]</span> <span class="o">=</span> <span class="n">exchanges</span><span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"exchange"</span><span class="p">)]</span>
                 <span class="c1"># we are not required to have a symbol for every asset, if</span>
-                <span class="c1"># we don&#39;t have any symbols we will just use the empty string</span>
-                <span class="k">return</span> <span class="n">merge</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">symbols</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;sid&quot;</span><span class="p">],</span> <span class="p">{}))</span>
+                <span class="c1"># we don't have any symbols we will just use the empty string</span>
+                <span class="k">return</span> <span class="n">merge</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">symbols</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"sid"</span><span class="p">],</span> <span class="p">{}))</span>
 
         <span class="k">else</span><span class="p">:</span>
 
-            <span class="k">def</span> <span class="nf">mkdict</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">exchanges</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exchange_info</span><span class="p">):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">mkdict</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">exchanges</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exchange_info</span><span class="p">):</span>
                 <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-                <span class="n">d</span><span class="p">[</span><span class="s2">&quot;exchange_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">exchanges</span><span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;exchange&quot;</span><span class="p">)]</span>
+                <span class="n">d</span><span class="p">[</span><span class="s2">"exchange_info"</span><span class="p">]</span> <span class="o">=</span> <span class="n">exchanges</span><span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"exchange"</span><span class="p">)]</span>
                 <span class="k">return</span> <span class="n">d</span>
 
         <span class="k">for</span> <span class="n">assets</span> <span class="ow">in</span> <span class="n">group_into_chunks</span><span class="p">(</span><span class="n">sids</span><span class="p">):</span>
@@ -1150,8 +1210,8 @@ document.write(`
                 <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">mappings</span><span class="p">()</span><span class="o">.</span><span class="n">fetchall</span><span class="p">():</span>
                     <span class="k">yield</span> <span class="n">_convert_asset_timestamp_fields</span><span class="p">(</span><span class="n">mkdict</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">_retrieve_assets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">,</span> <span class="n">asset_tbl</span><span class="p">,</span> <span class="n">asset_type</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal function for loading assets from a table.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_retrieve_assets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">,</span> <span class="n">asset_tbl</span><span class="p">,</span> <span class="n">asset_type</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Internal function for loading assets from a table.</span>
 
 <span class="sd">        This should be the only method of `AssetFinder` that writes Assets into</span>
 <span class="sd">        self._asset_cache.</span>
@@ -1169,7 +1229,7 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        assets : dict[int -&gt; Asset]</span>
 <span class="sd">            Dict mapping requested sids to the retrieved assets.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Fastpath for empty request.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">sids</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{}</span>
@@ -1184,13 +1244,13 @@ document.write(`
 
         <span class="n">rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrieve_asset_dicts</span><span class="p">(</span><span class="n">sids</span><span class="p">,</span> <span class="n">asset_tbl</span><span class="p">,</span> <span class="n">querying_equities</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
-            <span class="n">sid</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;sid&quot;</span><span class="p">]</span>
+            <span class="n">sid</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">"sid"</span><span class="p">]</span>
             <span class="n">asset</span> <span class="o">=</span> <span class="n">asset_type</span><span class="p">(</span><span class="o">**</span><span class="n">filter_kwargs</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
             <span class="n">hits</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span> <span class="o">=</span> <span class="n">cache</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span> <span class="o">=</span> <span class="n">asset</span>
 
         <span class="c1"># If we get here, it means something in our code thought that a</span>
         <span class="c1"># particular sid was an equity/future and called this function with a</span>
-        <span class="c1"># concrete type, but we couldn&#39;t actually resolve the asset.  This is</span>
+        <span class="c1"># concrete type, but we couldn't actually resolve the asset.  This is</span>
         <span class="c1"># an error in our code, not a user-input error.</span>
         <span class="n">misses</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">sids</span><span class="p">)</span> <span class="o">-</span> <span class="n">hits</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">misses</span><span class="p">:</span>
@@ -1200,8 +1260,8 @@ document.write(`
                 <span class="k">raise</span> <span class="n">FutureContractsNotFound</span><span class="p">(</span><span class="n">sids</span><span class="o">=</span><span class="n">misses</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">hits</span>
 
-    <span class="k">def</span> <span class="nf">_lookup_symbol_strict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ownership_map</span><span class="p">,</span> <span class="n">multi_country</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve a symbol to an asset object without fuzzy matching.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_lookup_symbol_strict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ownership_map</span><span class="p">,</span> <span class="n">multi_country</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Resolve a symbol to an asset object without fuzzy matching.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1241,7 +1301,7 @@ document.write(`
 <span class="sd">        - Do a dictionary lookup of the</span>
 <span class="sd">          ``(company_symbol, share_class_symbol)`` in the provided ownership</span>
 <span class="sd">          map.</span>
-<span class="sd">        - If there is no entry in the dictionary, we don&#39;t know about this</span>
+<span class="sd">        - If there is no entry in the dictionary, we don't know about this</span>
 <span class="sd">          symbol so raise a ``SymbolNotFound`` error.</span>
 <span class="sd">        - If ``as_of_date`` is None:</span>
 <span class="sd">          - If more there is more than one owner, raise</span>
@@ -1258,16 +1318,16 @@ document.write(`
 <span class="sd">        - If there is exactly one candidate, return it.</span>
 <span class="sd">        - Othewise, raise ``MultipleSymbolsFound`` because the ticker is not</span>
 <span class="sd">          unique across countries.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># split the symbol into the components, if there are no</span>
         <span class="c1"># company/share class parts then share_class_symbol will be empty</span>
         <span class="n">company_symbol</span><span class="p">,</span> <span class="n">share_class_symbol</span> <span class="o">=</span> <span class="n">split_delimited_symbol</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">owners</span> <span class="o">=</span> <span class="n">ownership_map</span><span class="p">[</span><span class="n">company_symbol</span><span class="p">,</span> <span class="n">share_class_symbol</span><span class="p">]</span>
-            <span class="k">assert</span> <span class="n">owners</span><span class="p">,</span> <span class="s2">&quot;empty owners list for </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">symbol</span>
+            <span class="k">assert</span> <span class="n">owners</span><span class="p">,</span> <span class="s2">"empty owners list for </span><span class="si">%r</span><span class="s2">"</span> <span class="o">%</span> <span class="n">symbol</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="c1"># no equity has ever held this symbol</span>
-            <span class="k">raise</span> <span class="n">SymbolNotFound</span><span class="p">(</span><span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+            <span class="k">raise</span> <span class="n">SymbolNotFound</span><span class="p">(</span><span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">as_of_date</span><span class="p">:</span>
             <span class="c1"># exactly one equity has ever held this symbol, we may resolve</span>
@@ -1278,7 +1338,7 @@ document.write(`
             <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">retrieve_asset</span><span class="p">(</span><span class="n">owner</span><span class="o">.</span><span class="n">sid</span><span class="p">)</span> <span class="k">for</span> <span class="n">owner</span> <span class="ow">in</span> <span class="n">owners</span><span class="p">}</span>
 
             <span class="k">if</span> <span class="n">multi_country</span><span class="p">:</span>
-                <span class="n">country_codes</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;country_code&quot;</span><span class="p">),</span> <span class="n">options</span><span class="p">)</span>
+                <span class="n">country_codes</span> <span class="o">=</span> <span class="p">[</span><span class="n">asset</span><span class="o">.</span><span class="n">country_code</span> <span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="n">options</span><span class="p">]</span>
 
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">country_codes</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">SameSymbolUsedAcrossCountries</span><span class="p">(</span>
@@ -1312,21 +1372,21 @@ document.write(`
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">options</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">options</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="c1"># if there&#39;s more than one option given the asof date, a country code</span>
+        <span class="c1"># if there's more than one option given the asof date, a country code</span>
         <span class="c1"># must be passed to resolve the symbol to an asset</span>
         <span class="k">raise</span> <span class="n">SameSymbolUsedAcrossCountries</span><span class="p">(</span>
             <span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">country_codes</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_lookup_symbol_fuzzy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ownership_map</span><span class="p">,</span> <span class="n">multi_country</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_lookup_symbol_fuzzy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ownership_map</span><span class="p">,</span> <span class="n">multi_country</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">):</span>
         <span class="n">symbol</span> <span class="o">=</span> <span class="n">symbol</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="n">company_symbol</span><span class="p">,</span> <span class="n">share_class_symbol</span> <span class="o">=</span> <span class="n">split_delimited_symbol</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">owners</span> <span class="o">=</span> <span class="n">ownership_map</span><span class="p">[</span><span class="n">company_symbol</span> <span class="o">+</span> <span class="n">share_class_symbol</span><span class="p">]</span>
-            <span class="k">assert</span> <span class="n">owners</span><span class="p">,</span> <span class="s2">&quot;empty owners list for </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">symbol</span>
+            <span class="k">assert</span> <span class="n">owners</span><span class="p">,</span> <span class="s2">"empty owners list for </span><span class="si">%r</span><span class="s2">"</span> <span class="o">%</span> <span class="n">symbol</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="c1"># no equity has ever held a symbol matching the fuzzy symbol</span>
-            <span class="k">raise</span> <span class="n">SymbolNotFound</span><span class="p">(</span><span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+            <span class="k">raise</span> <span class="n">SymbolNotFound</span><span class="p">(</span><span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">as_of_date</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">owners</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -1387,7 +1447,7 @@ document.write(`
             <span class="n">options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">retrieve_all</span><span class="p">(</span><span class="n">owner</span><span class="o">.</span><span class="n">sid</span> <span class="k">for</span> <span class="n">owner</span> <span class="ow">in</span> <span class="n">owners</span><span class="p">),</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_choose_fuzzy_symbol_ownership_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">country_code</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_choose_fuzzy_symbol_ownership_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">country_code</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">country_code</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fuzzy_symbol_ownership_map</span>
 
@@ -1395,14 +1455,16 @@ document.write(`
             <span class="n">country_code</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_choose_symbol_ownership_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">country_code</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_choose_symbol_ownership_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">country_code</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">country_code</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">symbol_ownership_map</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">symbol_ownership_maps_by_country_code</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">country_code</span><span class="p">)</span>
 
-<div class="viewcode-block" id="AssetFinder.lookup_symbol"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.lookup_symbol">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">,</span> <span class="n">fuzzy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">country_code</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Lookup an equity by symbol.</span>
+<div class="viewcode-block" id="AssetFinder.lookup_symbol">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.lookup_symbol">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lookup_symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">,</span> <span class="n">fuzzy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">country_code</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Lookup an equity by symbol.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1439,11 +1501,11 @@ document.write(`
 <span class="sd">            there are multiple candidates for the given ``symbol`` on the</span>
 <span class="sd">            ``as_of_date``. Also raised when no ``country_code`` is given and</span>
 <span class="sd">            the symbol is ambiguous across multiple countries.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">symbol</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s2">&quot;Cannot lookup asset for symbol of None for &quot;</span>
-                <span class="s2">&quot;as of date </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="n">as_of_date</span>
+                <span class="s2">"Cannot lookup asset for symbol of None for "</span>
+                <span class="s2">"as of date </span><span class="si">%s</span><span class="s2">."</span> <span class="o">%</span> <span class="n">as_of_date</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">fuzzy</span><span class="p">:</span>
@@ -1462,8 +1524,11 @@ document.write(`
             <span class="n">as_of_date</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="AssetFinder.lookup_symbols"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.lookup_symbols">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_symbols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">,</span> <span class="n">fuzzy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">country_code</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Lookup a list of equities by symbol.</span>
+
+<div class="viewcode-block" id="AssetFinder.lookup_symbols">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.lookup_symbols">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lookup_symbols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">,</span> <span class="n">fuzzy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">country_code</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Lookup a list of equities by symbol.</span>
 
 <span class="sd">        Equivalent to::</span>
 
@@ -1487,7 +1552,7 @@ document.write(`
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        equities : list[Equity]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">symbols</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
 
@@ -1518,8 +1583,11 @@ document.write(`
                 <span class="n">append_output</span><span class="p">(</span><span class="n">equity</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="AssetFinder.lookup_future_symbol"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.lookup_future_symbol">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_future_symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Lookup a future contract by symbol.</span>
+
+<div class="viewcode-block" id="AssetFinder.lookup_future_symbol">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.lookup_future_symbol">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lookup_future_symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Lookup a future contract by symbol.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1534,9 +1602,9 @@ document.write(`
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        SymbolNotFound</span>
-<span class="sd">            Raised when no contract named &#39;symbol&#39; is found.</span>
+<span class="sd">            Raised when no contract named 'symbol' is found.</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
@@ -1549,21 +1617,22 @@ document.write(`
         <span class="c1"># If no data found, raise an exception</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">SymbolNotFound</span><span class="p">(</span><span class="n">symbol</span><span class="o">=</span><span class="n">symbol</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieve_asset</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;sid&quot;</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieve_asset</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">"sid"</span><span class="p">])</span></div>
 
-    <span class="k">def</span> <span class="nf">lookup_by_supplementary_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">lookup_by_supplementary_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">owners</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">equity_supplementary_map</span><span class="p">[</span>
                 <span class="n">field_name</span><span class="p">,</span>
                 <span class="n">value</span><span class="p">,</span>
             <span class="p">]</span>
-            <span class="k">assert</span> <span class="n">owners</span><span class="p">,</span> <span class="s2">&quot;empty owners list for field </span><span class="si">%r</span><span class="s2"> (sid: </span><span class="si">%r</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="k">assert</span> <span class="n">owners</span><span class="p">,</span> <span class="s2">"empty owners list for field </span><span class="si">%r</span><span class="s2"> (sid: </span><span class="si">%r</span><span class="s2">)"</span> <span class="o">%</span> <span class="p">(</span>
                 <span class="n">field_name</span><span class="p">,</span>
                 <span class="n">value</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="c1"># no equity has ever held this value</span>
-            <span class="k">raise</span> <span class="n">ValueNotFoundForField</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">field_name</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+            <span class="k">raise</span> <span class="n">ValueNotFoundForField</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">field_name</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">as_of_date</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">owners</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -1574,7 +1643,7 @@ document.write(`
                     <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
                     <span class="n">options</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span>
                         <span class="nb">map</span><span class="p">(</span>
-                            <span class="n">compose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">retrieve_asset</span><span class="p">,</span> <span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;sid&quot;</span><span class="p">)),</span>
+                            <span class="n">compose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">retrieve_asset</span><span class="p">,</span> <span class="n">attrgetter</span><span class="p">(</span><span class="s2">"sid"</span><span class="p">)),</span>
                             <span class="n">owners</span><span class="p">,</span>
                         <span class="p">)</span>
                     <span class="p">),</span>
@@ -1591,8 +1660,10 @@ document.write(`
         <span class="c1"># no equity held the value on the given asof date</span>
         <span class="k">raise</span> <span class="n">ValueNotFoundForField</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">field_name</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
 
-<div class="viewcode-block" id="AssetFinder.get_supplementary_field"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.get_supplementary_field">[docs]</a>    <span class="k">def</span> <span class="nf">get_supplementary_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the value of a supplementary field for an asset.</span>
+<div class="viewcode-block" id="AssetFinder.get_supplementary_field">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.get_supplementary_field">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_supplementary_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Get the value of a supplementary field for an asset.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1602,8 +1673,8 @@ document.write(`
 <span class="sd">            Name of the supplementary field.</span>
 <span class="sd">        as_of_date : pd.Timestamp, None</span>
 <span class="sd">            The last known value on this date is returned. If None, a</span>
-<span class="sd">            value is returned only if we&#39;ve only ever had one value for</span>
-<span class="sd">            this sid. If None and we&#39;ve had multiple values,</span>
+<span class="sd">            value is returned only if we've only ever had one value for</span>
+<span class="sd">            this sid. If None and we've had multiple values,</span>
 <span class="sd">            MultipleValuesFoundForSid is raised.</span>
 
 <span class="sd">        Raises</span>
@@ -1614,18 +1685,18 @@ document.write(`
 <span class="sd">        MultipleValuesFoundForSid</span>
 <span class="sd">            If we have had multiple values for this asset over time, and</span>
 <span class="sd">            None was passed for as_of_date.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">periods</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">equity_supplementary_map_by_sid</span><span class="p">[</span>
                 <span class="n">field_name</span><span class="p">,</span>
                 <span class="n">sid</span><span class="p">,</span>
             <span class="p">]</span>
-            <span class="k">assert</span> <span class="n">periods</span><span class="p">,</span> <span class="s2">&quot;empty periods list for field </span><span class="si">%r</span><span class="s2"> and sid </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="k">assert</span> <span class="n">periods</span><span class="p">,</span> <span class="s2">"empty periods list for field </span><span class="si">%r</span><span class="s2"> and sid </span><span class="si">%r</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span>
                 <span class="n">field_name</span><span class="p">,</span>
                 <span class="n">sid</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">NoValueForSid</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">field_name</span><span class="p">,</span> <span class="n">sid</span><span class="o">=</span><span class="n">sid</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">KeyError</span>
+            <span class="k">raise</span> <span class="n">NoValueForSid</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">field_name</span><span class="p">,</span> <span class="n">sid</span><span class="o">=</span><span class="n">sid</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">KeyError</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">as_of_date</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">periods</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -1647,7 +1718,8 @@ document.write(`
         <span class="c1"># Could not find a value for this sid on the as_of_date.</span>
         <span class="k">raise</span> <span class="n">NoValueForSid</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">field_name</span><span class="p">,</span> <span class="n">sid</span><span class="o">=</span><span class="n">sid</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_get_contract_sids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_symbol</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_contract_sids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_symbol</span><span class="p">):</span>
         <span class="n">fc_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">futures_contracts</span><span class="o">.</span><span class="n">c</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span>
@@ -1665,7 +1737,7 @@ document.write(`
                 <span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_root_symbol_exchange</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_symbol</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_root_symbol_exchange</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_symbol</span><span class="p">):</span>
         <span class="n">fc_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">futures_root_symbols</span><span class="o">.</span><span class="n">c</span>
         <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="n">fc_cols</span><span class="o">.</span><span class="n">exchange</span><span class="p">,)</span>
 
@@ -1679,7 +1751,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">SymbolNotFound</span><span class="p">(</span><span class="n">symbol</span><span class="o">=</span><span class="n">root_symbol</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_ordered_contracts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_symbol</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_ordered_contracts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_symbol</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ordered_contracts</span><span class="p">[</span><span class="n">root_symbol</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
@@ -1690,19 +1762,19 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">_ordered_contracts</span><span class="p">[</span><span class="n">root_symbol</span><span class="p">]</span> <span class="o">=</span> <span class="n">oc</span>
             <span class="k">return</span> <span class="n">oc</span>
 
-    <span class="k">def</span> <span class="nf">create_continuous_future</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_symbol</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">roll_style</span><span class="p">,</span> <span class="n">adjustment</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_continuous_future</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_symbol</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">roll_style</span><span class="p">,</span> <span class="n">adjustment</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">adjustment</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ADJUSTMENT_STYLES</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid adjustment style </span><span class="si">{</span><span class="n">adjustment</span><span class="si">!r}</span><span class="s2">. Allowed adjustment styles are &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">ADJUSTMENT_STYLES</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Invalid adjustment style </span><span class="si">{</span><span class="n">adjustment</span><span class="si">!r}</span><span class="s2">. Allowed adjustment styles are "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">ADJUSTMENT_STYLES</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
 
         <span class="n">oc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ordered_contracts</span><span class="p">(</span><span class="n">root_symbol</span><span class="p">)</span>
         <span class="n">exchange</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_root_symbol_exchange</span><span class="p">(</span><span class="n">root_symbol</span><span class="p">)</span>
 
         <span class="n">sid</span> <span class="o">=</span> <span class="n">_encode_continuous_future_sid</span><span class="p">(</span><span class="n">root_symbol</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">roll_style</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="n">mul_sid</span> <span class="o">=</span> <span class="n">_encode_continuous_future_sid</span><span class="p">(</span><span class="n">root_symbol</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">roll_style</span><span class="p">,</span> <span class="s2">&quot;div&quot;</span><span class="p">)</span>
-        <span class="n">add_sid</span> <span class="o">=</span> <span class="n">_encode_continuous_future_sid</span><span class="p">(</span><span class="n">root_symbol</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">roll_style</span><span class="p">,</span> <span class="s2">&quot;add&quot;</span><span class="p">)</span>
+        <span class="n">mul_sid</span> <span class="o">=</span> <span class="n">_encode_continuous_future_sid</span><span class="p">(</span><span class="n">root_symbol</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">roll_style</span><span class="p">,</span> <span class="s2">"div"</span><span class="p">)</span>
+        <span class="n">add_sid</span> <span class="o">=</span> <span class="n">_encode_continuous_future_sid</span><span class="p">(</span><span class="n">root_symbol</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">roll_style</span><span class="p">,</span> <span class="s2">"add"</span><span class="p">)</span>
 
         <span class="n">cf_template</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
             <span class="n">ContinuousFuture</span><span class="p">,</span>
@@ -1715,17 +1787,17 @@ document.write(`
         <span class="p">)</span>
 
         <span class="n">cf</span> <span class="o">=</span> <span class="n">cf_template</span><span class="p">(</span><span class="n">sid</span><span class="o">=</span><span class="n">sid</span><span class="p">)</span>
-        <span class="n">mul_cf</span> <span class="o">=</span> <span class="n">cf_template</span><span class="p">(</span><span class="n">sid</span><span class="o">=</span><span class="n">mul_sid</span><span class="p">,</span> <span class="n">adjustment</span><span class="o">=</span><span class="s2">&quot;mul&quot;</span><span class="p">)</span>
-        <span class="n">add_cf</span> <span class="o">=</span> <span class="n">cf_template</span><span class="p">(</span><span class="n">sid</span><span class="o">=</span><span class="n">add_sid</span><span class="p">,</span> <span class="n">adjustment</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="p">)</span>
+        <span class="n">mul_cf</span> <span class="o">=</span> <span class="n">cf_template</span><span class="p">(</span><span class="n">sid</span><span class="o">=</span><span class="n">mul_sid</span><span class="p">,</span> <span class="n">adjustment</span><span class="o">=</span><span class="s2">"mul"</span><span class="p">)</span>
+        <span class="n">add_cf</span> <span class="o">=</span> <span class="n">cf_template</span><span class="p">(</span><span class="n">sid</span><span class="o">=</span><span class="n">add_sid</span><span class="p">,</span> <span class="n">adjustment</span><span class="o">=</span><span class="s2">"add"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_asset_cache</span><span class="p">[</span><span class="n">cf</span><span class="o">.</span><span class="n">sid</span><span class="p">]</span> <span class="o">=</span> <span class="n">cf</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_asset_cache</span><span class="p">[</span><span class="n">mul_cf</span><span class="o">.</span><span class="n">sid</span><span class="p">]</span> <span class="o">=</span> <span class="n">mul_cf</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_asset_cache</span><span class="p">[</span><span class="n">add_cf</span><span class="o">.</span><span class="n">sid</span><span class="p">]</span> <span class="o">=</span> <span class="n">add_cf</span>
 
-        <span class="k">return</span> <span class="p">{</span><span class="kc">None</span><span class="p">:</span> <span class="n">cf</span><span class="p">,</span> <span class="s2">&quot;mul&quot;</span><span class="p">:</span> <span class="n">mul_cf</span><span class="p">,</span> <span class="s2">&quot;add&quot;</span><span class="p">:</span> <span class="n">add_cf</span><span class="p">}[</span><span class="n">adjustment</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">{</span><span class="kc">None</span><span class="p">:</span> <span class="n">cf</span><span class="p">,</span> <span class="s2">"mul"</span><span class="p">:</span> <span class="n">mul_cf</span><span class="p">,</span> <span class="s2">"add"</span><span class="p">:</span> <span class="n">add_cf</span><span class="p">}[</span><span class="n">adjustment</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_make_sids</span><span class="p">(</span><span class="n">tblattr</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_make_sids</span><span class="p">(</span><span class="n">tblattr</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
                 <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span>
                     <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tblattr</span><span class="p">)</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">sid</span><span class="p">))</span>
@@ -1736,26 +1808,26 @@ document.write(`
         <span class="k">return</span> <span class="n">_</span>
 
     <span class="n">sids</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="n">_make_sids</span><span class="p">(</span><span class="s2">&quot;asset_router&quot;</span><span class="p">),</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;All the sids in the asset finder.&quot;</span><span class="p">,</span>
+        <span class="n">_make_sids</span><span class="p">(</span><span class="s2">"asset_router"</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"All the sids in the asset finder."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">equities_sids</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="n">_make_sids</span><span class="p">(</span><span class="s2">&quot;equities&quot;</span><span class="p">),</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;All of the sids for equities in the asset finder.&quot;</span><span class="p">,</span>
+        <span class="n">_make_sids</span><span class="p">(</span><span class="s2">"equities"</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"All of the sids for equities in the asset finder."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">futures_sids</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span>
-        <span class="n">_make_sids</span><span class="p">(</span><span class="s2">&quot;futures_contracts&quot;</span><span class="p">),</span>
-        <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;All of the sids for futures consracts in the asset finder.&quot;</span><span class="p">,</span>
+        <span class="n">_make_sids</span><span class="p">(</span><span class="s2">"futures_contracts"</span><span class="p">),</span>
+        <span class="n">doc</span><span class="o">=</span><span class="s2">"All of the sids for futures consracts in the asset finder."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">del</span> <span class="n">_make_sids</span>
 
-    <span class="k">def</span> <span class="nf">_lookup_generic_scalar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">,</span> <span class="n">country_code</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">missing</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_lookup_generic_scalar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">,</span> <span class="n">country_code</span><span class="p">,</span> <span class="n">matches</span><span class="p">,</span> <span class="n">missing</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Convert asset_convertible to an asset.</span>
 
 <span class="sd">        On success, append to matches.</span>
 <span class="sd">        On failure, append to missing.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup_generic_scalar_helper</span><span class="p">(</span>
             <span class="n">obj</span><span class="p">,</span>
             <span class="n">as_of_date</span><span class="p">,</span>
@@ -1766,7 +1838,7 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="n">missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_lookup_generic_scalar_helper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">,</span> <span class="n">country_code</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_lookup_generic_scalar_helper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">,</span> <span class="n">country_code</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">(</span><span class="n">Asset</span><span class="p">,</span> <span class="n">ContinuousFuture</span><span class="p">)):</span>
             <span class="k">return</span> <span class="n">obj</span>
 
@@ -1790,10 +1862,12 @@ document.write(`
                 <span class="k">except</span> <span class="n">SymbolNotFound</span><span class="p">:</span>
                     <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="k">raise</span> <span class="n">NotAssetConvertible</span><span class="p">(</span><span class="s2">&quot;Input was </span><span class="si">%s</span><span class="s2">, not AssetConvertible.&quot;</span> <span class="o">%</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">NotAssetConvertible</span><span class="p">(</span><span class="s2">"Input was </span><span class="si">%s</span><span class="s2">, not AssetConvertible."</span> <span class="o">%</span> <span class="n">obj</span><span class="p">)</span>
 
-<div class="viewcode-block" id="AssetFinder.lookup_generic"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.lookup_generic">[docs]</a>    <span class="k">def</span> <span class="nf">lookup_generic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">,</span> <span class="n">country_code</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert an object into an Asset or sequence of Assets.</span>
+<div class="viewcode-block" id="AssetFinder.lookup_generic">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.lookup_generic">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lookup_generic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">as_of_date</span><span class="p">,</span> <span class="n">country_code</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Convert an object into an Asset or sequence of Assets.</span>
 
 <span class="sd">        This method exists primarily as a convenience for implementing</span>
 <span class="sd">        user-facing APIs that can handle multiple kinds of input.  It should</span>
@@ -1817,9 +1891,9 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        matches, missing : tuple</span>
 <span class="sd">            ``matches`` is the result of the conversion. ``missing`` is a list</span>
-<span class="sd">             containing any values that couldn&#39;t be resolved. If ``obj`` is not</span>
+<span class="sd">             containing any values that couldn't be resolved. If ``obj`` is not</span>
 <span class="sd">             an iterable, ``missing`` will be an empty list.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">missing</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -1835,18 +1909,18 @@ document.write(`
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">matches</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">missing</span>
             <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;__int__&quot;</span><span class="p">):</span>
-                    <span class="k">raise</span> <span class="n">SidsNotFound</span><span class="p">(</span><span class="n">sids</span><span class="o">=</span><span class="p">[</span><span class="n">obj</span><span class="p">])</span> <span class="kn">from</span> <span class="nn">IndexError</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">"__int__"</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="n">SidsNotFound</span><span class="p">(</span><span class="n">sids</span><span class="o">=</span><span class="p">[</span><span class="n">obj</span><span class="p">])</span> <span class="kn">from</span><span class="w"> </span><span class="nn">IndexError</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">SymbolNotFound</span><span class="p">(</span><span class="n">symbol</span><span class="o">=</span><span class="n">obj</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">IndexError</span>
+                    <span class="k">raise</span> <span class="n">SymbolNotFound</span><span class="p">(</span><span class="n">symbol</span><span class="o">=</span><span class="n">obj</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">IndexError</span>
 
         <span class="c1"># Interpret input as iterable.</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NotAssetConvertible</span><span class="p">(</span>
-                <span class="s2">&quot;Input was not a AssetConvertible or iterable of AssetConvertible.&quot;</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">TypeError</span>
+                <span class="s2">"Input was not a AssetConvertible or iterable of AssetConvertible."</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">TypeError</span>
 
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_lookup_generic_scalar</span><span class="p">(</span>
@@ -1859,16 +1933,17 @@ document.write(`
 
         <span class="k">return</span> <span class="n">matches</span><span class="p">,</span> <span class="n">missing</span></div>
 
-    <span class="k">def</span> <span class="nf">_compute_asset_lifetimes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute and cache a recarray of asset lifetimes&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_asset_lifetimes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Compute and cache a recarray of asset lifetimes"""</span>
         <span class="n">sids</span> <span class="o">=</span> <span class="n">starts</span> <span class="o">=</span> <span class="n">ends</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">equities_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">equities</span><span class="o">.</span><span class="n">c</span>
         <span class="n">exchanges_cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exchanges</span><span class="o">.</span><span class="n">c</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">&quot;country_codes&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">condt</span> <span class="o">=</span> <span class="n">exchanges_cols</span><span class="o">.</span><span class="n">country_code</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;country_codes&quot;</span><span class="p">])</span>
-            <span class="k">if</span> <span class="s2">&quot;exchange_names&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">condt</span> <span class="o">=</span> <span class="n">exchanges_cols</span><span class="o">.</span><span class="n">exchange</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;exchange_names&quot;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">"country_codes"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">condt</span> <span class="o">=</span> <span class="n">exchanges_cols</span><span class="o">.</span><span class="n">country_code</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">"country_codes"</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s2">"exchange_names"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">condt</span> <span class="o">=</span> <span class="n">exchanges_cols</span><span class="o">.</span><span class="n">exchange</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">"exchange_names"</span><span class="p">])</span>
 
             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
                 <span class="n">results</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
@@ -1883,15 +1958,17 @@ document.write(`
             <span class="k">if</span> <span class="n">results</span><span class="p">:</span>
                 <span class="n">sids</span><span class="p">,</span> <span class="n">starts</span><span class="p">,</span> <span class="n">ends</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">)</span>
 
-        <span class="n">sid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sids</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;i8&quot;</span><span class="p">)</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">starts</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;f8&quot;</span><span class="p">)</span>
-        <span class="n">end</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ends</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;f8&quot;</span><span class="p">)</span>
+        <span class="n">sid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sids</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"i8"</span><span class="p">)</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">starts</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"f8"</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ends</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"f8"</span><span class="p">)</span>
         <span class="n">start</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">start</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># convert missing starts to 0</span>
         <span class="n">end</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">end</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">max</span>  <span class="c1"># convert missing end to INTMAX</span>
-        <span class="k">return</span> <span class="n">Lifetimes</span><span class="p">(</span><span class="n">sid</span><span class="p">,</span> <span class="n">start</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;i8&quot;</span><span class="p">),</span> <span class="n">end</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;i8&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">Lifetimes</span><span class="p">(</span><span class="n">sid</span><span class="p">,</span> <span class="n">start</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"i8"</span><span class="p">),</span> <span class="n">end</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"i8"</span><span class="p">))</span>
 
-<div class="viewcode-block" id="AssetFinder.lifetimes"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.lifetimes">[docs]</a>    <span class="k">def</span> <span class="nf">lifetimes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">include_start_date</span><span class="p">,</span> <span class="n">country_codes</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute a DataFrame representing asset lifetimes for the specified date</span>
+<div class="viewcode-block" id="AssetFinder.lifetimes">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.lifetimes">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lifetimes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">include_start_date</span><span class="p">,</span> <span class="n">country_codes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Compute a DataFrame representing asset lifetimes for the specified date</span>
 <span class="sd">        range.</span>
 
 <span class="sd">        Parameters</span>
@@ -1902,9 +1979,9 @@ document.write(`
 <span class="sd">            Whether or not to count the asset as alive on its start_date.</span>
 
 <span class="sd">            This is useful in a backtesting context where `lifetimes` is being</span>
-<span class="sd">            used to signify &quot;do I have data for this asset as of the morning of</span>
-<span class="sd">            this date?&quot;  For many financial metrics, (e.g. daily close), data</span>
-<span class="sd">            isn&#39;t available for an asset until the end of the asset&#39;s first</span>
+<span class="sd">            used to signify "do I have data for this asset as of the morning of</span>
+<span class="sd">            this date?"  For many financial metrics, (e.g. daily close), data</span>
+<span class="sd">            isn't available for an asset until the end of the asset's first</span>
 <span class="sd">            day.</span>
 <span class="sd">        country_codes : iterable[str]</span>
 <span class="sd">            The country codes to get lifetimes for.</span>
@@ -1922,11 +1999,11 @@ document.write(`
 <span class="sd">        --------</span>
 <span class="sd">        numpy.putmask</span>
 <span class="sd">        zipline.pipeline.engine.SimplePipelineEngine._compute_root_mask</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">country_codes</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s2">&quot;Got string </span><span class="si">{!r}</span><span class="s2"> instead of an iterable of strings in &quot;</span>
-                <span class="s2">&quot;AssetFinder.lifetimes.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">country_codes</span><span class="p">),</span>
+                <span class="s2">"Got string </span><span class="si">{!r}</span><span class="s2"> instead of an iterable of strings in "</span>
+                <span class="s2">"AssetFinder.lifetimes."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">country_codes</span><span class="p">),</span>
             <span class="p">)</span>
 
         <span class="c1"># normalize to a cache-key so that we can memoize results.</span>
@@ -1934,9 +2011,9 @@ document.write(`
 
         <span class="n">lifetimes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asset_lifetimes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">country_codes</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">lifetimes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_asset_lifetimes</span><span class="p">[</span>
-                <span class="n">country_codes</span>
-            <span class="p">]</span> <span class="o">=</span> <span class="n">lifetimes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_asset_lifetimes</span><span class="p">(</span><span class="n">country_codes</span><span class="o">=</span><span class="n">country_codes</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_asset_lifetimes</span><span class="p">[</span><span class="n">country_codes</span><span class="p">]</span> <span class="o">=</span> <span class="n">lifetimes</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_compute_asset_lifetimes</span><span class="p">(</span><span class="n">country_codes</span><span class="o">=</span><span class="n">country_codes</span><span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="n">raw_dates</span> <span class="o">=</span> <span class="n">as_column</span><span class="p">(</span><span class="n">dates</span><span class="o">.</span><span class="n">asi8</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">include_start_date</span><span class="p">:</span>
@@ -1947,8 +2024,11 @@ document.write(`
 
         <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">lifetimes</span><span class="o">.</span><span class="n">sid</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AssetFinder.equities_sids_for_country_code"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.equities_sids_for_country_code">[docs]</a>    <span class="k">def</span> <span class="nf">equities_sids_for_country_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">country_code</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all of the sids for a given country.</span>
+
+<div class="viewcode-block" id="AssetFinder.equities_sids_for_country_code">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.equities_sids_for_country_code">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">equities_sids_for_country_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">country_code</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Return all of the sids for a given country.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1959,12 +2039,15 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        tuple[int]</span>
 <span class="sd">            The sids whose exchanges are in this country.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">sids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_asset_lifetimes</span><span class="p">(</span><span class="n">country_codes</span><span class="o">=</span><span class="p">[</span><span class="n">country_code</span><span class="p">])</span><span class="o">.</span><span class="n">sid</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">sids</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="AssetFinder.equities_sids_for_exchange_name"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.equities_sids_for_exchange_name">[docs]</a>    <span class="k">def</span> <span class="nf">equities_sids_for_exchange_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exchange_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all of the sids for a given exchange_name.</span>
+
+<div class="viewcode-block" id="AssetFinder.equities_sids_for_exchange_name">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetFinder.equities_sids_for_exchange_name">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">equities_sids_for_exchange_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exchange_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Return all of the sids for a given exchange_name.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1974,20 +2057,25 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        tuple[int]</span>
 <span class="sd">            The sids whose exchanges are in this country.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">sids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_asset_lifetimes</span><span class="p">(</span><span class="n">exchange_names</span><span class="o">=</span><span class="p">[</span><span class="n">exchange_name</span><span class="p">])</span><span class="o">.</span><span class="n">sid</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">sids</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span></div></div>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">sids</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span></div>
+</div>
 
 
-<div class="viewcode-block" id="AssetConvertible"><a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetConvertible">[docs]</a><span class="k">class</span> <span class="nc">AssetConvertible</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AssetConvertible">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.assets.AssetConvertible">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AssetConvertible</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    ABC for types that are convertible to integer-representations of</span>
 <span class="sd">    Assets.</span>
 
 <span class="sd">    Includes Asset, str, and Integral</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">pass</span></div>
+
 
 
 <span class="n">AssetConvertible</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Integral</span><span class="p">)</span>
@@ -1995,15 +2083,15 @@ document.write(`
 <span class="n">AssetConvertible</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">NotAssetConvertible</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NotAssetConvertible</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
     <span class="k">pass</span>
 
 
-<span class="k">class</span> <span class="nc">PricingDataAssociable</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;ABC for types that can be associated with pricing data.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PricingDataAssociable</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""ABC for types that can be associated with pricing data.</span>
 
 <span class="sd">    Includes Asset, Future, ContinuousFuture</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">pass</span>
 
@@ -2013,8 +2101,8 @@ document.write(`
 <span class="n">PricingDataAssociable</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">ContinuousFuture</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">was_active</span><span class="p">(</span><span class="n">reference_date_value</span><span class="p">,</span> <span class="n">asset</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether or not `asset` was active at the time corresponding to</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">was_active</span><span class="p">(</span><span class="n">reference_date_value</span><span class="p">,</span> <span class="n">asset</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Whether or not `asset` was active at the time corresponding to</span>
 <span class="sd">    `reference_date_value`.</span>
 
 <span class="sd">    Parameters</span>
@@ -2030,12 +2118,12 @@ document.write(`
 <span class="sd">    -------</span>
 <span class="sd">    was_active : bool</span>
 <span class="sd">        Whether or not the `asset` existed at the specified time.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">asset</span><span class="o">.</span><span class="n">start_date</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;=</span> <span class="n">reference_date_value</span> <span class="o">&lt;=</span> <span class="n">asset</span><span class="o">.</span><span class="n">end_date</span><span class="o">.</span><span class="n">value</span>
 
 
-<span class="k">def</span> <span class="nf">only_active_assets</span><span class="p">(</span><span class="n">reference_date_value</span><span class="p">,</span> <span class="n">assets</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter an iterable of Asset objects down to just assets that were alive at</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">only_active_assets</span><span class="p">(</span><span class="n">reference_date_value</span><span class="p">,</span> <span class="n">assets</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Filter an iterable of Asset objects down to just assets that were alive at</span>
 <span class="sd">    the time corresponding to `reference_date_value`.</span>
 
 <span class="sd">    Parameters</span>
@@ -2051,7 +2139,7 @@ document.write(`
 <span class="sd">    -------</span>
 <span class="sd">    active_assets : list</span>
 <span class="sd">        List of the active assets from `assets` on the requested date.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">assets</span> <span class="k">if</span> <span class="n">was_active</span><span class="p">(</span><span class="n">reference_date_value</span><span class="p">,</span> <span class="n">a</span><span class="p">)]</span>
 </pre></div>
 
@@ -2059,16 +2147,12 @@ document.write(`
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -2086,8 +2170,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -2095,6 +2179,7 @@ document.write(`
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
       © Copyright 2020, Quantopian Inc..
@@ -2104,19 +2189,22 @@ document.write(`
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
-    <br/>
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
   </p>
 </div>
       
     </div>
   
   
+  
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

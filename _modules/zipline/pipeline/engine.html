@@ -1,71 +1,76 @@
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.pipeline.engine &#8212; Zipline 3.0 docs</title>
+    <title>zipline.pipeline.engine &#8212; Zipline Reloaded 3.2.1</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
   
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/documentation_options.js?v=eb155f5e"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/zipline/pipeline/engine';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/zipline.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.2.1" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -73,7 +78,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -81,18 +85,30 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Zipline Reloaded 3.2.1: bug, security and compatibility fixes. <a href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">Migration to ML4T Backtest</a>.</div>
+</aside>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../../index.html">
@@ -101,102 +117,106 @@
   
   
   
-    <p class="title logo__title">Zipline 3.0 docs</p>
+  
+    <p class="title logo__title">Zipline Reloaded 3.2.1</p>
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../install.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">
+    Migration to ML4T Backtest
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
-                        Tutorial
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../bundles.html">
-                        Data
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../trading-calendars.html">
-                        Calendars
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../risk-and-perf-metrics.html">
-                        Metrics
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
+    Tutorial
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../bundles.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../trading-calendars.html">
+    Calendars
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../development-guidelines.html">
-                        Development
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../risk-and-perf-metrics.html">
+    Metrics
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../api-reference.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../releases.html">
-                        Releases
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../development-guidelines.html">
+    Development
+  </a>
+</li>
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://ml4trading.io">
-                    ML for Trading
-                  </a>
-                </li>
-                
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
-                    Community
-                  </a>
-                </li>
-                
-                </div>
-            </div>
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api-reference.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releases.html">
+    Releases
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://ml4trading.io">
+    ML for Trading
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://exchange.ml4trading.io">
+    Community
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -208,28 +228,31 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -240,8 +263,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -252,8 +274,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
       
@@ -263,25 +284,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -290,94 +316,91 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../install.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">
+    Migration to ML4T Backtest
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
-                        Tutorial
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../bundles.html">
-                        Data
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../trading-calendars.html">
-                        Calendars
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../risk-and-perf-metrics.html">
-                        Metrics
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../development-guidelines.html">
-                        Development
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
+    Tutorial
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../api-reference.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../releases.html">
-                        Releases
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../bundles.html">
+    Data
+  </a>
+</li>
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://ml4trading.io">
-                    ML for Trading
-                  </a>
-                </li>
-                
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
-                    Community
-                  </a>
-                </li>
-                
-                </div>
-            </div>
-            
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../trading-calendars.html">
+    Calendars
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../risk-and-perf-metrics.html">
+    Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../development-guidelines.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api-reference.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releases.html">
+    Releases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://ml4trading.io">
+    ML for Trading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
+    Community
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -386,17 +409,21 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -407,8 +434,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -419,8 +445,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
         
@@ -430,30 +455,33 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../../index.html" class="nav-link" aria-label="Home">
@@ -463,7 +491,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">zipline.pipeline.engine</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">zipline.pipeline.engine</span></li>
   </ul>
 </nav>
 </div>
@@ -478,10 +506,10 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for zipline.pipeline.engine</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Computation engines for executing Pipelines.</span>
 
 <span class="sd">This module defines the core computation algorithms for executing Pipelines.</span>
@@ -503,14 +531,14 @@ document.write(`
 <span class="sd">   zipline.pipeline.graph.ExecutionPlan.</span>
 
 <span class="sd">3. Combine the domain computed in (2) with our AssetFinder to produce</span>
-<span class="sd">   a &quot;lifetimes matrix&quot;. The lifetimes matrix is a DataFrame of</span>
+<span class="sd">   a "lifetimes matrix". The lifetimes matrix is a DataFrame of</span>
 <span class="sd">   booleans whose labels are dates x assets. Each entry corresponds</span>
 <span class="sd">   to a (date, asset) pair and indicates whether the asset in</span>
 <span class="sd">   question was tradable on the date in question. This logic</span>
 <span class="sd">   primarily lives in AssetFinder.lifetimes.</span>
 
 <span class="sd">4. Call self._populate_initial_workspace, which produces a</span>
-<span class="sd">   &quot;workspace&quot; dictionary containing cached or otherwise pre-computed</span>
+<span class="sd">   "workspace" dictionary containing cached or otherwise pre-computed</span>
 <span class="sd">   terms. By default, the initial workspace contains the lifetimes</span>
 <span class="sd">   matrix and its date labels.</span>
 
@@ -520,49 +548,54 @@ document.write(`
 
 <span class="sd">6. Iterate over the terms in the order computed in (5). For each term:</span>
 
-<span class="sd">   a. Fetch the term&#39;s inputs from the workspace, possibly removing</span>
+<span class="sd">   a. Fetch the term's inputs from the workspace, possibly removing</span>
 <span class="sd">      unneeded leading rows from the input (see ExecutionPlan.offset</span>
 <span class="sd">      for details on why we might have extra leading rows).</span>
 
 <span class="sd">   b. Call ``term._compute`` with the inputs. Store the results into</span>
 <span class="sd">      the workspace.</span>
 
-<span class="sd">   c. Decrement &quot;reference counts&quot; on the term&#39;s inputs, and remove</span>
+<span class="sd">   c. Decrement "reference counts" on the term's inputs, and remove</span>
 <span class="sd">      their results from the workspace if the refcount hits 0. This</span>
 <span class="sd">      significantly reduces the maximum amount of memory that we</span>
 <span class="sd">      consume during execution</span>
 
 <span class="sd">   This logic lives in SimplePipelineEngine.compute_chunk.</span>
 
-<span class="sd">7. Extract the pipeline&#39;s outputs from the workspace and convert them</span>
-<span class="sd">   into &quot;narrow&quot; format, with output labels dictated by the Pipeline&#39;s</span>
+<span class="sd">7. Extract the pipeline's outputs from the workspace and convert them</span>
+<span class="sd">   into "narrow" format, with output labels dictated by the Pipeline's</span>
 <span class="sd">   screen. This logic lives in SimplePipelineEngine._to_narrow.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="sd">"""</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arange</span><span class="p">,</span> <span class="n">array</span>
-<span class="kn">from</span> <span class="nn">toolz</span> <span class="kn">import</span> <span class="n">groupby</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
 
-<span class="kn">from</span> <span class="nn">zipline.errors</span> <span class="kn">import</span> <span class="n">NoFurtherDataError</span>
-<span class="kn">from</span> <span class="nn">zipline.lib.adjusted_array</span> <span class="kn">import</span> <span class="n">ensure_adjusted_array</span><span class="p">,</span> <span class="n">ensure_ndarray</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.date_utils</span> <span class="kn">import</span> <span class="n">compute_date_range_chunks</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.input_validation</span> <span class="kn">import</span> <span class="n">expect_types</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.numpy_utils</span> <span class="kn">import</span> <span class="n">as_column</span><span class="p">,</span> <span class="n">repeat_first_axis</span><span class="p">,</span> <span class="n">repeat_last_axis</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.pandas_utils</span> <span class="kn">import</span> <span class="n">categorical_df_concat</span><span class="p">,</span> <span class="n">explode</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.string_formatting</span> <span class="kn">import</span> <span class="n">bulleted_list</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">arange</span><span class="p">,</span> <span class="n">array</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">toolz</span><span class="w"> </span><span class="kn">import</span> <span class="n">groupby</span>
 
-<span class="kn">from</span> <span class="nn">.domain</span> <span class="kn">import</span> <span class="n">GENERIC</span><span class="p">,</span> <span class="n">Domain</span>
-<span class="kn">from</span> <span class="nn">.graph</span> <span class="kn">import</span> <span class="n">maybe_specialize</span>
-<span class="kn">from</span> <span class="nn">.hooks</span> <span class="kn">import</span> <span class="n">DelegatingHooks</span>
-<span class="kn">from</span> <span class="nn">.term</span> <span class="kn">import</span> <span class="n">AssetExists</span><span class="p">,</span> <span class="n">InputDates</span><span class="p">,</span> <span class="n">LoadableTerm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoFurtherDataError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.lib.adjusted_array</span><span class="w"> </span><span class="kn">import</span> <span class="n">ensure_adjusted_array</span><span class="p">,</span> <span class="n">ensure_ndarray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.date_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_date_range_chunks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.input_validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">expect_types</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.numpy_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">as_column</span><span class="p">,</span> <span class="n">repeat_first_axis</span><span class="p">,</span> <span class="n">repeat_last_axis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.pandas_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">categorical_df_concat</span><span class="p">,</span> <span class="n">explode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.string_formatting</span><span class="w"> </span><span class="kn">import</span> <span class="n">bulleted_list</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.domain</span><span class="w"> </span><span class="kn">import</span> <span class="n">GENERIC</span><span class="p">,</span> <span class="n">Domain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">maybe_specialize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.hooks</span><span class="w"> </span><span class="kn">import</span> <span class="n">DelegatingHooks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.term</span><span class="w"> </span><span class="kn">import</span> <span class="n">AssetExists</span><span class="p">,</span> <span class="n">InputDates</span><span class="p">,</span> <span class="n">LoadableTerm</span>
 
 
-<div class="viewcode-block" id="PipelineEngine"><a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.PipelineEngine">[docs]</a><span class="k">class</span> <span class="nc">PipelineEngine</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<div class="viewcode-block" id="PipelineEngine.run_pipeline"><a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.PipelineEngine.run_pipeline">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">run_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">hooks</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute values for ``pipeline`` from ``start_date`` to ``end_date``.</span>
+<div class="viewcode-block" id="PipelineEngine">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.PipelineEngine">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineEngine</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="PipelineEngine.run_pipeline">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.PipelineEngine.run_pipeline">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">hooks</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Compute values for ``pipeline`` from ``start_date`` to ``end_date``.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -588,14 +621,17 @@ document.write(`
 <span class="sd">            will contain a row for each asset that passed `pipeline.screen`.</span>
 <span class="sd">            A screen of ``None`` indicates that a row should be returned for</span>
 <span class="sd">            each asset that existed each day.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;run_pipeline&quot;</span><span class="p">)</span></div>
+<span class="sd">        """</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"run_pipeline"</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PipelineEngine.run_chunked_pipeline"><a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.PipelineEngine.run_chunked_pipeline">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">run_chunked_pipeline</span><span class="p">(</span>
+
+<div class="viewcode-block" id="PipelineEngine.run_chunked_pipeline">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.PipelineEngine.run_chunked_pipeline">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_chunked_pipeline</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">chunksize</span><span class="p">,</span> <span class="n">hooks</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute values for ``pipeline`` from ``start_date`` to ``end_date``, in</span>
+<span class="w">        </span><span class="sd">"""Compute values for ``pipeline`` from ``start_date`` to ``end_date``, in</span>
 <span class="sd">        date chunks of size ``chunksize``.</span>
 
 <span class="sd">        Chunked execution reduces memory consumption, and may reduce</span>
@@ -631,37 +667,41 @@ document.write(`
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
 <span class="sd">        :meth:`zipline.pipeline.engine.PipelineEngine.run_pipeline`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;run_chunked_pipeline&quot;</span><span class="p">)</span></div></div>
+<span class="sd">        """</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"run_chunked_pipeline"</span><span class="p">)</span></div>
+</div>
 
 
-<span class="k">class</span> <span class="nc">NoEngineRegistered</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised if a user tries to call pipeline_output in an algorithm that hasn&#39;t</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">NoEngineRegistered</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Raised if a user tries to call pipeline_output in an algorithm that hasn't</span>
 <span class="sd">    set up a pipeline engine.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 
-<span class="k">class</span> <span class="nc">ExplodingPipelineEngine</span><span class="p">(</span><span class="n">PipelineEngine</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A PipelineEngine that doesn&#39;t do anything.&quot;&quot;&quot;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExplodingPipelineEngine</span><span class="p">(</span><span class="n">PipelineEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A PipelineEngine that doesn't do anything."""</span>
 
-    <span class="k">def</span> <span class="nf">run_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">hooks</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">hooks</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">NoEngineRegistered</span><span class="p">(</span>
-            <span class="s2">&quot;Attempted to run a pipeline but no pipeline &quot;</span> <span class="s2">&quot;resources were registered.&quot;</span>
+            <span class="s2">"Attempted to run a pipeline but no pipeline "</span> <span class="s2">"resources were registered."</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">run_chunked_pipeline</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_chunked_pipeline</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">chunksize</span><span class="p">,</span> <span class="n">hooks</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="k">raise</span> <span class="n">NoEngineRegistered</span><span class="p">(</span>
-            <span class="s2">&quot;Attempted to run a chunked pipeline but no pipeline &quot;</span>
-            <span class="s2">&quot;resources were registered.&quot;</span>
+            <span class="s2">"Attempted to run a chunked pipeline but no pipeline "</span>
+            <span class="s2">"resources were registered."</span>
         <span class="p">)</span>
 
 
-<div class="viewcode-block" id="default_populate_initial_workspace"><a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.default_populate_initial_workspace">[docs]</a><span class="k">def</span> <span class="nf">default_populate_initial_workspace</span><span class="p">(</span>
+<div class="viewcode-block" id="default_populate_initial_workspace">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.default_populate_initial_workspace">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">default_populate_initial_workspace</span><span class="p">(</span>
     <span class="n">initial_workspace</span><span class="p">,</span> <span class="n">root_mask_term</span><span class="p">,</span> <span class="n">execution_plan</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">assets</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The default implementation for ``populate_initial_workspace``. This</span>
+<span class="w">    </span><span class="sd">"""The default implementation for ``populate_initial_workspace``. This</span>
 <span class="sd">    function returns the ``initial_workspace`` argument without making any</span>
 <span class="sd">    modifications.</span>
 
@@ -685,12 +725,15 @@ document.write(`
 <span class="sd">    -------</span>
 <span class="sd">    populated_initial_workspace : dict[term, array-like]</span>
 <span class="sd">        The workspace to begin computations with.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">initial_workspace</span></div>
 
 
-<div class="viewcode-block" id="SimplePipelineEngine"><a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.SimplePipelineEngine">[docs]</a><span class="k">class</span> <span class="nc">SimplePipelineEngine</span><span class="p">(</span><span class="n">PipelineEngine</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;PipelineEngine class that computes each term independently.</span>
+
+<div class="viewcode-block" id="SimplePipelineEngine">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.SimplePipelineEngine">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimplePipelineEngine</span><span class="p">(</span><span class="n">PipelineEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""PipelineEngine class that computes each term independently.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -712,21 +755,23 @@ document.write(`
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    :func:`zipline.pipeline.engine.default_populate_initial_workspace`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;_get_loader&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;_finder&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;_root_mask_term&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;_root_mask_dates_term&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;_populate_initial_workspace&quot;</span><span class="p">,</span>
+        <span class="s2">"_get_loader"</span><span class="p">,</span>
+        <span class="s2">"_finder"</span><span class="p">,</span>
+        <span class="s2">"_root_mask_term"</span><span class="p">,</span>
+        <span class="s2">"_root_mask_dates_term"</span><span class="p">,</span>
+        <span class="s2">"_populate_initial_workspace"</span><span class="p">,</span>
     <span class="p">)</span>
 
-<div class="viewcode-block" id="SimplePipelineEngine.__init__"><a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.SimplePipelineEngine.__init__">[docs]</a>    <span class="nd">@expect_types</span><span class="p">(</span>
+<div class="viewcode-block" id="SimplePipelineEngine.__init__">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.SimplePipelineEngine.__init__">[docs]</a>
+    <span class="nd">@expect_types</span><span class="p">(</span>
         <span class="n">default_domain</span><span class="o">=</span><span class="n">Domain</span><span class="p">,</span>
-        <span class="n">__funcname</span><span class="o">=</span><span class="s2">&quot;SimplePipelineEngine&quot;</span><span class="p">,</span>
+        <span class="n">__funcname</span><span class="o">=</span><span class="s2">"SimplePipelineEngine"</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">get_loader</span><span class="p">,</span>
         <span class="n">asset_finder</span><span class="p">,</span>
@@ -750,10 +795,13 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_default_hooks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_hooks</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SimplePipelineEngine.run_chunked_pipeline"><a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.SimplePipelineEngine.run_chunked_pipeline">[docs]</a>    <span class="k">def</span> <span class="nf">run_chunked_pipeline</span><span class="p">(</span>
+
+<div class="viewcode-block" id="SimplePipelineEngine.run_chunked_pipeline">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.SimplePipelineEngine.run_chunked_pipeline">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_chunked_pipeline</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">chunksize</span><span class="p">,</span> <span class="n">hooks</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute values for ``pipeline`` from ``start_date`` to ``end_date``, in</span>
+<span class="w">        </span><span class="sd">"""Compute values for ``pipeline`` from ``start_date`` to ``end_date``, in</span>
 <span class="sd">        date chunks of size ``chunksize``.</span>
 
 <span class="sd">        Chunked execution reduces memory consumption, and may reduce</span>
@@ -789,7 +837,7 @@ document.write(`
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
 <span class="sd">        :meth:`zipline.pipeline.engine.PipelineEngine.run_pipeline`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">domain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_domain</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
         <span class="n">ranges</span> <span class="o">=</span> <span class="n">compute_date_range_chunks</span><span class="p">(</span>
             <span class="n">domain</span><span class="o">.</span><span class="n">sessions</span><span class="p">(),</span>
@@ -804,8 +852,8 @@ document.write(`
             <span class="n">chunks</span> <span class="o">=</span> <span class="p">[</span><span class="n">run_pipeline</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">ranges</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunks</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="c1"># OPTIMIZATION: Don&#39;t make an extra copy in `categorical_df_concat`</span>
-            <span class="c1"># if we don&#39;t have to.</span>
+            <span class="c1"># OPTIMIZATION: Don't make an extra copy in `categorical_df_concat`</span>
+            <span class="c1"># if we don't have to.</span>
             <span class="k">return</span> <span class="n">chunks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="c1"># Filter out empty chunks. Empty dataframes lose dtype information,</span>
@@ -813,8 +861,11 @@ document.write(`
         <span class="n">nonempty_chunks</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chunks</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span>
         <span class="k">return</span> <span class="n">categorical_df_concat</span><span class="p">(</span><span class="n">nonempty_chunks</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SimplePipelineEngine.run_pipeline"><a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.SimplePipelineEngine.run_pipeline">[docs]</a>    <span class="k">def</span> <span class="nf">run_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">hooks</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute values for ``pipeline`` from ``start_date`` to ``end_date``.</span>
+
+<div class="viewcode-block" id="SimplePipelineEngine.run_pipeline">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.pipeline.engine.SimplePipelineEngine.run_pipeline">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">hooks</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Compute values for ``pipeline`` from ``start_date`` to ``end_date``.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -840,7 +891,7 @@ document.write(`
 <span class="sd">            will contain a row for each asset that passed `pipeline.screen`.</span>
 <span class="sd">            A screen of ``None`` indicates that a row should be returned for</span>
 <span class="sd">            each asset that existed each day.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">hooks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_hooks</span><span class="p">(</span><span class="n">hooks</span><span class="p">)</span>
         <span class="k">with</span> <span class="n">hooks</span><span class="o">.</span><span class="n">running_pipeline</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_pipeline_impl</span><span class="p">(</span>
@@ -850,14 +901,15 @@ document.write(`
                 <span class="n">hooks</span><span class="p">,</span>
             <span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_run_pipeline_impl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">hooks</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shared core for ``run_pipeline`` and ``run_chunked_pipeline``.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_run_pipeline_impl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">hooks</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Shared core for ``run_pipeline`` and ``run_chunked_pipeline``."""</span>
         <span class="c1"># See notes at the top of this module for a description of the</span>
         <span class="c1"># algorithm implemented here.</span>
         <span class="k">if</span> <span class="n">end_date</span> <span class="o">&lt;</span> <span class="n">start_date</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;start_date must be before or equal to end_date </span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;start_date=</span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2">, end_date=</span><span class="si">{</span><span class="n">end_date</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="s2">"start_date must be before or equal to end_date </span><span class="se">\n</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">"start_date=</span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2">, end_date=</span><span class="si">{</span><span class="n">end_date</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
         <span class="n">domain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve_domain</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
@@ -910,14 +962,14 @@ document.write(`
             <span class="n">sids</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_compute_root_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">extra_rows</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute a lifetimes matrix from our AssetFinder, then drop columns that</span>
-<span class="sd">        didn&#39;t exist at all during the query dates.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_root_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">extra_rows</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Compute a lifetimes matrix from our AssetFinder, then drop columns that</span>
+<span class="sd">        didn't exist at all during the query dates.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        domain : zipline.pipeline.domain.Domain</span>
-<span class="sd">            Domain for which we&#39;re computing a pipeline.</span>
+<span class="sd">            Domain for which we're computing a pipeline.</span>
 <span class="sd">        start_date : pd.Timestamp</span>
 <span class="sd">            Base start date for the matrix.</span>
 <span class="sd">        end_date : pd.Timestamp</span>
@@ -935,25 +987,25 @@ document.write(`
 <span class="sd">            returned frame contains as columns all assets in our AssetFinder</span>
 <span class="sd">            that existed for at least one day between `start_date` and</span>
 <span class="sd">            `end_date`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">sessions</span> <span class="o">=</span> <span class="n">domain</span><span class="o">.</span><span class="n">sessions</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">start_date</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sessions</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Pipeline start date (</span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2">) is not a trading session for &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;domain </span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Pipeline start date (</span><span class="si">{</span><span class="n">start_date</span><span class="si">}</span><span class="s2">) is not a trading session for "</span>
+                <span class="sa">f</span><span class="s2">"domain </span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
 
         <span class="k">elif</span> <span class="n">end_date</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sessions</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Pipeline end date </span><span class="si">{</span><span class="n">end_date</span><span class="si">}</span><span class="s2"> is not a trading session for &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;domain </span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Pipeline end date </span><span class="si">{</span><span class="n">end_date</span><span class="si">}</span><span class="s2"> is not a trading session for "</span>
+                <span class="sa">f</span><span class="s2">"domain </span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
 
         <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span> <span class="o">=</span> <span class="n">sessions</span><span class="o">.</span><span class="n">slice_locs</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">start_idx</span> <span class="o">&lt;</span> <span class="n">extra_rows</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NoFurtherDataError</span><span class="o">.</span><span class="n">from_lookback_window</span><span class="p">(</span>
-                <span class="n">initial_message</span><span class="o">=</span><span class="s2">&quot;Insufficient data to compute Pipeline:&quot;</span><span class="p">,</span>
+                <span class="n">initial_message</span><span class="o">=</span><span class="s2">"Insufficient data to compute Pipeline:"</span><span class="p">,</span>
                 <span class="n">first_date</span><span class="o">=</span><span class="n">sessions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">lookback_start</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span>
                 <span class="n">lookback_length</span><span class="o">=</span><span class="n">extra_rows</span><span class="p">,</span>
@@ -974,9 +1026,9 @@ document.write(`
         <span class="k">if</span> <span class="ow">not</span> <span class="n">lifetimes</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">unique</span><span class="p">:</span>
             <span class="n">columns</span> <span class="o">=</span> <span class="n">lifetimes</span><span class="o">.</span><span class="n">columns</span>
             <span class="n">duplicated</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="n">columns</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Duplicated sids: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">duplicated</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">"Duplicated sids: </span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="n">duplicated</span><span class="p">)</span>
 
-        <span class="c1"># Filter out columns that didn&#39;t exist from the farthest look back</span>
+        <span class="c1"># Filter out columns that didn't exist from the farthest look back</span>
         <span class="c1"># window through the end of the requested dates.</span>
         <span class="n">existed</span> <span class="o">=</span> <span class="n">lifetimes</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">lifetimes</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">existed</span><span class="p">]</span>
@@ -984,10 +1036,10 @@ document.write(`
 
         <span class="k">if</span> <span class="n">num_assets</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Failed to find any assets with country_code </span><span class="si">{!r}</span><span class="s2"> that traded &quot;</span>
-                <span class="s2">&quot;between </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;This probably means that your asset db is old or that it has &quot;</span>
-                <span class="s2">&quot;incorrect country/exchange metadata.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">"Failed to find any assets with country_code </span><span class="si">{!r}</span><span class="s2"> that traded "</span>
+                <span class="s2">"between </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"This probably means that your asset db is old or that it has "</span>
+                <span class="s2">"incorrect country/exchange metadata."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">domain</span><span class="o">.</span><span class="n">country_code</span><span class="p">,</span>
                     <span class="n">start_date</span><span class="p">,</span>
                     <span class="n">end_date</span><span class="p">,</span>
@@ -997,18 +1049,18 @@ document.write(`
         <span class="k">return</span> <span class="n">ret</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_inputs_for_term</span><span class="p">(</span><span class="n">term</span><span class="p">,</span> <span class="n">workspace</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">refcounts</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_inputs_for_term</span><span class="p">(</span><span class="n">term</span><span class="p">,</span> <span class="n">workspace</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">refcounts</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Compute inputs for the given term.</span>
 
 <span class="sd">        This is mostly complicated by the fact that for each input we store as</span>
 <span class="sd">        many rows as will be necessary to serve **any** computation requiring</span>
 <span class="sd">        that input.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">offsets</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">offset</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="c1"># We need to specialize here because we don&#39;t change ComputableTerm</span>
+        <span class="c1"># We need to specialize here because we don't change ComputableTerm</span>
         <span class="c1"># after resolving domains, so they can still contain generic terms as</span>
         <span class="c1"># inputs.</span>
         <span class="n">specialized</span> <span class="o">=</span> <span class="p">[</span><span class="n">maybe_specialize</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">term</span><span class="o">.</span><span class="n">inputs</span><span class="p">]</span>
@@ -1045,10 +1097,10 @@ document.write(`
                 <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span>
 
-    <span class="k">def</span> <span class="nf">compute_chunk</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_chunk</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">sids</span><span class="p">,</span> <span class="n">workspace</span><span class="p">,</span> <span class="n">refcounts</span><span class="p">,</span> <span class="n">execution_order</span><span class="p">,</span> <span class="n">hooks</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the Pipeline terms in the graph for the requested start and end</span>
+<span class="w">        </span><span class="sd">"""Compute the Pipeline terms in the graph for the requested start and end</span>
 <span class="sd">        dates.</span>
 
 <span class="sd">        This is where we do the actual work of running a pipeline.</span>
@@ -1068,7 +1120,7 @@ document.write(`
 <span class="sd">            pre-computed terms for testing or optimization purposes.</span>
 <span class="sd">        refcounts : dict[Term, int]</span>
 <span class="sd">            Dictionary mapping terms to number of dependent terms. When a</span>
-<span class="sd">            term&#39;s refcount hits 0, it can be safely discarded from</span>
+<span class="sd">            term's refcount hits 0, it can be safely discarded from</span>
 <span class="sd">            ``workspace``. See TermGraph.decref_dependencies for more info.</span>
 <span class="sd">        execution_order : list[Term]</span>
 <span class="sd">            Order in which to execute terms.</span>
@@ -1079,12 +1131,12 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        results : dict</span>
 <span class="sd">            Dictionary mapping requested results to outputs.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_compute_chunk_params</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">sids</span><span class="p">,</span> <span class="n">workspace</span><span class="p">)</span>
 
         <span class="n">get_loader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_loader</span>
 
-        <span class="c1"># Copy the supplied initial workspace so we don&#39;t mutate it in place.</span>
+        <span class="c1"># Copy the supplied initial workspace so we don't mutate it in place.</span>
         <span class="n">workspace</span> <span class="o">=</span> <span class="n">workspace</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">domain</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">domain</span>
 
@@ -1097,17 +1149,17 @@ document.write(`
         <span class="c1"># together requests for LoadableTerms if they are provided by the same</span>
         <span class="c1"># loader and they require the same number of extra rows.</span>
         <span class="c1">#</span>
-        <span class="c1"># The extra rows condition is a simplification: we don&#39;t currently have</span>
+        <span class="c1"># The extra rows condition is a simplification: we don't currently have</span>
         <span class="c1"># a mechanism for asking a loader to fetch different windows of data</span>
-        <span class="c1"># for different terms, so we only batch requests together when they&#39;re</span>
+        <span class="c1"># for different terms, so we only batch requests together when they're</span>
         <span class="c1"># going to produce data for the same set of dates.</span>
-        <span class="k">def</span> <span class="nf">loader_group_key</span><span class="p">(</span><span class="n">term</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">loader_group_key</span><span class="p">(</span><span class="n">term</span><span class="p">):</span>
             <span class="n">loader</span> <span class="o">=</span> <span class="n">get_loader</span><span class="p">(</span><span class="n">term</span><span class="p">)</span>
             <span class="n">extra_rows</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">extra_rows</span><span class="p">[</span><span class="n">term</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">loader</span><span class="p">,</span> <span class="n">extra_rows</span>
 
         <span class="c1"># Only produce loader groups for the terms we expect to load.  This</span>
-        <span class="c1"># ensures that we can run pipelines for graphs where we don&#39;t have a</span>
+        <span class="c1"># ensures that we can run pipelines for graphs where we don't have a</span>
         <span class="c1"># loader registered for an atomic term if all the dependencies of that</span>
         <span class="c1"># term were supplied in the initial workspace.</span>
         <span class="n">will_be_loaded</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">loadable_terms</span> <span class="o">-</span> <span class="n">workspace</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
@@ -1120,7 +1172,7 @@ document.write(`
             <span class="c1"># `term` may have been supplied in `initial_workspace`, or we may</span>
             <span class="c1"># have loaded `term` as part of a batch with another term coming</span>
             <span class="c1"># from the same loader (see note on loader_group_key above). In</span>
-            <span class="c1"># either case, we already have the term computed, so don&#39;t</span>
+            <span class="c1"># either case, we already have the term computed, so don't</span>
             <span class="c1"># recompute.</span>
             <span class="k">if</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">workspace</span><span class="p">:</span>
                 <span class="k">continue</span>
@@ -1149,9 +1201,9 @@ document.write(`
                         <span class="n">mask</span><span class="p">,</span>
                     <span class="p">)</span>
                 <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">loaded</span><span class="p">)</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">to_load</span><span class="p">),</span> <span class="p">(</span>
-                    <span class="s2">&quot;loader did not return an AdjustedArray for each column</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="s2">&quot;expected: </span><span class="si">%r</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="s2">&quot;got:      </span><span class="si">%r</span><span class="s2">&quot;</span>
+                    <span class="s2">"loader did not return an AdjustedArray for each column</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="s2">"expected: </span><span class="si">%r</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="s2">"got:      </span><span class="si">%r</span><span class="s2">"</span>
                     <span class="o">%</span> <span class="p">(</span>
                         <span class="nb">sorted</span><span class="p">(</span><span class="n">to_load</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">repr</span><span class="p">),</span>
                         <span class="nb">sorted</span><span class="p">(</span><span class="n">loaded</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">repr</span><span class="p">),</span>
@@ -1190,8 +1242,8 @@ document.write(`
             <span class="n">out</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">workspace</span><span class="p">[</span><span class="n">term</span><span class="p">][</span><span class="n">graph_extra_rows</span><span class="p">[</span><span class="n">term</span><span class="p">]</span> <span class="p">:]</span>
         <span class="k">return</span> <span class="n">out</span>
 
-    <span class="k">def</span> <span class="nf">_to_narrow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">terms</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">assets</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_to_narrow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">terms</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">assets</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Convert raw computed pipeline results into a DataFrame for public APIs.</span>
 
 <span class="sd">        Parameters</span>
@@ -1220,7 +1272,7 @@ document.write(`
 
 <span class="sd">        If mask[date, asset] is True, then result.loc[(date, asset), colname]</span>
 <span class="sd">        will contain the value of data[colname][date, asset].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">mask</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
             <span class="c1"># Manually handle the empty DataFrame case. This is a workaround</span>
             <span class="c1"># to pandas failing to tz_localize an empty dataframe with a</span>
@@ -1234,8 +1286,8 @@ document.write(`
                 <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">arr</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
                 <span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">([</span><span class="n">empty_dates</span><span class="p">,</span> <span class="n">empty_assets</span><span class="p">]),</span>
             <span class="p">)</span>
-        <span class="c1"># if &quot;open_instance&quot; in data.keys():</span>
-        <span class="c1">#     data[&quot;open_instance&quot;].tofile(&quot;../../open_instance.dat&quot;)</span>
+        <span class="c1"># if "open_instance" in data.keys():</span>
+        <span class="c1">#     data["open_instance"].tofile("../../open_instance.dat")</span>
         <span class="n">final_columns</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="c1"># Each term that computed an output has its postprocess method</span>
@@ -1250,10 +1302,10 @@ document.write(`
             <span class="n">data</span><span class="o">=</span><span class="n">final_columns</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">final_columns</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_validate_compute_chunk_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">sids</span><span class="p">,</span> <span class="n">initial_workspace</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_compute_chunk_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">sids</span><span class="p">,</span> <span class="n">initial_workspace</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Verify that the values passed to compute_chunk are well-formed.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root_mask_term</span>
         <span class="n">clsname</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
 
@@ -1262,7 +1314,7 @@ document.write(`
         <span class="n">compute_chunk_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_chunk</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="k">if</span> <span class="n">root</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">initial_workspace</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
-                <span class="s2">&quot;root_mask values not supplied to </span><span class="si">{cls}</span><span class="s2">.</span><span class="si">{method}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">"root_mask values not supplied to </span><span class="si">{cls}</span><span class="s2">.</span><span class="si">{method}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="bp">cls</span><span class="o">=</span><span class="n">clsname</span><span class="p">,</span>
                     <span class="n">method</span><span class="o">=</span><span class="n">compute_chunk_name</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -1272,8 +1324,8 @@ document.write(`
         <span class="n">implied_shape</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dates</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">sids</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">shape</span> <span class="o">!=</span> <span class="n">implied_shape</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
-                <span class="s2">&quot;root_mask shape is </span><span class="si">{shape}</span><span class="s2">, but received dates/assets &quot;</span>
-                <span class="s2">&quot;imply that shape should be </span><span class="si">{implied}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">"root_mask shape is </span><span class="si">{shape}</span><span class="s2">, but received dates/assets "</span>
+                <span class="s2">"imply that shape should be </span><span class="si">{implied}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
                     <span class="n">implied</span><span class="o">=</span><span class="n">implied_shape</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -1284,21 +1336,21 @@ document.write(`
                 <span class="k">continue</span>
 
             <span class="k">if</span> <span class="n">term</span><span class="o">.</span><span class="n">domain</span> <span class="ow">is</span> <span class="n">GENERIC</span><span class="p">:</span>
-                <span class="c1"># XXX: We really shouldn&#39;t allow **any** generic terms to be</span>
+                <span class="c1"># XXX: We really shouldn't allow **any** generic terms to be</span>
                 <span class="c1"># populated in the initial workspace. A generic term, by</span>
-                <span class="c1"># definition, can&#39;t correspond to concrete data until it&#39;s</span>
-                <span class="c1"># paired with a domain, and populate_initial_workspace isn&#39;t</span>
-                <span class="c1"># given the domain of execution, so it can&#39;t possibly know what</span>
+                <span class="c1"># definition, can't correspond to concrete data until it's</span>
+                <span class="c1"># paired with a domain, and populate_initial_workspace isn't</span>
+                <span class="c1"># given the domain of execution, so it can't possibly know what</span>
                 <span class="c1"># data to use when populating a generic term.</span>
                 <span class="c1">#</span>
-                <span class="c1"># In our current implementation, however, we don&#39;t have a good</span>
+                <span class="c1"># In our current implementation, however, we don't have a good</span>
                 <span class="c1"># way to represent specializations of ComputableTerms that take</span>
-                <span class="c1"># only generic inputs, so there&#39;s no good way for the initial</span>
+                <span class="c1"># only generic inputs, so there's no good way for the initial</span>
                 <span class="c1"># workspace to provide data for such terms except by populating</span>
                 <span class="c1"># the generic ComputableTerm.</span>
                 <span class="c1">#</span>
-                <span class="c1"># The right fix for the above is to implement &quot;full</span>
-                <span class="c1"># specialization&quot;, i.e., implementing ``specialize`` uniformly</span>
+                <span class="c1"># The right fix for the above is to implement "full</span>
+                <span class="c1"># specialization", i.e., implementing ``specialize`` uniformly</span>
                 <span class="c1"># across all terms, not just LoadableTerms. Having full</span>
                 <span class="c1"># specialization will also remove the need for all of the</span>
                 <span class="c1"># remaining ``maybe_specialize`` calls floating around in this</span>
@@ -1310,56 +1362,57 @@ document.write(`
                 <span class="c1"># them would require updating all those tests to compute with</span>
                 <span class="c1"># more specialized terms. Once we have full specialization, we</span>
                 <span class="c1"># can fix all the tests without a large volume of edits by</span>
-                <span class="c1"># simply specializing their workspaces, so for now I&#39;m leaving</span>
+                <span class="c1"># simply specializing their workspaces, so for now I'm leaving</span>
                 <span class="c1"># this in place as a somewhat sharp edge.</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">term</span><span class="p">,</span> <span class="n">LoadableTerm</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="s2">&quot;Loadable workspace terms must be specialized to a &quot;</span>
-                        <span class="s2">&quot;domain, but got generic term </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">term</span><span class="p">)</span>
+                        <span class="s2">"Loadable workspace terms must be specialized to a "</span>
+                        <span class="s2">"domain, but got generic term </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">term</span><span class="p">)</span>
                     <span class="p">)</span>
 
             <span class="k">elif</span> <span class="n">term</span><span class="o">.</span><span class="n">domain</span> <span class="o">!=</span> <span class="n">graph</span><span class="o">.</span><span class="n">domain</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Initial workspace term </span><span class="si">{}</span><span class="s2"> has domain </span><span class="si">{}</span><span class="s2">. &quot;</span>
-                    <span class="s2">&quot;Does not match pipeline domain </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="s2">"Initial workspace term </span><span class="si">{}</span><span class="s2"> has domain </span><span class="si">{}</span><span class="s2">. "</span>
+                    <span class="s2">"Does not match pipeline domain </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="n">term</span><span class="p">,</span>
                         <span class="n">term</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span>
                         <span class="n">graph</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">resolve_domain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve a concrete domain for ``pipeline``.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolve_domain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Resolve a concrete domain for ``pipeline``."""</span>
         <span class="n">domain</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">domain</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_default_domain</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">domain</span> <span class="ow">is</span> <span class="n">GENERIC</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Unable to determine domain for Pipeline.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;Pass domain=&lt;desired domain&gt; to your Pipeline to set a &quot;</span>
-                <span class="s2">&quot;domain.&quot;</span>
+                <span class="s2">"Unable to determine domain for Pipeline.</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"Pass domain=&lt;desired domain&gt; to your Pipeline to set a "</span>
+                <span class="s2">"domain."</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">domain</span>
 
-    <span class="k">def</span> <span class="nf">_is_special_root_term</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_special_root_term</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">term</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root_mask_term</span> <span class="ow">or</span> <span class="n">term</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">_root_mask_dates_term</span>
 
-    <span class="k">def</span> <span class="nf">_resolve_hooks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hooks</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_hooks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hooks</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">hooks</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">hooks</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">return</span> <span class="n">DelegatingHooks</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_default_hooks</span> <span class="o">+</span> <span class="n">hooks</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_ensure_can_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="n">terms</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure that ``loader`` can load ``terms``.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_ensure_can_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="n">terms</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Ensure that ``loader`` can load ``terms``."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">loader</span><span class="o">.</span><span class="n">currency_aware</span><span class="p">:</span>
             <span class="n">bad</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">terms</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">currency_conversion</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">bad</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Requested currency conversion is not supported for the &quot;</span>
-                    <span class="s2">&quot;following terms:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bulleted_list</span><span class="p">(</span><span class="n">bad</span><span class="p">))</span>
+                    <span class="s2">"Requested currency conversion is not supported for the "</span>
+                    <span class="s2">"following terms:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bulleted_list</span><span class="p">(</span><span class="n">bad</span><span class="p">))</span>
                 <span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_pipeline_output_index</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_pipeline_output_index</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">assets</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Create a MultiIndex for a pipeline output.</span>
 
 <span class="sd">    Parameters</span>
@@ -1377,7 +1430,7 @@ document.write(`
 <span class="sd">    index : pd.MultiIndex</span>
 <span class="sd">        MultiIndex  containing (date,  asset) pairs  corresponding to  ``True``</span>
 <span class="sd">        values in ``mask``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">date_labels</span> <span class="o">=</span> <span class="n">repeat_last_axis</span><span class="p">(</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dates</span><span class="p">)),</span> <span class="nb">len</span><span class="p">(</span><span class="n">assets</span><span class="p">))[</span><span class="n">mask</span><span class="p">]</span>
     <span class="n">asset_labels</span> <span class="o">=</span> <span class="n">repeat_first_axis</span><span class="p">(</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">assets</span><span class="p">)),</span> <span class="nb">len</span><span class="p">(</span><span class="n">dates</span><span class="p">))[</span><span class="n">mask</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="p">(</span>
@@ -1393,16 +1446,12 @@ document.write(`
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1420,8 +1469,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1429,6 +1478,7 @@ document.write(`
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
       © Copyright 2020, Quantopian Inc..
@@ -1438,19 +1488,22 @@ document.write(`
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
-    <br/>
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
   </p>
 </div>
       
     </div>
   
   
+  
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

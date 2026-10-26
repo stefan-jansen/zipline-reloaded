@@ -20,6 +20,10 @@ This tutorial assumes that you have Zipline correctly installed, see the
 How to construct an algorithm
 -----------------------------
 
+.. note::
+
+   For new projects, compare this Zipline tutorial with the runnable strategy in the `ML4T Backtest migration guide <https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/>`_. Review the data and execution assumptions as well as the API changes.
+
 Every Zipline algorithm consists of two functions you have to define:
 
 * ``initialize(context)``
@@ -536,7 +540,7 @@ magic.
 
    def handle_data(context, data):
        order(symbol('AAPL'), 10)
-       record(AAPL=data.current(symbol('AAPL'), "price")
+       record(AAPL=data.current(symbol('AAPL'), "price"))
 
 Note that we did not have to specify an input file as above since the
 magic will use the contents of the cell and look for your algorithm

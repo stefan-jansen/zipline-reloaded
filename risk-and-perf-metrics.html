@@ -1,74 +1,79 @@
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Metrics &#8212; Zipline 3.0 docs</title>
+    <title>Metrics &#8212; Zipline Reloaded 3.2.1</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/documentation_options.js?v=eb155f5e"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'risk-and-perf-metrics';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="_static/zipline.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Development" href="development-guidelines.html" />
     <link rel="prev" title="Calendars" href="trading-calendars.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.2.1" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -76,7 +81,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -84,18 +88,30 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Zipline Reloaded 3.2.1: bug, security and compatibility fixes. <a href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">Migration to ML4T Backtest</a>.</div>
+</aside>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="index.html">
@@ -104,102 +120,106 @@
   
   
   
-    <p class="title logo__title">Zipline 3.0 docs</p>
+  
+    <p class="title logo__title">Zipline Reloaded 3.2.1</p>
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="install.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">
+    Migration to ML4T Backtest
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="beginner-tutorial.html">
-                        Tutorial
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="bundles.html">
-                        Data
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="install.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="trading-calendars.html">
-                        Calendars
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
-                        Metrics
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="beginner-tutorial.html">
+    Tutorial
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="bundles.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="trading-calendars.html">
+    Calendars
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="development-guidelines.html">
-                        Development
-                      </a>
-                    </li>
-                
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="#" aria-current="page">
+    Metrics
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="api-reference.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="releases.html">
-                        Releases
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="development-guidelines.html">
+    Development
+  </a>
+</li>
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://ml4trading.io">
-                    ML for Trading
-                  </a>
-                </li>
-                
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
-                    Community
-                  </a>
-                </li>
-                
-                </div>
-            </div>
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="api-reference.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="releases.html">
+    Releases
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://ml4trading.io">
+    ML for Trading
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://exchange.ml4trading.io">
+    Community
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -211,28 +231,31 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -243,8 +266,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -255,8 +277,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
       
@@ -266,29 +287,32 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
       <span class="fa-solid fa-outdent"></span>
-    </label>
+    </button>
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -297,94 +321,91 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="install.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">
+    Migration to ML4T Backtest
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="beginner-tutorial.html">
-                        Tutorial
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="bundles.html">
-                        Data
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="install.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="trading-calendars.html">
-                        Calendars
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
-                        Metrics
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="development-guidelines.html">
-                        Development
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="beginner-tutorial.html">
+    Tutorial
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="api-reference.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="releases.html">
-                        Releases
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="bundles.html">
+    Data
+  </a>
+</li>
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://ml4trading.io">
-                    ML for Trading
-                  </a>
-                </li>
-                
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
-                    Community
-                  </a>
-                </li>
-                
-                </div>
-            </div>
-            
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="trading-calendars.html">
+    Calendars
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#" aria-current="page">
+    Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="development-guidelines.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api-reference.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="releases.html">
+    Releases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://ml4trading.io">
+    ML for Trading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
+    Community
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -393,17 +414,21 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -414,8 +439,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -426,8 +450,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
         
@@ -435,39 +458,59 @@ document.write(`
     
   </div>
   
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button type="button" id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"></div>
+</nav></div>
+    </div>
+  
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="index.html" class="nav-link" aria-label="Home">
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page">Metrics</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Metrics</span></li>
   </ul>
 </nav>
 </div>
@@ -482,10 +525,10 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section id="metrics">
-<span id="id1"></span><h1>Metrics<a class="headerlink" href="#metrics" title="Permalink to this heading">#</a></h1>
+<span id="id1"></span><h1>Metrics<a class="headerlink" href="#metrics" title="Link to this heading">#</a></h1>
 <p>The risk and performance metrics are summarizing values calculated by Zipline
 when running a simulation. These metrics can be about the performance of an
 algorithm, like returns or cash flow, or the riskiness of an algorithm, like
@@ -493,7 +536,7 @@ volatility or beta. Metrics may be reported minutely, daily, or once at the end
 of a simulation. A single metric may choose to report at multiple time-scales
 where appropriate.</p>
 <section id="metrics-sets">
-<h2>Metrics Sets<a class="headerlink" href="#metrics-sets" title="Permalink to this heading">#</a></h2>
+<h2>Metrics Sets<a class="headerlink" href="#metrics-sets" title="Link to this heading">#</a></h2>
 <p>Zipline groups risk and performance metrics into collections called “metrics
 sets”. A single metrics set defines all of the metrics to track during a single
 backtest. A metrics set may contain metrics that report at different time
@@ -501,12 +544,12 @@ scales. The default metrics set will compute a host of metrics, such as
 algorithm returns, volatility, Sharpe ratio, and beta.</p>
 </section>
 <section id="selecting-the-metrics-set">
-<h2>Selecting the Metrics Set<a class="headerlink" href="#selecting-the-metrics-set" title="Permalink to this heading">#</a></h2>
+<h2>Selecting the Metrics Set<a class="headerlink" href="#selecting-the-metrics-set" title="Link to this heading">#</a></h2>
 <p>When running a simulation, the user may select the metrics set to report. How
 you select the metrics set depends on the interface being used to run the
 algorithm.</p>
 <section id="command-line-and-ipython-magic">
-<h3>Command Line and IPython Magic<a class="headerlink" href="#command-line-and-ipython-magic" title="Permalink to this heading">#</a></h3>
+<h3>Command Line and IPython Magic<a class="headerlink" href="#command-line-and-ipython-magic" title="Link to this heading">#</a></h3>
 <p>When running with the command line or IPython magic interfaces, the metrics set
 may be selected by passing the <code class="docutils literal notranslate"><span class="pre">--metrics-set</span></code> argument. For example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>zipline<span class="w"> </span>run<span class="w"> </span>algorithm.py<span class="w"> </span>-s<span class="w"> </span><span class="m">2014</span>-01-01<span class="w"> </span>-e<span class="w"> </span><span class="m">2014</span>-02-01<span class="w"> </span>--metrics-set<span class="w"> </span>my-metrics-set
@@ -514,18 +557,18 @@ may be selected by passing the <code class="docutils literal notranslate"><span 
 </div>
 </section>
 <section id="run-algorithm">
-<h3><code class="docutils literal notranslate"><span class="pre">run_algorithm</span></code><a class="headerlink" href="#run-algorithm" title="Permalink to this heading">#</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">run_algorithm</span></code><a class="headerlink" href="#run-algorithm" title="Link to this heading">#</a></h3>
 <p>When running through the <a class="reference internal" href="api-reference.html#zipline.run_algorithm" title="zipline.run_algorithm"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_algorithm()</span></code></a> interface, the metrics
 set may be passed with the <code class="docutils literal notranslate"><span class="pre">metrics_set</span></code> argument. This may either be the name
 of a registered metrics set, or a set of metric object. For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">run_algorithm</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">metrics_set</span><span class="o">=</span><span class="s1">&#39;my-metrics-set&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">run_algorithm</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">metrics_set</span><span class="o">=</span><span class="s1">'my-metrics-set'</span><span class="p">)</span>
 <span class="n">run_algorithm</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">metrics_set</span><span class="o">=</span><span class="p">{</span><span class="n">MyMetric</span><span class="p">(),</span> <span class="n">MyOtherMetric</span><span class="p">(),</span> <span class="o">...</span><span class="p">})</span>
 </pre></div>
 </div>
 </section>
 </section>
 <section id="running-without-metrics">
-<h2>Running Without Metrics<a class="headerlink" href="#running-without-metrics" title="Permalink to this heading">#</a></h2>
+<h2>Running Without Metrics<a class="headerlink" href="#running-without-metrics" title="Link to this heading">#</a></h2>
 <p>Computing risk and performance metrics is not free, and contributes to the total
 runtime of a backtest. When actively developing an algorithm, it is often
 helpful to skip these computations to speed up the debugging cycle. To disable
@@ -536,7 +579,7 @@ metrics set <code class="docutils literal notranslate"><span class="pre">none</s
 </div>
 </section>
 <section id="defining-new-metrics">
-<h2>Defining New Metrics<a class="headerlink" href="#defining-new-metrics" title="Permalink to this heading">#</a></h2>
+<h2>Defining New Metrics<a class="headerlink" href="#defining-new-metrics" title="Link to this heading">#</a></h2>
 <p>A metric is any object that implements some subset of the following methods:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">start_of_simulation</span></code></p></li>
@@ -554,12 +597,12 @@ should be able to be used across multiple backtests. Metrics do not need to
 support multiple simulations at once, meaning that internal caches and data are
 consistent between <code class="docutils literal notranslate"><span class="pre">start_of_simulation</span></code> and <code class="docutils literal notranslate"><span class="pre">end_of_simulation</span></code>.</p>
 <section id="start-of-simulation">
-<h3><code class="docutils literal notranslate"><span class="pre">start_of_simulation</span></code><a class="headerlink" href="#start-of-simulation" title="Permalink to this heading">#</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">start_of_simulation</span></code><a class="headerlink" href="#start-of-simulation" title="Link to this heading">#</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">start_of_simulation</span></code> method should be thought of as a per-simulation
 constructor. This method should initialize any caches needed for the duration of
 a single simulation.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">start_of_simulation</span></code> method should have the following signature:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">start_of_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">start_of_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                         <span class="n">ledger</span><span class="p">,</span>
                         <span class="n">emission_rate</span><span class="p">,</span>
                         <span class="n">trading_calendar</span><span class="p">,</span>
@@ -578,7 +621,7 @@ called at all.</p>
 <p><code class="docutils literal notranslate"><span class="pre">trading_calendar</span></code> is an instance of
 <code class="xref py py-class docutils literal notranslate"><span class="pre">TradingCalendar</span></code> which is the trading calendar
 being used by the simulation.</p>
-<p><code class="docutils literal notranslate"><span class="pre">sessions</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DatetimeIndex.html#pandas.DatetimeIndex" title="(in pandas v2.0.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DatetimeIndex</span></code></a> which is holds the session
+<p><code class="docutils literal notranslate"><span class="pre">sessions</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DatetimeIndex.html#pandas.DatetimeIndex" title="(in pandas v3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DatetimeIndex</span></code></a> which is holds the session
 labels, in sorted order, that the simulation will execute.</p>
 <p><code class="docutils literal notranslate"><span class="pre">benchmark_source</span></code> is an instance of
 <a class="reference internal" href="api-reference.html#zipline.sources.benchmark_source.BenchmarkSource" title="zipline.sources.benchmark_source.BenchmarkSource"><code class="xref py py-class docutils literal notranslate"><span class="pre">BenchmarkSource</span></code></a> which is the
@@ -586,9 +629,9 @@ interface to the returns of the benchmark specified by
 <a class="reference internal" href="api-reference.html#zipline.api.set_benchmark" title="zipline.api.set_benchmark"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_benchmark()</span></code></a>.</p>
 </section>
 <section id="end-of-simulation">
-<h3><code class="docutils literal notranslate"><span class="pre">end_of_simulation</span></code><a class="headerlink" href="#end-of-simulation" title="Permalink to this heading">#</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">end_of_simulation</span></code><a class="headerlink" href="#end-of-simulation" title="Link to this heading">#</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">end_of_simulation</span></code> method should have the following signature:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">end_of_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">end_of_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                       <span class="n">packet</span><span class="p">,</span>
                       <span class="n">ledger</span><span class="p">,</span>
                       <span class="n">trading_calendar</span><span class="p">,</span>
@@ -606,7 +649,7 @@ metric into.</p>
 <p><code class="docutils literal notranslate"><span class="pre">trading_calendar</span></code> is an instance of
 <code class="xref py py-class docutils literal notranslate"><span class="pre">TradingCalendar</span></code> which is the trading calendar
 being used by the simulation.</p>
-<p><code class="docutils literal notranslate"><span class="pre">sessions</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DatetimeIndex.html#pandas.DatetimeIndex" title="(in pandas v2.0.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DatetimeIndex</span></code></a> which is holds the session
+<p><code class="docutils literal notranslate"><span class="pre">sessions</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DatetimeIndex.html#pandas.DatetimeIndex" title="(in pandas v3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DatetimeIndex</span></code></a> which is holds the session
 labels, in sorted order, that the simulation has executed.</p>
 <p><code class="docutils literal notranslate"><span class="pre">data_portal</span></code> is an instance of <a class="reference internal" href="api-reference.html#zipline.data.data_portal.DataPortal" title="zipline.data.data_portal.DataPortal"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code></a>
 which is the metric’s interface to pricing data.</p>
@@ -616,13 +659,13 @@ interface to the returns of the benchmark specified by
 <a class="reference internal" href="api-reference.html#zipline.api.set_benchmark" title="zipline.api.set_benchmark"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_benchmark()</span></code></a>.</p>
 </section>
 <section id="start-of-session">
-<h3><code class="docutils literal notranslate"><span class="pre">start_of_session</span></code><a class="headerlink" href="#start-of-session" title="Permalink to this heading">#</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">start_of_session</span></code><a class="headerlink" href="#start-of-session" title="Link to this heading">#</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">start_of_session</span></code> method may see a slightly different view of the
 <code class="docutils literal notranslate"><span class="pre">ledger</span></code> or <code class="docutils literal notranslate"><span class="pre">data_portal</span></code> than the previous <code class="docutils literal notranslate"><span class="pre">end_of_session</span></code> if the price
 of any futures owned move between trading sessions or if a capital change
 occurs.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">start_of_session</span></code> method should have the following signature:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">start_of_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">start_of_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                      <span class="n">ledger</span><span class="p">,</span>
                      <span class="n">session_label</span><span class="p">,</span>
                      <span class="n">data_portal</span><span class="p">):</span>
@@ -632,15 +675,15 @@ occurs.</p>
 <p><code class="docutils literal notranslate"><span class="pre">ledger</span></code> is an instance of <a class="reference internal" href="api-reference.html#zipline.finance.ledger.Ledger" title="zipline.finance.ledger.Ledger"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ledger</span></code></a> which is
 maintaining the simulation’s state. This may be used to lookup the algorithm’s
 current portfolio values.</p>
-<p><code class="docutils literal notranslate"><span class="pre">session_label</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Timestamp.html#pandas.Timestamp" title="(in pandas v2.0.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Timestamp</span></code></a> which is the label of the
+<p><code class="docutils literal notranslate"><span class="pre">session_label</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Timestamp.html#pandas.Timestamp" title="(in pandas v3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Timestamp</span></code></a> which is the label of the
 session which is about to run.</p>
 <p><code class="docutils literal notranslate"><span class="pre">data_portal</span></code> is an instance of <a class="reference internal" href="api-reference.html#zipline.data.data_portal.DataPortal" title="zipline.data.data_portal.DataPortal"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code></a>
 which is the metric’s interface to pricing data.</p>
 </section>
 <section id="end-of-session">
-<h3><code class="docutils literal notranslate"><span class="pre">end_of_session</span></code><a class="headerlink" href="#end-of-session" title="Permalink to this heading">#</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">end_of_session</span></code><a class="headerlink" href="#end-of-session" title="Link to this heading">#</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">end_of_session</span></code> method should have the following signature:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">end_of_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">end_of_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                    <span class="n">packet</span><span class="p">,</span>
                    <span class="n">ledger</span><span class="p">,</span>
                    <span class="n">session_label</span><span class="p">,</span>
@@ -656,22 +699,22 @@ to the current time.</p>
 <p><code class="docutils literal notranslate"><span class="pre">ledger</span></code> is an instance of <a class="reference internal" href="api-reference.html#zipline.finance.ledger.Ledger" title="zipline.finance.ledger.Ledger"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ledger</span></code></a> which is
 maintaining the simulation’s state. This may be used to lookup the algorithm’s
 current portfolio values.</p>
-<p><code class="docutils literal notranslate"><span class="pre">session_label</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Timestamp.html#pandas.Timestamp" title="(in pandas v2.0.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Timestamp</span></code></a> which is the label of the
+<p><code class="docutils literal notranslate"><span class="pre">session_label</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Timestamp.html#pandas.Timestamp" title="(in pandas v3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Timestamp</span></code></a> which is the label of the
 session which is has just completed.</p>
-<p><code class="docutils literal notranslate"><span class="pre">session_ix</span></code> is an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> which is the index of the current trading
+<p><code class="docutils literal notranslate"><span class="pre">session_ix</span></code> is an <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> which is the index of the current trading
 session being run. This is provided to allow for efficient access to the daily
 returns through <code class="docutils literal notranslate"><span class="pre">ledger.daily_returns_array[:session_ix</span> <span class="pre">+</span> <span class="pre">1]</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">data_portal</span></code> is an instance of <a class="reference internal" href="api-reference.html#zipline.data.data_portal.DataPortal" title="zipline.data.data_portal.DataPortal"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code></a>
 which is the metric’s interface to pricing data</p>
 </section>
 <section id="end-of-bar">
-<h3><code class="docutils literal notranslate"><span class="pre">end_of_bar</span></code><a class="headerlink" href="#end-of-bar" title="Permalink to this heading">#</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">end_of_bar</span></code><a class="headerlink" href="#end-of-bar" title="Link to this heading">#</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">end_of_bar</span></code> is only called when <code class="docutils literal notranslate"><span class="pre">emission_mode</span></code> is <code class="docutils literal notranslate"><span class="pre">minute</span></code>.</p>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">end_of_bar</span></code> method should have the following signature:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">end_of_bar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">end_of_bar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                <span class="n">packet</span><span class="p">,</span>
                <span class="n">ledger</span><span class="p">,</span>
                <span class="n">dt</span><span class="p">,</span>
@@ -687,9 +730,9 @@ to the current time.</p>
 <p><code class="docutils literal notranslate"><span class="pre">ledger</span></code> is an instance of <a class="reference internal" href="api-reference.html#zipline.finance.ledger.Ledger" title="zipline.finance.ledger.Ledger"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ledger</span></code></a> which is
 maintaining the simulation’s state. This may be used to lookup the algorithm’s
 current portfolio values.</p>
-<p><code class="docutils literal notranslate"><span class="pre">dt</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Timestamp.html#pandas.Timestamp" title="(in pandas v2.0.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Timestamp</span></code></a> which is the label of bar that has just
+<p><code class="docutils literal notranslate"><span class="pre">dt</span></code> is a <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Timestamp.html#pandas.Timestamp" title="(in pandas v3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Timestamp</span></code></a> which is the label of bar that has just
 completed.</p>
-<p><code class="docutils literal notranslate"><span class="pre">session_ix</span></code> is an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> which is the index of the current trading
+<p><code class="docutils literal notranslate"><span class="pre">session_ix</span></code> is an <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> which is the index of the current trading
 session being run. This is provided to allow for efficient access to the daily
 returns through <code class="docutils literal notranslate"><span class="pre">ledger.daily_returns_array[:session_ix</span> <span class="pre">+</span> <span class="pre">1]</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">data_portal</span></code> is an instance of <a class="reference internal" href="api-reference.html#zipline.data.data_portal.DataPortal" title="zipline.data.data_portal.DataPortal"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataPortal</span></code></a>
@@ -697,14 +740,14 @@ which is the metric’s interface to pricing data.</p>
 </section>
 </section>
 <section id="defining-new-metrics-sets">
-<h2>Defining New Metrics Sets<a class="headerlink" href="#defining-new-metrics-sets" title="Permalink to this heading">#</a></h2>
+<h2>Defining New Metrics Sets<a class="headerlink" href="#defining-new-metrics-sets" title="Link to this heading">#</a></h2>
 <p>Users may use <a class="reference internal" href="api-reference.html#zipline.finance.metrics.register" title="zipline.finance.metrics.register"><code class="xref py py-func docutils literal notranslate"><span class="pre">zipline.finance.metrics.register()</span></code></a> to register a new metrics
 set. This may be used to decorate a function taking no arguments which returns a
 new set of metric object instances. For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">zipline.finance</span> <span class="kn">import</span> <span class="n">metrics</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">zipline.finance</span><span class="w"> </span><span class="kn">import</span> <span class="n">metrics</span>
 
-<span class="nd">@metrics</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s1">&#39;my-metrics-set&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">my_metrics_set</span><span class="p">():</span>
+<span class="nd">@metrics</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s1">'my-metrics-set'</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_metrics_set</span><span class="p">():</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">MyMetric</span><span class="p">(),</span> <span class="n">MyOtherMetric</span><span class="p">(),</span> <span class="o">...</span><span class="p">}</span>
 </pre></div>
 </div>
@@ -721,11 +764,10 @@ do not need to fetch the resources when the metrics set is not being used.</p>
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="trading-calendars.html"
@@ -745,24 +787,25 @@ do not need to fetch the resources when the metrics set is not being used.</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics-sets">Metrics Sets</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-the-metrics-set">Selecting the Metrics Set</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-and-ipython-magic">Command Line and IPython Magic</a></li>
@@ -783,6 +826,7 @@ do not need to fetch the resources when the metrics set is not being used.</p>
   </nav></div>
 
   <div class="sidebar-secondary-item">
+
   <div class="tocsection sourcelink">
     <a href="_sources/risk-and-perf-metrics.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
@@ -803,8 +847,8 @@ do not need to fetch the resources when the metrics set is not being used.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -812,6 +856,7 @@ do not need to fetch the resources when the metrics set is not being used.</p>
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
       © Copyright 2020, Quantopian Inc..
@@ -821,19 +866,22 @@ do not need to fetch the resources when the metrics set is not being used.</p>
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
-    <br/>
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
   </p>
 </div>
       
     </div>
   
   
+  
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

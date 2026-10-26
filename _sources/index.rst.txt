@@ -5,6 +5,7 @@
 .. toctree::
    :maxdepth: 1
 
+   Migration to ML4T Backtest <https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/>
    install
    beginner-tutorial
    bundles

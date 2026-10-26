@@ -1,71 +1,76 @@
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../../../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.finance.blotter.simulation_blotter &#8212; Zipline 3.0 docs</title>
+    <title>zipline.finance.blotter.simulation_blotter &#8212; Zipline Reloaded 3.2.1</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
   
-  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-    <script src="../../../../_static/doctools.js"></script>
-    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/documentation_options.js?v=eb155f5e"></script>
+    <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/zipline/finance/blotter/simulation_blotter';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../_static/zipline.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.2.1" />
+  
+    
+    <script src="../../../../_static/searchtools.js"></script>
+    <script src="../../../../_static/language_data.js"></script>
+    <script src="../../../../searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../../search.html"
       method="get">
@@ -73,7 +78,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -81,18 +85,30 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Zipline Reloaded 3.2.1: bug, security and compatibility fixes. <a href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">Migration to ML4T Backtest</a>.</div>
+</aside>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../../../index.html">
@@ -101,102 +117,106 @@
   
   
   
-    <p class="title logo__title">Zipline 3.0 docs</p>
+  
+    <p class="title logo__title">Zipline Reloaded 3.2.1</p>
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../install.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">
+    Migration to ML4T Backtest
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../beginner-tutorial.html">
-                        Tutorial
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../bundles.html">
-                        Data
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../install.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../trading-calendars.html">
-                        Calendars
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../risk-and-perf-metrics.html">
-                        Metrics
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../beginner-tutorial.html">
+    Tutorial
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../bundles.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../trading-calendars.html">
+    Calendars
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../development-guidelines.html">
-                        Development
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../risk-and-perf-metrics.html">
+    Metrics
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../api-reference.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../releases.html">
-                        Releases
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../development-guidelines.html">
+    Development
+  </a>
+</li>
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://ml4trading.io">
-                    ML for Trading
-                  </a>
-                </li>
-                
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
-                    Community
-                  </a>
-                </li>
-                
-                </div>
-            </div>
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../api-reference.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../releases.html">
+    Releases
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://ml4trading.io">
+    ML for Trading
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://exchange.ml4trading.io">
+    Community
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -208,28 +228,31 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -240,8 +263,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -252,8 +274,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
       
@@ -263,25 +284,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -290,94 +316,91 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../install.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">
+    Migration to ML4T Backtest
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../beginner-tutorial.html">
-                        Tutorial
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../bundles.html">
-                        Data
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../install.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../trading-calendars.html">
-                        Calendars
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../risk-and-perf-metrics.html">
-                        Metrics
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../development-guidelines.html">
-                        Development
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../beginner-tutorial.html">
+    Tutorial
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../api-reference.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../releases.html">
-                        Releases
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../bundles.html">
+    Data
+  </a>
+</li>
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://ml4trading.io">
-                    ML for Trading
-                  </a>
-                </li>
-                
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
-                    Community
-                  </a>
-                </li>
-                
-                </div>
-            </div>
-            
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../trading-calendars.html">
+    Calendars
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../risk-and-perf-metrics.html">
+    Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../development-guidelines.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../api-reference.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../releases.html">
+    Releases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://ml4trading.io">
+    ML for Trading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
+    Community
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -386,17 +409,21 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -407,8 +434,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -419,8 +445,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
         
@@ -430,30 +455,33 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../../../index.html" class="nav-link" aria-label="Home">
@@ -463,7 +491,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">zipline.finance.blotter.simulation_blotter</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">zipline.finance.blotter.simulation_blotter</span></li>
   </ul>
 </nav>
 </div>
@@ -478,51 +506,53 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for zipline.finance.blotter.simulation_blotter</h1><div class="highlight"><pre>
 <span></span><span class="c1">#</span>
 <span class="c1"># Copyright 2015 Quantopian, Inc.</span>
 <span class="c1">#</span>
-<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the "License");</span>
 <span class="c1"># you may not use this file except in compliance with the License.</span>
 <span class="c1"># You may obtain a copy of the License at</span>
 <span class="c1">#</span>
 <span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
 <span class="c1">#</span>
 <span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># distributed under the License is distributed on an "AS IS" BASIS,</span>
 <span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">copy</span>
 
-<span class="kn">from</span> <span class="nn">zipline.assets</span> <span class="kn">import</span> <span class="n">Equity</span><span class="p">,</span> <span class="n">Future</span><span class="p">,</span> <span class="n">Asset</span>
-<span class="kn">from</span> <span class="nn">.blotter</span> <span class="kn">import</span> <span class="n">Blotter</span>
-<span class="kn">from</span> <span class="nn">zipline.extensions</span> <span class="kn">import</span> <span class="n">register</span>
-<span class="kn">from</span> <span class="nn">zipline.finance.order</span> <span class="kn">import</span> <span class="n">Order</span>
-<span class="kn">from</span> <span class="nn">zipline.finance.slippage</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.assets</span><span class="w"> </span><span class="kn">import</span> <span class="n">Equity</span><span class="p">,</span> <span class="n">Future</span><span class="p">,</span> <span class="n">Asset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.blotter</span><span class="w"> </span><span class="kn">import</span> <span class="n">Blotter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">register</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.finance.order</span><span class="w"> </span><span class="kn">import</span> <span class="n">Order</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.finance.slippage</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DEFAULT_FUTURE_VOLUME_SLIPPAGE_BAR_LIMIT</span><span class="p">,</span>
     <span class="n">VolatilityVolumeShare</span><span class="p">,</span>
     <span class="n">FixedBasisPointsSlippage</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">zipline.finance.commission</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.finance.commission</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DEFAULT_PER_CONTRACT_COST</span><span class="p">,</span>
     <span class="n">FUTURE_EXCHANGE_FEES_BY_SYMBOL</span><span class="p">,</span>
     <span class="n">PerContract</span><span class="p">,</span>
     <span class="n">PerShare</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.input_validation</span> <span class="kn">import</span> <span class="n">expect_types</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.input_validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">expect_types</span>
 
-<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;Blotter&quot;</span><span class="p">)</span>
-<span class="n">warning_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;AlgoWarning&quot;</span><span class="p">)</span>
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"Blotter"</span><span class="p">)</span>
+<span class="n">warning_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"AlgoWarning"</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="SimulationBlotter"><a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter">[docs]</a><span class="nd">@register</span><span class="p">(</span><span class="n">Blotter</span><span class="p">,</span> <span class="s2">&quot;default&quot;</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">SimulationBlotter</span><span class="p">(</span><span class="n">Blotter</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="SimulationBlotter">
+<a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter">[docs]</a>
+<span class="nd">@register</span><span class="p">(</span><span class="n">Blotter</span><span class="p">,</span> <span class="s2">"default"</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimulationBlotter</span><span class="p">(</span><span class="n">Blotter</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">equity_slippage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">future_slippage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -559,8 +589,8 @@ document.write(`
             <span class="p">),</span>
         <span class="p">}</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">"""</span>
 <span class="si">{class_name}</span><span class="s2">(</span>
 <span class="s2">    slippage_models=</span><span class="si">{slippage_models}</span><span class="s2">,</span>
 <span class="s2">    commission_models=</span><span class="si">{commission_models}</span><span class="s2">,</span>
@@ -568,7 +598,7 @@ document.write(`
 <span class="s2">    orders=</span><span class="si">{orders}</span><span class="s2">,</span>
 <span class="s2">    new_orders=</span><span class="si">{new_orders}</span><span class="s2">,</span>
 <span class="s2">    current_dt=</span><span class="si">{current_dt}</span><span class="s2">)</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+<span class="s2">"""</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">class_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
             <span class="n">slippage_models</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">slippage_models</span><span class="p">,</span>
             <span class="n">commission_models</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">commission_models</span><span class="p">,</span>
@@ -578,9 +608,11 @@ document.write(`
             <span class="n">current_dt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">current_dt</span><span class="p">,</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="SimulationBlotter.order"><a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.order">[docs]</a>    <span class="nd">@expect_types</span><span class="p">(</span><span class="n">asset</span><span class="o">=</span><span class="n">Asset</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="n">order_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Place an order.</span>
+<div class="viewcode-block" id="SimulationBlotter.order">
+<a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.order">[docs]</a>
+    <span class="nd">@expect_types</span><span class="p">(</span><span class="n">asset</span><span class="o">=</span><span class="n">Asset</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="n">order_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Place an order.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -610,18 +642,18 @@ document.write(`
 <span class="sd">        Stop order:      order(asset, amount, style=StopOrder(stop_price))</span>
 <span class="sd">        StopLimit order: order(asset, amount, style=StopLimitOrder(limit_price,</span>
 <span class="sd">        stop_price))</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># something could be done with amount to further divide</span>
         <span class="c1"># between buy by share count OR buy shares up to a dollar amount</span>
-        <span class="c1"># numeric == share count  AND  &quot;$dollar.cents&quot; == cost amount</span>
+        <span class="c1"># numeric == share count  AND  "$dollar.cents" == cost amount</span>
 
         <span class="k">if</span> <span class="n">amount</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="c1"># Don&#39;t bother placing orders for 0 shares.</span>
+            <span class="c1"># Don't bother placing orders for 0 shares.</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">elif</span> <span class="n">amount</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_shares</span><span class="p">:</span>
             <span class="c1"># Arbitrary limit of 100 billion (US) shares will never be</span>
             <span class="c1"># exceeded except by a buggy algorithm.</span>
-            <span class="k">raise</span> <span class="ne">OverflowError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t order more than </span><span class="si">%d</span><span class="s2"> shares&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_shares</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">OverflowError</span><span class="p">(</span><span class="s2">"Can't order more than </span><span class="si">%d</span><span class="s2"> shares"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_shares</span><span class="p">)</span>
 
         <span class="n">is_buy</span> <span class="o">=</span> <span class="n">amount</span> <span class="o">&gt;</span> <span class="mi">0</span>
         <span class="n">order</span> <span class="o">=</span> <span class="n">Order</span><span class="p">(</span>
@@ -639,7 +671,10 @@ document.write(`
 
         <span class="k">return</span> <span class="n">order</span><span class="o">.</span><span class="n">id</span></div>
 
-<div class="viewcode-block" id="SimulationBlotter.cancel"><a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.cancel">[docs]</a>    <span class="k">def</span> <span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">relay_status</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="SimulationBlotter.cancel">
+<a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.cancel">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">relay_status</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">order_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orders</span><span class="p">:</span>
             <span class="k">return</span>
 
@@ -656,34 +691,37 @@ document.write(`
             <span class="n">cur_order</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_dt</span>
 
             <span class="k">if</span> <span class="n">relay_status</span><span class="p">:</span>
-                <span class="c1"># we want this order&#39;s new status to be relayed out</span>
+                <span class="c1"># we want this order's new status to be relayed out</span>
                 <span class="c1"># along with newly placed orders.</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">new_orders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_order</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SimulationBlotter.cancel_all_orders_for_asset"><a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.cancel_all_orders_for_asset">[docs]</a>    <span class="k">def</span> <span class="nf">cancel_all_orders_for_asset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">relay_status</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SimulationBlotter.cancel_all_orders_for_asset">
+<a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.cancel_all_orders_for_asset">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cancel_all_orders_for_asset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">relay_status</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Cancel all open orders for a given asset.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># (sadly) open_orders is a defaultdict, so this will always succeed.</span>
         <span class="n">orders</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">[</span><span class="n">asset</span><span class="p">]</span>
 
-        <span class="c1"># We&#39;re making a copy here because `cancel` mutates the list of open</span>
+        <span class="c1"># We're making a copy here because `cancel` mutates the list of open</span>
         <span class="c1"># orders in place.  The right thing to do here would be to make</span>
         <span class="c1"># self.open_orders no longer a defaultdict.  If we do that, then we</span>
         <span class="c1"># should just remove the orders once here and be done with the matter.</span>
         <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span><span class="p">[:]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cancel</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">relay_status</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">warn</span><span class="p">:</span>
-                <span class="c1"># Message appropriately depending on whether there&#39;s</span>
+                <span class="c1"># Message appropriately depending on whether there's</span>
                 <span class="c1"># been a partial fill or not.</span>
                 <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">filled</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">warning_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                        <span class="s2">&quot;Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of &quot;</span>
-                        <span class="s2">&quot;</span><span class="si">{order_sym}</span><span class="s2"> has been partially filled. &quot;</span>
-                        <span class="s2">&quot;</span><span class="si">{order_filled}</span><span class="s2"> shares were successfully &quot;</span>
-                        <span class="s2">&quot;purchased. </span><span class="si">{order_failed}</span><span class="s2"> shares were not &quot;</span>
-                        <span class="s2">&quot;filled by the end of day and &quot;</span>
-                        <span class="s2">&quot;were canceled.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="s2">"Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of "</span>
+                        <span class="s2">"</span><span class="si">{order_sym}</span><span class="s2"> has been partially filled. "</span>
+                        <span class="s2">"</span><span class="si">{order_filled}</span><span class="s2"> shares were successfully "</span>
+                        <span class="s2">"purchased. </span><span class="si">{order_failed}</span><span class="s2"> shares were not "</span>
+                        <span class="s2">"filled by the end of day and "</span>
+                        <span class="s2">"were canceled."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                             <span class="n">order_amt</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span>
                             <span class="n">order_sym</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span>
                             <span class="n">order_filled</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">filled</span><span class="p">,</span>
@@ -692,12 +730,12 @@ document.write(`
                     <span class="p">)</span>
                 <span class="k">elif</span> <span class="n">order</span><span class="o">.</span><span class="n">filled</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">warning_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                        <span class="s2">&quot;Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of &quot;</span>
-                        <span class="s2">&quot;</span><span class="si">{order_sym}</span><span class="s2"> has been partially filled. &quot;</span>
-                        <span class="s2">&quot;</span><span class="si">{order_filled}</span><span class="s2"> shares were successfully &quot;</span>
-                        <span class="s2">&quot;sold. </span><span class="si">{order_failed}</span><span class="s2"> shares were not &quot;</span>
-                        <span class="s2">&quot;filled by the end of day and &quot;</span>
-                        <span class="s2">&quot;were canceled.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="s2">"Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of "</span>
+                        <span class="s2">"</span><span class="si">{order_sym}</span><span class="s2"> has been partially filled. "</span>
+                        <span class="s2">"</span><span class="si">{order_filled}</span><span class="s2"> shares were successfully "</span>
+                        <span class="s2">"sold. </span><span class="si">{order_failed}</span><span class="s2"> shares were not "</span>
+                        <span class="s2">"filled by the end of day and "</span>
+                        <span class="s2">"were canceled."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                             <span class="n">order_amt</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span>
                             <span class="n">order_sym</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span>
                             <span class="n">order_filled</span><span class="o">=-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">order</span><span class="o">.</span><span class="n">filled</span><span class="p">,</span>
@@ -706,9 +744,9 @@ document.write(`
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">warning_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                        <span class="s2">&quot;Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of &quot;</span>
-                        <span class="s2">&quot;</span><span class="si">{order_sym}</span><span class="s2"> failed to fill by the end of day &quot;</span>
-                        <span class="s2">&quot;and was canceled.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="s2">"Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of "</span>
+                        <span class="s2">"</span><span class="si">{order_sym}</span><span class="s2"> failed to fill by the end of day "</span>
+                        <span class="s2">"and was canceled."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                             <span class="n">order_amt</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span>
                             <span class="n">order_sym</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span>
                         <span class="p">)</span>
@@ -717,8 +755,9 @@ document.write(`
         <span class="k">assert</span> <span class="ow">not</span> <span class="n">orders</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">[</span><span class="n">asset</span><span class="p">]</span></div>
 
+
     <span class="c1"># End of day cancel for daily frequency</span>
-    <span class="k">def</span> <span class="nf">execute_daily_cancel_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute_daily_cancel_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cancel_policy</span><span class="o">.</span><span class="n">should_cancel</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
             <span class="n">warn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cancel_policy</span><span class="o">.</span><span class="n">warn_on_cancel</span>
             <span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">):</span>
@@ -729,12 +768,12 @@ document.write(`
                     <span class="k">if</span> <span class="n">warn</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">filled</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                             <span class="n">warning_logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                                <span class="s2">&quot;Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of &quot;</span>
-                                <span class="s2">&quot;</span><span class="si">{order_sym}</span><span class="s2"> has been partially filled. &quot;</span>
-                                <span class="s2">&quot;</span><span class="si">{order_filled}</span><span class="s2"> shares were successfully &quot;</span>
-                                <span class="s2">&quot;purchased. </span><span class="si">{order_failed}</span><span class="s2"> shares were not &quot;</span>
-                                <span class="s2">&quot;filled by the end of day and &quot;</span>
-                                <span class="s2">&quot;were canceled.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                <span class="s2">"Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of "</span>
+                                <span class="s2">"</span><span class="si">{order_sym}</span><span class="s2"> has been partially filled. "</span>
+                                <span class="s2">"</span><span class="si">{order_filled}</span><span class="s2"> shares were successfully "</span>
+                                <span class="s2">"purchased. </span><span class="si">{order_failed}</span><span class="s2"> shares were not "</span>
+                                <span class="s2">"filled by the end of day and "</span>
+                                <span class="s2">"were canceled."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                                     <span class="n">order_amt</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span>
                                     <span class="n">order_sym</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span>
                                     <span class="n">order_filled</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">filled</span><span class="p">,</span>
@@ -743,12 +782,12 @@ document.write(`
                             <span class="p">)</span>
                         <span class="k">elif</span> <span class="n">order</span><span class="o">.</span><span class="n">filled</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
                             <span class="n">warning_logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                                <span class="s2">&quot;Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of &quot;</span>
-                                <span class="s2">&quot;</span><span class="si">{order_sym}</span><span class="s2"> has been partially filled. &quot;</span>
-                                <span class="s2">&quot;</span><span class="si">{order_filled}</span><span class="s2"> shares were successfully &quot;</span>
-                                <span class="s2">&quot;sold. </span><span class="si">{order_failed}</span><span class="s2"> shares were not &quot;</span>
-                                <span class="s2">&quot;filled by the end of day and &quot;</span>
-                                <span class="s2">&quot;were canceled.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                <span class="s2">"Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of "</span>
+                                <span class="s2">"</span><span class="si">{order_sym}</span><span class="s2"> has been partially filled. "</span>
+                                <span class="s2">"</span><span class="si">{order_filled}</span><span class="s2"> shares were successfully "</span>
+                                <span class="s2">"sold. </span><span class="si">{order_failed}</span><span class="s2"> shares were not "</span>
+                                <span class="s2">"filled by the end of day and "</span>
+                                <span class="s2">"were canceled."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                                     <span class="n">order_amt</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span>
                                     <span class="n">order_sym</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span>
                                     <span class="n">order_filled</span><span class="o">=-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">order</span><span class="o">.</span><span class="n">filled</span><span class="p">,</span>
@@ -757,27 +796,29 @@ document.write(`
                             <span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">warning_logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                                <span class="s2">&quot;Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of &quot;</span>
-                                <span class="s2">&quot;</span><span class="si">{order_sym}</span><span class="s2"> failed to fill by the end of day &quot;</span>
-                                <span class="s2">&quot;and was canceled.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                <span class="s2">"Your order for </span><span class="si">{order_amt}</span><span class="s2"> shares of "</span>
+                                <span class="s2">"</span><span class="si">{order_sym}</span><span class="s2"> failed to fill by the end of day "</span>
+                                <span class="s2">"and was canceled."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                                     <span class="n">order_amt</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span>
                                     <span class="n">order_sym</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">asset</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span>
                                 <span class="p">)</span>
                             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">execute_cancel_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute_cancel_policy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cancel_policy</span><span class="o">.</span><span class="n">should_cancel</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
             <span class="n">warn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cancel_policy</span><span class="o">.</span><span class="n">warn_on_cancel</span>
             <span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">cancel_all_orders_for_asset</span><span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="n">warn</span><span class="p">,</span> <span class="n">relay_status</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SimulationBlotter.reject"><a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.reject">[docs]</a>    <span class="k">def</span> <span class="nf">reject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Mark the given order as &#39;rejected&#39;, which is functionally similar to</span>
+<div class="viewcode-block" id="SimulationBlotter.reject">
+<a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.reject">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">""</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Mark the given order as 'rejected', which is functionally similar to</span>
 <span class="sd">        cancelled. The distinction is that rejections are involuntary (and</span>
 <span class="sd">        usually include a message from a broker indicating why the order was</span>
 <span class="sd">        rejected) while cancels are typically user-driven.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">order_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orders</span><span class="p">:</span>
             <span class="k">return</span>
 
@@ -791,16 +832,19 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">new_orders</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">cur_order</span><span class="p">)</span>
         <span class="n">cur_order</span><span class="o">.</span><span class="n">reject</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="n">reason</span><span class="p">)</span>
         <span class="n">cur_order</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_dt</span>
-        <span class="c1"># we want this order&#39;s new status to be relayed out</span>
+        <span class="c1"># we want this order's new status to be relayed out</span>
         <span class="c1"># along with newly placed orders.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">new_orders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_order</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SimulationBlotter.hold"><a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.hold">[docs]</a>    <span class="k">def</span> <span class="nf">hold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Mark the order with order_id as &#39;held&#39;. Held is functionally similar</span>
-<span class="sd">        to &#39;open&#39;. When a fill (full or partial) arrives, the status</span>
+
+<div class="viewcode-block" id="SimulationBlotter.hold">
+<a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.hold">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">""</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Mark the order with order_id as 'held'. Held is functionally similar</span>
+<span class="sd">        to 'open'. When a fill (full or partial) arrives, the status</span>
 <span class="sd">        will automatically change back to open/filled as necessary.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">order_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orders</span><span class="p">:</span>
             <span class="k">return</span>
 
@@ -810,12 +854,15 @@ document.write(`
                 <span class="bp">self</span><span class="o">.</span><span class="n">new_orders</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">cur_order</span><span class="p">)</span>
             <span class="n">cur_order</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="n">reason</span><span class="p">)</span>
             <span class="n">cur_order</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_dt</span>
-            <span class="c1"># we want this order&#39;s new status to be relayed out</span>
+            <span class="c1"># we want this order's new status to be relayed out</span>
             <span class="c1"># along with newly placed orders.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">new_orders</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_order</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SimulationBlotter.process_splits"><a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.process_splits">[docs]</a>    <span class="k">def</span> <span class="nf">process_splits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">splits</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SimulationBlotter.process_splits">
+<a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.process_splits">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">process_splits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">splits</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Processes a list of splits by modifying any open orders as needed.</span>
 
 <span class="sd">        Parameters</span>
@@ -826,17 +873,35 @@ document.write(`
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">asset</span><span class="p">,</span> <span class="n">ratio</span> <span class="ow">in</span> <span class="n">splits</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">asset</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">:</span>
                 <span class="k">continue</span>
 
             <span class="n">orders_to_modify</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">[</span><span class="n">asset</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders_to_modify</span><span class="p">:</span>
-                <span class="n">order</span><span class="o">.</span><span class="n">handle_split</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span></div>
+                <span class="n">order</span><span class="o">.</span><span class="n">handle_split</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SimulationBlotter.get_transactions"><a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.get_transactions">[docs]</a>    <span class="k">def</span> <span class="nf">get_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bar_data</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+            <span class="c1"># A reverse split can leave an order with no whole shares. Such an</span>
+            <span class="c1"># order reports FILLED (`open_amount` is zero), so `cancel` skips</span>
+            <span class="c1"># it and it would stay in the book forever -- and then trip the</span>
+            <span class="c1"># `assert not orders` in `cancel_all_orders_for_asset` when the</span>
+            <span class="c1"># asset is auto-closed. A broker cancels an order a split leaves</span>
+            <span class="c1"># with nothing to trade, so drop it here.</span>
+            <span class="n">emptied</span> <span class="o">=</span> <span class="p">[</span><span class="n">order</span> <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders_to_modify</span> <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">open_amount</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">emptied</span><span class="p">:</span>
+                <span class="n">orders_to_modify</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">order</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_orders</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">new_orders</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">orders_to_modify</span><span class="p">:</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">[</span><span class="n">asset</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SimulationBlotter.get_transactions">
+<a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.get_transactions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bar_data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Creates a list of transactions based on the current open orders,</span>
 <span class="sd">        slippage model, and commission model.</span>
 
@@ -846,8 +911,8 @@ document.write(`
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        This method book-keeps the blotter&#39;s open_orders dictionary, so that</span>
-<span class="sd">         it is accurate by the time we&#39;re done processing open orders.</span>
+<span class="sd">        This method book-keeps the blotter's open_orders dictionary, so that</span>
+<span class="sd">         it is accurate by the time we're done processing open orders.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -858,12 +923,12 @@ document.write(`
 
 <span class="sd">        commissions_list: List</span>
 <span class="sd">            commissions_list: list of commissions resulting from filling the</span>
-<span class="sd">            open orders.  A commission is an object with &quot;asset&quot; and &quot;cost&quot;</span>
+<span class="sd">            open orders.  A commission is an object with "asset" and "cost"</span>
 <span class="sd">            parameters.</span>
 
 <span class="sd">        closed_orders: List</span>
 <span class="sd">            closed_orders: list of all the orders that have filled.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">closed_orders</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">transactions</span> <span class="o">=</span> <span class="p">[]</span>
@@ -880,9 +945,9 @@ document.write(`
                     <span class="k">if</span> <span class="n">additional_commission</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                         <span class="n">commissions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                             <span class="p">{</span>
-                                <span class="s2">&quot;asset&quot;</span><span class="p">:</span> <span class="n">order</span><span class="o">.</span><span class="n">asset</span><span class="p">,</span>
-                                <span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="n">order</span><span class="p">,</span>
-                                <span class="s2">&quot;cost&quot;</span><span class="p">:</span> <span class="n">additional_commission</span><span class="p">,</span>
+                                <span class="s2">"asset"</span><span class="p">:</span> <span class="n">order</span><span class="o">.</span><span class="n">asset</span><span class="p">,</span>
+                                <span class="s2">"order"</span><span class="p">:</span> <span class="n">order</span><span class="p">,</span>
+                                <span class="s2">"cost"</span><span class="p">:</span> <span class="n">additional_commission</span><span class="p">,</span>
                             <span class="p">}</span>
                         <span class="p">)</span>
 
@@ -898,9 +963,12 @@ document.write(`
 
         <span class="k">return</span> <span class="n">transactions</span><span class="p">,</span> <span class="n">commissions</span><span class="p">,</span> <span class="n">closed_orders</span></div>
 
-<div class="viewcode-block" id="SimulationBlotter.prune_orders"><a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.prune_orders">[docs]</a>    <span class="k">def</span> <span class="nf">prune_orders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">closed_orders</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Removes all given orders from the blotter&#39;s open_orders list.</span>
+
+<div class="viewcode-block" id="SimulationBlotter.prune_orders">
+<a class="viewcode-back" href="../../../../api-reference.html#zipline.finance.blotter.SimulationBlotter.prune_orders">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prune_orders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">closed_orders</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Removes all given orders from the blotter's open_orders list.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -909,7 +977,7 @@ document.write(`
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># remove all closed orders from our open_orders dict</span>
         <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">closed_orders</span><span class="p">:</span>
             <span class="n">asset</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">asset</span>
@@ -923,23 +991,21 @@ document.write(`
         <span class="c1"># zero open orders</span>
         <span class="k">for</span> <span class="n">asset</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">[</span><span class="n">asset</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">[</span><span class="n">asset</span><span class="p">]</span></div></div>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_orders</span><span class="p">[</span><span class="n">asset</span><span class="p">]</span></div>
+</div>
+
 </pre></div>
 
                 </article>
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -957,8 +1023,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -966,6 +1032,7 @@ document.write(`
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
       © Copyright 2020, Quantopian Inc..
@@ -975,19 +1042,22 @@ document.write(`
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
-    <br/>
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
   </p>
 </div>
       
     </div>
   
   
+  
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

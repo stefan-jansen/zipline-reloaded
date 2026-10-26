@@ -1,71 +1,76 @@
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.data.bcolz_daily_bars &#8212; Zipline 3.0 docs</title>
+    <title>zipline.data.bcolz_daily_bars &#8212; Zipline Reloaded 3.2.1</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
   
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/documentation_options.js?v=eb155f5e"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/zipline/data/bcolz_daily_bars';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/zipline.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.2.1" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -73,7 +78,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -81,18 +85,30 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Zipline Reloaded 3.2.1: bug, security and compatibility fixes. <a href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">Migration to ML4T Backtest</a>.</div>
+</aside>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../../index.html">
@@ -101,102 +117,106 @@
   
   
   
-    <p class="title logo__title">Zipline 3.0 docs</p>
+  
+    <p class="title logo__title">Zipline Reloaded 3.2.1</p>
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../install.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">
+    Migration to ML4T Backtest
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
-                        Tutorial
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../bundles.html">
-                        Data
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../trading-calendars.html">
-                        Calendars
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../risk-and-perf-metrics.html">
-                        Metrics
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
+    Tutorial
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../bundles.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../trading-calendars.html">
+    Calendars
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../development-guidelines.html">
-                        Development
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../risk-and-perf-metrics.html">
+    Metrics
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../api-reference.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../releases.html">
-                        Releases
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../development-guidelines.html">
+    Development
+  </a>
+</li>
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://ml4trading.io">
-                    ML for Trading
-                  </a>
-                </li>
-                
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
-                    Community
-                  </a>
-                </li>
-                
-                </div>
-            </div>
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../api-reference.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releases.html">
+    Releases
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://ml4trading.io">
+    ML for Trading
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://exchange.ml4trading.io">
+    Community
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -208,28 +228,31 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -240,8 +263,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -252,8 +274,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
       
@@ -263,25 +284,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -290,94 +316,91 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../install.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">
+    Migration to ML4T Backtest
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
-                        Tutorial
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../bundles.html">
-                        Data
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../install.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../trading-calendars.html">
-                        Calendars
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../risk-and-perf-metrics.html">
-                        Metrics
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../development-guidelines.html">
-                        Development
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../beginner-tutorial.html">
+    Tutorial
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../api-reference.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../releases.html">
-                        Releases
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../bundles.html">
+    Data
+  </a>
+</li>
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://ml4trading.io">
-                    ML for Trading
-                  </a>
-                </li>
-                
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
-                    Community
-                  </a>
-                </li>
-                
-                </div>
-            </div>
-            
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../trading-calendars.html">
+    Calendars
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../risk-and-perf-metrics.html">
+    Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../development-guidelines.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api-reference.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releases.html">
+    Releases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://ml4trading.io">
+    ML for Trading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
+    Community
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -386,17 +409,21 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -407,8 +434,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -419,8 +445,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
         
@@ -430,30 +455,33 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../../index.html" class="nav-link" aria-label="Home">
@@ -463,7 +491,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">zipline.data.bcolz_daily_bars</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">zipline.data.bcolz_daily_bars</span></li>
   </ul>
 </nav>
 </div>
@@ -478,75 +506,75 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for zipline.data.bcolz_daily_bars</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright 2015 Quantopian, Inc.</span>
 <span class="c1">#</span>
-<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the "License");</span>
 <span class="c1"># you may not use this file except in compliance with the License.</span>
 <span class="c1"># You may obtain a copy of the License at</span>
 <span class="c1">#</span>
 <span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
 <span class="c1">#</span>
 <span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># distributed under the License is distributed on an "AS IS" BASIS,</span>
 <span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
 
 <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>  <span class="c1"># noqa</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
-    <span class="kn">from</span> <span class="nn">bcolz</span> <span class="kn">import</span> <span class="n">carray</span><span class="p">,</span> <span class="n">ctable</span>
-    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">DeprecationWarning</span><span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">bcolz</span><span class="w"> </span><span class="kn">import</span> <span class="n">carray</span><span class="p">,</span> <span class="n">ctable</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">zipline.data.bar_reader</span> <span class="kn">import</span> <span class="n">NoDataAfterDate</span><span class="p">,</span> <span class="n">NoDataBeforeDate</span><span class="p">,</span> <span class="n">NoDataOnDate</span>
-<span class="kn">from</span> <span class="nn">zipline.data.session_bars</span> <span class="kn">import</span> <span class="n">CurrencyAwareSessionBarReader</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.calendar_utils</span> <span class="kn">import</span> <span class="n">get_calendar</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.cli</span> <span class="kn">import</span> <span class="n">maybe_show_progress</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.functional</span> <span class="kn">import</span> <span class="n">apply</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.input_validation</span> <span class="kn">import</span> <span class="n">expect_element</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.memoize</span> <span class="kn">import</span> <span class="n">lazyval</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.numpy_utils</span> <span class="kn">import</span> <span class="n">float64_dtype</span><span class="p">,</span> <span class="n">iNaT</span><span class="p">,</span> <span class="n">uint32_dtype</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.data.bar_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoDataAfterDate</span><span class="p">,</span> <span class="n">NoDataBeforeDate</span><span class="p">,</span> <span class="n">NoDataOnDate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.data.session_bars</span><span class="w"> </span><span class="kn">import</span> <span class="n">CurrencyAwareSessionBarReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.calendar_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_calendar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.cli</span><span class="w"> </span><span class="kn">import</span> <span class="n">maybe_show_progress</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.functional</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.input_validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">expect_element</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.memoize</span><span class="w"> </span><span class="kn">import</span> <span class="n">lazyval</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.numpy_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">float64_dtype</span><span class="p">,</span> <span class="n">iNaT</span><span class="p">,</span> <span class="n">uint32_dtype</span>
 
-<span class="kn">from</span> <span class="nn">._equities</span> <span class="kn">import</span> <span class="n">_compute_row_slices</span><span class="p">,</span> <span class="n">_read_bcolz_data</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._equities</span><span class="w"> </span><span class="kn">import</span> <span class="n">_compute_row_slices</span><span class="p">,</span> <span class="n">_read_bcolz_data</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;UsEquityPricing&quot;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"UsEquityPricing"</span><span class="p">)</span>
 
-<span class="n">OHLC</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">([</span><span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="s2">&quot;high&quot;</span><span class="p">,</span> <span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="s2">&quot;close&quot;</span><span class="p">])</span>
+<span class="n">OHLC</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">([</span><span class="s2">"open"</span><span class="p">,</span> <span class="s2">"high"</span><span class="p">,</span> <span class="s2">"low"</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">])</span>
 <span class="n">US_EQUITY_PRICING_BCOLZ_COLUMNS</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s2">&quot;open&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;high&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;low&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;close&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;volume&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;day&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+    <span class="s2">"open"</span><span class="p">,</span>
+    <span class="s2">"high"</span><span class="p">,</span>
+    <span class="s2">"low"</span><span class="p">,</span>
+    <span class="s2">"close"</span><span class="p">,</span>
+    <span class="s2">"volume"</span><span class="p">,</span>
+    <span class="s2">"day"</span><span class="p">,</span>
+    <span class="s2">"id"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">UINT32_MAX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span><span class="o">.</span><span class="n">max</span>
 
 
-<span class="k">def</span> <span class="nf">check_uint32_safe</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">colname</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_uint32_safe</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">colname</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;=</span> <span class="n">UINT32_MAX</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Value </span><span class="si">%s</span><span class="s2"> from column &#39;</span><span class="si">%s</span><span class="s2">&#39; is too large&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">colname</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Value </span><span class="si">%s</span><span class="s2"> from column '</span><span class="si">%s</span><span class="s2">' is too large"</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">colname</span><span class="p">))</span>
 
 
-<span class="nd">@expect_element</span><span class="p">(</span><span class="n">invalid_data_behavior</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;warn&quot;</span><span class="p">,</span> <span class="s2">&quot;raise&quot;</span><span class="p">,</span> <span class="s2">&quot;ignore&quot;</span><span class="p">})</span>
-<span class="k">def</span> <span class="nf">winsorise_uint32</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">invalid_data_behavior</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Drops any record where a value would not fit into a uint32.</span>
+<span class="nd">@expect_element</span><span class="p">(</span><span class="n">invalid_data_behavior</span><span class="o">=</span><span class="p">{</span><span class="s2">"warn"</span><span class="p">,</span> <span class="s2">"raise"</span><span class="p">,</span> <span class="s2">"ignore"</span><span class="p">})</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">winsorise_uint32</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">invalid_data_behavior</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Drops any record where a value would not fit into a uint32.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    df : pd.DataFrame</span>
 <span class="sd">        The dataframe to winsorise.</span>
-<span class="sd">    invalid_data_behavior : {&#39;warn&#39;, &#39;raise&#39;, &#39;ignore&#39;}</span>
+<span class="sd">    invalid_data_behavior : {'warn', 'raise', 'ignore'}</span>
 <span class="sd">        What to do when data is outside the bounds of a uint32.</span>
 <span class="sd">    *columns : iterable[str]</span>
 <span class="sd">        The names of the columns to check.</span>
@@ -555,11 +583,11 @@ document.write(`
 <span class="sd">    -------</span>
 <span class="sd">    truncated : pd.DataFrame</span>
 <span class="sd">        ``df`` with values that do not fit into a uint32 zeroed out.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">((</span><span class="n">column</span><span class="p">,)</span> <span class="o">+</span> <span class="n">columns</span><span class="p">)</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">columns</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">UINT32_MAX</span>
 
-    <span class="k">if</span> <span class="n">invalid_data_behavior</span> <span class="o">!=</span> <span class="s2">&quot;ignore&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">invalid_data_behavior</span> <span class="o">!=</span> <span class="s2">"ignore"</span><span class="p">:</span>
         <span class="n">mask</span> <span class="o">|=</span> <span class="n">df</span><span class="p">[</span><span class="n">columns</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># we are not going to generate a warning or error for this so just use</span>
@@ -568,18 +596,18 @@ document.write(`
 
     <span class="n">mv</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">values</span>
     <span class="k">if</span> <span class="n">mv</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">invalid_data_behavior</span> <span class="o">==</span> <span class="s2">&quot;raise&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">invalid_data_behavior</span> <span class="o">==</span> <span class="s2">"raise"</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> values out of bounds for uint32: </span><span class="si">%r</span><span class="s2">&quot;</span>
+                <span class="s2">"</span><span class="si">%d</span><span class="s2"> values out of bounds for uint32: </span><span class="si">%r</span><span class="s2">"</span>
                 <span class="o">%</span> <span class="p">(</span>
                     <span class="n">mv</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
                     <span class="n">df</span><span class="p">[</span><span class="n">mask</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)],</span>
                 <span class="p">),</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">invalid_data_behavior</span> <span class="o">==</span> <span class="s2">&quot;warn&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">invalid_data_behavior</span> <span class="o">==</span> <span class="s2">"warn"</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;Ignoring </span><span class="si">%d</span><span class="s2"> values because they are out of bounds for&quot;</span>
-                <span class="s2">&quot; uint32:</span><span class="se">\n</span><span class="s2"> </span><span class="si">%r</span><span class="s2">&quot;</span>
+                <span class="s2">"Ignoring </span><span class="si">%d</span><span class="s2"> values because they are out of bounds for"</span>
+                <span class="s2">" uint32:</span><span class="se">\n</span><span class="s2"> </span><span class="si">%r</span><span class="s2">"</span>
                 <span class="o">%</span> <span class="p">(</span>
                     <span class="n">mv</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
                     <span class="n">df</span><span class="p">[</span><span class="n">mask</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)],</span>
@@ -591,8 +619,10 @@ document.write(`
     <span class="k">return</span> <span class="n">df</span>
 
 
-<div class="viewcode-block" id="BcolzDailyBarWriter"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarWriter">[docs]</a><span class="k">class</span> <span class="nc">BcolzDailyBarWriter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class capable of writing daily OHLCV data to disk in a format that can</span>
+<div class="viewcode-block" id="BcolzDailyBarWriter">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarWriter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BcolzDailyBarWriter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Class capable of writing daily OHLCV data to disk in a format that can</span>
 <span class="sd">    be read efficiently by BcolzDailyOHLCVReader.</span>
 
 <span class="sd">    Parameters</span>
@@ -609,26 +639,26 @@ document.write(`
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    zipline.data.bcolz_daily_bars.BcolzDailyBarReader</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">_csv_dtypes</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;open&quot;</span><span class="p">:</span> <span class="n">float64_dtype</span><span class="p">,</span>
-        <span class="s2">&quot;high&quot;</span><span class="p">:</span> <span class="n">float64_dtype</span><span class="p">,</span>
-        <span class="s2">&quot;low&quot;</span><span class="p">:</span> <span class="n">float64_dtype</span><span class="p">,</span>
-        <span class="s2">&quot;close&quot;</span><span class="p">:</span> <span class="n">float64_dtype</span><span class="p">,</span>
-        <span class="s2">&quot;volume&quot;</span><span class="p">:</span> <span class="n">float64_dtype</span><span class="p">,</span>
+        <span class="s2">"open"</span><span class="p">:</span> <span class="n">float64_dtype</span><span class="p">,</span>
+        <span class="s2">"high"</span><span class="p">:</span> <span class="n">float64_dtype</span><span class="p">,</span>
+        <span class="s2">"low"</span><span class="p">:</span> <span class="n">float64_dtype</span><span class="p">,</span>
+        <span class="s2">"close"</span><span class="p">:</span> <span class="n">float64_dtype</span><span class="p">,</span>
+        <span class="s2">"volume"</span><span class="p">:</span> <span class="n">float64_dtype</span><span class="p">,</span>
     <span class="p">}</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">calendar</span><span class="p">,</span> <span class="n">start_session</span><span class="p">,</span> <span class="n">end_session</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">calendar</span><span class="p">,</span> <span class="n">start_session</span><span class="p">,</span> <span class="n">end_session</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span> <span class="o">=</span> <span class="n">filename</span>
         <span class="n">start_session</span> <span class="o">=</span> <span class="n">start_session</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
         <span class="n">end_session</span> <span class="o">=</span> <span class="n">end_session</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">start_session</span> <span class="o">!=</span> <span class="n">end_session</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">calendar</span><span class="o">.</span><span class="n">is_session</span><span class="p">(</span><span class="n">start_session</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Start session </span><span class="si">%s</span><span class="s2"> is invalid!&quot;</span> <span class="o">%</span> <span class="n">start_session</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Start session </span><span class="si">%s</span><span class="s2"> is invalid!"</span> <span class="o">%</span> <span class="n">start_session</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">calendar</span><span class="o">.</span><span class="n">is_session</span><span class="p">(</span><span class="n">end_session</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;End session </span><span class="si">%s</span><span class="s2"> is invalid!&quot;</span> <span class="o">%</span> <span class="n">end_session</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"End session </span><span class="si">%s</span><span class="s2"> is invalid!"</span> <span class="o">%</span> <span class="n">end_session</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_start_session</span> <span class="o">=</span> <span class="n">start_session</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_end_session</span> <span class="o">=</span> <span class="n">end_session</span>
@@ -636,16 +666,21 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_calendar</span> <span class="o">=</span> <span class="n">calendar</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">progress_bar_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;Merging daily equity files:&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">progress_bar_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">"Merging daily equity files:"</span>
 
-    <span class="k">def</span> <span class="nf">progress_bar_item_show_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">progress_bar_item_show_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">value</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-<div class="viewcode-block" id="BcolzDailyBarWriter.write"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarWriter.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">assets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">invalid_data_behavior</span><span class="o">=</span><span class="s2">&quot;warn&quot;</span>
+<div class="viewcode-block" id="BcolzDailyBarWriter.write">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarWriter.write">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">assets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">invalid_data_behavior</span><span class="o">=</span><span class="s2">"warn"</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Replace the daily table with all supplied assets and bars.</span>
+
+<span class="sd">        Each call overwrites the existing table. Include every asset and date</span>
+<span class="sd">        that should remain available; this method does not append.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -658,7 +693,7 @@ document.write(`
 <span class="sd">            progress information.</span>
 <span class="sd">        show_progress : bool, optional</span>
 <span class="sd">            Whether or not to show a progress bar while writing.</span>
-<span class="sd">        invalid_data_behavior : {&#39;warn&#39;, &#39;raise&#39;, &#39;ignore&#39;}, optional</span>
+<span class="sd">        invalid_data_behavior : {'warn', 'raise', 'ignore'}, optional</span>
 <span class="sd">            What to do when data is encountered that is outside the range of</span>
 <span class="sd">            a uint32.</span>
 
@@ -666,7 +701,7 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        table : bcolz.ctable</span>
 <span class="sd">            The newly-written table.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">ctx</span> <span class="o">=</span> <span class="n">maybe_show_progress</span><span class="p">(</span>
             <span class="p">((</span><span class="n">sid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_ctable</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">invalid_data_behavior</span><span class="p">))</span> <span class="k">for</span> <span class="n">sid</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">data</span><span class="p">),</span>
             <span class="n">show_progress</span><span class="o">=</span><span class="n">show_progress</span><span class="p">,</span>
@@ -677,8 +712,11 @@ document.write(`
         <span class="k">with</span> <span class="n">ctx</span> <span class="k">as</span> <span class="n">it</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_write_internal</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">assets</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BcolzDailyBarWriter.write_csvs"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarWriter.write_csvs">[docs]</a>    <span class="k">def</span> <span class="nf">write_csvs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset_map</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">invalid_data_behavior</span><span class="o">=</span><span class="s2">&quot;warn&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read CSVs as DataFrames from our asset map.</span>
+
+<div class="viewcode-block" id="BcolzDailyBarWriter.write_csvs">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarWriter.write_csvs">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_csvs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset_map</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">invalid_data_behavior</span><span class="o">=</span><span class="s2">"warn"</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Read CSVs as DataFrames from our asset map.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -687,14 +725,14 @@ document.write(`
 <span class="sd">            asset</span>
 <span class="sd">        show_progress : bool</span>
 <span class="sd">            Whether or not to show a progress bar while writing.</span>
-<span class="sd">        invalid_data_behavior : {&#39;warn&#39;, &#39;raise&#39;, &#39;ignore&#39;}</span>
+<span class="sd">        invalid_data_behavior : {'warn', 'raise', 'ignore'}</span>
 <span class="sd">            What to do when data is encountered that is outside the range of</span>
 <span class="sd">            a uint32.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">read</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
             <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">,</span>
-            <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">],</span>
-            <span class="n">index_col</span><span class="o">=</span><span class="s2">&quot;day&quot;</span><span class="p">,</span>
+            <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">"day"</span><span class="p">],</span>
+            <span class="n">index_col</span><span class="o">=</span><span class="s2">"day"</span><span class="p">,</span>
             <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_csv_dtypes</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
@@ -704,11 +742,12 @@ document.write(`
             <span class="n">invalid_data_behavior</span><span class="o">=</span><span class="n">invalid_data_behavior</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_write_internal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterator</span><span class="p">,</span> <span class="n">assets</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal implementation of write.</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_write_internal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterator</span><span class="p">,</span> <span class="n">assets</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Internal implementation of write.</span>
 
 <span class="sd">        `iterator` should be an iterator yielding pairs of (asset, ctable).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">total_rows</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">first_row</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">last_row</span> <span class="o">=</span> <span class="p">{}</span>
@@ -728,31 +767,31 @@ document.write(`
         <span class="k">if</span> <span class="n">assets</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 
             <span class="nd">@apply</span>
-            <span class="k">def</span> <span class="nf">iterator</span><span class="p">(</span><span class="n">iterator</span><span class="o">=</span><span class="n">iterator</span><span class="p">,</span> <span class="n">assets</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">assets</span><span class="p">)):</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">iterator</span><span class="p">(</span><span class="n">iterator</span><span class="o">=</span><span class="n">iterator</span><span class="p">,</span> <span class="n">assets</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">assets</span><span class="p">)):</span>
                 <span class="k">for</span> <span class="n">asset_id</span><span class="p">,</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">asset_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">assets</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unknown asset id </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">asset_id</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"unknown asset id </span><span class="si">%r</span><span class="s2">"</span> <span class="o">%</span> <span class="n">asset_id</span><span class="p">)</span>
                     <span class="k">yield</span> <span class="n">asset_id</span><span class="p">,</span> <span class="n">table</span>
 
         <span class="k">for</span> <span class="n">asset_id</span><span class="p">,</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">:</span>
             <span class="n">nrows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">column_name</span> <span class="o">==</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span>
-                    <span class="c1"># We know what the content of this column is, so don&#39;t</span>
+                <span class="k">if</span> <span class="n">column_name</span> <span class="o">==</span> <span class="s2">"id"</span><span class="p">:</span>
+                    <span class="c1"># We know what the content of this column is, so don't</span>
                     <span class="c1"># bother reading it.</span>
-                    <span class="n">columns</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                        <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">nrows</span><span class="p">,),</span> <span class="n">asset_id</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint32&quot;</span><span class="p">),</span>
+                    <span class="n">columns</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">nrows</span><span class="p">,),</span> <span class="n">asset_id</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"uint32"</span><span class="p">),</span>
                     <span class="p">)</span>
                     <span class="k">continue</span>
 
                 <span class="n">columns</span><span class="p">[</span><span class="n">column_name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="n">column_name</span><span class="p">])</span>
 
             <span class="k">if</span> <span class="n">earliest_date</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">earliest_date</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">earliest_date</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s2">"day"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">earliest_date</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">earliest_date</span><span class="p">,</span> <span class="n">table</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">earliest_date</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">earliest_date</span><span class="p">,</span> <span class="n">table</span><span class="p">[</span><span class="s2">"day"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
 
-            <span class="c1"># Bcolz doesn&#39;t support ints as keys in `attrs`, so convert</span>
+            <span class="c1"># Bcolz doesn't support ints as keys in `attrs`, so convert</span>
             <span class="c1"># assets to strings for use as attr keys.</span>
             <span class="n">asset_key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">asset_id</span><span class="p">)</span>
 
@@ -763,8 +802,8 @@ document.write(`
             <span class="n">last_row</span><span class="p">[</span><span class="n">asset_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_rows</span> <span class="o">+</span> <span class="n">nrows</span> <span class="o">-</span> <span class="mi">1</span>
             <span class="n">total_rows</span> <span class="o">+=</span> <span class="n">nrows</span>
 
-            <span class="n">asset_first_day</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
-            <span class="n">asset_last_day</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+            <span class="n">asset_first_day</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s2">"day"</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"s"</span><span class="p">)</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+            <span class="n">asset_last_day</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s2">"day"</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"s"</span><span class="p">)</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
 
             <span class="n">asset_sessions</span> <span class="o">=</span> <span class="n">sessions</span><span class="p">[</span>
                 <span class="n">sessions</span><span class="o">.</span><span class="n">slice_indexer</span><span class="p">(</span><span class="n">asset_first_day</span><span class="p">,</span> <span class="n">asset_last_day</span><span class="p">)</span>
@@ -772,19 +811,19 @@ document.write(`
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">asset_sessions</span><span class="p">):</span>
 
                 <span class="n">missing_sessions</span> <span class="o">=</span> <span class="n">asset_sessions</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span>
-                    <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">]),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
+                    <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s2">"day"</span><span class="p">]),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"s"</span><span class="p">)</span>
                 <span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
                 <span class="n">extra_sessions</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">]),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
+                    <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="s2">"day"</span><span class="p">]),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"s"</span><span class="p">)</span>
                     <span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">asset_sessions</span><span class="p">)</span>
                     <span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
                 <span class="p">)</span>
                 <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows for daily bars table with &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;first day=</span><span class="si">{</span><span class="n">asset_first_day</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">, last &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;day=</span><span class="si">{</span><span class="n">asset_last_day</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">, expected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">asset_sessions</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;Missing sessions: </span><span class="si">{</span><span class="n">missing_sessions</span><span class="si">}</span><span class="se">\n</span><span class="s2">Extra sessions: </span><span class="si">{</span><span class="n">extra_sessions</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows for daily bars table with "</span>
+                    <span class="sa">f</span><span class="s2">"first day=</span><span class="si">{</span><span class="n">asset_first_day</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">, last "</span>
+                    <span class="sa">f</span><span class="s2">"day=</span><span class="si">{</span><span class="n">asset_last_day</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">, expected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">asset_sessions</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows.</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="sa">f</span><span class="s2">"Missing sessions: </span><span class="si">{</span><span class="n">missing_sessions</span><span class="si">}</span><span class="se">\n</span><span class="s2">Extra sessions: </span><span class="si">{</span><span class="n">extra_sessions</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
 
             <span class="c1"># assert len(table) == len(asset_sessions), (</span>
@@ -799,39 +838,42 @@ document.write(`
             <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">columns</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span> <span class="k">for</span> <span class="n">colname</span> <span class="ow">in</span> <span class="n">US_EQUITY_PRICING_BCOLZ_COLUMNS</span><span class="p">],</span>
             <span class="n">names</span><span class="o">=</span><span class="n">US_EQUITY_PRICING_BCOLZ_COLUMNS</span><span class="p">,</span>
             <span class="n">rootdir</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">,</span>
-            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;first_trading_day&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"first_trading_day"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">earliest_date</span> <span class="k">if</span> <span class="n">earliest_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">iNaT</span>
         <span class="p">)</span>
 
-        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;first_row&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_row</span>
-        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;last_row&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">last_row</span>
-        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;calendar_offset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calendar_offset</span>
-        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;calendar_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calendar</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_session_ns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_session</span><span class="o">.</span><span class="n">value</span>
-        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_session_ns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_session</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"first_row"</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_row</span>
+        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"last_row"</span><span class="p">]</span> <span class="o">=</span> <span class="n">last_row</span>
+        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"calendar_offset"</span><span class="p">]</span> <span class="o">=</span> <span class="n">calendar_offset</span>
+        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"calendar_name"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calendar</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_session_ns"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_session</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">full_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_session_ns"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end_session</span><span class="o">.</span><span class="n">value</span>
         <span class="n">full_table</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">full_table</span>
 
-    <span class="nd">@expect_element</span><span class="p">(</span><span class="n">invalid_data_behavior</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;warn&quot;</span><span class="p">,</span> <span class="s2">&quot;raise&quot;</span><span class="p">,</span> <span class="s2">&quot;ignore&quot;</span><span class="p">})</span>
-    <span class="k">def</span> <span class="nf">to_ctable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">,</span> <span class="n">invalid_data_behavior</span><span class="p">):</span>
+    <span class="nd">@expect_element</span><span class="p">(</span><span class="n">invalid_data_behavior</span><span class="o">=</span><span class="p">{</span><span class="s2">"warn"</span><span class="p">,</span> <span class="s2">"raise"</span><span class="p">,</span> <span class="s2">"ignore"</span><span class="p">})</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_ctable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">,</span> <span class="n">invalid_data_behavior</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="n">ctable</span><span class="p">):</span>
             <span class="c1"># we already have a ctable so do nothing</span>
             <span class="k">return</span> <span class="n">raw_data</span>
 
-        <span class="n">winsorise_uint32</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="n">invalid_data_behavior</span><span class="p">,</span> <span class="s2">&quot;volume&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">OHLC</span><span class="p">)</span>
-        <span class="n">processed</span> <span class="o">=</span> <span class="p">(</span><span class="n">raw_data</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">OHLC</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint32&quot;</span><span class="p">)</span>
-        <span class="n">dates</span> <span class="o">=</span> <span class="n">raw_data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;datetime64[s]&quot;</span><span class="p">)</span>
-        <span class="n">check_uint32_safe</span><span class="p">(</span><span class="n">dates</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="s2">&quot;day&quot;</span><span class="p">)</span>
-        <span class="n">processed</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dates</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint32&quot;</span><span class="p">)</span>
-        <span class="n">processed</span><span class="p">[</span><span class="s2">&quot;volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_data</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint32&quot;</span><span class="p">)</span>
+        <span class="n">winsorise_uint32</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="n">invalid_data_behavior</span><span class="p">,</span> <span class="s2">"volume"</span><span class="p">,</span> <span class="o">*</span><span class="n">OHLC</span><span class="p">)</span>
+        <span class="n">processed</span> <span class="o">=</span> <span class="p">(</span><span class="n">raw_data</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">OHLC</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"uint32"</span><span class="p">)</span>
+        <span class="n">dates</span> <span class="o">=</span> <span class="n">raw_data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"datetime64[s]"</span><span class="p">)</span>
+        <span class="n">check_uint32_safe</span><span class="p">(</span><span class="n">dates</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="s2">"day"</span><span class="p">)</span>
+        <span class="n">processed</span><span class="p">[</span><span class="s2">"day"</span><span class="p">]</span> <span class="o">=</span> <span class="n">dates</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"uint32"</span><span class="p">)</span>
+        <span class="n">processed</span><span class="p">[</span><span class="s2">"volume"</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_data</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"uint32"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ctable</span><span class="o">.</span><span class="n">fromdataframe</span><span class="p">(</span><span class="n">processed</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="BcolzDailyBarReader"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader">[docs]</a><span class="k">class</span> <span class="nc">BcolzDailyBarReader</span><span class="p">(</span><span class="n">CurrencyAwareSessionBarReader</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reader for raw pricing data written by BcolzDailyOHLCVWriter.</span>
+
+<div class="viewcode-block" id="BcolzDailyBarReader">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BcolzDailyBarReader</span><span class="p">(</span><span class="n">CurrencyAwareSessionBarReader</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Reader for raw pricing data written by BcolzDailyOHLCVWriter.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -861,10 +903,10 @@ document.write(`
 <span class="sd">    end_session_ns: int</span>
 <span class="sd">        Epoch ns of the last session used in this dataset.</span>
 <span class="sd">    calendar_name: str</span>
-<span class="sd">        String identifier of trading calendar used (ie, &quot;NYSE&quot;).</span>
+<span class="sd">        String identifier of trading calendar used (ie, "NYSE").</span>
 
 <span class="sd">    We use first_row and last_row together to quickly find ranges of rows to</span>
-<span class="sd">    load when reading an asset&#39;s data into memory.</span>
+<span class="sd">    load when reading an asset's data into memory.</span>
 
 <span class="sd">    We use calendar_offset and calendar to orient loaded blocks within a</span>
 <span class="sd">    range of queried dates.</span>
@@ -874,11 +916,11 @@ document.write(`
 <span class="sd">    A Bcolz CTable is comprised of Columns and Attributes.</span>
 <span class="sd">    The table with which this loader interacts contains the following columns:</span>
 
-<span class="sd">    [&#39;open&#39;, &#39;high&#39;, &#39;low&#39;, &#39;close&#39;, &#39;volume&#39;, &#39;day&#39;, &#39;id&#39;].</span>
+<span class="sd">    ['open', 'high', 'low', 'close', 'volume', 'day', 'id'].</span>
 
 <span class="sd">    The data in these columns is interpreted as follows:</span>
 
-<span class="sd">    - Price columns (&#39;open&#39;, &#39;high&#39;, &#39;low&#39;, &#39;close&#39;) are interpreted as 1000 *</span>
+<span class="sd">    - Price columns ('open', 'high', 'low', 'close') are interpreted as 1000 *</span>
 <span class="sd">      as-traded dollar value.</span>
 <span class="sd">    - Volume is interpreted as as-traded volume.</span>
 <span class="sd">    - Day is interpreted as seconds since midnight UTC, Jan 1, 1970.</span>
@@ -899,9 +941,9 @@ document.write(`
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    zipline.data.bcolz_daily_bars.BcolzDailyBarWriter</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">read_all_threshold</span><span class="o">=</span><span class="mi">3000</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">read_all_threshold</span><span class="o">=</span><span class="mi">3000</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_table_rootdir</span> <span class="o">=</span> <span class="n">table</span>
         <span class="c1"># Cache of fully read np.array for the carrays in the daily bar table.</span>
         <span class="c1"># raw_array does not use the same cache, but it could.</span>
@@ -912,24 +954,24 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_read_all_threshold</span> <span class="o">=</span> <span class="n">read_all_threshold</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">maybe_table_rootdir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_table_rootdir</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">maybe_table_rootdir</span><span class="p">,</span> <span class="n">ctable</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">maybe_table_rootdir</span>
-        <span class="k">return</span> <span class="n">ctable</span><span class="p">(</span><span class="n">rootdir</span><span class="o">=</span><span class="n">maybe_table_rootdir</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ctable</span><span class="p">(</span><span class="n">rootdir</span><span class="o">=</span><span class="n">maybe_table_rootdir</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"r"</span><span class="p">)</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">sessions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s2">&quot;calendar&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sessions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">"calendar"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
             <span class="c1"># backwards compatibility with old formats, will remove</span>
-            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;calendar&quot;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"calendar"</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">cal</span> <span class="o">=</span> <span class="n">get_calendar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;calendar_name&quot;</span><span class="p">])</span>
-            <span class="n">start_session_ns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_session_ns&quot;</span><span class="p">]</span>
+            <span class="n">cal</span> <span class="o">=</span> <span class="n">get_calendar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"calendar_name"</span><span class="p">])</span>
+            <span class="n">start_session_ns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_session_ns"</span><span class="p">]</span>
 
             <span class="n">start_session</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">start_session_ns</span><span class="p">)</span>
 
-            <span class="n">end_session_ns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_session_ns&quot;</span><span class="p">]</span>
+            <span class="n">end_session_ns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_session_ns"</span><span class="p">]</span>
             <span class="n">end_session</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="n">end_session_ns</span><span class="p">)</span>
 
             <span class="n">sessions</span> <span class="o">=</span> <span class="n">cal</span><span class="o">.</span><span class="n">sessions_in_range</span><span class="p">(</span><span class="n">start_session</span><span class="p">,</span> <span class="n">end_session</span><span class="p">)</span>
@@ -937,46 +979,46 @@ document.write(`
             <span class="k">return</span> <span class="n">sessions</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">_first_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_first_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="nb">int</span><span class="p">(</span><span class="n">asset_id</span><span class="p">):</span> <span class="n">start_index</span>
-            <span class="k">for</span> <span class="n">asset_id</span><span class="p">,</span> <span class="n">start_index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;first_row&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">asset_id</span><span class="p">,</span> <span class="n">start_index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"first_row"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">}</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">_last_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_last_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="nb">int</span><span class="p">(</span><span class="n">asset_id</span><span class="p">):</span> <span class="n">end_index</span>
-            <span class="k">for</span> <span class="n">asset_id</span><span class="p">,</span> <span class="n">end_index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;last_row&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">asset_id</span><span class="p">,</span> <span class="n">end_index</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"last_row"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">}</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">_calendar_offsets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calendar_offsets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">):</span> <span class="n">offset</span>
-            <span class="k">for</span> <span class="n">id_</span><span class="p">,</span> <span class="n">offset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;calendar_offset&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">id_</span><span class="p">,</span> <span class="n">offset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"calendar_offset"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">}</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">first_trading_day</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">first_trading_day</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;first_trading_day&quot;</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"first_trading_day"</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"s"</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@lazyval</span>
-    <span class="k">def</span> <span class="nf">trading_calendar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s2">&quot;calendar_name&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">get_calendar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;calendar_name&quot;</span><span class="p">])</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">trading_calendar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">"calendar_name"</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">get_calendar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"calendar_name"</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">last_available_dt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">last_available_dt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sessions</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_compute_slices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span><span class="p">,</span> <span class="n">assets</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the raw row indices to load for each asset on a query for the</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_slices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_idx</span><span class="p">,</span> <span class="n">end_idx</span><span class="p">,</span> <span class="n">assets</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Compute the raw row indices to load for each asset on a query for the</span>
 <span class="sd">        given dates after applying a shift.</span>
 
 <span class="sd">        Parameters</span>
@@ -1004,7 +1046,7 @@ document.write(`
 <span class="sd">            The value of offset[i] will be 0 if asset[i] existed at the start</span>
 <span class="sd">            of a query.  Otherwise, offset[i] will be equal to the number of</span>
 <span class="sd">            entries in `dates` for which the asset did not yet exist.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># The core implementation of the logic here is implemented in Cython</span>
         <span class="c1"># for efficiency.</span>
         <span class="k">return</span> <span class="n">_compute_row_slices</span><span class="p">(</span>
@@ -1016,7 +1058,9 @@ document.write(`
             <span class="n">assets</span><span class="p">,</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="BcolzDailyBarReader.load_raw_arrays"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.load_raw_arrays">[docs]</a>    <span class="k">def</span> <span class="nf">load_raw_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">assets</span><span class="p">):</span>
+<div class="viewcode-block" id="BcolzDailyBarReader.load_raw_arrays">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.load_raw_arrays">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_raw_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">assets</span><span class="p">):</span>
         <span class="n">start_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_raw_arrays_date_to_index</span><span class="p">(</span><span class="n">start_date</span><span class="p">)</span>
         <span class="n">end_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_raw_arrays_date_to_index</span><span class="p">(</span><span class="n">end_date</span><span class="p">)</span>
 
@@ -1036,15 +1080,16 @@ document.write(`
             <span class="n">read_all</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_load_raw_arrays_date_to_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_raw_arrays_date_to_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># TODO get_loc is deprecated but get_indexer doesnt raise and error</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sessions</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">NoDataOnDate</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+            <span class="k">raise</span> <span class="n">NoDataOnDate</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
-    <span class="k">def</span> <span class="nf">_spot_col</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colname</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the colname from daily_bar_table and read all of it into memory,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_spot_col</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Get the colname from daily_bar_table and read all of it into memory,</span>
 <span class="sd">        caching the result.</span>
 
 <span class="sd">        Parameters</span>
@@ -1057,15 +1102,17 @@ document.write(`
 <span class="sd">        array (uint32)</span>
 <span class="sd">            Full read array of the carray in the daily_bar_table with the</span>
 <span class="sd">            given colname.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spot_cols</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spot_cols</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">col</span>
 
-<div class="viewcode-block" id="BcolzDailyBarReader.get_last_traded_dt"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.get_last_traded_dt">[docs]</a>    <span class="k">def</span> <span class="nf">get_last_traded_dt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">day</span><span class="p">):</span>
-        <span class="n">volumes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spot_col</span><span class="p">(</span><span class="s2">&quot;volume&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="BcolzDailyBarReader.get_last_traded_dt">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.get_last_traded_dt">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_last_traded_dt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">asset</span><span class="p">,</span> <span class="n">day</span><span class="p">):</span>
+        <span class="n">volumes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spot_col</span><span class="p">(</span><span class="s2">"volume"</span><span class="p">)</span>
 
         <span class="n">search_day</span> <span class="o">=</span> <span class="n">day</span>
 
@@ -1089,8 +1136,11 @@ document.write(`
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">NaT</span></div>
 
-<div class="viewcode-block" id="BcolzDailyBarReader.sid_day_index"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.sid_day_index">[docs]</a>    <span class="k">def</span> <span class="nf">sid_day_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">day</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BcolzDailyBarReader.sid_day_index">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.sid_day_index">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sid_day_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">day</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1105,27 +1155,30 @@ document.write(`
 <span class="sd">            Index into the data tape for the given sid and day.</span>
 <span class="sd">            Raises a NoDataOnDate exception if the given day and sid is before</span>
 <span class="sd">            or after the date range of the equity.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">day_loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sessions</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">day</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NoDataOnDate</span><span class="p">(</span>
-                <span class="s2">&quot;day=</span><span class="si">{0}</span><span class="s2"> is outside of calendar=</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sessions</span><span class="p">)</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+                <span class="s2">"day=</span><span class="si">{0}</span><span class="s2"> is outside of calendar=</span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sessions</span><span class="p">)</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="n">day_loc</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calendar_offsets</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">offset</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NoDataBeforeDate</span><span class="p">(</span>
-                <span class="s2">&quot;No data on or before day=</span><span class="si">{0}</span><span class="s2"> for sid=</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
+                <span class="s2">"No data on or before day=</span><span class="si">{0}</span><span class="s2"> for sid=</span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="n">ix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_first_rows</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span> <span class="o">+</span> <span class="n">offset</span>
         <span class="k">if</span> <span class="n">ix</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_rows</span><span class="p">[</span><span class="n">sid</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="n">NoDataAfterDate</span><span class="p">(</span>
-                <span class="s2">&quot;No data on or after day=</span><span class="si">{0}</span><span class="s2"> for sid=</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
+                <span class="s2">"No data on or after day=</span><span class="si">{0}</span><span class="s2"> for sid=</span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">ix</span></div>
 
-<div class="viewcode-block" id="BcolzDailyBarReader.get_value"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.get_value">[docs]</a>    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BcolzDailyBarReader.get_value">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.get_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1134,7 +1187,7 @@ document.write(`
 <span class="sd">        day : datetime64-like</span>
 <span class="sd">            Midnight of the day for which data is requested.</span>
 <span class="sd">        colname : string</span>
-<span class="sd">            The price field. e.g. (&#39;open&#39;, &#39;high&#39;, &#39;low&#39;, &#39;close&#39;, &#39;volume&#39;)</span>
+<span class="sd">            The price field. e.g. ('open', 'high', 'low', 'close', 'volume')</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1144,10 +1197,10 @@ document.write(`
 <span class="sd">            or after the date range of the equity.</span>
 <span class="sd">            Returns -1 if the day is within the date range, but the price is</span>
 <span class="sd">            0.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">ix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sid_day_index</span><span class="p">(</span><span class="n">sid</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
         <span class="n">price</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spot_col</span><span class="p">(</span><span class="n">field</span><span class="p">)[</span><span class="n">ix</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">field</span> <span class="o">!=</span> <span class="s2">&quot;volume&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">field</span> <span class="o">!=</span> <span class="s2">"volume"</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">price</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
             <span class="k">else</span><span class="p">:</span>
@@ -1155,34 +1208,35 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">price</span></div>
 
-<div class="viewcode-block" id="BcolzDailyBarReader.currency_codes"><a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.currency_codes">[docs]</a>    <span class="k">def</span> <span class="nf">currency_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
-        <span class="c1"># XXX: This is pretty inefficient. This reader doesn&#39;t really support</span>
-        <span class="c1"># country codes, so we always either return USD or None if we don&#39;t</span>
+
+<div class="viewcode-block" id="BcolzDailyBarReader.currency_codes">
+<a class="viewcode-back" href="../../../api-reference.html#zipline.data.bcolz_daily_bars.BcolzDailyBarReader.currency_codes">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">currency_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sids</span><span class="p">):</span>
+        <span class="c1"># XXX: This is pretty inefficient. This reader doesn't really support</span>
+        <span class="c1"># country codes, so we always either return USD or None if we don't</span>
         <span class="c1"># know about the sid at all.</span>
         <span class="n">first_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_first_rows</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="n">sids</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">sid</span> <span class="ow">in</span> <span class="n">first_rows</span><span class="p">:</span>
-                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;USD&quot;</span><span class="p">)</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"USD"</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
                 </article>
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1200,8 +1254,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1209,6 +1263,7 @@ document.write(`
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
       © Copyright 2020, Quantopian Inc..
@@ -1218,19 +1273,22 @@ document.write(`
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
-    <br/>
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
   </p>
 </div>
       
     </div>
   
   
+  
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>

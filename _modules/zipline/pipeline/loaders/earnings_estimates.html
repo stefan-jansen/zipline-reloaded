@@ -1,71 +1,76 @@
-
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="../../../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>zipline.pipeline.loaders.earnings_estimates &#8212; Zipline 3.0 docs</title>
+    <title>zipline.pipeline.loaders.earnings_estimates &#8212; Zipline Reloaded 3.2.1</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../../_static/styles/theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=18bd87630a240e9c25be" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
   
-  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../../_static/scripts/fontawesome.js?digest=18bd87630a240e9c25be"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-    <script src="../../../../_static/doctools.js"></script>
-    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/documentation_options.js?v=eb155f5e"></script>
+    <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/zipline/pipeline/loaders/earnings_estimates';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../_static/zipline.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.2.1" />
+  
+    
+    <script src="../../../../_static/searchtools.js"></script>
+    <script src="../../../../_static/language_data.js"></script>
+    <script src="../../../../searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
   
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../../search.html"
       method="get">
@@ -73,7 +78,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -81,18 +85,30 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Zipline Reloaded 3.2.1: bug, security and compatibility fixes. <a href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">Migration to ML4T Backtest</a>.</div>
+</aside>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../../../index.html">
@@ -101,102 +117,106 @@
   
   
   
-    <p class="title logo__title">Zipline 3.0 docs</p>
+  
+    <p class="title logo__title">Zipline Reloaded 3.2.1</p>
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../install.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">
+    Migration to ML4T Backtest
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../beginner-tutorial.html">
-                        Tutorial
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../bundles.html">
-                        Data
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../install.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../trading-calendars.html">
-                        Calendars
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../risk-and-perf-metrics.html">
-                        Metrics
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../beginner-tutorial.html">
+    Tutorial
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../bundles.html">
+    Data
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../trading-calendars.html">
+    Calendars
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../development-guidelines.html">
-                        Development
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../risk-and-perf-metrics.html">
+    Metrics
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../api-reference.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../releases.html">
-                        Releases
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../development-guidelines.html">
+    Development
+  </a>
+</li>
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://ml4trading.io">
-                    ML for Trading
-                  </a>
-                </li>
-                
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
-                    Community
-                  </a>
-                </li>
-                
-                </div>
-            </div>
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../api-reference.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../releases.html">
+    Releases
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://ml4trading.io">
+    ML for Trading
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://exchange.ml4trading.io">
+    Community
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -208,28 +228,31 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -240,8 +263,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -252,8 +274,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
       
@@ -263,25 +284,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -290,94 +316,91 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../install.html">
-                        Installation
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.ml4trading.io/docs/backtest/user-guide/migrate-from-zipline/">
+    Migration to ML4T Backtest
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../beginner-tutorial.html">
-                        Tutorial
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../bundles.html">
-                        Data
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../install.html">
+    Installation
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../trading-calendars.html">
-                        Calendars
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../risk-and-perf-metrics.html">
-                        Metrics
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../development-guidelines.html">
-                        Development
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../beginner-tutorial.html">
+    Tutorial
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../api-reference.html">
-                        API
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../releases.html">
-                        Releases
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../bundles.html">
+    Data
+  </a>
+</li>
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://ml4trading.io">
-                    ML for Trading
-                  </a>
-                </li>
-                
 
-                <li class="nav-item">
-                  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
-                    Community
-                  </a>
-                </li>
-                
-                </div>
-            </div>
-            
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../trading-calendars.html">
+    Calendars
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../risk-and-perf-metrics.html">
+    Metrics
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../development-guidelines.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../api-reference.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../releases.html">
+    Releases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://ml4trading.io">
+    ML for Trading
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://exchange.ml4trading.io">
+    Community
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -386,17 +409,21 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -407,8 +434,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/stefan-jansen/zipline-reloaded" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
           
@@ -419,8 +445,7 @@ document.write(`
           
           
           
-          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-twitter"></i></span>
-            <label class="sr-only">Twitter</label></a>
+          <a href="https://twitter.com/ml4trading" title="Twitter" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-twitter fa-lg" aria-hidden="true"></i><span class="visually-hidden">Twitter</span></a>
         </li>
 </ul></div>
         
@@ -430,30 +455,33 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../../../index.html" class="nav-link" aria-label="Home">
@@ -463,7 +491,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">zipline.pipeline.loaders.earnings_estimates</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">zipline.pipeline.loaders.earnings_estimates</span></li>
   </ul>
 </nav>
 </div>
@@ -478,18 +506,17 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for zipline.pipeline.loaders.earnings_estimates</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">abstractmethod</span>
 
-<span class="kn">from</span> <span class="nn">interface</span> <span class="kn">import</span> <span class="n">implements</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">toolz</span> <span class="kn">import</span> <span class="n">groupby</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">toolz</span><span class="w"> </span><span class="kn">import</span> <span class="n">groupby</span>
 
-<span class="kn">from</span> <span class="nn">zipline.lib.adjusted_array</span> <span class="kn">import</span> <span class="n">AdjustedArray</span>
-<span class="kn">from</span> <span class="nn">zipline.lib.adjustment</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.lib.adjusted_array</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdjustedArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.lib.adjustment</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Datetime641DArrayOverwrite</span><span class="p">,</span>
     <span class="n">Datetime64Overwrite</span><span class="p">,</span>
     <span class="n">Float641DArrayOverwrite</span><span class="p">,</span>
@@ -497,38 +524,38 @@ document.write(`
     <span class="n">Float64Overwrite</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">zipline.pipeline.common</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.pipeline.common</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">EVENT_DATE_FIELD_NAME</span><span class="p">,</span>
     <span class="n">FISCAL_QUARTER_FIELD_NAME</span><span class="p">,</span>
     <span class="n">FISCAL_YEAR_FIELD_NAME</span><span class="p">,</span>
     <span class="n">SID_FIELD_NAME</span><span class="p">,</span>
     <span class="n">TS_FIELD_NAME</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">zipline.pipeline.loaders.base</span> <span class="kn">import</span> <span class="n">PipelineLoader</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.date_utils</span> <span class="kn">import</span> <span class="n">make_utc_aware</span>
-<span class="kn">from</span> <span class="nn">zipline.utils.numpy_utils</span> <span class="kn">import</span> <span class="n">datetime64ns_dtype</span><span class="p">,</span> <span class="n">float64_dtype</span>
-<span class="kn">from</span> <span class="nn">zipline.pipeline.loaders.utils</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.pipeline.loaders.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">PipelineLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.date_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_utc_aware</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.numpy_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime64ns_dtype</span><span class="p">,</span> <span class="n">float64_dtype</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zipline.pipeline.loaders.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">ffill_across_cols</span><span class="p">,</span>
     <span class="n">last_in_date_group</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">INVALID_NUM_QTRS_MESSAGE</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s2">&quot;Passed invalid number of quarters </span><span class="si">%s</span><span class="s2">; &quot;</span> <span class="s2">&quot;must pass a number of quarters &gt;= 0&quot;</span>
+    <span class="s2">"Passed invalid number of quarters </span><span class="si">%s</span><span class="s2">; must pass a number of quarters &gt;= 0"</span>
 <span class="p">)</span>
-<span class="n">NEXT_FISCAL_QUARTER</span> <span class="o">=</span> <span class="s2">&quot;next_fiscal_quarter&quot;</span>
-<span class="n">NEXT_FISCAL_YEAR</span> <span class="o">=</span> <span class="s2">&quot;next_fiscal_year&quot;</span>
-<span class="n">NORMALIZED_QUARTERS</span> <span class="o">=</span> <span class="s2">&quot;normalized_quarters&quot;</span>
-<span class="n">PREVIOUS_FISCAL_QUARTER</span> <span class="o">=</span> <span class="s2">&quot;previous_fiscal_quarter&quot;</span>
-<span class="n">PREVIOUS_FISCAL_YEAR</span> <span class="o">=</span> <span class="s2">&quot;previous_fiscal_year&quot;</span>
-<span class="n">SHIFTED_NORMALIZED_QTRS</span> <span class="o">=</span> <span class="s2">&quot;shifted_normalized_quarters&quot;</span>
-<span class="n">SIMULATION_DATES</span> <span class="o">=</span> <span class="s2">&quot;dates&quot;</span>
+<span class="n">NEXT_FISCAL_QUARTER</span> <span class="o">=</span> <span class="s2">"next_fiscal_quarter"</span>
+<span class="n">NEXT_FISCAL_YEAR</span> <span class="o">=</span> <span class="s2">"next_fiscal_year"</span>
+<span class="n">NORMALIZED_QUARTERS</span> <span class="o">=</span> <span class="s2">"normalized_quarters"</span>
+<span class="n">PREVIOUS_FISCAL_QUARTER</span> <span class="o">=</span> <span class="s2">"previous_fiscal_quarter"</span>
+<span class="n">PREVIOUS_FISCAL_YEAR</span> <span class="o">=</span> <span class="s2">"previous_fiscal_year"</span>
+<span class="n">SHIFTED_NORMALIZED_QTRS</span> <span class="o">=</span> <span class="s2">"shifted_normalized_quarters"</span>
+<span class="n">SIMULATION_DATES</span> <span class="o">=</span> <span class="s2">"dates"</span>
 
 
-<span class="k">def</span> <span class="nf">normalize_quarters</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">quarters</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_quarters</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">quarters</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">years</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="n">quarters</span> <span class="o">-</span> <span class="mi">1</span>
 
 
-<span class="k">def</span> <span class="nf">split_normalized_quarters</span><span class="p">(</span><span class="n">normalized_quarters</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">split_normalized_quarters</span><span class="p">(</span><span class="n">normalized_quarters</span><span class="p">):</span>
     <span class="n">years</span> <span class="o">=</span> <span class="n">normalized_quarters</span> <span class="o">//</span> <span class="mi">4</span>
     <span class="n">quarters</span> <span class="o">=</span> <span class="n">normalized_quarters</span> <span class="o">%</span> <span class="mi">4</span>
     <span class="k">return</span> <span class="n">years</span><span class="p">,</span> <span class="n">quarters</span> <span class="o">+</span> <span class="mi">1</span>
@@ -546,28 +573,28 @@ document.write(`
 <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">required_estimates_fields</span><span class="p">(</span><span class="n">columns</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the set of resource columns required to serve</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">required_estimates_fields</span><span class="p">(</span><span class="n">columns</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Compute the set of resource columns required to serve</span>
 <span class="sd">    `columns`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># We also expect any of the field names that our loadable columns</span>
     <span class="c1"># are mapped to.</span>
     <span class="k">return</span> <span class="n">metadata_columns</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
 
-<span class="k">def</span> <span class="nf">validate_column_specs</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify that the columns of ``events`` can be used by a</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_column_specs</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Verify that the columns of ``events`` can be used by a</span>
 <span class="sd">    EarningsEstimatesLoader to serve the BoundColumns described by</span>
 <span class="sd">    `columns`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">required</span> <span class="o">=</span> <span class="n">required_estimates_fields</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
     <span class="n">received</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">events</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
     <span class="n">missing</span> <span class="o">=</span> <span class="n">required</span> <span class="o">-</span> <span class="n">received</span>
     <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;EarningsEstimatesLoader missing required columns </span><span class="si">{missing}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;Got Columns: </span><span class="si">{received}</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;Expected Columns: </span><span class="si">{required}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="s2">"EarningsEstimatesLoader missing required columns </span><span class="si">{missing}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="s2">"Got Columns: </span><span class="si">{received}</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="s2">"Expected Columns: </span><span class="si">{required}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">missing</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">missing</span><span class="p">),</span>
                 <span class="n">received</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">received</span><span class="p">),</span>
                 <span class="n">required</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">required</span><span class="p">),</span>
@@ -575,17 +602,19 @@ document.write(`
         <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">add_new_adjustments</span><span class="p">(</span><span class="n">adjustments_dict</span><span class="p">,</span> <span class="n">adjustments</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">ts</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_new_adjustments</span><span class="p">(</span><span class="n">adjustments_dict</span><span class="p">,</span> <span class="n">adjustments</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">ts</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">adjustments_dict</span><span class="p">[</span><span class="n">column_name</span><span class="p">][</span><span class="n">ts</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">adjustments</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">adjustments_dict</span><span class="p">[</span><span class="n">column_name</span><span class="p">][</span><span class="n">ts</span><span class="p">]</span> <span class="o">=</span> <span class="n">adjustments</span>
 
 
-<div class="viewcode-block" id="EarningsEstimatesLoader"><a class="viewcode-back" href="../../../../api-reference.html#zipline.pipeline.loaders.earnings_estimates.EarningsEstimatesLoader">[docs]</a><span class="k">class</span> <span class="nc">EarningsEstimatesLoader</span><span class="p">(</span><span class="n">implements</span><span class="p">(</span><span class="n">PipelineLoader</span><span class="p">)):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An abstract pipeline loader for estimates data that can load data a</span>
+<div class="viewcode-block" id="EarningsEstimatesLoader">
+<a class="viewcode-back" href="../../../../api-reference.html#zipline.pipeline.loaders.earnings_estimates.EarningsEstimatesLoader">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EarningsEstimatesLoader</span><span class="p">(</span><span class="n">PipelineLoader</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""An abstract pipeline loader for estimates data that can load data a</span>
 <span class="sd">    variable number of quarters forwards/backwards from calendar dates</span>
-<span class="sd">    depending on the `num_announcements` attribute of the columns&#39; dataset.</span>
+<span class="sd">    depending on the `num_announcements` attribute of the columns' dataset.</span>
 <span class="sd">    If split adjustments are to be applied, a loader, split-adjusted columns,</span>
 <span class="sd">    and the split-adjusted asof-date must be supplied.</span>
 
@@ -612,9 +641,11 @@ document.write(`
 <span class="sd">    name_map : dict[str -&gt; str]</span>
 <span class="sd">        A map of names of BoundColumns that this loader will load to the</span>
 <span class="sd">        names of the corresponding columns in `events`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-<div class="viewcode-block" id="EarningsEstimatesLoader.__init__"><a class="viewcode-back" href="../../../../api-reference.html#zipline.pipeline.loaders.earnings_estimates.EarningsEstimatesLoader.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimates</span><span class="p">,</span> <span class="n">name_map</span><span class="p">):</span>
+<div class="viewcode-block" id="EarningsEstimatesLoader.__init__">
+<a class="viewcode-back" href="../../../../api-reference.html#zipline.pipeline.loaders.earnings_estimates.EarningsEstimatesLoader.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimates</span><span class="p">,</span> <span class="n">name_map</span><span class="p">):</span>
         <span class="n">validate_column_specs</span><span class="p">(</span><span class="n">estimates</span><span class="p">,</span> <span class="n">name_map</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">estimates</span> <span class="o">=</span> <span class="n">estimates</span><span class="p">[</span>
@@ -638,16 +669,17 @@ document.write(`
 
         <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span> <span class="o">=</span> <span class="n">name_map</span></div>
 
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">get_zeroth_quarter_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stacked_last_per_qtr</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;get_zeroth_quarter_idx&quot;</span><span class="p">)</span>
 
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">get_shifted_qtrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zero_qtrs</span><span class="p">,</span> <span class="n">num_announcements</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;get_shifted_qtrs&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_zeroth_quarter_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stacked_last_per_qtr</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"get_zeroth_quarter_idx"</span><span class="p">)</span>
 
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">create_overwrite_for_estimate</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_shifted_qtrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zero_qtrs</span><span class="p">,</span> <span class="n">num_announcements</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"get_shifted_qtrs"</span><span class="p">)</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_overwrite_for_estimate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">column</span><span class="p">,</span>
         <span class="n">column_name</span><span class="p">,</span>
@@ -659,14 +691,14 @@ document.write(`
         <span class="n">col_to_split_adjustments</span><span class="p">,</span>
         <span class="n">split_adjusted_asof_idx</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;create_overwrite_for_estimate&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"create_overwrite_for_estimate"</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">searchsorted_side</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;searchsorted_side&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">searchsorted_side</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"searchsorted_side"</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_requested_quarter_data</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_requested_quarter_data</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">zero_qtr_data</span><span class="p">,</span>
         <span class="n">zeroth_quarter_idx</span><span class="p">,</span>
@@ -674,12 +706,12 @@ document.write(`
         <span class="n">num_announcements</span><span class="p">,</span>
         <span class="n">dates</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Selects the requested data for each date.</span>
+<span class="w">        </span><span class="sd">"""Selects the requested data for each date.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        zero_qtr_data : pd.DataFrame</span>
-<span class="sd">            The &#39;time zero&#39; data for each calendar date per sid.</span>
+<span class="sd">            The 'time zero' data for each calendar date per sid.</span>
 <span class="sd">        zeroth_quarter_idx : pd.Index</span>
 <span class="sd">            An index of calendar dates, sid, and normalized quarters, for only</span>
 <span class="sd">            the rows that have a next or previous earnings estimate.</span>
@@ -698,7 +730,7 @@ document.write(`
 <span class="sd">            The DataFrame with the latest values for the requested quarter</span>
 <span class="sd">            for all columns; `dates` are the index and columns are a MultiIndex</span>
 <span class="sd">            with sids at the top level and the dataset columns on the bottom.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">zero_qtr_data_idx</span> <span class="o">=</span> <span class="n">zero_qtr_data</span><span class="o">.</span><span class="n">index</span>
         <span class="n">requested_qtr_idx</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">(</span>
             <span class="p">[</span>
@@ -728,12 +760,12 @@ document.write(`
             <span class="n">requested_qtr_data</span><span class="p">[</span><span class="n">FISCAL_YEAR_FIELD_NAME</span><span class="p">],</span>
             <span class="n">requested_qtr_data</span><span class="p">[</span><span class="n">FISCAL_QUARTER_FIELD_NAME</span><span class="p">],</span>
         <span class="p">)</span> <span class="o">=</span> <span class="n">split_normalized_quarters</span><span class="p">(</span><span class="n">requested_qtr_data</span><span class="p">[</span><span class="n">SHIFTED_NORMALIZED_QTRS</span><span class="p">])</span>
-        <span class="c1"># Once we&#39;re left with just dates as the index, we can reindex by all</span>
+        <span class="c1"># Once we're left with just dates as the index, we can reindex by all</span>
         <span class="c1"># dates so that we have a value for each calendar date.</span>
         <span class="k">return</span> <span class="n">requested_qtr_data</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">SID_FIELD_NAME</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_split_adjusted_asof_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dates</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the index in `dates` where the split-adjusted-asof-date</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_split_adjusted_asof_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dates</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Compute the index in `dates` where the split-adjusted-asof-date</span>
 <span class="sd">        falls. This is the date up to which, and including which, we will</span>
 <span class="sd">        need to unapply all adjustments for and then re-apply them as they</span>
 <span class="sd">        come in. After this date, adjustments are applied as normal.</span>
@@ -747,7 +779,7 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        split_adjusted_asof_idx : int</span>
 <span class="sd">            The index in `dates` at which the data should be split.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">split_adjusted_asof_idx</span> <span class="o">=</span> <span class="n">dates</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_split_adjusted_asof</span><span class="p">)</span>
         <span class="c1"># make_utc_aware(pd.DatetimeIndex(self._split_adjusted_asof))</span>
         <span class="c1"># The split-asof date is after the date index.</span>
@@ -761,7 +793,7 @@ document.write(`
                 <span class="n">split_adjusted_asof_idx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="k">return</span> <span class="n">split_adjusted_asof_idx</span>
 
-    <span class="k">def</span> <span class="nf">collect_overwrites_for_sid</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">collect_overwrites_for_sid</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">group</span><span class="p">,</span>
         <span class="n">dates</span><span class="p">,</span>
@@ -772,7 +804,7 @@ document.write(`
         <span class="n">all_adjustments_for_sid</span><span class="p">,</span>
         <span class="n">sid</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Given a sid, collect all overwrites that should be applied for this</span>
+<span class="w">        </span><span class="sd">"""Given a sid, collect all overwrites that should be applied for this</span>
 <span class="sd">        sid at each quarter boundary.</span>
 
 <span class="sd">        Parameters</span>
@@ -789,7 +821,7 @@ document.write(`
 <span class="sd">            normalized_quarters, sid] that allows easily getting the timeline</span>
 <span class="sd">            of estimates for a particular sid for a particular quarter.</span>
 <span class="sd">        sid_idx : int</span>
-<span class="sd">            The sid&#39;s index in the asset index.</span>
+<span class="sd">            The sid's index in the asset index.</span>
 <span class="sd">        columns : list of BoundColumn</span>
 <span class="sd">            The columns for which the overwrites should be computed.</span>
 <span class="sd">        all_adjustments_for_sid : dict[int -&gt; AdjustedArray]</span>
@@ -799,7 +831,7 @@ document.write(`
 <span class="sd">            adjustments are collected.</span>
 <span class="sd">        sid : int</span>
 <span class="sd">            The sid for which overwrites should be computed.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># If data was requested for only 1 date, there can never be any</span>
         <span class="c1"># overwrites, so skip the extra work.</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -813,16 +845,16 @@ document.write(`
         <span class="n">qtrs_with_estimates</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">NORMALIZED_QUARTERS</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">next_qtr_start_indices</span><span class="p">:</span>
             <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">dates</span><span class="p">):</span>
-                <span class="c1"># Find the quarter being requested in the quarter we&#39;re</span>
+                <span class="c1"># Find the quarter being requested in the quarter we're</span>
                 <span class="c1"># crossing into.</span>
                 <span class="n">requested_quarter</span> <span class="o">=</span> <span class="n">requested_qtr_data</span><span class="p">[</span>
                     <span class="n">SHIFTED_NORMALIZED_QTRS</span><span class="p">,</span>
                     <span class="n">sid</span><span class="p">,</span>
                 <span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
                 <span class="c1"># Only add adjustments if the next quarter starts somewhere</span>
-                <span class="c1"># in our date index for this sid. Our &#39;next&#39; quarter can</span>
+                <span class="c1"># in our date index for this sid. Our 'next' quarter can</span>
                 <span class="c1"># never start at index 0; a starting index of 0 means that</span>
-                <span class="c1"># the next quarter&#39;s event date was NaT.</span>
+                <span class="c1"># the next quarter's event date was NaT.</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">create_overwrites_for_quarter</span><span class="p">(</span>
                     <span class="n">all_adjustments_for_sid</span><span class="p">,</span>
                     <span class="n">idx</span><span class="p">,</span>
@@ -834,7 +866,7 @@ document.write(`
                     <span class="n">columns</span><span class="p">,</span>
                 <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_adjustments_for_sid</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_adjustments_for_sid</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">group</span><span class="p">,</span>
         <span class="n">dates</span><span class="p">,</span>
@@ -845,7 +877,7 @@ document.write(`
         <span class="n">col_to_all_adjustments</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -861,7 +893,7 @@ document.write(`
 <span class="sd">            normalized_quarters, sid] that allows easily getting the timeline</span>
 <span class="sd">            of estimates for a particular sid for a particular quarter.</span>
 <span class="sd">        sid_to_idx : dict[int -&gt; int]</span>
-<span class="sd">            A dictionary mapping sid to he sid&#39;s index in the asset index.</span>
+<span class="sd">            A dictionary mapping sid to he sid's index in the asset index.</span>
 <span class="sd">        columns : list of BoundColumn</span>
 <span class="sd">            The columns for which the overwrites should be computed.</span>
 <span class="sd">        col_to_all_adjustments : dict[int -&gt; AdjustedArray]</span>
@@ -871,7 +903,7 @@ document.write(`
 <span class="sd">            modified as adjustments are collected.</span>
 <span class="sd">        kwargs :</span>
 <span class="sd">            Additional arguments used in collecting adjustments; unused here.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Collect all adjustments for a given sid.</span>
         <span class="n">all_adjustments_for_sid</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">sid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
@@ -889,10 +921,10 @@ document.write(`
             <span class="n">all_adjustments_for_sid</span><span class="p">,</span> <span class="n">col_to_all_adjustments</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">merge_into_adjustments_for_all_sids</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">merge_into_adjustments_for_all_sids</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">all_adjustments_for_sid</span><span class="p">,</span> <span class="n">col_to_all_adjustments</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge adjustments for a particular sid into a dictionary containing</span>
+<span class="w">        </span><span class="sd">"""Merge adjustments for a particular sid into a dictionary containing</span>
 <span class="sd">        adjustments for all sids.</span>
 
 <span class="sd">        Parameters</span>
@@ -901,7 +933,7 @@ document.write(`
 <span class="sd">            All adjustments for a particular sid.</span>
 <span class="sd">        col_to_all_adjustments : dict[int -&gt; AdjustedArray]</span>
 <span class="sd">            All adjustments for all sids.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">for</span> <span class="n">col_name</span> <span class="ow">in</span> <span class="n">all_adjustments_for_sid</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">col_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">col_to_all_adjustments</span><span class="p">:</span>
@@ -910,7 +942,7 @@ document.write(`
                 <span class="n">adjs</span> <span class="o">=</span> <span class="n">all_adjustments_for_sid</span><span class="p">[</span><span class="n">col_name</span><span class="p">][</span><span class="n">ts</span><span class="p">]</span>
                 <span class="n">add_new_adjustments</span><span class="p">(</span><span class="n">col_to_all_adjustments</span><span class="p">,</span> <span class="n">adjs</span><span class="p">,</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">ts</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_adjustments</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_adjustments</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">zero_qtr_data</span><span class="p">,</span>
         <span class="n">requested_qtr_data</span><span class="p">,</span>
@@ -920,13 +952,13 @@ document.write(`
         <span class="n">columns</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates an AdjustedArray from the given estimates data for the given</span>
+<span class="w">        </span><span class="sd">"""Creates an AdjustedArray from the given estimates data for the given</span>
 <span class="sd">        dates.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        zero_qtr_data : pd.DataFrame</span>
-<span class="sd">            The &#39;time zero&#39; data for each calendar date per sid.</span>
+<span class="sd">            The 'time zero' data for each calendar date per sid.</span>
 <span class="sd">        requested_qtr_data : pd.DataFrame</span>
 <span class="sd">            The requested quarter data for each calendar date per sid.</span>
 <span class="sd">        last_per_qtr : pd.DataFrame</span>
@@ -948,7 +980,7 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        col_to_all_adjustments : dict[int -&gt; AdjustedArray]</span>
 <span class="sd">            A dictionary of all adjustments that should be applied.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="n">zero_qtr_data</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="c1"># Here we want to get the LAST record from each group of records</span>
@@ -972,7 +1004,7 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">col_to_all_adjustments</span>
 
-    <span class="k">def</span> <span class="nf">create_overwrites_for_quarter</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_overwrites_for_quarter</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">col_to_overwrites</span><span class="p">,</span>
         <span class="n">next_qtr_start_idx</span><span class="p">,</span>
@@ -983,7 +1015,7 @@ document.write(`
         <span class="n">sid_idx</span><span class="p">,</span>
         <span class="n">columns</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add entries to the dictionary of columns to adjustments for the given</span>
+<span class="w">        </span><span class="sd">"""Add entries to the dictionary of columns to adjustments for the given</span>
 <span class="sd">        sid and the given quarter.</span>
 
 <span class="sd">        Parameters</span>
@@ -998,7 +1030,7 @@ document.write(`
 <span class="sd">            A DataFrame with a column MultiIndex of [self.estimates.columns,</span>
 <span class="sd">            normalized_quarters, sid] that allows easily getting the timeline</span>
 <span class="sd">            of estimates for a particular sid for a particular quarter; this</span>
-<span class="sd">            is particularly useful for getting adjustments for &#39;next&#39;</span>
+<span class="sd">            is particularly useful for getting adjustments for 'next'</span>
 <span class="sd">            estimates.</span>
 <span class="sd">        quarters_with_estimates_for_sid : np.array</span>
 <span class="sd">            An array of all quarters for which there are estimates for the</span>
@@ -1011,7 +1043,7 @@ document.write(`
 <span class="sd">            The index of the sid in `assets`.</span>
 <span class="sd">        columns : list of BoundColumn</span>
 <span class="sd">            The columns for which to create overwrites.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
             <span class="n">column_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">column_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">col_to_overwrites</span><span class="p">:</span>
@@ -1041,14 +1073,14 @@ document.write(`
                     <span class="n">col_to_overwrites</span><span class="p">,</span> <span class="n">adjs</span><span class="p">,</span> <span class="n">column_name</span><span class="p">,</span> <span class="n">next_qtr_start_idx</span>
                 <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">overwrite_with_null</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">next_qtr_start_idx</span><span class="p">,</span> <span class="n">sid_idx</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">overwrite_with_null</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">next_qtr_start_idx</span><span class="p">,</span> <span class="n">sid_idx</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar_overwrites_dict</span><span class="p">[</span><span class="n">column</span><span class="o">.</span><span class="n">dtype</span><span class="p">](</span>
             <span class="mi">0</span><span class="p">,</span> <span class="n">next_qtr_start_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sid_idx</span><span class="p">,</span> <span class="n">sid_idx</span><span class="p">,</span> <span class="n">column</span><span class="o">.</span><span class="n">missing_value</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">load_adjusted_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">sids</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
-        <span class="c1"># Separate out getting the columns&#39; datasets and the datasets&#39;</span>
-        <span class="c1"># num_announcements attributes to ensure that we&#39;re catching the right</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_adjusted_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">sids</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+        <span class="c1"># Separate out getting the columns' datasets and the datasets'</span>
+        <span class="c1"># num_announcements attributes to ensure that we're catching the right</span>
         <span class="c1"># AttributeError.</span>
         <span class="n">col_to_datasets</span> <span class="o">=</span> <span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="n">col</span><span class="o">.</span><span class="n">dataset</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">}</span>
         <span class="k">try</span><span class="p">:</span>
@@ -1057,16 +1089,16 @@ document.write(`
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                <span class="s2">&quot;Datasets loaded via the &quot;</span>
-                <span class="s2">&quot;EarningsEstimatesLoader must define a &quot;</span>
-                <span class="s2">&quot;`num_announcements` attribute that defines &quot;</span>
-                <span class="s2">&quot;how many quarters out the loader should load&quot;</span>
-                <span class="s2">&quot; the data relative to `dates`.&quot;</span>
-            <span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
+                <span class="s2">"Datasets loaded via the "</span>
+                <span class="s2">"EarningsEstimatesLoader must define a "</span>
+                <span class="s2">"`num_announcements` attribute that defines "</span>
+                <span class="s2">"how many quarters out the loader should load"</span>
+                <span class="s2">" the data relative to `dates`."</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">num_qtr</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">num_qtr</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="n">INVALID_NUM_QTRS_MESSAGE</span>
-                <span class="o">%</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">qtr</span><span class="p">)</span> <span class="k">for</span> <span class="n">qtr</span> <span class="ow">in</span> <span class="n">groups</span> <span class="k">if</span> <span class="n">qtr</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="o">%</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">qtr</span><span class="p">)</span> <span class="k">for</span> <span class="n">qtr</span> <span class="ow">in</span> <span class="n">groups</span> <span class="k">if</span> <span class="n">qtr</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># To optimize performance, only work below on assets that are</span>
@@ -1134,7 +1166,7 @@ document.write(`
                 <span class="c1"># except ValueError:</span>
                 <span class="c1">#     np.copyto(output_array[:, asset_indexer],</span>
                 <span class="c1">#               requested_qtr_data[column_name].to_numpy(na_value=output_array.dtype),</span>
-                <span class="c1">#               casting=&#39;unsafe&#39;)</span>
+                <span class="c1">#               casting='unsafe')</span>
                 <span class="n">out</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">AdjustedArray</span><span class="p">(</span>
                     <span class="n">output_array</span><span class="p">,</span>
                     <span class="c1"># There may not be any adjustments at all (e.g. if</span>
@@ -1144,10 +1176,10 @@ document.write(`
                 <span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span>
 
-    <span class="k">def</span> <span class="nf">get_last_data_per_qtr</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_last_data_per_qtr</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">assets_with_data</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">data_query_cutoff_times</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Determine the last piece of information we know for each column on each</span>
+<span class="w">        </span><span class="sd">"""Determine the last piece of information we know for each column on each</span>
 <span class="sd">        date in the index for each sid and quarter.</span>
 
 <span class="sd">        Parameters</span>
@@ -1169,7 +1201,7 @@ document.write(`
 <span class="sd">        last_per_qtr : pd.DataFrame</span>
 <span class="sd">            A DataFrame with columns that are a MultiIndex of [</span>
 <span class="sd">            self.estimates.columns, normalized_quarters, sid].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Get a DataFrame indexed by date with a MultiIndex of columns of</span>
         <span class="c1"># [self.estimates.columns, normalized_quarters, sid], where each cell</span>
         <span class="c1"># contains the latest data for that day.</span>
@@ -1184,8 +1216,12 @@ document.write(`
         <span class="c1"># Forward fill values for each quarter/sid/dataset column.</span>
         <span class="n">ffill_across_cols</span><span class="p">(</span><span class="n">last_per_qtr</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">)</span>
         <span class="c1"># Stack quarter and sid into the index.</span>
-        <span class="n">stacked_last_per_qtr</span> <span class="o">=</span> <span class="n">last_per_qtr</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">SID_FIELD_NAME</span><span class="p">,</span> <span class="n">NORMALIZED_QUARTERS</span><span class="p">],</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">zipline.utils.pandas_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">stack_future_compatible</span>
+
+        <span class="n">stacked_last_per_qtr</span> <span class="o">=</span> <span class="n">stack_future_compatible</span><span class="p">(</span>
+            <span class="n">last_per_qtr</span><span class="p">,</span>
+            <span class="n">level</span><span class="o">=</span><span class="p">[</span><span class="n">SID_FIELD_NAME</span><span class="p">,</span> <span class="n">NORMALIZED_QUARTERS</span><span class="p">],</span>
+            <span class="n">future_stack</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="c1"># Set date index name for ease of reference</span>
         <span class="n">stacked_last_per_qtr</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">set_names</span><span class="p">(</span>
@@ -1200,10 +1236,11 @@ document.write(`
         <span class="k">return</span> <span class="n">last_per_qtr</span><span class="p">,</span> <span class="n">stacked_last_per_qtr</span></div>
 
 
-<span class="k">class</span> <span class="nc">NextEarningsEstimatesLoader</span><span class="p">(</span><span class="n">EarningsEstimatesLoader</span><span class="p">):</span>
-    <span class="n">searchsorted_side</span> <span class="o">=</span> <span class="s2">&quot;right&quot;</span>
 
-    <span class="k">def</span> <span class="nf">create_overwrite_for_estimate</span><span class="p">(</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NextEarningsEstimatesLoader</span><span class="p">(</span><span class="n">EarningsEstimatesLoader</span><span class="p">):</span>
+    <span class="n">searchsorted_side</span> <span class="o">=</span> <span class="s2">"right"</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_overwrite_for_estimate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">column</span><span class="p">,</span>
         <span class="n">column_name</span><span class="p">,</span>
@@ -1229,11 +1266,11 @@ document.write(`
             <span class="p">)</span>
         <span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">get_shifted_qtrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zero_qtrs</span><span class="p">,</span> <span class="n">num_announcements</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_shifted_qtrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zero_qtrs</span><span class="p">,</span> <span class="n">num_announcements</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">zero_qtrs</span> <span class="o">+</span> <span class="p">(</span><span class="n">num_announcements</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_zeroth_quarter_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stacked_last_per_qtr</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Filters for releases that are on or after each simulation date and</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_zeroth_quarter_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stacked_last_per_qtr</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Filters for releases that are on or after each simulation date and</span>
 <span class="sd">        determines the next quarter by picking out the upcoming release for</span>
 <span class="sd">        each date in the index.</span>
 
@@ -1241,7 +1278,7 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        stacked_last_per_qtr : pd.DataFrame</span>
 <span class="sd">            A DataFrame with index of calendar dates, sid, and normalized</span>
-<span class="sd">            quarters with each row being the latest estimate for the row&#39;s</span>
+<span class="sd">            quarters with each row being the latest estimate for the row's</span>
 <span class="sd">            index values, sorted by event date.</span>
 
 <span class="sd">        Returns</span>
@@ -1249,7 +1286,7 @@ document.write(`
 <span class="sd">        next_releases_per_date_index : pd.MultiIndex</span>
 <span class="sd">            An index of calendar dates, sid, and normalized quarters, for only</span>
 <span class="sd">            the rows that have a next event.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">next_releases_per_date</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">stacked_last_per_qtr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
                 <span class="n">stacked_last_per_qtr</span><span class="p">[</span><span class="n">EVENT_DATE_FIELD_NAME</span><span class="p">]</span>
@@ -1266,10 +1303,10 @@ document.write(`
         <span class="k">return</span> <span class="n">next_releases_per_date</span><span class="o">.</span><span class="n">index</span>
 
 
-<span class="k">class</span> <span class="nc">PreviousEarningsEstimatesLoader</span><span class="p">(</span><span class="n">EarningsEstimatesLoader</span><span class="p">):</span>
-    <span class="n">searchsorted_side</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PreviousEarningsEstimatesLoader</span><span class="p">(</span><span class="n">EarningsEstimatesLoader</span><span class="p">):</span>
+    <span class="n">searchsorted_side</span> <span class="o">=</span> <span class="s2">"left"</span>
 
-    <span class="k">def</span> <span class="nf">create_overwrite_for_estimate</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_overwrite_for_estimate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">column</span><span class="p">,</span>
         <span class="n">column_name</span><span class="p">,</span>
@@ -1290,11 +1327,11 @@ document.write(`
             <span class="p">)</span>
         <span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">get_shifted_qtrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zero_qtrs</span><span class="p">,</span> <span class="n">num_announcements</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_shifted_qtrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zero_qtrs</span><span class="p">,</span> <span class="n">num_announcements</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">zero_qtrs</span> <span class="o">-</span> <span class="p">(</span><span class="n">num_announcements</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_zeroth_quarter_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stacked_last_per_qtr</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Filters for releases that are on or after each simulation date and</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_zeroth_quarter_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stacked_last_per_qtr</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Filters for releases that are on or after each simulation date and</span>
 <span class="sd">        determines the previous quarter by picking out the most recent</span>
 <span class="sd">        release relative to each date in the index.</span>
 
@@ -1302,7 +1339,7 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        stacked_last_per_qtr : pd.DataFrame</span>
 <span class="sd">            A DataFrame with index of calendar dates, sid, and normalized</span>
-<span class="sd">            quarters with each row being the latest estimate for the row&#39;s</span>
+<span class="sd">            quarters with each row being the latest estimate for the row's</span>
 <span class="sd">            index values, sorted by event date.</span>
 
 <span class="sd">        Returns</span>
@@ -1310,7 +1347,7 @@ document.write(`
 <span class="sd">        previous_releases_per_date_index : pd.MultiIndex</span>
 <span class="sd">            An index of calendar dates, sid, and normalized quarters, for only</span>
 <span class="sd">            the rows that have a previous event.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">previous_releases_per_date</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">stacked_last_per_qtr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
                 <span class="n">stacked_last_per_qtr</span><span class="p">[</span><span class="n">EVENT_DATE_FIELD_NAME</span><span class="p">]</span>
@@ -1327,16 +1364,16 @@ document.write(`
         <span class="k">return</span> <span class="n">previous_releases_per_date</span><span class="o">.</span><span class="n">index</span>
 
 
-<span class="k">def</span> <span class="nf">validate_split_adjusted_column_specs</span><span class="p">(</span><span class="n">name_map</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_split_adjusted_column_specs</span><span class="p">(</span><span class="n">name_map</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
     <span class="n">to_be_split</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
     <span class="n">available</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">name_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="n">extra</span> <span class="o">=</span> <span class="n">to_be_split</span> <span class="o">-</span> <span class="n">available</span>
     <span class="k">if</span> <span class="n">extra</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;EarningsEstimatesLoader got the following extra columns to be &quot;</span>
-            <span class="s2">&quot;split-adjusted: </span><span class="si">{extra}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;Got Columns: </span><span class="si">{to_be_split}</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;Available Columns: </span><span class="si">{available}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="s2">"EarningsEstimatesLoader got the following extra columns to be "</span>
+            <span class="s2">"split-adjusted: </span><span class="si">{extra}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="s2">"Got Columns: </span><span class="si">{to_be_split}</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="s2">"Available Columns: </span><span class="si">{available}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">extra</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">extra</span><span class="p">),</span>
                 <span class="n">to_be_split</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">to_be_split</span><span class="p">),</span>
                 <span class="n">available</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">available</span><span class="p">),</span>
@@ -1344,8 +1381,8 @@ document.write(`
         <span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">SplitAdjustedEstimatesLoader</span><span class="p">(</span><span class="n">EarningsEstimatesLoader</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Estimates loader that loads data that needs to be split-adjusted.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SplitAdjustedEstimatesLoader</span><span class="p">(</span><span class="n">EarningsEstimatesLoader</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Estimates loader that loads data that needs to be split-adjusted.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1360,9 +1397,9 @@ document.write(`
 <span class="sd">        dates in this first half. The second half is the set of dates after</span>
 <span class="sd">        the split_adjusted_asof date. All adjustments occurring during this</span>
 <span class="sd">        second half are applied sequentially as they appear in the timeline.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">estimates</span><span class="p">,</span>
         <span class="n">name_map</span><span class="p">,</span>
@@ -1378,7 +1415,7 @@ document.write(`
         <span class="nb">super</span><span class="p">(</span><span class="n">SplitAdjustedEstimatesLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">estimates</span><span class="p">,</span> <span class="n">name_map</span><span class="p">)</span>
 
     <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">collect_split_adjustments</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">collect_split_adjustments</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">adjustments_for_sid</span><span class="p">,</span>
         <span class="n">requested_qtr_data</span><span class="p">,</span>
@@ -1391,9 +1428,9 @@ document.write(`
         <span class="n">post_adjustments</span><span class="p">,</span>
         <span class="n">requested_split_adjusted_columns</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;collect_split_adjustments&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"collect_split_adjustments"</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_adjustments_for_sid</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_adjustments_for_sid</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">group</span><span class="p">,</span>
         <span class="n">dates</span><span class="p">,</span>
@@ -1405,7 +1442,7 @@ document.write(`
         <span class="n">split_adjusted_asof_idx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">split_adjusted_cols_for_group</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Collects both overwrites and adjustments for a particular sid.</span>
+<span class="w">        </span><span class="sd">"""Collects both overwrites and adjustments for a particular sid.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1413,7 +1450,7 @@ document.write(`
 <span class="sd">            The integer index of the date on which the data was split-adjusted.</span>
 <span class="sd">        split_adjusted_cols_for_group : list of str</span>
 <span class="sd">            The names of requested columns that should also be split-adjusted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">all_adjustments_for_sid</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">sid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collect_overwrites_for_sid</span><span class="p">(</span>
@@ -1456,7 +1493,7 @@ document.write(`
             <span class="n">all_adjustments_for_sid</span><span class="p">,</span> <span class="n">col_to_all_adjustments</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_adjustments</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_adjustments</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">zero_qtr_data</span><span class="p">,</span>
         <span class="n">requested_qtr_data</span><span class="p">,</span>
@@ -1466,7 +1503,7 @@ document.write(`
         <span class="n">columns</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculates both split adjustments and overwrites for all sids.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Calculates both split adjustments and overwrites for all sids."""</span>
         <span class="n">split_adjusted_cols_for_group</span> <span class="o">=</span> <span class="p">[</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name_map</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span>
@@ -1485,10 +1522,10 @@ document.write(`
             <span class="n">split_adjusted_asof_idx</span><span class="o">=</span><span class="n">split_adjusted_asof_idx</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">determine_end_idx_for_adjustment</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">determine_end_idx_for_adjustment</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">adjustment_ts</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">,</span> <span class="n">requested_quarter</span><span class="p">,</span> <span class="n">sid_estimates</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Determines the date until which the adjustment at the given date</span>
+<span class="w">        </span><span class="sd">"""Determines the date until which the adjustment at the given date</span>
 <span class="sd">        index should be applied for the given quarter.</span>
 
 <span class="sd">        Parameters</span>
@@ -1506,7 +1543,7 @@ document.write(`
 <span class="sd">            The quarter for which we are determining how the adjustment</span>
 <span class="sd">            should be applied.</span>
 <span class="sd">        sid_estimates : pd.DataFrame</span>
-<span class="sd">            The DataFrame of estimates data for the sid for which we&#39;re</span>
+<span class="sd">            The DataFrame of estimates data for the sid for which we're</span>
 <span class="sd">            applying the given adjustment.</span>
 
 <span class="sd">        Returns</span>
@@ -1514,7 +1551,7 @@ document.write(`
 <span class="sd">        end_idx : int</span>
 <span class="sd">            The last index to which the adjustment should be applied for the</span>
 <span class="sd">            given quarter/sid.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">end_idx</span> <span class="o">=</span> <span class="n">upper_bound</span>
         <span class="c1"># Find the next newest kd that happens on or after</span>
         <span class="c1"># the date of this adjustment</span>
@@ -1535,14 +1572,14 @@ document.write(`
                 <span class="n">end_idx</span> <span class="o">=</span> <span class="n">newest_kd_idx</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">end_idx</span>
 
-    <span class="k">def</span> <span class="nf">collect_pre_split_asof_date_adjustments</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">collect_pre_split_asof_date_adjustments</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">split_adjusted_asof_date_idx</span><span class="p">,</span>
         <span class="n">sid_idx</span><span class="p">,</span>
         <span class="n">pre_adjustments</span><span class="p">,</span>
         <span class="n">requested_split_adjusted_columns</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Collect split adjustments that occur before the</span>
+<span class="w">        </span><span class="sd">"""Collect split adjustments that occur before the</span>
 <span class="sd">        split-adjusted-asof-date. All those adjustments must first be</span>
 <span class="sd">        UN-applied at the first date index and then re-applied on the</span>
 <span class="sd">        appropriate dates in order to match point in time share pricing data.</span>
@@ -1566,7 +1603,7 @@ document.write(`
 <span class="sd">        col_to_split_adjustments : dict[str -&gt; dict[int -&gt; list of Adjustment]]</span>
 <span class="sd">            The adjustments for this sid that occurred on or before the</span>
 <span class="sd">            split-asof-date.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">col_to_split_adjustments</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pre_adjustments</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
             <span class="n">adjustment_values</span><span class="p">,</span> <span class="n">date_indexes</span> <span class="o">=</span> <span class="n">pre_adjustments</span>
@@ -1595,7 +1632,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">col_to_split_adjustments</span>
 
-    <span class="k">def</span> <span class="nf">collect_post_asof_split_adjustments</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">collect_post_asof_split_adjustments</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">post_adjustments</span><span class="p">,</span>
         <span class="n">requested_qtr_data</span><span class="p">,</span>
@@ -1604,7 +1641,7 @@ document.write(`
         <span class="n">sid_estimates</span><span class="p">,</span>
         <span class="n">requested_split_adjusted_columns</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Collect split adjustments that occur after the</span>
+<span class="w">        </span><span class="sd">"""Collect split adjustments that occur after the</span>
 <span class="sd">        split-adjusted-asof-date. Each adjustment needs to be applied to all</span>
 <span class="sd">        dates on which knowledge for the requested quarter was older than the</span>
 <span class="sd">        date of the adjustment.</span>
@@ -1629,7 +1666,7 @@ document.write(`
 <span class="sd">        col_to_split_adjustments : dict[str -&gt; dict[int -&gt; list of Adjustment]]</span>
 <span class="sd">            The adjustments for this sid that occurred after the</span>
 <span class="sd">            split-asof-date.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">col_to_split_adjustments</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">post_adjustments</span><span class="p">:</span>
             <span class="c1"># Get an integer index</span>
@@ -1692,10 +1729,10 @@ document.write(`
 
         <span class="k">return</span> <span class="n">col_to_split_adjustments</span>
 
-    <span class="k">def</span> <span class="nf">retrieve_split_adjustment_data_for_sid</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve_split_adjustment_data_for_sid</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">split_adjusted_asof_idx</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 
 <span class="sd">        dates : pd.DatetimeIndex</span>
 <span class="sd">            The calendar dates.</span>
@@ -1712,8 +1749,8 @@ document.write(`
 <span class="sd">        post_adjustments : tuple(list(float), list(int), pd.DatetimeIndex)</span>
 <span class="sd">            The adjustment values, indexes in `dates`, and timestamps for</span>
 <span class="sd">            adjustments that happened after the split-asof-date.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">adjustments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_adjustments</span><span class="o">.</span><span class="n">get_adjustments_for_sid</span><span class="p">(</span><span class="s2">&quot;splits&quot;</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">adjustments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_adjustments</span><span class="o">.</span><span class="n">get_adjustments_for_sid</span><span class="p">(</span><span class="s2">"splits"</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
         <span class="nb">sorted</span><span class="p">(</span><span class="n">adjustments</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">adj</span><span class="p">:</span> <span class="n">adj</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="c1"># Get rid of any adjustments that happen outside of our date index.</span>
         <span class="n">adjustments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">dates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">dates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">adjustments</span><span class="p">))</span>
@@ -1737,7 +1774,7 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">pre_adjustments</span><span class="p">,</span> <span class="n">post_adjustments</span>
 
-    <span class="k">def</span> <span class="nf">_collect_adjustments</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_collect_adjustments</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">requested_qtr_data</span><span class="p">,</span>
         <span class="n">sid</span><span class="p">,</span>
@@ -1765,10 +1802,10 @@ document.write(`
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">pre_adjustments_dict</span><span class="p">,</span> <span class="n">post_adjustments_dict</span>
 
-    <span class="k">def</span> <span class="nf">merge_split_adjustments_with_overwrites</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">merge_split_adjustments_with_overwrites</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">overwrites</span><span class="p">,</span> <span class="n">requested_split_adjusted_columns</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge split adjustments with the dict containing overwrites.</span>
+<span class="w">        </span><span class="sd">"""Merge split adjustments with the dict containing overwrites.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1781,10 +1818,10 @@ document.write(`
 <span class="sd">            this dictionary.</span>
 <span class="sd">        requested_split_adjusted_columns : list of str</span>
 <span class="sd">            List of names of split adjusted columns that are being requested.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">column_name</span> <span class="ow">in</span> <span class="n">requested_split_adjusted_columns</span><span class="p">:</span>
-            <span class="c1"># We can do a merge here because the timestamps in &#39;pre&#39; and</span>
-            <span class="c1"># &#39;post&#39; are guaranteed to not overlap.</span>
+            <span class="c1"># We can do a merge here because the timestamps in 'pre' and</span>
+            <span class="c1"># 'post' are guaranteed to not overlap.</span>
             <span class="k">if</span> <span class="n">pre</span><span class="p">:</span>
                 <span class="c1"># Either empty or contains all columns.</span>
                 <span class="k">for</span> <span class="n">ts</span> <span class="ow">in</span> <span class="n">pre</span><span class="p">[</span><span class="n">column_name</span><span class="p">]:</span>
@@ -1799,10 +1836,10 @@ document.write(`
                     <span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">PreviousSplitAdjustedEarningsEstimatesLoader</span><span class="p">(</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PreviousSplitAdjustedEarningsEstimatesLoader</span><span class="p">(</span>
     <span class="n">SplitAdjustedEstimatesLoader</span><span class="p">,</span> <span class="n">PreviousEarningsEstimatesLoader</span>
 <span class="p">):</span>
-    <span class="k">def</span> <span class="nf">collect_split_adjustments</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">collect_split_adjustments</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">adjustments_for_sid</span><span class="p">,</span>
         <span class="n">requested_qtr_data</span><span class="p">,</span>
@@ -1815,9 +1852,9 @@ document.write(`
         <span class="n">post_adjustments</span><span class="p">,</span>
         <span class="n">requested_split_adjusted_columns</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Collect split adjustments for previous quarters and apply them to the</span>
+<span class="w">        </span><span class="sd">"""Collect split adjustments for previous quarters and apply them to the</span>
 <span class="sd">        given dictionary of splits for the given sid. Since overwrites just</span>
-<span class="sd">        replace all estimates before the new quarter with NaN, we don&#39;t need to</span>
+<span class="sd">        replace all estimates before the new quarter with NaN, we don't need to</span>
 <span class="sd">        worry about re-applying split adjustments.</span>
 
 <span class="sd">        Parameters</span>
@@ -1845,7 +1882,7 @@ document.write(`
 <span class="sd">            adjustments that happened after the split-asof-date.</span>
 <span class="sd">        requested_split_adjusted_columns : list of str</span>
 <span class="sd">            List of requested split adjusted column names.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="p">(</span><span class="n">pre_adjustments_dict</span><span class="p">,</span> <span class="n">post_adjustments_dict</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect_adjustments</span><span class="p">(</span>
             <span class="n">requested_qtr_data</span><span class="p">,</span>
             <span class="n">sid</span><span class="p">,</span>
@@ -1864,10 +1901,10 @@ document.write(`
         <span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">NextSplitAdjustedEarningsEstimatesLoader</span><span class="p">(</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NextSplitAdjustedEarningsEstimatesLoader</span><span class="p">(</span>
     <span class="n">SplitAdjustedEstimatesLoader</span><span class="p">,</span> <span class="n">NextEarningsEstimatesLoader</span>
 <span class="p">):</span>
-    <span class="k">def</span> <span class="nf">collect_split_adjustments</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">collect_split_adjustments</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">adjustments_for_sid</span><span class="p">,</span>
         <span class="n">requested_qtr_data</span><span class="p">,</span>
@@ -1880,7 +1917,7 @@ document.write(`
         <span class="n">post_adjustments</span><span class="p">,</span>
         <span class="n">requested_split_adjusted_columns</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Collect split adjustments for future quarters. Re-apply adjustments</span>
+<span class="w">        </span><span class="sd">"""Collect split adjustments for future quarters. Re-apply adjustments</span>
 <span class="sd">        that would be overwritten by overwrites. Merge split adjustments with</span>
 <span class="sd">        overwrites into the given dictionary of splits for the given sid.</span>
 
@@ -1909,7 +1946,7 @@ document.write(`
 <span class="sd">            adjustments that happened after the split-asof-date.</span>
 <span class="sd">        requested_split_adjusted_columns : list of str</span>
 <span class="sd">            List of requested split adjusted column names.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="p">(</span><span class="n">pre_adjustments_dict</span><span class="p">,</span> <span class="n">post_adjustments_dict</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect_adjustments</span><span class="p">(</span>
             <span class="n">requested_qtr_data</span><span class="p">,</span>
             <span class="n">sid</span><span class="p">,</span>
@@ -1993,16 +2030,12 @@ document.write(`
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -2020,8 +2053,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -2029,6 +2062,7 @@ document.write(`
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
       © Copyright 2020, Quantopian Inc..
@@ -2038,19 +2072,22 @@ document.write(`
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
-    <br/>
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
   </p>
 </div>
       
     </div>
   
   
+  
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.23.0.
 </p></div>
       
     </div>
