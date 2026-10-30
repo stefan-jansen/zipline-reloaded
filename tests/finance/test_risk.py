@@ -133,11 +133,31 @@ class TestRisk:
             )
 
     def test_algorithm_sharpe(self):
-        # The sharpe ratio is calculated by a empyrical function so testing
-        # of period sharpe ratios will be limited to determine if the value is
-        # numerical. This tests for its existence and format.
+        returns = self.algo_returns.copy()
+        returns.iloc[::2] = -0.005
+        metrics = ClassicRiskMetrics.risk_report(
+            algorithm_returns=returns,
+            benchmark_returns=self.benchmark_returns,
+            algorithm_leverages=pd.Series(0.0, index=returns.index),
+        )
+        for period, months in zip(PERIODS, (1, 3, 6, 12)):
+            for result in metrics[period]:
+                end = pd.Timestamp(result["period_label"]) + pd.offsets.MonthEnd()
+                start = end - pd.offsets.MonthBegin(months)
+                sample = returns.loc[start:end].to_numpy()
+                expected = sample.mean() / sample.std(ddof=1) * np.sqrt(252)
+                assert isinstance(result["sharpe"], float)
+                np.testing.assert_allclose(result["sharpe"], expected)
+
+    def test_constant_nonzero_sharpe_is_serialized_as_null(self):
+        returns = pd.Series(0.125, index=self.algo_returns.index)
+        metrics = ClassicRiskMetrics.risk_report(
+            algorithm_returns=returns,
+            benchmark_returns=self.benchmark_returns,
+            algorithm_leverages=pd.Series(0.0, index=returns.index),
+        )
         for period in PERIODS:
-            assert all(isinstance(x["sharpe"], float) for x in self.metrics[period])
+            assert all(result["sharpe"] is None for result in metrics[period])
 
     def test_algorithm_sortino(self):
         # The sortino ratio is calculated by a empyrical function so testing
