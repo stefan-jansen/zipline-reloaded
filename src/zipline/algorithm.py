@@ -29,6 +29,7 @@ from zipline.utils.calendar_utils import get_calendar, days_at_time
 from zipline._protocol import handle_non_market_minutes
 from zipline.errors import (
     AttachPipelineAfterInitialize,
+    BadOrderParameters,
     CannotOrderDelistedAsset,
     DuplicatePipelineName,
     IncompatibleCommissionModel,
@@ -1175,12 +1176,14 @@ class TradingAlgorithm:
                     "price for the security.".format(asset.symbol, self.datetime)
                 )
 
-        if tolerant_equals(last_price, 0):
-            zero_message = "Price of 0 for {psid}; can't infer value".format(psid=asset)
-            if self.logger:
-                self.logger.debug(zero_message)
-            # Don't place any order
-            return 0
+        if last_price < 0 or tolerant_equals(last_price, 0):
+            raise BadOrderParameters(
+                msg="Value-based orders require a strictly positive price "
+                "outside zero tolerance; got {0} for {1}. Use order() or "
+                "order_target() to specify shares or contracts explicitly.".format(
+                    last_price, asset.symbol
+                )
+            )
 
         value_multiplier = asset.price_multiplier
 
@@ -1345,7 +1348,9 @@ class TradingAlgorithm:
     def order_value(self, asset, value, limit_price=None, stop_price=None, style=None):
         """Place an order for a fixed amount of money.
 
-        Equivalent to ``order(asset, value / data.current(asset, 'price'))``.
+        For equities, equivalent to
+        ``order(asset, value / data.current(asset, 'price'))``. For futures,
+        divide by the contract's price multiplier as well.
 
         Parameters
         ----------
@@ -1368,6 +1373,13 @@ class TradingAlgorithm:
 
         Notes
         -----
+        Value-based sizing requires a strictly positive price outside the
+        zero tolerance. A negative or effectively zero price raises
+        :class:`zipline.errors.BadOrderParameters` before submitting an order.
+        Negative futures quotes are valid market data; use
+        :func:`zipline.api.order` or :func:`zipline.api.order_target` to specify
+        contract direction and quantity explicitly at these prices.
+
         See :func:`zipline.api.order` for more information about
         ``limit_price``, ``stop_price``, and ``style``
 
@@ -1639,6 +1651,8 @@ class TradingAlgorithm:
 
         Notes
         -----
+        The price requirements of :func:`zipline.api.order_value` apply.
+
         See :func:`zipline.api.order` for more information about
         ``limit_price``, ``stop_price``, and ``style``
 
@@ -1770,6 +1784,10 @@ class TradingAlgorithm:
 
         Notes
         -----
+        The price requirements of :func:`zipline.api.order_value` apply,
+        including a zero target. Use ``order_target(asset, 0)`` to liquidate
+        a position by quantity when its quote is non-positive.
+
         ``order_target_value`` does not take into account any open orders. For
         example:
 
@@ -1838,6 +1856,10 @@ class TradingAlgorithm:
 
         Notes
         -----
+        The price requirements of :func:`zipline.api.order_value` apply,
+        including a zero target. Use ``order_target(asset, 0)`` to liquidate
+        a position by quantity when its quote is non-positive.
+
         ``order_target_value`` does not take into account any open orders. For
         example:
 
