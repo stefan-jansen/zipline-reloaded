@@ -157,7 +157,10 @@ class MaxDrawdown(SingleInputMixin, CustomFactor):
 
     def compute(self, today, assets, out, data):
         peaks = fmax.accumulate(data, axis=0)
-        drawdowns = (peaks - data) / peaks
+        with np_errstate(divide="ignore", invalid="ignore"):
+            drawdowns = (peaks - data) / peaks
+        # A zero peak has nothing to fall from.
+        drawdowns[peaks == 0] = 0
         drawdowns[isnan(drawdowns)] = -np.inf
         out[:] = drawdowns.max(axis=0)
         out[np.isneginf(out)] = np.nan

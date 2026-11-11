@@ -4,6 +4,7 @@ Tests for Factor terms.
 
 import re
 import sys
+import warnings
 from functools import partial
 from itertools import product
 from unittest import skipIf
@@ -1983,3 +1984,17 @@ class TestMaxDrawdown:
         out = np.empty(1)
         MaxDrawdown.compute(None, None, None, out, np.full((3, 1), np.nan))
         assert np.isnan(out[0])
+
+    @pytest.mark.parametrize(
+        "prices, expected",
+        [
+            ([0.0, 0.0, 0.0], 0.0),
+            ([0.0, 100.0, 50.0], 0.5),
+        ],
+    )
+    def test_zero_peak(self, prices, expected):
+        out = np.empty(1)
+        with warnings.catch_warnings():
+            warnings.simplefilter("error")
+            MaxDrawdown.compute(None, None, None, out, np.array(prices)[:, np.newaxis])
+        assert out[0] == pytest.approx(expected)
