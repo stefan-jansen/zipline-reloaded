@@ -4,6 +4,7 @@ Tests for Factor terms.
 
 import re
 import sys
+import warnings
 from functools import partial
 from itertools import product
 from unittest import skipIf
@@ -21,7 +22,13 @@ from zipline.lib.normalize import naive_grouped_rowwise_apply as grouped_apply
 from zipline.lib.rank import masked_rankdata_2d
 from zipline.pipeline import Classifier, Factor, Filter, Pipeline
 from zipline.pipeline.data import Column, DataSet, EquityPricing
-from zipline.pipeline.factors import CustomFactor, DailyReturns, PercentChange, Returns
+from zipline.pipeline.factors import (
+    CustomFactor,
+    DailyReturns,
+    MaxDrawdown,
+    PercentChange,
+    Returns,
+)
 from zipline.pipeline.factors.factor import summary_funcs
 from zipline.pipeline.factors.factor import winsorize as zp_winsorize
 from zipline.testing import check_allclose, check_arrays, parameter_space, permute_rows
@@ -1957,3 +1964,37 @@ class SummaryTestCase(BaseUSEquityPipelineTestCase, ZiplineTestCase):
             summarized = getattr(f, method)()
             assert repr(summarized) == "MyFactor().{}()".format(method)
             assert summarized.recursive_repr() == "MyFactor().{}()".format(method)
+
+
+class TestMaxDrawdown:
+    @pytest.mark.parametrize(
+        "prices, expected",
+        [
+            ([100.0, 50.0, 75.0], 0.5),
+            ([100.0, 120.0, 60.0, 90.0], 0.5),
+            ([100.0, 110.0, 105.0, 120.0, 84.0], 0.3),
+        ],
+    )
+    def test_fraction_of_the_peak(self, prices, expected):
+        out = np.empty(1)
+        MaxDrawdown.compute(None, None, None, out, np.array(prices)[:, np.newaxis])
+        assert out[0] == pytest.approx(expected)
+
+    def test_all_nan_stays_nan(self):
+        out = np.empty(1)
+        MaxDrawdown.compute(None, None, None, out, np.full((3, 1), np.nan))
+        assert np.isnan(out[0])
+
+    @pytest.mark.parametrize(
+        "prices, expected",
+        [
+            ([0.0, 0.0, 0.0], 0.0),
+            ([0.0, 100.0, 50.0], 0.5),
+        ],
+    )
+    def test_zero_peak(self, prices, expected):
+        out = np.empty(1)
+        with warnings.catch_warnings():
+            warnings.simplefilter("error")
+            MaxDrawdown.compute(None, None, None, out, np.array(prices)[:, np.newaxis])
+        assert out[0] == pytest.approx(expected)

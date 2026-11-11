@@ -23,8 +23,6 @@ import numpy as np
 from zipline.pipeline.data import EquityPricing
 from zipline.utils.input_validation import expect_types
 from zipline.utils.math_utils import (
-    nanargmax,
-    nanmax,
     nanmean,
     nanstd,
     nansum,
@@ -158,14 +156,14 @@ class MaxDrawdown(SingleInputMixin, CustomFactor):
     # ctx = ignore_nanwarnings()
 
     def compute(self, today, assets, out, data):
-        drawdowns = fmax.accumulate(data, axis=0) - data
+        peaks = fmax.accumulate(data, axis=0)
+        with np_errstate(divide="ignore", invalid="ignore"):
+            drawdowns = (peaks - data) / peaks
+        # A zero peak has nothing to fall from.
+        drawdowns[peaks == 0] = 0
         drawdowns[isnan(drawdowns)] = -np.inf
-        drawdown_ends = nanargmax(drawdowns, axis=0)
-
-        # TODO: Accelerate this loop in Cython or Numba.
-        for i, end in enumerate(drawdown_ends):
-            peak = nanmax(data[: end + 1, i])
-            out[i] = (peak - data[end, i]) / data[end, i]
+        out[:] = drawdowns.max(axis=0)
+        out[np.isneginf(out)] = np.nan
 
 
 class AverageDollarVolume(CustomFactor):
