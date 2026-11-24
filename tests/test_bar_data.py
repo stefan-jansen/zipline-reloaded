@@ -797,22 +797,21 @@ class TestMinuteBarDataFuturesCalendar(
         """
         auto_closing_asset = self.asset_finder.retrieve_asset(7)
 
-        # Our asset's auto close date is 2016-01-20, which means that as of the
-        # market open for the 2016-01-21 session, `can_trade` should return
-        # False.
+        # Check the last tradable minute of the auto-close session and the
+        # first minute of the next session, including when CMES has a break.
+        close = self.trading_calendar.session_last_minute("2016-01-20")
+        next_open = self.trading_calendar.session_first_minute("2016-01-21")
         minutes_to_check = [
             (pd.Timestamp("2016-01-20 00:00:00", tz="UTC"), True),
-            (pd.Timestamp("2016-01-20 23:00:00", tz="UTC"), True),
-            (pd.Timestamp("2016-01-20 23:01:00", tz="UTC"), False),
-            (pd.Timestamp("2016-01-20 23:59:00", tz="UTC"), False),
-            (pd.Timestamp("2016-01-21 00:00:00", tz="UTC"), False),
-            (pd.Timestamp("2016-01-21 00:01:00", tz="UTC"), False),
+            (close, True),
+            (close + pd.Timedelta(minutes=1), False),
+            (next_open, False),
             (pd.Timestamp("2016-01-22 00:00:00", tz="UTC"), False),
         ]
 
-        for info in minutes_to_check:
-            bar_data = self.create_bardata(simulation_dt_func=lambda: info[0])
-            assert bar_data.can_trade(auto_closing_asset) == info[1]
+        for minute, can_trade in minutes_to_check:
+            bar_data = self.create_bardata(simulation_dt_func=lambda: minute)
+            assert bar_data.can_trade(auto_closing_asset) == can_trade, minute
 
 
 class TestDailyBarData(
