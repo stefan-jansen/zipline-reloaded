@@ -146,7 +146,11 @@ class VWAP(WeightedAverageValue):
 
 class MaxDrawdown(SingleInputMixin, CustomFactor):
     """
-    Max Drawdown
+    Largest fractional decline from a running peak within the window.
+
+    Returns the maximum of ``(peak - value) / peak``. A decline from 100 to
+    50 is 0.5. A zero peak contributes zero; an entirely missing column
+    remains NaN.
 
     **Default Inputs:** None
 
