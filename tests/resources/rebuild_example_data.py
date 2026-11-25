@@ -3,6 +3,8 @@ import readline  # noqa
 import shutil
 import tarfile
 from code import InteractiveConsole
+from os.path import exists
+from pathlib import Path
 
 import click
 import matplotlib
@@ -10,7 +12,7 @@ import numpy as np
 import pandas as pd
 from zipline import examples
 from zipline.data.bundles import register
-from zipline.testing import test_resource_path, tmp_dir
+from zipline.testing import tmp_dir
 from zipline.testing.fixtures import read_checked_in_benchmark_data
 from zipline.testing.predicates import assert_frame_equal
 from zipline.utils.cache import dataframe_cache
@@ -77,7 +79,7 @@ def eof(*args, **kwargs):
 @click.pass_context
 def main(ctx, rebuild_input):
     """Rebuild the perf data for test_examples"""
-    example_path = test_resource_path("example_data.tar.gz")
+    example_path = Path(__file__).with_name("example_data.tar.gz")
 
     with tmp_dir() as d:
         with tarfile.open(example_path) as tar:
@@ -159,15 +161,18 @@ def main(ctx, rebuild_input):
                 )
 
             # move the new results to the expected path
-            shutil.rmtree(expected_perf_path)
+            if exists(expected_perf_path):
+                shutil.rmtree(expected_perf_path)
             shutil.copytree(new_perf_path, expected_perf_path)
 
         # Clear out all the temporary new perf so it doesn't get added to the
         # tarball.
         shutil.rmtree(d.getpath("example_data/new_perf/"))
 
-        with tarfile.open(example_path, "w|gz") as tar:
+        new_archive_path = d.getpath("example_data.tar.gz")
+        with tarfile.open(new_archive_path, "w:gz") as tar:
             tar.add(d.getpath("example_data"), "example_data")
+        shutil.move(new_archive_path, example_path)
 
 
 if __name__ == "__main__":
