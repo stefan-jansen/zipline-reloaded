@@ -1112,6 +1112,37 @@ class ParameterizedFactorTestCase(
             default_domain=EquitySessionDomain(cls.dates, "??"),
         )
 
+    def test_max_drawdown_compares_fractional_losses_from_each_peak(self):
+        close = EquityPricing.close
+        prices = pd.DataFrame(
+            [
+                [100.0, np.nan, 0.0],
+                [50.0, np.nan, 0.0],
+                [200.0, np.nan, 100.0],
+                [140.0, np.nan, 0.0],
+            ],
+            index=self.dates[:4],
+            columns=self.sids,
+        )
+        loader = DataFrameLoader(close, prices)
+        engine = SimplePipelineEngine(
+            lambda column: loader,
+            self.asset_finder,
+            default_domain=EquitySessionDomain(self.dates, "??"),
+        )
+        session = self.dates[3]
+        results = engine.run_pipeline(
+            Pipeline(
+                columns={"drawdown": MaxDrawdown(inputs=[close], window_length=4)}
+            ),
+            session,
+            session,
+        )
+
+        # The $50 loss from $100 is larger in percentage terms than
+        # the later $60 loss from $200.
+        np.testing.assert_allclose(results["drawdown"], [0.5, np.nan, 1.0])
+
     def expected_ewma(self, window_length, decay_rate):
         alpha = 1 - decay_rate
         span = (2 / alpha) - 1
