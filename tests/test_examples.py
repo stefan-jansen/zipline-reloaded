@@ -50,15 +50,19 @@ def _no_benchmark_expectations_applied(expected_perf):
     return expected_perf
 
 
-def _stored_pd_data(skip_vers=["0-18-1", "0-19-2", "0-22-0", "1-1-3", "1-2-3"]):
+def _stored_pd_data():
+    # Historical outputs omitted payments for dividends without a pay date.
+    skip_vers = ["0-18-1", "0-19-2", "0-22-0", "1-1-3", "1-1-5", "1-2-3", "1-2-4"]
     with tarfile.open(join(TEST_RESOURCE_PATH, "example_data.tar.gz")) as tar:
         pd_versions = {
             n.split("/")[2]
             for n in tar.getnames()
             if "example_data/expected_perf/" in n
         }
-        pd_versions = list(pd_versions)
-    return sorted(list(filter(lambda x: x not in skip_vers, pd_versions)))
+    versions = sorted(pd_versions.difference(skip_vers))
+    if not versions:
+        raise ValueError("Rebuild example data with dividend settlement enabled")
+    return versions
 
 
 STORED_DATA_VERSIONS = _stored_pd_data()

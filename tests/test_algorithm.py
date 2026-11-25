@@ -1069,6 +1069,86 @@ class TestPositions(zf.WithMakeAlgo, zf.ZiplineTestCase):
             assert_equal(daily_stats.iloc[i]["position_weights"], expected)
 
 
+class TestCashDividends(zf.WithMakeAlgo, zf.ZiplineTestCase):
+    START_DATE = pd.Timestamp("2016-01-04")
+    END_DATE = pd.Timestamp("2016-01-29")
+    SIM_PARAMS_DATA_FREQUENCY = "daily"
+    DATA_PORTAL_USE_MINUTE_DATA = False
+    SIM_PARAMS_CAPITAL_BASE = 100000
+
+    # Each asset pays a 1.00 dividend with ex-date 2016-01-12.
+    ASSET_FINDER_EQUITY_SIDS = (1, 2, 3)
+    EX_DATE = pd.Timestamp("2016-01-12")
+    PAY_DATES = {
+        # pay date on a session
+        1: pd.Timestamp("2016-01-15"),
+        # no pay date, as written by the csvdir and quandl bundles
+        2: pd.NaT,
+        # pay date on a Saturday
+        3: pd.Timestamp("2016-01-16"),
+    }
+
+    @classmethod
+    def make_equity_daily_bar_data(cls, country_code, sids):
+        days = cls.equity_daily_bar_days
+        close = np.where(days < cls.EX_DATE, 10.0, 9.0)
+        frame = pd.DataFrame(
+            {
+                "open": close,
+                "high": close,
+                "low": close,
+                "close": close,
+                "volume": 1000000,
+            },
+            index=days,
+        )
+        return ((sid, frame) for sid in sids)
+
+    @classmethod
+    def make_dividends_data(cls):
+        return pd.DataFrame(
+            {
+                "sid": list(cls.PAY_DATES),
+                "amount": 1.0,
+                "ex_date": cls.EX_DATE,
+                "record_date": cls.EX_DATE,
+                "declared_date": cls.START_DATE,
+                "pay_date": list(cls.PAY_DATES.values()),
+            }
+        )
+
+    @parameterized.expand(
+        [
+            ("pay_date_on_session", 1, "2016-01-15"),
+            ("no_pay_date", 2, "2016-01-12"),
+            ("pay_date_on_weekend", 3, "2016-01-19"),
+        ]
+    )
+    def test_dividend_is_paid(self, name, sid, expected_payment_session):
+        def initialize(algo):
+            algo.ordered = False
+            algo.set_commission(us_equities=PerTrade(0))
+            algo.set_slippage(us_equities=FixedSlippage(0))
+
+        def handle_data(algo, data):
+            if not algo.ordered:
+                algo.order(algo.sid(sid), 100)
+                algo.ordered = True
+
+        daily_stats = self.run_algorithm(
+            initialize=initialize,
+            handle_data=handle_data,
+        )
+        cash = daily_stats["ending_cash"]
+        cash.index = cash.index.normalize().tz_localize(None)
+
+        # 100 shares bought at 10.00 on the second session, then 100 * 1.00
+        payment_session = pd.Timestamp(expected_payment_session)
+        assert cash.iloc[-1] == 99100.0
+        assert cash[cash.index < payment_session].iloc[-1] == 99000.0
+        assert cash[cash.index >= payment_session].iloc[0] == 99100.0
+
+
 class TestBeforeTradingStart(zf.WithMakeAlgo, zf.ZiplineTestCase):
     START_DATE = pd.Timestamp("2016-01-06")
     END_DATE = pd.Timestamp("2016-01-07")

@@ -34,6 +34,19 @@ from ._finance_ext import (
 log = logging.getLogger("Performance")
 
 
+def _pop_due_payments(unpaid, session):
+    """Remove and return the dividend payments due on or before ``session``.
+
+    Bundles that only know the ex-date (csvdir, quandl) store the pay date as
+    NaT. Those payments are due on the session they are earned, the ex-date.
+    A pay date that is not a trading session is paid on the next session.
+    """
+    due = [
+        pay_date for pay_date in unpaid if pd.isnull(pay_date) or pay_date <= session
+    ]
+    return [payment for pay_date in due for payment in unpaid.pop(pay_date)]
+
+
 class PositionTracker:
     """The current state of the positions held.
 
@@ -198,12 +211,7 @@ class PositionTracker:
         """
         net_cash_payment = 0.0
 
-        try:
-            payments = self._unpaid_dividends[next_trading_day]
-            # Mark these dividends as paid by dropping them from our unpaid
-            del self._unpaid_dividends[next_trading_day]
-        except KeyError:
-            payments = []
+        payments = _pop_due_payments(self._unpaid_dividends, next_trading_day)
 
         # representing the fact that we're required to reimburse the owner of
         # the stock for any dividends paid while borrowing.
@@ -212,12 +220,10 @@ class PositionTracker:
 
         # Add stock for any stock dividends paid.  Again, the values here may
         # be negative in the case of short positions.
-        try:
-            stock_payments = self._unpaid_stock_dividends[next_trading_day]
-            # Same as cash dividends: a pay date is settled once.
-            del self._unpaid_stock_dividends[next_trading_day]
-        except KeyError:
-            stock_payments = []
+        stock_payments = _pop_due_payments(
+            self._unpaid_stock_dividends,
+            next_trading_day,
+        )
 
         if stock_payments:
             # Share count changed, so cached position stats are stale.
